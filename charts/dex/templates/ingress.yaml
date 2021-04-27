@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }}
+apiVersion: networking.k8s.io/v1beta1
+{{ else }}
+apiVersion: extensions/v1beta1
+{{ end -}}
+kind: Ingress
+metadata:
+{{- if .Values.ingress.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
+  name: {{ template "dex.fullname" . }}
+  labels:
+    {{- include "dex.labels" . | nindent 4 }}
+{{- if .Values.ingress.labels }}
+{{- toYaml .Values.ingress.labels | nindent 4 }}
+{{- end }}
+spec:
+  rules:
+  - host: {{ .Values.issuer.host }}
+    http:
+      paths:
+      - path: {{ .Values.issuer.path }}
+        backend:
+          serviceName: {{ include "dex.fullname" . }}
+          servicePort: {{ .Values.service.port }}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end -}}
+{{- end -}}
