@@ -1,0 +1,134 @@
+#!/bin/sh
+
+set -e
+
+FLIGHTDECK_DESTINATION="${FLIGHTDECK_DESTINATION:-https://kubernetes.default.svc}"
+FLIGHTDECK_NAMESPACE="${FLIGHTDECK_NAMESPACE:-flightdeck}"
+FLIGHTDECK_REPO="${FLIGHTDECK_REPO:-TODO}"
+FLIGHTDECK_VERSION="${FLIGHTDECK_VERSION:-0.1.0}"
+PREFIX=$(dirname "$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)")
+
+# https://github.com/argoproj/argo-cd/issues/5976
+clusterResourceAllowlist=clusterResourceWhitelist
+
+if [ -n "$1" ]; then
+  FLIGHTDECK_VALUES=$(sed 's/^/        /' < "$1")
+fi
+
+CONTEXT=$(kubectl config current-context)
+
+echo "Installing into context:" >&2
+kubectl config get-contexts "$CONTEXT" >&2
+
+echo "Installing ArgoCD..." >&2
+
+if ! output=$(helm upgrade \
+  argocd \
+  argo-cd \
+  --install \
+  --namespace "$FLIGHTDECK_NAMESPACE" \
+  --repo https://argoproj.github.io/argo-helm \
+  --values "$PREFIX/bin/argo-initial-values.yaml" \
+  --wait 2>&1); then
+  echo "$output"
+  echo "Failed to install ArgoCD." >&2
+  exit 1
+fi
+
+echo "Creating project and application for flightdeck..." >&2
+
+kubectl apply -f - <<YAML
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: flightdeck
+  namespace: "$FLIGHTDECK_NAMESPACE"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Flightdeck
+  $clusterResourceAllowlist:
+  - group: '*'
+    kind: '*'
+  sourceRepos:
+  - "*"
+  destinations:
+  - namespace: "$FLIGHTDECK_NAMESPACE"
+    server: "$FLIGHTDECK_DESTINATION"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: flightdeck
+  namespace: "$FLIGHTDECK_NAMESPACE"
+spec:
+  destination:
+    namespace: "$FLIGHTDECK_NAMESPACE"
+    server: "$FLIGHTDECK_DESTINATION"
+  project: flightdeck
+  source:
+    chart: flightdeck
+    helm:
+      values: |
+$FLIGHTDECK_VALUES
+    repoURL: "$FLIGHTDECK_REPO"
+    targetRevision: "$FLIGHTDECK_VERSION"
+YAML
+
+echo "Syncing with ArgoCD..." >&2
+
+argocd \
+  --plaintext \
+  --port-forward \
+  --port-forward-namespace "$FLIGHTDECK_NAMESPACE" \
+  app sync flightdeck
+
+for layer in base network gateways ui; do
+  argocd \
+    --plaintext \
+    --port-forward \
+    --port-forward-namespace "$FLIGHTDECK_NAMESPACE" \
+    app sync --selector "flightdeck.thoughtbot.com/layer=$layer"
+  argocd \
+    --plaintext \
+    --port-forward \
+    --port-forward-namespace "$FLIGHTDECK_NAMESPACE" \
+    app wait --operation --selector "flightdeck.thoughtbot.com/layer=$layer"
+done
+
+argocd \
+  --plaintext \
+  --port-forward \
+  --port-forward-namespace "$FLIGHTDECK_NAMESPACE" \
+  app sync argocd --async
+
+echo "Waiting for ArgoCD..." >&2
+
+syncstatus="OutOfSync"
+while [ "$syncstatus" = "OutOfSync" ]; do
+  syncstatus=$(kubectl get \
+    application \
+    -n flightdeck \
+    -ojsonpath={.status.sync.status} \
+    argocd)
+done
+echo "$syncstatus" >&2
+
+if [ "$syncstatus" = "Synced" ]; then
+  echo "Deploying UI..."
+  health="Progressing"
+  while [ "$health" = "Progressing" ]; do
+    health=$(kubectl get \
+      application \
+      -n flightdeck \
+      -ojsonpath={.status.health.status} \
+      argocd)
+  done
+  echo "$health" >&2
+else
+  echo "Sync failed." >&2
+  exit 1
+fi

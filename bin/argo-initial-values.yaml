@@ -1,0 +1,10 @@
+configs:
+  secret:
+    createSecret: false
+dex:
+  enabled: false
+server:
+  # The initial access will be using port forwarding
+  extraArgs:
+  - --disable-auth
+  - --insecure

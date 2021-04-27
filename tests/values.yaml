@@ -1,0 +1,12 @@
+auth:
+  staticPasswords:
+  - username: admin
+    email: support@thoughtbot.com
+    # The password is "secret"
+    hash: "$2a$10$kH.JovWEKZ854b3cqlX6Guf/J0CKntut5JBd94N4rX97YWaSyzxE2"
+
+dex:
+  repoURL: http://chartmuseum.default.svc:8080
+
+ui:
+  repoURL: http://chartmuseum.default.svc:8080
