@@ -1,0 +1,9 @@
+apiVersion: v2
+name: flightdeck
+description: Bootstrap chart for flightctl compatible cloud deployments
+
+type: application
+
+version: 0.1.0
+
+appVersion: 1.0.0

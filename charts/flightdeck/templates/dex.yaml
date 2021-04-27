@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    flightdeck.thoughtbot.com/layer: ui
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: dex
+  namespace: {{ .Release.Namespace }}
+spec:
+  destination:
+    namespace: {{ .Release.Namespace }}
+    server: {{ .Values.destination.server }}
+  project: flightdeck
+  source:
+    chart: dex
+    helm:
+      values: |
+        config:
+          staticClients:
+          - id: argocd
+            redirectURIs:
+            - https://{{ .Values.ingress.host }}/argocd/auth/callback
+            name: ArgoCD
+            secretEnv: ARGOCD_SECRET
+          {{- with .Values.auth.connectors }}
+          connectors:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.auth.staticPasswords }}
+          staticPasswords:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        deployment:
+          envFrom:
+          - secretRef:
+              name: dex
+        issuer:
+          host: {{ .Values.ingress.host }}
+          path: /dex
+    repoURL: {{ .Values.dex.repoURL }}
+    targetRevision: {{ .Values.dex.version }}

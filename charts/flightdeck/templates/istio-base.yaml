@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    flightdeck.thoughtbot.com/layer: base
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: istio-base
+  namespace: {{ .Release.Namespace }}
+spec:
+  destination:
+    namespace: {{ .Values.istio.namespace }}
+    server: {{ .Values.destination.server }}
+  project: flightdeck
+  source:
+    path: manifests/charts/base
+    helm:
+      values: |
+        base:
+          # ArgoCD won't install CRDs until Istio updates to Helm apiVersion 2
+          enableCRDTemplates: true
+    repoURL: {{ .Values.istio.repoURL }}
+    targetRevision: {{ .Values.istio.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

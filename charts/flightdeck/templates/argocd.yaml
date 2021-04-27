@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    flightdeck.thoughtbot.com/layer: cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: argocd
+  namespace: {{ .Release.Namespace }}
+spec:
+  destination:
+    namespace: {{ .Release.Namespace }}
+    server: {{ .Values.destination.server }}
+  project: flightdeck
+  source:
+    chart: argo-cd
+    helm:
+      values: |-
+        configs:
+          secret:
+            createSecret: false
+        dex:
+          enabled: false
+        server:
+          config:
+            repositories: |
+            {{- range .Values.repositories }}
+            - {{ toYaml . | indent 14 | trim }}
+            {{- end }}
+
+            oidc.config: |
+              name: Flightdeck
+              issuer: https://{{ .Values.ingress.host }}/dex
+              clientID: $oidc.dex.clientID
+              clientSecret: $oidc.dex.clientSecret
+
+
+            {{- if ne .Values.ingress.host "" }}
+            url: https://{{ .Values.ingress.host }}/argocd
+            {{- end }}
+          extraArgs:
+          # We'll use an ingress provider to terminate TLS
+          - --insecure
+          - --rootpath
+          - /argocd
+          - --basehref
+          - /argocd
+          rbacConfig:
+            policy.csv: |
+              p, role:developer, applications, get, default/*, allow
+              p, role:developer, applications, sync, default/*, allow
+              p, role:developer, clusters, get, *, allow
+              p, role:developer, repositories, get, *, allow
+              p, role:developer, projects, get, default, allow
+              g, admin, role:developer
+    repoURL: {{ index .Values "argo-cd" "repoURL" }}
+    targetRevision: {{ index .Values "argo-cd" "version" }}

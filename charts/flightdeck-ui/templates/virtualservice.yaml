@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: flightdeck-ui
+  namespace: {{ .Release.Namespace }}
+spec:
+  hosts:
+  - {{ .Values.ingress.host }}
+  gateways:
+  - flightdeck-ui
+  http:
+  - match:
+    - uri:
+        prefix: /dex
+    route:
+    - destination:
+        host: dex
+  - match:
+    - uri:
+        prefix: /argocd
+    route:
+    - destination:
+        host: argocd-server

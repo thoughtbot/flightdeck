@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    flightdeck.thoughtbot.com/layer: network
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: istio-discovery
+  namespace: {{ .Release.Namespace }}
+spec:
+  destination:
+    namespace: {{ .Values.istio.namespace }}
+    server: {{ .Values.destination.server }}
+  project: flightdeck
+  source:
+    path: manifests/charts/istio-control/istio-discovery
+    helm:
+      values: |
+        global:
+          istioNamespace: {{ .Values.istio.namespace }}
+    repoURL: {{ .Values.istio.repoURL }}
+    targetRevision: {{ .Values.istio.version }}

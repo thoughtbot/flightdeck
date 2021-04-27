@@ -1,0 +1,49 @@
+nameOverride: ""
+fullnameOverride: ""
+
+destination:
+  server: https://kubernetes.default.svc
+
+clusters:
+# - name: staging
+#   server: https://api-endpoint
+#   config: |
+#     {}
+# - name: production
+#   server: https://api-endpoint
+#   config: |
+#     {}
+
+auth: {}
+
+ingress:
+  host: ""
+  requireTLS: true
+
+provider: ""
+
+repositories: []
+
+argo-cd:
+  repoURL: https://argoproj.github.io/argo-helm
+  version: 2.17.0
+
+cert-manager:
+  repoURL: https://charts.jetstack.io
+  version: 1.1.0
+
+dex:
+  repoURL: https://charts.thoughtbot.com
+  version: 0.1.0
+
+external-dns:
+  repoURL: https://charts.bitnami.com/bitnami
+  version: 4.6.0
+
+istio:
+  namespace: istio-system
+  repoURL: https://github.com/istio/istio.git
+  version: 1.9.2
+
+ui:
+  repoURL: TODO

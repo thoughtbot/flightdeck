@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    flightdeck.thoughtbot.com/layer: ui
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: flightdeck-ui
+  namespace: {{ .Release.Namespace }}
+spec:
+  destination:
+    namespace: {{ .Release.Namespace }}
+    server: {{ .Values.destination.server }}
+  project: flightdeck
+  source:
+    chart: flightdeck-ui
+    helm:
+      values: |
+        ingress:
+          {{- toYaml .Values.ingress | nindent 10 }}
+    repoURL: {{ .Values.ui.repoURL }}
+    targetRevision: {{ .Chart.Version }}

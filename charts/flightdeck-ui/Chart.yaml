@@ -1,0 +1,9 @@
+apiVersion: v2
+name: flightdeck-ui
+description: Flightdeck UI-level resources
+
+type: application
+
+version: 0.1.0
+
+appVersion: 1.0.0
