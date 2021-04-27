@@ -1,0 +1,22 @@
+{
+  "terraform": {
+    "required_providers": {
+      "github": {
+        "source": "integrations/github",
+        "version": "~> 4.5"
+      },
+      "random": {
+        "version": "~> 3.1"
+      },
+      "kubernetes": {
+        "version": "~> 2.0"
+      },
+      "time": {
+        "version": "~> 0.7"
+      },
+      "tls": {
+        "version": "~> 3.1"
+      }
+    }
+  }
+}
