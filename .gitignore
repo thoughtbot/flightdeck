@@ -1,0 +1,4 @@
+.fmt
+.terraform
+.terraform.lock.hcl
+.validate
