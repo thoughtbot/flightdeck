@@ -13,9 +13,9 @@ $(CHARTSDIST): dist/%.tgz: $$(wildcard charts/$$*/*.yaml) $$(wildcard charts/$$*
 
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
-.PHONY: test
-test: tmp/chartmuseum tmp/metallb tmp/values.yaml
-	$(MAKE) -C tests ops-cluster
+.PHONY: local
+local: tmp/chartmuseum tmp/metallb tmp/values.yaml
+	$(MAKE) -C local ops-cluster
 	$(KUBECTL) config use-context kind-flightdeck
 	KUBECONFIG=tmp/kubeconfig \
 	FLIGHTDECK_REPO=http://chartmuseum.default.svc:8080 \
@@ -23,7 +23,7 @@ test: tmp/chartmuseum tmp/metallb tmp/values.yaml
 	@echo "Flightdeck is available at https://$$(cat tmp/tunnel_host)"
 
 tmp/chartmuseum: $(CHARTSDIST) tmp/kubeconfig
-	$(KUBECTL) apply -f tests/chartmuseum.yaml
+	$(KUBECTL) apply -f local/chartmuseum.yaml
 	$(KUBECTL) wait \
 		--for=condition=available \
 		--timeout=90s \
@@ -104,7 +104,7 @@ tmp/kind-cidr: tmp/kubeconfig
 
 tmp/values.yaml: tmp/tunnel_host
 	echo "ingress:\n  host: $$(cat tmp/tunnel_host)\n  requireTLS: false" \
-		| cat - tests/values.yaml \
+		| cat - local/values.yaml \
 		> tmp/values.yaml
 
 tmp/tunnel_host: tmp/ngrok_ip
@@ -114,7 +114,7 @@ tmp/tunnel_host: tmp/ngrok_ip
 		> tmp/tunnel_host
 
 tmp/ngrok_ip: tmp/kubeconfig tmp/metallb
-	$(KUBECTL) apply -f tests/ngrok.yaml
+	$(KUBECTL) apply -f local/ngrok.yaml
 	$(KUBECTL) wait \
 		--for=condition=available \
 		--timeout=90s \
@@ -125,7 +125,7 @@ tmp/ngrok_ip: tmp/kubeconfig tmp/metallb
 tmp/kubeconfig:
 	mkdir -p tmp
 	if ! kind get clusters | grep -q flightdeck; then \
-		kind create cluster --name flightdeck --config tests/kind.yaml; \
+		kind create cluster --name flightdeck --config local/kind.yaml; \
 		kind export kubeconfig \
 		--name flightdeck \
 		--kubeconfig tmp/kubeconfig; \
@@ -164,5 +164,5 @@ $(MODULEMAKEFILES): %/makefile: makefiles/terraform.mk
 
 .PHONY: clean
 clean: kind-down $(CLEANMODULES)
-	$(MAKE) -C tests/ops-cluster clean
+	$(MAKE) -C local/ops-cluster clean
 	rm -rf dist tmp
