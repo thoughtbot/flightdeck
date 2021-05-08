@@ -1,4 +1,6 @@
+*.tfstate
 .fmt
 .terraform
 .terraform.lock.hcl
 .validate
+dist
