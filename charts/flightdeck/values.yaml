@@ -33,7 +33,8 @@ cert-manager:
   version: 1.1.0
 
 dex:
-  repoURL: https://charts.thoughtbot.com
+  repoURL: git@github.com:thoughtbot/flightdeck.git
+  path: charts/dex
   version: 0.1.0
 
 external-dns:
@@ -46,4 +47,5 @@ istio:
   version: 1.9.2
 
 ui:
-  repoURL: TODO
+  repoURL: git@github.com:thoughtbot/flightdeck.git
+  path: charts/flightdeck-ui

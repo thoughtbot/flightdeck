@@ -39,4 +39,7 @@ spec:
           host: {{ .Values.ingress.host }}
           path: /dex
     repoURL: {{ .Values.dex.repoURL }}
+    {{ with .Values.dex.path }}
+    path: {{ . }}
+    {{ end }}
     targetRevision: {{ .Values.dex.version }}

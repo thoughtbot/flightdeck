@@ -4,7 +4,8 @@ set -e
 
 FLIGHTDECK_DESTINATION="${FLIGHTDECK_DESTINATION:-https://kubernetes.default.svc}"
 FLIGHTDECK_NAMESPACE="${FLIGHTDECK_NAMESPACE:-flightdeck}"
-FLIGHTDECK_REPO="${FLIGHTDECK_REPO:-TODO}"
+FLIGHTDECK_REPO="${FLIGHTDECK_REPO:-git@github.com:thoughtbot/flightdeck.git}"
+FLIGHTDECK_REPO_PATH="${FLIGHTDECK_REPO_PATH:-charts/flightdeck}"
 FLIGHTDECK_VERSION="${FLIGHTDECK_VERSION:-0.1.0}"
 PREFIX=$(dirname "$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)")
 

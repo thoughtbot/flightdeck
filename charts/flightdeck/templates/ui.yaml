@@ -19,4 +19,7 @@ spec:
         ingress:
           {{- toYaml .Values.ingress | nindent 10 }}
     repoURL: {{ .Values.ui.repoURL }}
+    {{ with .Values.ui.path }}
+    path: {{ . }}
+    {{ end }}
     targetRevision: {{ .Chart.Version }}
