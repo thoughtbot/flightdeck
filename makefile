@@ -14,7 +14,7 @@ $(CHARTSDIST): dist/%.tgz: $$(wildcard charts/$$*/*.yaml) $$(wildcard charts/$$*
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
 .PHONY: local
-local: tmp/chartmuseum tmp/metallb tmp/values.yaml
+local: tmp/chartmuseum tmp/metallb tmp/values.yaml tmp/ldap
 	$(MAKE) -C local ops-cluster
 	$(KUBECTL) config use-context kind-flightdeck
 	KUBECONFIG=tmp/kubeconfig \
@@ -130,6 +130,10 @@ tmp/kubeconfig:
 		--name flightdeck \
 		--kubeconfig tmp/kubeconfig; \
 		fi
+
+tmp/ldap: tmp/kubeconfig local/glauth/*.yaml
+	$(KUBECTL) apply -f local/glauth
+	touch tmp/ldap
 
 .PHONY: kind-down
 kind-down:

@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glauth
+  labels:
+    app: glauth
+data:
+  config.cfg: |
+    debug = true
+
+    [ldap]
+      enabled = true
+      listen = "0.0.0.0:3893"
+
+    [ldaps]
+      enabled = false
+
+    [backend]
+      datastore = "config"
+      baseDN = "dc=glauth,dc=com"
+      nameformat = "uid"
+      groupformat = "cn"
+
+    [[users]]
+      name = "support"
+      mail = "support@thoughtbot.com"
+      unixid = 5001
+      primarygroup = 5501
+      # secret
+      passsha256 = "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b"
+
+    [[users]]
+      name = "serviceaccount"
+      unixid = 5003
+      primarygroup = 5502
+      # secret
+      passsha256 = "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b"
+
+    [[groups]]
+      name = "developers"
+      unixid = 5501
+
+    [[groups]]
+      name = "svcaccts"
+      unixid = 5502

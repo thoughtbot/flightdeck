@@ -1,9 +1,27 @@
 auth:
-  staticPasswords:
-  - username: admin
-    email: support@thoughtbot.com
-    # The password is "secret"
-    hash: "$2a$10$kH.JovWEKZ854b3cqlX6Guf/J0CKntut5JBd94N4rX97YWaSyzxE2"
+  connectors:
+  - type: ldap
+    id: glauth
+    name: glauth
+    config:
+      host: glauth.default.svc:3893
+      insecureNoSSL: true
+      insecureSkipVerify: true
+      bindDN: uid=serviceaccount,cn=svcaccts,dc=glauth,dc=com
+      bindPW: secret
+      userSearch:
+        baseDN: cn=users,dc=glauth,dc=com
+        username: uid
+        idAttr: unixid
+        emailAttr: mail
+        nameAttr: mail
+      groupSearch:
+        baseDN: cn=groups,dc=glauth,dc=com
+        nameAttr: uid
+        filter: (objectClass=posixGroup)
+        userMatchers:
+        - userAttr: uid
+          groupAttr: memberUid
 
 dex:
   repoURL: http://chartmuseum.default.svc:8080
