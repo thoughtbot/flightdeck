@@ -23,6 +23,7 @@ spec:
           enabled: false
         server:
           config:
+            admin.enabled: false
             repositories: |
             {{- range .Values.repositories }}
             - {{ toYaml . | indent 14 | trim }}
