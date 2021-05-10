@@ -1,0 +1,24 @@
+config:
+  connectors:
+  - type: ldap
+    id: glauth
+    name: glauth
+    config:
+      host: glauth.default.svc:3893
+      insecureNoSSL: true
+      insecureSkipVerify: true
+      bindDN: uid=serviceaccount,cn=svcaccts,dc=glauth,dc=com
+      bindPW: secret
+      userSearch:
+        baseDN: cn=users,dc=glauth,dc=com
+        username: uid
+        idAttr: uidNumber
+        emailAttr: mail
+        nameAttr: mail
+      groupSearch:
+        baseDN: cn=groups,dc=glauth,dc=com
+        nameAttr: uid
+        filter: (objectClass=posixGroup)
+        userMatchers:
+        - userAttr: uid
+          groupAttr: memberUid

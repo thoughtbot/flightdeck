@@ -1,3 +1,9 @@
+variable "argocd_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "aws_namespace" {
   type        = list(string)
   default     = ["flightdeck"]
@@ -10,10 +16,28 @@ variable "aws_tags" {
   default     = {}
 }
 
+variable "cert_manager_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "cluster_role_arns" {
   type        = list(string)
   default     = []
   description = "IAM role ARNs for deploying to external clusters"
+}
+
+variable "domain_filters" {
+  type        = list(string)
+  default     = []
+  description = "Domains on which External DNS should update entries"
+}
+
+variable "external_dns_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
 }
 
 variable "host" {

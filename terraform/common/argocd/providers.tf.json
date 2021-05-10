@@ -1,19 +1,18 @@
 {
   "terraform": {
     "required_providers": {
+      "aws": {
+        "version": "~> 3.0"
+      },
       "github": {
         "source": "integrations/github",
         "version": "~> 4.5"
       },
-      "helm": {
-        "source": "hashicorp/helm",
-        "version": "~> 2.1.2"
+      "random": {
+        "version": "~> 3.1"
       },
       "kubernetes": {
         "version": "~> 2.0"
-      },
-      "random": {
-        "version": "~> 3.1"
       },
       "tls": {
         "version": "~> 3.1"

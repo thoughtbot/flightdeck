@@ -1,45 +1,13 @@
 .SECONDEXPANSION:
 
-.PHONY: dist
-dist: dist/flightdeck.tgz dist/dex.tgz dist/flightdeck-ui.tgz
-
-CHARTS     := $(wildcard charts/*)
-CHARTSDIST := $(foreach chart,$(CHARTS),$(subst charts/,dist/,$(chart).tgz))
-
-$(CHARTSDIST): dist/%.tgz: $$(wildcard charts/$$*/*.yaml) $$(wildcard charts/$$*/templates/*.yaml)
-	mkdir -p dist
-	helm package "charts/$*" --destination tmp
-	mv tmp/$*-*.tgz "$@"
-
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
 .PHONY: local
-local: tmp/chartmuseum tmp/metallb tmp/values.yaml tmp/ldap
-	$(MAKE) -C local ops-cluster
-	$(KUBECTL) config use-context kind-flightdeck
-	KUBECONFIG=tmp/kubeconfig \
-	FLIGHTDECK_REPO=http://chartmuseum.default.svc:8080 \
-	bin/install tmp/values.yaml
-	@echo "Flightdeck is available at https://$$(cat tmp/tunnel_host)"
+local: tmp/metallb tmp/tfvars.json tmp/ldap
+	$(MAKE) -C local/ops-cluster init
+	$(MAKE) -C local/ops-cluster TFVARS=$(PWD)/tmp/tfvars.json apply
 
-tmp/chartmuseum: $(CHARTSDIST) tmp/kubeconfig
-	$(KUBECTL) apply -f local/chartmuseum.yaml
-	$(KUBECTL) wait \
-		--for=condition=available \
-		--timeout=90s \
-		deploy/chartmuseum
-	for f in dist/*.tgz; do \
-		echo "Pushing $$f..."; \
-		curl \
-			--data-binary "@$$f" \
-			--retry 3 \
-			--retry-all \
-			http://localhost:3000/api/charts?force \
-			> /dev/null; \
-		done
-	touch tmp/chartmuseum
-
-tmp/metallb: dist tmp/kubeconfig tmp/memberlist.yaml tmp/metallb-config.yaml
+tmp/metallb: tmp/kubeconfig tmp/memberlist.yaml tmp/metallb-config.yaml
 	$(KUBECTL) \
 		apply -f https://raw.githubusercontent.com/metallb/metallb/master/manifests/namespace.yaml
 	$(KUBECTL) \
@@ -102,10 +70,12 @@ tmp/kind-cidr: tmp/kubeconfig
 	docker network inspect -f '{{index .IPAM.Config 0 "Subnet"}}' kind \
 		> tmp/kind-cidr
 
-tmp/values.yaml: tmp/tunnel_host
-	echo "ingress:\n  host: $$(cat tmp/tunnel_host)\n  requireTLS: false" \
-		| cat - local/values.yaml \
-		> tmp/values.yaml
+tmp/tfvars.json: tmp/tunnel_host local/tfvars.json
+	cat local/tfvars.json \
+		| jq \
+		--arg host "$$(cat tmp/tunnel_host)" \
+		'. + {"host": $$host}' \
+		> tmp/tfvars.json
 
 tmp/tunnel_host: tmp/ngrok_ip
 	curl "$$(cat tmp/ngrok_ip):4040/api/tunnels" \
@@ -169,4 +139,4 @@ $(MODULEMAKEFILES): %/makefile: makefiles/terraform.mk
 .PHONY: clean
 clean: kind-down $(CLEANMODULES)
 	$(MAKE) -C local/ops-cluster clean
-	rm -rf dist tmp
+	rm -rf tmp

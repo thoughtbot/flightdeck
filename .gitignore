@@ -1,6 +1,9 @@
-*.tfstate
+*.tfstate*
 .fmt
 .terraform
 .terraform.lock.hcl
 .validate
 dist
+applied
+dependencies
+initialized

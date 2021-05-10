@@ -1,4 +1,4 @@
-CONFIG         ?= $(PWD)
+CONFIG         ?= .
 BACKEND_CONFIG := backend.tfvars
 STATE          := terraform.tfstate
 TFVARS         ?= tfvars.json
@@ -61,7 +61,11 @@ shell:
 	"$${SHELL:-sh}"
 
 .PHONY: init
-init: clean $(CONFIG)/initialized
+init: clean_init $(CONFIG)/initialized
+
+.PHONY: clean_init
+clean_init:
+	rm -f $(CONFIG)/initialized
 
 .PHONY: upgrade
 upgrade:

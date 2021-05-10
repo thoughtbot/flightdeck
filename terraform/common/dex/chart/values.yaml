@@ -1,0 +1,107 @@
+# Default values for dex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+issuer:
+  host: chart-example.local
+  path: /dex
+
+config:
+  # staticClients:
+  # - id: example-app
+  #   redirectURIs:
+  #     - 'http://127.0.0.1:5555/callback'
+  #   name: 'Example App'
+  #   secret: $EXAMPLE_APP_SECRET
+
+  # Connectors are used to authenticate users agains upstream identity providers.
+  #
+  # See the documentation (https://dexidp.io/docs/connectors/) for further information.
+  connectors: []
+
+  enablePasswordDB: false
+
+  # If this option isn't chosen users may be added through the gRPC API.
+  # A static list of passwords for the password connector.
+  #
+  # Alternatively, passwords my be added/updated through the gRPC API.
+  staticPasswords: []
+
+deployment:
+  replicaCount: 1
+
+  image:
+    repository: dexidp/dex
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  # Environment variables can be referenced from config using dollar syntax
+  # envFrom:
+  # - secretRef:
+  #     name: oauth-secret
+
+service:
+  type: ClusterIP
+  port: 5556
+
+ingress:
+  enabled: false
+  annotations: {}
+  tls: []
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Whether Role Based Access Control objects like roles and rolebindings should be created
+rbac:
+  enabled: true

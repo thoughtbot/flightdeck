@@ -19,4 +19,3 @@ data "aws_iam_policy_document" "argocd_service_account_role" {
     resources = var.cluster_role_arns
   }
 }
-
