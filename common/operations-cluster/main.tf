@@ -1,41 +1,21 @@
-resource "kubernetes_namespace" "istio" {
-  metadata {
-    name = var.istio_namespace
-  }
-}
+module "workload_cluster" {
+  source = "../workload-cluster"
 
-module "istio" {
-  source = "../../common/istio"
-
-  chart_version = var.istio_version
-  k8s_namespace = kubernetes_namespace.istio.metadata[0].name
-}
-
-resource "kubernetes_namespace" "flightdeck" {
-  metadata {
-    name = var.flightdeck_namespace
-
-    labels = {
-      "istio-injection" = "enabled"
-    }
-  }
-
-  depends_on = [module.istio]
-}
-
-module "cert_manager" {
-  source = "../../common/cert-manager"
-
-  chart_values  = var.cert_manager_values
-  chart_version = var.cert_manager_version
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  cert_manager_values  = var.cert_manager_values
+  cert_manager_version = var.cert_manager_version
+  external_dns_values  = var.external_dns_values
+  external_dns_version = var.external_dns_version
+  flightdeck_namespace = var.flightdeck_namespace
+  istio_ingress_values = var.istio_ingress_values
+  istio_namespace      = var.istio_namespace
+  istio_version        = var.istio_version
 }
 
 module "dex" {
   source = "../../common/dex"
 
   chart_values  = concat(local.dex_values, var.dex_values)
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  k8s_namespace = module.workload_cluster.flightdeck_namespace
 
   static_clients = {
     argocd = {
@@ -43,22 +23,8 @@ module "dex" {
       redirectURIs = ["https://${var.host}/argocd/auth/callback"]
     }
   }
-}
 
-module "external_dns" {
-  source = "../../common/external-dns"
-
-  chart_values  = var.external_dns_values
-  chart_version = var.external_dns_version
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
-}
-
-module "istio_ingress" {
-  source = "../../common/istio-ingress"
-
-  chart_values  = var.istio_ingress_values
-  chart_version = var.istio_version
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  depends_on = [module.workload_cluster]
 }
 
 module "argocd" {
@@ -67,24 +33,23 @@ module "argocd" {
   chart_values  = concat(local.argocd_values, var.argocd_values)
   chart_version = var.argocd_version
   host          = var.host
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  k8s_namespace = module.workload_cluster.flightdeck_namespace
 
   extra_secrets = {
     "oidc.dex.clientID"     = "argocd"
     "oidc.dex.clientSecret" = module.dex.client_secrets.argocd
   }
+
+  depends_on = [module.workload_cluster]
 }
 
 module "ui" {
   source = "../../common/ui"
 
   chart_values  = concat(local.ui_values, var.ui_values)
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  k8s_namespace = module.workload_cluster.flightdeck_namespace
 
-  depends_on = [
-    module.istio_ingress,
-    module.cert_manager
-  ]
+  depends_on = [module.workload_cluster]
 }
 
 locals {

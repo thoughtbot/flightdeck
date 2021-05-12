@@ -116,11 +116,11 @@ locals {
   ]
 
   repositories = [
-    for name, repository in data.github_repository.source:
+    for name, repository in data.github_repository.source :
     {
       url = repository.ssh_clone_url
       sshPrivateKeySecret = {
-        key = "id_rsa"
+        key  = "id_rsa"
         name = name
       }
     }

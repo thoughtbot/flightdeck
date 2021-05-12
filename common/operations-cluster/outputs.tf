@@ -1,6 +1,6 @@
 output "namespace" {
   description = "Kubernetes namespace created for Flightdeck"
-  value       = kubernetes_namespace.flightdeck.metadata[0].name
+  value       = module.workload_cluster.flightdeck_namespace
 }
 
 output "url" {
