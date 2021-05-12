@@ -14,8 +14,12 @@ module "argocd_service_account_role" {
 }
 
 data "aws_iam_policy_document" "argocd_service_account_role" {
-  statement {
-    actions   = ["sts:AssumeRole", "sts:AssumeRoleWithWebIdentity"]
-    resources = var.cluster_role_arns
+  dynamic "statement" {
+    for_each = length(var.cluster_role_arns) == 0 ? [] : [true]
+
+    content {
+      actions   = ["sts:AssumeRole", "sts:AssumeRoleWithWebIdentity"]
+      resources = var.cluster_role_arns
+    }
   }
 }
