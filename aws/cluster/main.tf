@@ -90,7 +90,7 @@ resource "aws_ssm_parameter" "vpc_id" {
   value = module.vpc.instance.id
 }
 
-resource "aws_ssm_parameter" "node_role" {
+resource "aws_ssm_parameter" "node_role_arn" {
   name  = join("/", concat([""], var.namespace, [var.name, "node_role_arn"]))
   type  = "SecureString"
   value = module.node_role.arn
