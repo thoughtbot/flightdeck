@@ -79,19 +79,19 @@ module "aws_k8s_oidc_provider" {
 }
 
 resource "aws_ssm_parameter" "oidc_issuer" {
-  name  = join("/", concat([""], var.namespace, [var.name, "oidc_issuer"]))
+  name  = join("/", concat([""], var.namespace, ["clusters", var.name, "oidc_issuer"]))
   type  = "SecureString"
   value = module.aws_k8s_oidc_provider.issuer
 }
 
 resource "aws_ssm_parameter" "vpc_id" {
-  name  = join("/", concat([""], var.namespace, [var.name, "vpc_id"]))
+  name  = join("/", concat([""], var.namespace, ["clusters", var.name, "vpc_id"]))
   type  = "SecureString"
   value = module.vpc.instance.id
 }
 
 resource "aws_ssm_parameter" "node_role_arn" {
-  name  = join("/", concat([""], var.namespace, [var.name, "node_role_arn"]))
+  name  = join("/", concat([""], var.namespace, ["clusters", var.name, "node_role_arn"]))
   type  = "SecureString"
   value = module.node_role.arn
 }

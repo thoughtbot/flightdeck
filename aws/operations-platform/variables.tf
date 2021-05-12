@@ -28,6 +28,11 @@ variable "cluster_role_arns" {
   description = "IAM role ARNs for deploying to external clusters"
 }
 
+variable "cluster_name" {
+  type        = string
+  description = "Name of the EKS cluster"
+}
+
 variable "domain_filters" {
   type        = list(string)
   default     = []
