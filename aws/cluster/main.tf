@@ -9,6 +9,31 @@ module "eks_cluster" {
   vpc             = module.vpc.instance
 }
 
+module "node_role" {
+  source = "../eks-node-role"
+
+  name      = var.name
+  namespace = var.namespace
+  tags      = var.tags
+}
+
+module "node_groups" {
+  for_each = var.node_groups
+  source   = "../eks-node-group"
+
+  cluster        = module.eks_cluster.instance
+  instance_types = each.value.instance_types
+  max_size       = each.value.max_size
+  min_size       = each.value.min_size
+  name           = each.key
+  namespace      = var.namespace
+  role           = module.node_role.instance
+  subnets        = module.private_subnets.instances
+  tags           = var.tags
+
+  depends_on = [module.node_role]
+}
+
 module "vpc" {
   source = "../vpc"
 
@@ -47,7 +72,6 @@ module "public_subnets" {
   )
 }
 
-
 module "aws_k8s_oidc_provider" {
   source = "../k8s-oidc-provider"
 
@@ -64,6 +88,12 @@ resource "aws_ssm_parameter" "vpc_id" {
   name  = join("/", concat([""], var.namespace, [var.name, "vpc_id"]))
   type  = "SecureString"
   value = module.vpc.instance.id
+}
+
+resource "aws_ssm_parameter" "node_role" {
+  name  = join("/", concat([""], var.namespace, [var.name, "node_role_arn"]))
+  type  = "SecureString"
+  value = module.node_role.arn
 }
 
 locals {

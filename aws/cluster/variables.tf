@@ -38,6 +38,16 @@ variable "namespace" {
   default     = []
 }
 
+variable "node_groups" {
+  description = "Node groups to create in this cluster"
+
+  type = map(object({
+    instance_types = list(string),
+    max_size       = number
+    min_size       = number
+  }))
+}
+
 variable "private_subnet_cidr_blocks" {
   type        = map(string)
   description = "CIDR block for each availability zone"
