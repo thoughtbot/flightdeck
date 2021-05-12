@@ -1,5 +1,5 @@
 module "ops_cluster" {
-  source = "../../common/ops-cluster"
+  source = "../../common/operations-cluster"
 
   argocd_values       = concat(local.argocd_values, var.argocd_values)
   cert_manager_values = concat(local.cert_manager_values, var.cert_manager_values)

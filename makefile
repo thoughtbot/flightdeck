@@ -4,8 +4,8 @@ KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
 .PHONY: local
 local: tmp/metallb tmp/tfvars.json tmp/ldap
-	$(MAKE) -C local/ops-cluster init
-	$(MAKE) -C local/ops-cluster TFVARS=$(PWD)/tmp/tfvars.json apply
+	$(MAKE) -C local/operations-cluster init
+	$(MAKE) -C local/operations-cluster TFVARS=$(PWD)/tmp/tfvars.json apply
 
 tmp/metallb: tmp/kubeconfig tmp/memberlist.yaml tmp/metallb-config.yaml
 	$(KUBECTL) \
@@ -138,5 +138,5 @@ $(MODULEMAKEFILES): %/makefile: makefiles/terraform.mk
 
 .PHONY: clean
 clean: kind-down $(CLEANMODULES)
-	$(MAKE) -C local/ops-cluster clean
+	$(MAKE) -C local/operations-cluster clean
 	rm -rf tmp
