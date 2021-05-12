@@ -38,6 +38,11 @@ variable "namespace" {
   default     = []
 }
 
+variable "nat_availability_zones" {
+  type = list(string)
+  description = "Availability zones in which NAT should be provided"
+}
+
 variable "node_groups" {
   description = "Node groups to create in this cluster"
 

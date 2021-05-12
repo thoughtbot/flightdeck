@@ -9,6 +9,18 @@ module "eks_cluster" {
   vpc             = module.vpc.instance
 }
 
+module "nat_gateway" {
+  source = "../nat-gateway"
+
+  availability_zones = var.nat_availability_zones
+  name               = var.name
+  namespace          = var.namespace
+  private_subnets    = module.private_subnets.instances
+  public_subnets     = module.public_subnets.instances
+  tags               = var.tags
+  vpc                = module.vpc.instance
+}
+
 module "node_role" {
   source = "../eks-node-role"
 
