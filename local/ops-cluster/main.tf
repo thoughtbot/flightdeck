@@ -13,7 +13,7 @@ provider "kubernetes" {
 }
 
 module "ops_cluster" {
-  source = "../../terraform/common/ops-cluster"
+  source = "../../common/ops-cluster"
 
   dex_values = [file("${path.module}/dex-values.yaml")]
   host       = var.host

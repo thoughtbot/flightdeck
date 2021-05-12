@@ -112,7 +112,7 @@ kind-down:
 		rm tmp/kubeconfig; \
 		fi
 
-MODULES         := $(wildcard terraform/*/*)
+MODULES         := $(wildcard aws/* common/*)
 MODULEMAKEFILES := $(foreach module,$(MODULES),$(module)/makefile)
 VALIDATEMODULES := $(foreach module,$(MODULES),$(module)/validate)
 CLEANMODULES    := $(foreach module,$(MODULES),$(module)/clean)
