@@ -1,5 +1,5 @@
 module "cluster_autoscaler_service_account_role" {
-  source = "../aws-service-account-role"
+  source = "../service-account-role"
 
   name             = "cluster-autoscaler"
   namespace        = var.aws_namespace

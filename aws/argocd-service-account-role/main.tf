@@ -1,5 +1,5 @@
 module "argocd_service_account_role" {
-  source = "../aws-service-account-role"
+  source = "../service-account-role"
 
   name        = "argocd"
   namespace   = var.aws_namespace
