@@ -22,8 +22,14 @@ module "private_subnets" {
 
   namespace   = var.namespace
   cidr_blocks = var.private_subnet_cidr_blocks
-  tags        = merge(var.tags, local.cluster_tags, var.private_subnet_tags)
   vpc         = module.vpc.instance
+
+  tags = merge(
+    var.tags,
+    local.cluster_tags,
+    { "kubernetes.io/role/internal-elb" = "1" },
+    var.private_subnet_tags
+  )
 }
 
 module "public_subnets" {
@@ -31,8 +37,14 @@ module "public_subnets" {
 
   namespace   = var.namespace
   cidr_blocks = var.public_subnet_cidr_blocks
-  tags        = merge(var.tags, local.cluster_tags, var.public_subnet_tags)
   vpc         = module.vpc.instance
+
+  tags = merge(
+    var.tags,
+    local.cluster_tags,
+    { "kubernetes.io/role/elb" = "1" },
+    var.public_subnet_tags
+  )
 }
 
 
