@@ -43,7 +43,7 @@ module "node_groups" {
   subnets        = module.private_subnets.instances
   tags           = var.tags
 
-  depends_on = [module.node_role]
+  depends_on = [module.node_role, module.nat_gateway]
 }
 
 module "vpc" {
