@@ -1,5 +1,5 @@
 module "operations_cluster" {
-  source = "../../common/operations-cluster"
+  source = "../../common/operations-platform"
 
   argocd_values = concat(local.argocd_values, var.argocd_values)
   host          = var.host

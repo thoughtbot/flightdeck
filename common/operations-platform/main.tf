@@ -1,5 +1,5 @@
 module "workload_cluster" {
-  source = "../workload-cluster"
+  source = "../workload-platform"
 
   cert_manager_values  = var.cert_manager_values
   cert_manager_version = var.cert_manager_version

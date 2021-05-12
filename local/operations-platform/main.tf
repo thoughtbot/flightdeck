@@ -13,7 +13,7 @@ provider "kubernetes" {
 }
 
 module "ops_cluster" {
-  source = "../../common/operations-cluster"
+  source = "../../common/operations-platform"
 
   dex_values = [file("${path.module}/dex-values.yaml")]
   host       = var.host

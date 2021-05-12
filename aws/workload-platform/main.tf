@@ -1,5 +1,5 @@
 module "workload_cluster" {
-  source = "../../common/workload-cluster"
+  source = "../../common/workload-platform"
 
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
