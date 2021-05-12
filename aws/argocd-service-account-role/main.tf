@@ -14,10 +14,17 @@ module "argocd_service_account_role" {
 }
 
 data "aws_iam_policy_document" "argocd_service_account_role" {
+  statement {
+    sid       = "GetCallerIdentity"
+    actions   = ["sts:GetCallerIdentity"]
+    resources = ["*"]
+  }
+
   dynamic "statement" {
     for_each = length(var.cluster_role_arns) == 0 ? [] : [true]
 
     content {
+      sid       = "AssumeDeployRole"
       actions   = ["sts:AssumeRole", "sts:AssumeRoleWithWebIdentity"]
       resources = var.cluster_role_arns
     }
