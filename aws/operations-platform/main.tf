@@ -22,7 +22,7 @@ module "workload_values" {
 
   aws_namespace  = var.aws_namespace
   aws_tags       = var.aws_tags
-  domain_filters = distinct(concat(var.domain_filters, [var.host]))
+  domain_filters = var.domain_filters
   k8s_namespace  = var.k8s_namespace
   oidc_issuer    = data.aws_ssm_parameter.oidc_issuer.value
 }
