@@ -67,8 +67,3 @@ variable "k8s_namespace" {
   default     = "flightdeck"
   description = "Kubernetes namespace in which resources should be created"
 }
-
-variable "oidc_issuer" {
-  type        = string
-  description = "OIDC issuer of the operations Kubernetes cluster"
-}
