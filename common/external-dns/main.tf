@@ -10,6 +10,7 @@ resource "helm_release" "this" {
 locals {
   chart_values = [
     yamlencode({
+      sources = ["ingress", "istio-gateway"]
     })
   ]
 }
