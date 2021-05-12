@@ -15,6 +15,7 @@ module "dex" {
   source = "../../common/dex"
 
   chart_values  = concat(local.dex_values, var.dex_values)
+  extra_secrets = var.dex_extra_secrets
   k8s_namespace = module.workload_cluster.flightdeck_namespace
 
   static_clients = {

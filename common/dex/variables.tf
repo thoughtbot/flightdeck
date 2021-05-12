@@ -4,6 +4,12 @@ variable "chart_values" {
   default     = []
 }
 
+variable "extra_secrets" {
+  type        = map(string)
+  default     = {}
+  description = "Extra values to append to the Dex secret"
+}
+
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which secrets should be created"

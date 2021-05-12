@@ -4,12 +4,15 @@ resource "kubernetes_secret" "dex" {
     namespace = var.k8s_namespace
   }
 
-  data = zipmap(
-    [
-      for client in keys(var.static_clients) :
-      "${upper(client)}_SECRET"
-    ],
-    values(random_password.client).*.result
+  data = merge(
+    zipmap(
+      [
+        for client in keys(var.static_clients) :
+        "${upper(client)}_SECRET"
+      ],
+      values(random_password.client).*.result
+    ),
+    var.extra_secrets
   )
 }
 

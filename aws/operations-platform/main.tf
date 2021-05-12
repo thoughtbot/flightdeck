@@ -1,8 +1,10 @@
 module "operations_cluster" {
   source = "../../common/operations-platform"
 
-  argocd_values = concat(local.argocd_values, var.argocd_values)
-  host          = var.host
+  argocd_values     = concat(local.argocd_values, var.argocd_values)
+  dex_extra_secrets = var.dex_extra_secrets
+  dex_values        = var.dex_values
+  host              = var.host
 
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
