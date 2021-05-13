@@ -10,13 +10,13 @@ resource "helm_release" "this" {
 }
 
 data "github_repository" "source" {
-  for_each = var.github_repositories
+  for_each = toset(var.github_repositories)
 
   name = each.value.name
 }
 
 resource "github_repository_deploy_key" "this" {
-  for_each = var.install_to_github ? var.github_repositories : {}
+  for_each = var.install_to_github ? toset(var.github_repositories) : []
 
   key        = tls_private_key.this[each.key].public_key_openssh
   read_only  = true
@@ -25,7 +25,7 @@ resource "github_repository_deploy_key" "this" {
 }
 
 resource "github_repository_webhook" "this" {
-  for_each = var.install_to_github ? var.github_repositories : {}
+  for_each = var.install_to_github ? toset(var.github_repositories) : []
 
   events     = ["push"]
   repository = each.value.name
@@ -38,7 +38,7 @@ resource "github_repository_webhook" "this" {
 }
 
 resource "tls_private_key" "this" {
-  for_each = var.github_repositories
+  for_each = toset(var.github_repositories)
 
   algorithm = "RSA"
 }
@@ -64,7 +64,7 @@ resource "kubernetes_secret" "argocd" {
 }
 
 resource "kubernetes_secret" "github" {
-  for_each = var.github_repositories
+  for_each = toset(var.github_repositories)
 
   metadata {
     name      = each.key

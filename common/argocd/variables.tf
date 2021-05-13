@@ -28,9 +28,9 @@ variable "extra_secrets" {
 }
 
 variable "github_repositories" {
-  type        = map(object({ name = string, branch = string }))
+  type        = list(string)
   description = "GitHub repositories to connect to ArgoCD"
-  default     = {}
+  default     = []
 }
 
 variable "host" {

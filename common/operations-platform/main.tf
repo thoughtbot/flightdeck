@@ -31,11 +31,12 @@ module "dex" {
 module "argocd" {
   source = "../../common/argocd"
 
-  chart_values  = concat(local.argocd_values, var.argocd_values)
-  chart_version = var.argocd_version
-  host          = var.host
-  k8s_namespace = module.workload_platform.flightdeck_namespace
-  policy        = var.argocd_policy
+  chart_values        = concat(local.argocd_values, var.argocd_values)
+  chart_version       = var.argocd_version
+  github_repositories = var.argocd_github_repositories
+  host                = var.host
+  k8s_namespace       = module.workload_platform.flightdeck_namespace
+  policy              = var.argocd_policy
 
   extra_secrets = {
     "oidc.dex.clientID"     = "argocd"

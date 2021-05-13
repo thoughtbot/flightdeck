@@ -1,13 +1,14 @@
 module "common_platform" {
   source = "../../common/operations-platform"
 
-  argocd_policy       = var.argocd_policy
-  argocd_values       = concat(local.argocd_values, var.argocd_values)
-  certificate_email   = var.certificate_email
-  certificate_solvers = local.certificate_solvers
-  dex_extra_secrets   = var.dex_extra_secrets
-  dex_values          = var.dex_values
-  host                = var.host
+  argocd_github_repositories = var.argocd_github_repositories
+  argocd_policy              = var.argocd_policy
+  argocd_values              = concat(local.argocd_values, var.argocd_values)
+  certificate_email          = var.certificate_email
+  certificate_solvers        = local.certificate_solvers
+  dex_extra_secrets          = var.dex_extra_secrets
+  dex_values                 = var.dex_values
+  host                       = var.host
 
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
@@ -33,11 +34,11 @@ module "workload_values" {
 module "argocd_service_account_role" {
   source = "../argocd-service-account-role"
 
-  aws_namespace     = var.aws_namespace
-  aws_tags          = var.aws_tags
-  cluster_configs   = var.cluster_configs
-  k8s_namespace     = var.k8s_namespace
-  oidc_issuer       = module.workload_values.oidc_issuer
+  aws_namespace   = var.aws_namespace
+  aws_tags        = var.aws_tags
+  cluster_configs = var.cluster_configs
+  k8s_namespace   = var.k8s_namespace
+  oidc_issuer     = module.workload_values.oidc_issuer
 }
 
 locals {

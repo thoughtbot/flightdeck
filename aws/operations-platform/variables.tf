@@ -1,3 +1,9 @@
+variable "argocd_github_repositories" {
+  type        = list(string)
+  description = "GitHub repositories to connect to ArgoCD"
+  default     = []
+}
+
 variable "argocd_policy" {
   type        = string
   description = "Policy grants for ArgoCD RBAC"
