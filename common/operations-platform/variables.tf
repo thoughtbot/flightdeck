@@ -1,3 +1,9 @@
+variable "argocd_policy" {
+  type        = string
+  description = "Policy grants for ArgoCD RBAC"
+  default     = ""
+}
+
 variable "argocd_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

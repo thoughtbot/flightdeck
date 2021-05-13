@@ -35,6 +35,7 @@ module "argocd" {
   chart_version = var.argocd_version
   host          = var.host
   k8s_namespace = module.workload_cluster.flightdeck_namespace
+  policy        = var.argocd_policy
 
   extra_secrets = {
     "oidc.dex.clientID"     = "argocd"

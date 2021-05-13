@@ -1,6 +1,7 @@
 module "operations_cluster" {
   source = "../../common/operations-platform"
 
+  argocd_policy       = var.argocd_policy
   argocd_values       = concat(local.argocd_values, var.argocd_values)
   certificate_email   = var.certificate_email
   certificate_solvers = local.certificate_solvers

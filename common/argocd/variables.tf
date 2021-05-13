@@ -54,3 +54,9 @@ variable "name" {
   description = "Name for the Helm release"
   default     = "argocd"
 }
+
+variable "policy" {
+  type        = string
+  description = "Policy grants for ArgoCD RBAC"
+  default     = ""
+}

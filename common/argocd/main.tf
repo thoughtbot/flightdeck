@@ -109,7 +109,10 @@ locals {
           "/argocd",
         ]
         "rbacConfig" = {
-          "policy.csv" = file("${path.module}/policy.csv")
+          "policy.csv" = join("\n", [
+            file("${path.module}/policy.csv"),
+            var.policy
+          ])
         }
       }
     })
