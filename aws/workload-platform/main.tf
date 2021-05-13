@@ -15,8 +15,9 @@ module "common_platform" {
 module "workload_values" {
   source = "../workload-values"
 
-  aws_namespace = var.aws_namespace
-  aws_tags      = var.aws_tags
-  cluster_name  = var.cluster_name
-  k8s_namespace = var.k8s_namespace
+  aws_namespace  = var.aws_namespace
+  aws_tags       = var.aws_tags
+  cluster_name   = var.cluster_name
+  domain_filters = var.domain_filters
+  k8s_namespace  = var.k8s_namespace
 }
