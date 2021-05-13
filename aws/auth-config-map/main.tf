@@ -1,12 +1,8 @@
-resource "kubernetes_config_map" "this" {
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-
-  data = {
-    mapRoles = yamlencode(local.map_roles)
-  }
+resource "helm_release" "aws_auth" {
+  chart     = "${path.module}/chart"
+  name      = "aws-auth"
+  namespace = "kube-system"
+  values    = [yamlencode({ mapRoles = local.map_roles })]
 }
 
 locals {
