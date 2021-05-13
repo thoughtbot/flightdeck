@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "argocd_service_account_role" {
 }
 
 resource "kubernetes_secret" "cluster" {
-  for_each = var.cluster_configs
+  for_each = local.cluster_configs
 
   metadata {
     name      = each.value.awsAuthConfig.clusterName
@@ -43,4 +43,11 @@ resource "kubernetes_secret" "cluster" {
   }
 
   data = each.value
+}
+
+locals {
+  cluster_configs = zipmap(
+    var.cluster_configs.*.name,
+    var.cluster_configs
+  )
 }
