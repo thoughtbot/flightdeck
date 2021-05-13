@@ -22,6 +22,16 @@ variable "cert_manager_version" {
   default     = "1.3.1"
 }
 
+variable "certificate_email" {
+  type        = string
+  description = "Email to be notified of certificate expiration and renewal"
+}
+
+variable "certificate_solvers" {
+  type        = string
+  description = "YAML spec for solving ACME challenges"
+}
+
 variable "dex_extra_secrets" {
   type        = map(string)
   default     = {}

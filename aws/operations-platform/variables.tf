@@ -22,6 +22,16 @@ variable "cert_manager_values" {
   default     = []
 }
 
+variable "certificate_email" {
+  type        = string
+  description = "Email to be notified of certificate expiration and renewal"
+}
+
+variable "certificate_solvers" {
+  type        = string
+  description = "YAML spec for solving ACME challenges"
+}
+
 variable "cluster_role_arns" {
   type        = list(string)
   default     = []

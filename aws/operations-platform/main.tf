@@ -1,10 +1,12 @@
 module "operations_cluster" {
   source = "../../common/operations-platform"
 
-  argocd_values     = concat(local.argocd_values, var.argocd_values)
-  dex_extra_secrets = var.dex_extra_secrets
-  dex_values        = var.dex_values
-  host              = var.host
+  argocd_values       = concat(local.argocd_values, var.argocd_values)
+  certificate_email   = var.certificate_email
+  certificate_solvers = local.certificate_solvers
+  dex_extra_secrets   = var.dex_extra_secrets
+  dex_values          = var.dex_values
+  host                = var.host
 
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
@@ -51,4 +53,19 @@ locals {
       }
     })
   ]
+
+  certificate_solvers = yamlencode([
+    {
+      dns01 = {
+        route53 = {
+          region = data.aws_region.current.name
+        }
+      }
+      selector = {
+        dnsZones = var.domain_filters
+      }
+    }
+  ])
 }
+
+data "aws_region" "current" {}

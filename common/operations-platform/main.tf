@@ -83,6 +83,10 @@ locals {
 
   ui_values = [
     yamlencode({
+      certificate = {
+        email   = var.certificate_email
+        solvers = yamldecode(var.certificate_solvers)
+      }
       ingress = {
         host = var.host
       }

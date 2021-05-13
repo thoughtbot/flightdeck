@@ -5,5 +5,11 @@ metadata:
   name: {{ .Values.certificate.issuer.name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  selfSigned: {}
+  acme:
+    email: {{ .Values.certificate.issuer.acme.email }}
+    server: {{ .Values.certificate.issuer.acme.server }}
+    privateKeySecretRef:
+      name: flightdeck-letsencrypt-private-key
+    solvers:
+      {{ toYaml .Values.certificate.issuer.acme.solvers | indent 6 | trim }}
 {{- end -}}
