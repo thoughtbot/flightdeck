@@ -28,7 +28,9 @@ data "aws_eks_cluster_auth" "this" {
 }
 
 locals {
-  map_roles = indent(4, yamlencode(concat(
+  map_roles = "    ${indent(4, yamlencode(local.mappings))}"
+
+  mappings = concat(
     [
       for role in var.admin_roles :
       {
@@ -53,6 +55,6 @@ locals {
         groups   = ["system:bootstrappers", "system:nodes"]
       }
     ]
-  )))
+  )
 }
 
