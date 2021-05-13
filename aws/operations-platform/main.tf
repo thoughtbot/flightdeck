@@ -35,7 +35,7 @@ module "argocd_service_account_role" {
 
   aws_namespace     = var.aws_namespace
   aws_tags          = var.aws_tags
-  cluster_role_arns = var.cluster_role_arns
+  cluster_configs   = var.cluster_configs
   k8s_namespace     = var.k8s_namespace
   oidc_issuer       = module.workload_values.oidc_issuer
 }

@@ -10,10 +10,23 @@ variable "aws_tags" {
   default     = {}
 }
 
-variable "cluster_role_arns" {
-  type        = list(string)
+variable "cluster_configs" {
   default     = []
-  description = "IAM role ARNs for deploying to external clusters"
+  description = "ArgoCD configuration objects for workload clusters"
+
+  type = list(object({
+    name   = string
+    server = string
+    config = object({
+      awsAuthConfig = object({
+        clusterName = string
+        roleARN     = string
+      })
+      tlsClientConfig = object({
+        caData = string
+      })
+    })
+  }))
 }
 
 variable "k8s_namespace" {

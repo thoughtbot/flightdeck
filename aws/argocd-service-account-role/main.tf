@@ -21,12 +21,26 @@ data "aws_iam_policy_document" "argocd_service_account_role" {
   }
 
   dynamic "statement" {
-    for_each = length(var.cluster_role_arns) == 0 ? [] : [true]
+    for_each = length(var.cluster_configs) == 0 ? [] : [true]
 
     content {
       sid       = "AssumeDeployRole"
       actions   = ["sts:AssumeRole", "sts:AssumeRoleWithWebIdentity"]
-      resources = var.cluster_role_arns
+      resources = var.cluster_configs.*.config.awsAuthConfig.roleARN
     }
   }
+}
+
+resource "kubernetes_secret" "cluster" {
+  for_each = var.cluster_configs
+
+  metadata {
+    name      = each.value.awsAuthConfig.clusterName
+    namespace = var.k8s_namespace
+    labels = {
+      "argocd.argoproj.io/secret-type" = "cluster"
+    }
+  }
+
+  data = each.value
 }

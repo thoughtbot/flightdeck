@@ -33,10 +33,23 @@ variable "certificate_email" {
   description = "Email to be notified of certificate expiration and renewal"
 }
 
-variable "cluster_role_arns" {
-  type        = list(string)
+variable "cluster_configs" {
   default     = []
-  description = "IAM role ARNs for deploying to external clusters"
+  description = "ArgoCD configuration objects for workload clusters"
+
+  type = list(object({
+    name   = string
+    server = string
+    config = object({
+      awsAuthConfig = object({
+        clusterName = string
+        roleARN     = string
+      })
+      tlsClientConfig = object({
+        caData = string
+      })
+    })
+  }))
 }
 
 variable "cluster_name" {
