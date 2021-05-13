@@ -6,5 +6,5 @@ metadata:
   namespace: kube-system
 
 data:
-  mapRoles:
+  mapRoles: |
     {{ toYaml .Values.mapRoles | indent 4 | trim }}
