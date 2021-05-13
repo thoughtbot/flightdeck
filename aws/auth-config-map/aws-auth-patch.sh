@@ -27,6 +27,8 @@ kubectl \
   --token="$KUBE_TOKEN" \
   patch \
   -n kube-system \
+  configmap \
+  aws-auth \
   -p "$(aws_auth_config_map)"
 
 rm /tmp/ca.crt
