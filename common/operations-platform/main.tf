@@ -1,4 +1,4 @@
-module "workload_cluster" {
+module "workload_platform" {
   source = "../workload-platform"
 
   cert_manager_values  = var.cert_manager_values
@@ -16,7 +16,7 @@ module "dex" {
 
   chart_values  = concat(local.dex_values, var.dex_values)
   extra_secrets = var.dex_extra_secrets
-  k8s_namespace = module.workload_cluster.flightdeck_namespace
+  k8s_namespace = module.workload_platform.flightdeck_namespace
 
   static_clients = {
     argocd = {
@@ -25,7 +25,7 @@ module "dex" {
     }
   }
 
-  depends_on = [module.workload_cluster]
+  depends_on = [module.workload_platform]
 }
 
 module "argocd" {
@@ -34,7 +34,7 @@ module "argocd" {
   chart_values  = concat(local.argocd_values, var.argocd_values)
   chart_version = var.argocd_version
   host          = var.host
-  k8s_namespace = module.workload_cluster.flightdeck_namespace
+  k8s_namespace = module.workload_platform.flightdeck_namespace
   policy        = var.argocd_policy
 
   extra_secrets = {
@@ -42,16 +42,16 @@ module "argocd" {
     "oidc.dex.clientSecret" = module.dex.client_secrets.argocd
   }
 
-  depends_on = [module.workload_cluster]
+  depends_on = [module.workload_platform]
 }
 
 module "ui" {
   source = "../../common/ui"
 
   chart_values  = concat(local.ui_values, var.ui_values)
-  k8s_namespace = module.workload_cluster.flightdeck_namespace
+  k8s_namespace = module.workload_platform.flightdeck_namespace
 
-  depends_on = [module.workload_cluster]
+  depends_on = [module.workload_platform]
 }
 
 locals {

@@ -1,4 +1,4 @@
-module "workload_cluster" {
+module "common_platform" {
   source = "../../common/workload-platform"
 
   cert_manager_values = concat(

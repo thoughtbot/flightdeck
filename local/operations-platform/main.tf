@@ -12,7 +12,7 @@ provider "kubernetes" {
   config_path = "../../tmp/kubeconfig"
 }
 
-module "ops_cluster" {
+module "ops_platform" {
   source = "../../common/operations-platform"
 
   dex_values = [file("${path.module}/dex-values.yaml")]
@@ -26,5 +26,5 @@ variable "host" {
 
 output "flightdeck_url" {
   description = "URL at which Flightdeck is available"
-  value       = module.ops_cluster.url
+  value       = module.ops_platform.url
 }

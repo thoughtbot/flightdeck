@@ -1,4 +1,4 @@
-module "operations_cluster" {
+module "common_platform" {
   source = "../../common/operations-platform"
 
   argocd_policy       = var.argocd_policy
