@@ -35,14 +35,18 @@ resource "kubernetes_secret" "cluster" {
   for_each = local.cluster_configs
 
   metadata {
-    name      = each.value.awsAuthConfig.clusterName
+    name      = each.value.config.awsAuthConfig.clusterName
     namespace = var.k8s_namespace
     labels = {
       "argocd.argoproj.io/secret-type" = "cluster"
     }
   }
 
-  data = each.value
+  data = {
+    name   = each.value.name
+    server = each.value.server
+    config = jsonencode(each.value.config)
+  }
 }
 
 locals {
