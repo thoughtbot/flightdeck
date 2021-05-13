@@ -35,3 +35,8 @@ output "external_dns_values" {
     })
   ]
 }
+
+variable "oidc_issuer" {
+  description = "OIDC issuer configured for this cluster"
+  value       = data.aws_ssm_parameter.oidc_issuer.value
+}

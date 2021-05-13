@@ -10,6 +10,11 @@ variable "aws_tags" {
   default     = {}
 }
 
+variable "cluster_name" {
+  type        = string
+  description = "Name of the EKS cluster"
+}
+
 variable "domain_filters" {
   type        = list(string)
   default     = []
@@ -20,9 +25,4 @@ variable "k8s_namespace" {
   type        = string
   default     = "flightdeck"
   description = "Kubernetes namespace in which resources should be created"
-}
-
-variable "oidc_issuer" {
-  type        = string
-  description = "OIDC issuer of the operations Kubernetes cluster"
 }

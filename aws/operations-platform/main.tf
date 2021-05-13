@@ -25,9 +25,9 @@ module "workload_values" {
 
   aws_namespace  = var.aws_namespace
   aws_tags       = var.aws_tags
+  cluster_name   = var.cluster_name
   domain_filters = var.domain_filters
   k8s_namespace  = var.k8s_namespace
-  oidc_issuer    = data.aws_ssm_parameter.oidc_issuer.value
 }
 
 module "argocd_service_account_role" {
@@ -37,11 +37,7 @@ module "argocd_service_account_role" {
   aws_tags          = var.aws_tags
   cluster_role_arns = var.cluster_role_arns
   k8s_namespace     = var.k8s_namespace
-  oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
-}
-
-data "aws_ssm_parameter" "oidc_issuer" {
-  name = join("/", concat([""], var.aws_namespace, ["clusters", var.cluster_name, "oidc_issuer"]))
+  oidc_issuer       = module.workload_values.oidc_issuer
 }
 
 locals {

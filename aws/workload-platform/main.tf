@@ -17,6 +17,6 @@ module "workload_values" {
 
   aws_namespace = var.aws_namespace
   aws_tags      = var.aws_tags
+  cluster_name  = var.cluster_name
   k8s_namespace = var.k8s_namespace
-  oidc_issuer   = var.oidc_issuer
 }
