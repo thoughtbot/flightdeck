@@ -2,6 +2,10 @@ output "cert_manager_values" {
   description = "AWS-specific values for cert-manager"
   value = [
     yamlencode({
+      extraArgs = [
+        # Allow Issuers to use IRSA credentials
+        "--issuer-ambient-credentials"
+      ]
       securityContext = {
         # https://github.com/jetstack/cert-manager/issues/2147
         enabled = true
