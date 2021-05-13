@@ -7,7 +7,7 @@ variable "cert_manager_values" {
 variable "cert_manager_version" {
   type        = string
   description = "Version of cert-manager to install"
-  default     = "1.3.1"
+  default     = "v1.3.1"
 }
 
 variable "external_dns_values" {
