@@ -4,7 +4,7 @@ output "cert_manager_values" {
     yamlencode({
       securityContext = {
         # https://github.com/jetstack/cert-manager/issues/2147
-        fsGroup = 1001
+        enabled = true
       }
       serviceAccount = {
         annotations = {
