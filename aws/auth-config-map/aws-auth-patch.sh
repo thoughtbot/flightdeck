@@ -23,9 +23,9 @@ YAML
 
 kubectl \
   --server="$KUBE_SERVER" \
-  --certificate_authority=/tmp/ca.crt \
+  --certificate-authority=/tmp/ca.crt \
   --token="$KUBE_TOKEN" \
   patch \
   -n kube-system
   configmap aws-auth \
-  -p "$(aws_auth_config_map)
+  -p "$(aws_auth_config_map)"

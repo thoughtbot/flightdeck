@@ -1,7 +1,7 @@
 resource "null_resource" "aws_auth_patch" {
   triggers = {
     ca_data   = sha256(data.aws_eks_cluster.this.certificate_authority[0].data)
-    map_roles = sha256(local.map_roles)
+    map_roles = local.map_roles
     server    = sha256(data.aws_eks_cluster.this.endpoint)
     token     = sha256(data.aws_eks_cluster_auth.this.token)
   }
