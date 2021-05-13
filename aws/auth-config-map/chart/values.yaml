@@ -1,7 +1,0 @@
-nameOverride: ""
-fullnameOverride: ""
-
-destination:
-  server: https://kubernetes.default.svc
-
-mapRoles: []

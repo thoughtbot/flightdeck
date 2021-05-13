@@ -1,12 +1,34 @@
-resource "helm_release" "aws_auth" {
-  chart     = "${path.module}/chart"
-  name      = "aws-auth"
-  namespace = "kube-system"
-  values    = [yamlencode({ mapRoles = local.map_roles })]
+resource "null_resource" "aws_auth_patch" {
+  triggers = {
+    ca_data   = sha256(data.aws_eks_cluster.this.certificate_authority[0].data)
+    map_roles = sha256(local.map_roles)
+    server    = sha256(data.aws_eks_cluster.this.endpoint)
+    token     = sha256(data.aws_eks_cluster_auth.this.token)
+  }
+
+  provisioner "local-exec" {
+    command     = "./aws-auth-patch.sh"
+    working_dir = path.module
+
+    environment = {
+      KUBE_CA_DATA = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+      KUBE_SERVER  = data.aws_eks_cluster.this.endpoint
+      KUBE_TOKEN   = data.aws_eks_cluster_auth.this.token
+      MAP_ROLES    = local.map_roles
+    }
+  }
+}
+
+data "aws_eks_cluster" "this" {
+  name = join("-", concat(var.aws_namespace, [var.cluster_name]))
+}
+
+data "aws_eks_cluster_auth" "this" {
+  name = data.aws_eks_cluster.this.name
 }
 
 locals {
-  map_roles = concat(
+  map_roles = indent(4, yamlencode(concat(
     [
       for role in var.admin_roles :
       {
@@ -31,5 +53,6 @@ locals {
         groups   = ["system:bootstrappers", "system:nodes"]
       }
     ]
-  )
+  )))
 }
+

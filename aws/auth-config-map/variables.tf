@@ -4,6 +4,23 @@ variable "admin_roles" {
   description = "Role ARNs which have admin privileges within the cluster"
 }
 
+variable "aws_namespace" {
+  type        = list(string)
+  default     = ["flightdeck"]
+  description = "Prefix to be applied to created AWS resources"
+}
+
+variable "aws_tags" {
+  type        = map(string)
+  description = "Tags to be applied to created AWS resources"
+  default     = {}
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "Name of the EKS cluster"
+}
+
 variable "custom_roles" {
   type        = map(string)
   default     = {}

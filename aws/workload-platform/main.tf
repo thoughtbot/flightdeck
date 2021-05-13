@@ -33,9 +33,12 @@ module "argocd_cluster_config" {
 module "auth_config_map" {
   source = "../auth-config-map"
 
-  admin_roles  = concat(local.admin_roles, var.admin_roles)
-  custom_roles = var.custom_roles
-  node_roles   = concat(local.node_roles, var.node_roles)
+  admin_roles   = concat(local.admin_roles, var.admin_roles)
+  aws_namespace = var.aws_namespace
+  aws_tags      = var.aws_tags
+  cluster_name  = var.cluster_name
+  custom_roles  = var.custom_roles
+  node_roles    = concat(local.node_roles, var.node_roles)
 }
 
 data "aws_ssm_parameter" "node_role_arn" {
