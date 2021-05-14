@@ -23,6 +23,6 @@ resource "aws_eks_node_group" "this" {
 }
 
 locals {
-  min_size_per_node_group = ceil(var.min_size / 2) * 2
-  max_size_per_node_group = ceil(var.max_size / 2) * 2
+  min_size_per_node_group = ceil(var.min_size / 2)
+  max_size_per_node_group = ceil(var.max_size / 2)
 }
