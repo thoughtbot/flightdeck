@@ -12,7 +12,7 @@ resource "helm_release" "this" {
 data "github_repository" "source" {
   for_each = toset(var.github_repositories)
 
-  name = each.value.name
+  name = each.value
 }
 
 resource "github_repository_deploy_key" "this" {
@@ -20,7 +20,7 @@ resource "github_repository_deploy_key" "this" {
 
   key        = tls_private_key.this[each.key].public_key_openssh
   read_only  = true
-  repository = each.value.name
+  repository = each.value
   title      = "Argo CD"
 }
 
@@ -28,7 +28,7 @@ resource "github_repository_webhook" "this" {
   for_each = var.install_to_github ? toset(var.github_repositories) : []
 
   events     = ["push"]
-  repository = each.value.name
+  repository = each.value
 
   configuration {
     content_type = "json"
