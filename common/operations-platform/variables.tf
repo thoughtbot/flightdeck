@@ -43,7 +43,7 @@ variable "cluster_autoscaler_values" {
 variable "cluster_autoscaler_version" {
   type        = string
   description = "Version of cluster-autoscaler to install"
-  default     = "v1.3.1"
+  default     = "9.7.0"
 }
 
 variable "certificate_email" {

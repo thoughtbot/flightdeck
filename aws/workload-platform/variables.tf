@@ -33,12 +33,6 @@ variable "cluster_autoscaler_values" {
   default     = []
 }
 
-variable "cluster_autoscaler_version" {
-  type        = string
-  description = "Version of cluster-autoscaler to install"
-  default     = "v1.3.1"
-}
-
 variable "cluster_name" {
   type        = string
   description = "Name of the EKS cluster"
