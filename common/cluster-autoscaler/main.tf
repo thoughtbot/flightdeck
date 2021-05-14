@@ -14,6 +14,7 @@ locals {
         balance-similar-node-groups   = true
         skip-nodes-with-local-storage = false
       }
+      fullnameOverride = var.name
     })
   ]
 }
