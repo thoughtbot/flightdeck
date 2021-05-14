@@ -31,6 +31,14 @@ module "cert_manager" {
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
 }
 
+module "cluster_autoscaler" {
+  source = "../../common/cluster-autoscaler"
+
+  chart_values  = var.cluster_autoscaler_values
+  chart_version = var.cluster_autoscaler_version
+  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+}
+
 module "external_dns" {
   source = "../../common/external-dns"
 

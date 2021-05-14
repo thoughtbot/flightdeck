@@ -27,6 +27,18 @@ variable "cert_manager_values" {
   default     = []
 }
 
+variable "cluster_autoscaler_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "cluster_autoscaler_version" {
+  type        = string
+  description = "Version of cluster-autoscaler to install"
+  default     = "v1.3.1"
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name of the EKS cluster"

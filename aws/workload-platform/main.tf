@@ -6,6 +6,11 @@ module "common_platform" {
     var.cert_manager_values
   )
 
+  cluster_autoscaler_values = concat(
+    module.workload_values.cluster_autoscaler_values,
+    var.cluster_autoscaler_values
+  )
+
   external_dns_values = concat(
     module.workload_values.external_dns_values,
     var.external_dns_values

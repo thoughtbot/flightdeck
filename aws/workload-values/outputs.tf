@@ -19,6 +19,25 @@ output "cert_manager_values" {
   ]
 }
 
+output "cluster_autoscaler_values" {
+  description = "AWS-specific values for cluster-autoscaler"
+  value = [
+    yamlencode({
+      autoDiscovery = {
+        clusterName = join("-", concat(var.aws_namespace, [var.cluster_name]))
+      }
+      awsRegion = data.aws_region.current.name
+      rbac = {
+        serviceAccount = {
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_service_account_role.arn
+          }
+        }
+      }
+    })
+  ]
+}
+
 output "external_dns_values" {
   description = "AWS-specific values for external-dns"
   value = [
