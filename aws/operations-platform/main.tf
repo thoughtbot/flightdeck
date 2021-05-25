@@ -64,7 +64,7 @@ resource "aws_s3_bucket_object" "operations_config" {
 }
 
 data "aws_s3_bucket_object" "cluster_config" {
-  for_each = var.workload_cluster_names
+  for_each = toset(var.workload_cluster_names)
 
   bucket = module.config_bucket.name
   key    = "workload-clusters/${each.value}.json"
