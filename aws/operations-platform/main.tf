@@ -114,9 +114,23 @@ locals {
 
   argocd_values = [
     yamlencode({
-      serviceAccount = {
-        annotations = {
-          "eks.amazonaws.com/role-arn" = module.argocd_service_account_role.arn
+      controller = {
+        serviceAccount = {
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.argocd_service_account_role.arn
+          }
+        }
+      }
+      global = {
+        securityContext = {
+          fsGroup = 999
+        }
+      }
+      server = {
+        serviceAccount = {
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.argocd_service_account_role.arn
+          }
         }
       }
     })
