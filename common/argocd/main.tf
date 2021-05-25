@@ -108,7 +108,7 @@ locals {
               "resources-finalizer.argocd.argoproj.io",
             ]
             name = "bootstrap-${repository.name}"
-            namespace = "argocd"
+            namespace = "flightdeck"
             project = "default"
             source = {
               directory = {
