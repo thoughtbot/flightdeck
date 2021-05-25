@@ -90,6 +90,12 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
+variable "workload_account_ids" {
+  type        = list(string)
+  default     = []
+  description = "IDs of AWS accounts in which workloads will run"
+}
+
 variable "workload_cluster_names" {
   type        = list(string)
   default     = []

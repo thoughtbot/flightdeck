@@ -49,9 +49,44 @@ module "argocd_service_account_role" {
 module "config_bucket" {
   source = "../s3-bucket"
 
-  name = var.config_bucket
-  tags = var.aws_tags
+  name   = var.config_bucket
+  policy = data.aws_iam_policy_document.config_bucket.json
+  tags   = var.aws_tags
 }
+
+data "aws_iam_policy_document" "config_bucket" {
+  statement {
+    sid = "OperationsAdmin"
+    actions = [
+      "s3:*"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${local.account_id}:root"]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.workload_account_ids
+
+    content {
+      sid = "Workloads${statement.value}"
+      actions = [
+        "s3:PutObject",
+        "s3:GetObject"
+      ]
+      resources = [
+        "arn:aws:s3:::${var.config_bucket}/workload-clusters/*"
+      ]
+      principals {
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${statement.value}:root"]
+      }
+    }
+  }
+}
+
+data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket_object" "operations_config" {
   bucket       = module.config_bucket.name
@@ -71,6 +106,8 @@ data "aws_s3_bucket_object" "cluster_config" {
 }
 
 locals {
+  account_id = data.aws_caller_identity.current.account_id
+
   argocd_values = [
     yamlencode({
       serviceAccount = {
