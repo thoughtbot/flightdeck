@@ -60,6 +60,7 @@ data "aws_iam_policy_document" "config_bucket" {
     actions = [
       "s3:*"
     ]
+    resources = ["*"]
     principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::${local.account_id}:root"]
