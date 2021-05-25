@@ -41,7 +41,7 @@ module "argocd_service_account_role" {
 
   aws_namespace   = var.aws_namespace
   aws_tags        = var.aws_tags
-  cluster_configs = var.cluster_configs
+  cluster_configs = local.cluster_configs
   k8s_namespace   = var.k8s_namespace
   oidc_issuer     = module.workload_values.oidc_issuer
 }
@@ -54,11 +54,20 @@ module "config_bucket" {
 }
 
 resource "aws_s3_bucket_object" "operations_config" {
-  bucket  = module.config_bucket.name
-  key     = "operations.json"
+  bucket       = module.config_bucket.name
+  content_type = "application/json"
+  key          = "operations.json"
+
   content = jsonencode({
     "argocd_service_account_role_arn" = module.argocd_service_account_role.arn
   })
+}
+
+data "aws_s3_bucket_object" "cluster_config" {
+  for_each = var.workload_cluster_names
+
+  bucket = module.config_bucket.name
+  key    = "workload-clusters/${each.value}.json"
 }
 
 locals {
@@ -84,6 +93,11 @@ locals {
       }
     }
   ])
+
+  cluster_configs = [
+    for s3_object in data.aws_s3_bucket_object.cluster_config :
+    jsondecode(s3_object.body)
+  ]
 }
 
 data "aws_region" "current" {}

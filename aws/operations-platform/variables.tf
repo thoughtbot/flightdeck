@@ -45,25 +45,6 @@ variable "certificate_email" {
   description = "Email to be notified of certificate expiration and renewal"
 }
 
-variable "cluster_configs" {
-  default     = []
-  description = "ArgoCD configuration objects for workload clusters"
-
-  type = list(object({
-    name   = string
-    server = string
-    config = object({
-      awsAuthConfig = object({
-        clusterName = string
-        roleARN     = string
-      })
-      tlsClientConfig = object({
-        caData = string
-      })
-    })
-  }))
-}
-
 variable "config_bucket" {
   description = "Name of the S3 bucket for storing Flightdeck configuration"
   type        = string
@@ -107,4 +88,10 @@ variable "k8s_namespace" {
   type        = string
   default     = "flightdeck"
   description = "Kubernetes namespace in which resources should be created"
+}
+
+variable "workload_cluster_names" {
+  type        = list(string)
+  default     = []
+  description = "Names of workload clusters to which ArgoCD will deploy"
 }

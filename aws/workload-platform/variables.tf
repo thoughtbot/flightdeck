@@ -4,11 +4,6 @@ variable "admin_roles" {
   default     = []
 }
 
-variable "argocd_service_account_role_arn" {
-  type        = string
-  description = "ARN of the IAM role used for ArgoCD's service account"
-}
-
 variable "aws_namespace" {
   type        = list(string)
   default     = ["flightdeck"]
@@ -36,6 +31,11 @@ variable "cluster_autoscaler_values" {
 variable "cluster_name" {
   type        = string
   description = "Name of the EKS cluster"
+}
+
+variable "config_bucket" {
+  description = "Name of the S3 bucket for storing Flightdeck configuration"
+  type        = string
 }
 
 variable "custom_roles" {
