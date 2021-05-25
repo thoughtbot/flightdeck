@@ -49,6 +49,11 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which secrets should be created"
 }
 
+variable "kustomize_versions" {
+  type        = list(string)
+  description = "Versions of Kustomize to install"
+}
+
 variable "name" {
   type        = string
   description = "Name for the Helm release"

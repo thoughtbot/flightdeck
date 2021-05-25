@@ -109,6 +109,12 @@ variable "istio_version" {
   default     = "1.9.4"
 }
 
+variable "kustomize_versions" {
+  type        = list(string)
+  description = "Versions of Kustomize to install"
+  default     = ["3.10.0"]
+}
+
 variable "ui_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

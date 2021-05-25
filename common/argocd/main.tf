@@ -96,26 +96,67 @@ locals {
       "dex" = {
         "enabled" = false
       }
+
+      # https://argoproj.github.io/argo-cd/operator-manual/custom_tools/
+      repoServer = {
+        initContainers = [
+          for version in var.kustomize_versions :
+          {
+            args = [
+              join(" ", [
+                "wget -qO-",
+                "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${version}/kustomize_v${version}_linux_amd64.tar.gz",
+                "| tar -xvzf -",
+                "&& mv kustomize /custom-tools/kustomize-${version}"
+              ])
+            ]
+            command = [
+              "sh",
+              "-c",
+            ]
+            image = "alpine:3.8"
+            name  = "download-tools"
+            volumeMounts = [
+              {
+                mountPath = "/custom-tools"
+                name      = "custom-tools"
+              },
+            ]
+          }
+        ]
+        volumeMounts = [
+          {
+            mountPath = "/custom-tools"
+            name      = "custom-tools"
+          },
+        ]
+        volumes = [
+          {
+            emptyDir = {}
+            name     = "custom-tools"
+          },
+        ]
+      }
       "server" = {
         "additionalApplications" = [
-          for repository in data.github_repository.source:
+          for repository in data.github_repository.source :
           {
             destination = {
               namespace = "argocd"
-              server = "https://kubernetes.default.svc"
+              server    = "https://kubernetes.default.svc"
             }
             finalizers = [
               "resources-finalizer.argocd.argoproj.io",
             ]
-            name = "bootstrap-${repository.name}"
+            name      = "bootstrap-${repository.name}"
             namespace = "flightdeck"
-            project = "default"
+            project   = "default"
             source = {
               directory = {
                 recurse = true
               }
-              path = "argocd"
-              repoURL = repository.ssh_clone_url
+              path           = "argocd"
+              repoURL        = repository.ssh_clone_url
               targetRevision = "main"
             }
             syncPolicy = {
@@ -125,10 +166,22 @@ locals {
             }
           }
         ]
-        "config" = {
-          "admin.enabled" = "false"
-          "repositories"  = yamlencode(local.repositories)
-        }
+        "config" = merge(
+          {
+            "admin.enabled" = "false"
+            "repositories"  = yamlencode(local.repositories)
+          },
+          zipmap(
+            [
+              for version in var.kustomize_versions :
+              "kustomize.version.v${version}"
+            ],
+            [
+              for version in var.kustomize_versions :
+              "/custom-tools/kustomize-${version}"
+            ]
+          )
+        )
         "extraArgs" = [
           "--insecure",
           "--rootpath",

@@ -90,6 +90,12 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
+variable "kustomize_versions" {
+  type        = list(string)
+  description = "Versions of Kustomize to install"
+  default     = ["3.10.0"]
+}
+
 variable "workload_account_ids" {
   type        = list(string)
   default     = []

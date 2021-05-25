@@ -38,6 +38,7 @@ module "argocd" {
   github_repositories = var.argocd_github_repositories
   host                = var.host
   k8s_namespace       = module.workload_platform.flightdeck_namespace
+  kustomize_versions  = var.kustomize_versions
   policy              = var.argocd_policy
 
   extra_secrets = {
