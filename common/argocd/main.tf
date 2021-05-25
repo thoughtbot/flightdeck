@@ -97,6 +97,34 @@ locals {
         "enabled" = false
       }
       "server" = {
+        "additionalApplications" = [
+          for repository in data.github_repository.source:
+          {
+            destination = {
+              namespace = "argocd"
+              server = "https://kubernetes.default.svc"
+            }
+            finalizers = [
+              "resources-finalizer.argocd.argoproj.io",
+            ]
+            name = "bootstrap-${repository.name}"
+            namespace = "argocd"
+            project = "default"
+            source = {
+              directory = {
+                recurse = true
+              }
+              path = "argocd"
+              repoURL = repository.ssh_clone_url
+              targetRevision = "main"
+            }
+            syncPolicy = {
+              automated = {
+                prune = true
+              }
+            }
+          }
+        ]
         "config" = {
           "admin.enabled" = "false"
           "repositories"  = yamlencode(local.repositories)
