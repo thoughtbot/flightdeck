@@ -46,6 +46,21 @@ module "argocd_service_account_role" {
   oidc_issuer     = module.workload_values.oidc_issuer
 }
 
+module "config_bucket" {
+  source = "../s3-bucket"
+
+  name = var.config_bucket
+  tags = var.aws_tags
+}
+
+resource "aws_s3_bucket_object" "operations_config" {
+  bucket  = module.config_bucket.name
+  key     = "operations.json"
+  content = jsonencode({
+    "argocd_service_account_role_arn" = module.argocd_service_account_role.arn
+  })
+}
+
 locals {
   argocd_values = [
     yamlencode({

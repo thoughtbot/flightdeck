@@ -64,6 +64,11 @@ variable "cluster_configs" {
   }))
 }
 
+variable "config_bucket" {
+  description = "Name of the S3 bucket for storing Flightdeck configuration"
+  type        = string
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name of the EKS cluster"
