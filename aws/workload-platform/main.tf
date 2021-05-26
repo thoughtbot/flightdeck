@@ -15,6 +15,11 @@ module "common_platform" {
     module.workload_values.external_dns_values,
     var.external_dns_values
   )
+
+  prometheus_operator_values = concat(
+    module.workload_values.prometheus_operator_values,
+    var.prometheus_operator_values
+  )
 }
 
 module "workload_values" {

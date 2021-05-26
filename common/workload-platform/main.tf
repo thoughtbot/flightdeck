@@ -54,3 +54,13 @@ module "istio_ingress" {
   chart_version = var.istio_version
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
 }
+
+module "prometheus_operator" {
+  source = "../../common/prometheus-operator"
+
+  chart_values  = var.prometheus_operator_values
+  chart_version = var.prometheus_operator_version
+  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+
+  depends_on = [module.cert_manager]
+}

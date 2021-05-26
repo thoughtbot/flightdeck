@@ -59,3 +59,25 @@ output "oidc_issuer" {
   description = "OIDC issuer configured for this cluster"
   value       = data.aws_ssm_parameter.oidc_issuer.value
 }
+
+output "prometheus_operator_values" {
+  description = "AWS-specific values for Prometheus Operator"
+  value = [
+    yamlencode({
+      retentionSize = "30GB"
+      storageSpec = {
+        volumeClaimTemplate = {
+          spec = {
+            resources = {
+              requests = {
+                storage = "40Gi"
+              }
+            }
+            storageClassName = "gp2"
+          }
+        }
+      }
+    })
+  ]
+}
+

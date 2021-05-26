@@ -1,16 +1,18 @@
 module "workload_platform" {
   source = "../workload-platform"
 
-  cert_manager_values        = var.cert_manager_values
-  cert_manager_version       = var.cert_manager_version
-  cluster_autoscaler_values  = var.cluster_autoscaler_values
-  cluster_autoscaler_version = var.cluster_autoscaler_version
-  external_dns_values        = var.external_dns_values
-  external_dns_version       = var.external_dns_version
-  flightdeck_namespace       = var.flightdeck_namespace
-  istio_ingress_values       = var.istio_ingress_values
-  istio_namespace            = var.istio_namespace
-  istio_version              = var.istio_version
+  cert_manager_values         = var.cert_manager_values
+  cert_manager_version        = var.cert_manager_version
+  cluster_autoscaler_values   = var.cluster_autoscaler_values
+  cluster_autoscaler_version  = var.cluster_autoscaler_version
+  external_dns_values         = var.external_dns_values
+  external_dns_version        = var.external_dns_version
+  flightdeck_namespace        = var.flightdeck_namespace
+  istio_ingress_values        = var.istio_ingress_values
+  istio_namespace             = var.istio_namespace
+  istio_version               = var.istio_version
+  prometheus_operator_values  = var.prometheus_operator_values
+  prometheus_operator_version = var.prometheus_operator_version
 }
 
 module "dex" {

@@ -96,6 +96,12 @@ variable "kustomize_versions" {
   default     = ["3.10.0"]
 }
 
+variable "prometheus_operator_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "workload_account_ids" {
   type        = list(string)
   default     = []

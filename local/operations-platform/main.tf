@@ -15,9 +15,11 @@ provider "kubernetes" {
 module "ops_platform" {
   source = "../../common/operations-platform"
 
-  dex_values = [file("${path.module}/dex-values.yaml")]
-  host       = var.host
-  ui_values  = [file("${path.module}/ui-values.yaml")]
+  certificate_email   = "mission-control@thoughtbot.com"
+  certificate_solvers = yamlencode([])
+  dex_values          = [file("${path.module}/dex-values.yaml")]
+  host                = var.host
+  ui_values           = [file("${path.module}/ui-values.yaml")]
 }
 
 variable "host" {

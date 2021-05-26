@@ -10,7 +10,6 @@ module "common_platform" {
   dex_values                 = var.dex_values
   host                       = var.host
   kustomize_versions         = var.kustomize_versions
-
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
     var.cert_manager_values
@@ -24,6 +23,11 @@ module "common_platform" {
   external_dns_values = concat(
     module.workload_values.external_dns_values,
     var.external_dns_values
+  )
+
+  prometheus_operator_values = concat(
+    module.workload_values.prometheus_operator_values,
+    var.prometheus_operator_values
   )
 }
 

@@ -67,3 +67,9 @@ variable "node_roles" {
   description = "Additional node roles which can join the cluster"
   default     = []
 }
+
+variable "prometheus_operator_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}

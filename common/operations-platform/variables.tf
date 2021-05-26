@@ -109,6 +109,18 @@ variable "istio_version" {
   default     = "1.9.4"
 }
 
+variable "prometheus_operator_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "prometheus_operator_version" {
+  type        = string
+  description = "Version of external-dns to install"
+  default     = "16.0.1"
+}
+
 variable "kustomize_versions" {
   type        = list(string)
   description = "Versions of Kustomize to install"
