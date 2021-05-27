@@ -1,17 +1,15 @@
 resource "helm_release" "base" {
-  chart      = var.base_chart_name
-  name       = "${var.name}-base"
-  namespace  = var.k8s_namespace
-  repository = "${var.chart_repository}?ref=${var.chart_version}&sparse=0"
-  values     = var.base_chart_values
+  chart     = "${var.chart_path}/base"
+  name      = "istio-base"
+  namespace = var.k8s_namespace
+  values    = var.base_chart_values
 }
 
 resource "helm_release" "discovery" {
-  chart      = var.discovery_chart_name
-  name       = "${var.name}-discovery"
-  namespace  = var.k8s_namespace
-  repository = "${var.chart_repository}/istio-control?ref=${var.chart_version}&sparse=0"
-  values     = concat(local.discovery_chart_values, var.discovery_chart_values)
+  chart     = "${var.chart_path}/istio-control/istio-discovery"
+  name      = "istio-discovery"
+  namespace = var.k8s_namespace
+  values    = concat(local.discovery_chart_values, var.discovery_chart_values)
 
   depends_on = [helm_release.base]
 }
@@ -24,5 +22,4 @@ locals {
       }
     })
   ]
-  repository = "${var.chart_repository}?ref=${var.chart_version}&sparse=0"
 }

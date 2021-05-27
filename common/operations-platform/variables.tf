@@ -106,7 +106,7 @@ variable "istio_namespace" {
 variable "istio_version" {
   type        = string
   description = "Version of Istio to install"
-  default     = "1.9.4"
+  default     = "1.10.0"
 }
 
 variable "prometheus_operator_values" {

@@ -32,6 +32,12 @@ locals {
         enabled = false
       }
       prometheus = {
+        additionalPodMonitors = [
+          yamldecode(file("${path.module}/istio-podmonitor.yaml"))
+        ]
+        additionalServiceMonitors = [
+          yamldecode(file("${path.module}/istio-servicemonitor.yaml"))
+        ]
         prometheusSpec = {
           containers = [
             {
@@ -41,6 +47,8 @@ locals {
               }
             },
           ]
+          podMonitorSelector                      = {}
+          podMonitorSelectorNilUsesHelmValues     = false
           ruleSelector                            = {}
           ruleSelectorNilUsesHelmValues           = false
           serviceMonitorSelector                  = {}
