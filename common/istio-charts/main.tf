@@ -4,7 +4,7 @@ locals {
     var.istio_version,
     "istio-${var.istio_version}-${var.os}-${var.arch}.tar.gz"
   ])
-  chart_path = "${path.module}/istio-${var.istio_version}/manifests/charts"
+  chart_path = "${abspath(path.module)}/${null_resource.charts.id}/istio-${var.istio_version}/manifests/charts"
 }
 
 resource "null_resource" "charts" {
@@ -13,6 +13,7 @@ resource "null_resource" "charts" {
     working_dir = path.module
 
     environment = {
+      ARCHIVE_ID    = self.id
       ISTIO_URL     = local.download_uri
       ISTIO_VERSION = var.istio_version
     }
@@ -24,7 +25,7 @@ resource "null_resource" "charts" {
     version = var.istio_version
 
     archive = join("", [
-      for file in fileset(path.module, "istio.tar.gz") :
+      for file in fileset(path.module, "*/istio.tar.gz") :
       filesha256("${path.module}/${file}")
     ])
   }
