@@ -15,6 +15,11 @@ variable "discovery_chart_values" {
   default     = []
 }
 
+variable "istio_version" {
+  type        = string
+  description = "Version of Istio to be installed"
+}
+
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which secrets should be created"

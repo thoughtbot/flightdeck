@@ -20,13 +20,9 @@ resource "null_resource" "charts" {
   }
 
   triggers = {
+    archive = fileexists("istio.tar.gz") ? filesha256("istio.tar.gz") : timestamp()
     script  = filesha256("${path.module}/download.sh")
     url     = local.download_uri
     version = var.istio_version
-
-    archive = join("", [
-      for file in fileset(path.module, "*/istio.tar.gz") :
-      filesha256("${path.module}/${file}")
-    ])
   }
 }

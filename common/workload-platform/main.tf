@@ -14,6 +14,7 @@ module "istio" {
   source = "../../common/istio"
 
   chart_path    = module.istio_charts.chart_path
+  istio_version = var.istio_version
   k8s_namespace = kubernetes_namespace.istio.metadata[0].name
 
   depends_on = [module.istio_charts]
@@ -60,6 +61,7 @@ module "istio_ingress" {
 
   chart_values  = var.istio_ingress_values
   chart_path    = module.istio_charts.chart_path
+  istio_version = var.istio_version
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
 
   depends_on = [module.istio_charts]

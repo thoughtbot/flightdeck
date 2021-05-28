@@ -3,6 +3,7 @@ resource "helm_release" "base" {
   name      = "istio-base"
   namespace = var.k8s_namespace
   values    = var.base_chart_values
+  version   = var.istio_version
 }
 
 resource "helm_release" "discovery" {
@@ -10,6 +11,7 @@ resource "helm_release" "discovery" {
   name      = "istio-discovery"
   namespace = var.k8s_namespace
   values    = concat(local.discovery_chart_values, var.discovery_chart_values)
+  version   = var.istio_version
 
   depends_on = [helm_release.base]
 }

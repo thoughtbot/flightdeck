@@ -15,6 +15,11 @@ variable "istio_namespace" {
   default     = "istio-system"
 }
 
+variable "istio_version" {
+  type        = string
+  description = "Version of Istio to be installed"
+}
+
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which the gateway should be installed"

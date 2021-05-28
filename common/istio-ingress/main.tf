@@ -3,6 +3,7 @@ resource "helm_release" "istio_ingress" {
   name      = var.name
   namespace = var.k8s_namespace
   values    = concat(local.chart_values, var.chart_values)
+  version   = var.istio_version
 }
 
 locals {
