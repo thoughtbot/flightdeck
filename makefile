@@ -2,6 +2,8 @@
 
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
+export TF_CLI_CONFIG_FILE := $(CURDIR)/.terraformrc
+
 .PHONY: local
 local: tmp/metallb tmp/tfvars.json tmp/ldap
 	$(MAKE) -C local/operations-platform init
@@ -124,7 +126,7 @@ fmt:
 .PHONY: validate
 validate: $(VALIDATEMODULES)
 
-$(VALIDATEMODULES): %/validate:
+$(VALIDATEMODULES): %/validate: .terraformrc
 	$(MAKE) -C "$*" .validate
 
 $(CLEANMODULES): %/clean:
@@ -140,3 +142,7 @@ $(MODULEMAKEFILES): %/makefile: makefiles/terraform.mk
 clean: kind-down $(CLEANMODULES)
 	$(MAKE) -C local/operations-platform clean
 	rm -rf tmp
+
+.terraformrc:
+	mkdir -p .terraform-plugins
+	echo 'plugin_cache_dir = "$(CURDIR)/.terraform-plugins"' > .terraformrc

@@ -1,9 +1,11 @@
 *.tfstate*
 .fmt
 .terraform
+.terraform-plugins
 .terraform.lock.hcl
+.terraformrc
 .validate
-dist
 applied
 dependencies
+dist
 initialized
