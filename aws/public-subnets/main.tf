@@ -12,8 +12,8 @@ resource "aws_subnet" "this" {
     var.tags,
     {
       AvailabilityZone = each.key
-      Name             = join("-", concat(var.namespace, ["public"]))
-      Network          = "public"
+      Name             = join("-", concat(var.namespace, [var.name, "public", each.key]))
+      Network          = join("-", concat(var.namespace, [var.name]))
     }
   )
 }
@@ -23,12 +23,15 @@ resource "aws_route_table" "this" {
 
   tags = merge(
     var.tags,
-    { Name = join("-", concat(var.namespace, ["public"])) }
+    {
+      Name    = join("-", concat(var.namespace, [var.name, "public"]))
+      Network = join("-", concat(var.namespace, [var.name]))
+    }
   )
 }
 
 resource "aws_internet_gateway" "this" {
-  tags   = merge(var.tags, { Name = join("-", var.namespace) })
+  tags   = merge(var.tags, { Name = join("-", concat(var.namespace), [var.name]) })
   vpc_id = var.vpc.id
 }
 

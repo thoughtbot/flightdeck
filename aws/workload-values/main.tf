@@ -1,7 +1,7 @@
 module "dns_service_account_role" {
   source = "../dns-service-account-role"
 
-  aws_namespace    = var.aws_namespace
+  aws_namespace    = [var.cluster_full_name]
   aws_tags         = var.aws_tags
   k8s_namespace    = var.k8s_namespace
   oidc_issuer      = data.aws_ssm_parameter.oidc_issuer.value
@@ -11,7 +11,7 @@ module "dns_service_account_role" {
 module "cluster_autoscaler_service_account_role" {
   source = "../cluster-autoscaler-service-account-role"
 
-  aws_namespace = var.aws_namespace
+  aws_namespace = [var.cluster_full_name]
   aws_tags      = var.aws_tags
   k8s_namespace = var.k8s_namespace
   oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
@@ -24,7 +24,10 @@ data "aws_route53_zone" "managed" {
 }
 
 data "aws_ssm_parameter" "oidc_issuer" {
-  name = join("/", concat([""], var.aws_namespace, ["clusters", var.cluster_name, "oidc_issuer"]))
+  name = join("/", concat(
+    [""],
+    ["clusters", var.cluster_full_name, "oidc_issuer"]
+  ))
 }
 
 data "aws_region" "current" {}

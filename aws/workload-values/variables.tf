@@ -10,9 +10,9 @@ variable "aws_tags" {
   default     = {}
 }
 
-variable "cluster_name" {
+variable "cluster_full_name" {
   type        = string
-  description = "Name of the EKS cluster"
+  description = "Full name of the EKS cluster"
 }
 
 variable "domain_filters" {

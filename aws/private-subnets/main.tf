@@ -12,8 +12,8 @@ resource "aws_subnet" "this" {
     var.tags,
     {
       AvailabilityZone = each.key
-      Name             = join("-", concat(var.namespace, ["private", each.key]))
-      Network          = "private"
+      Name             = join("-", concat(var.namespace, [var.name, "private", each.key]))
+      Network          = join("-", concat(var.namespace, [var.name]))
     }
   )
 }

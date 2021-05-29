@@ -8,7 +8,8 @@ resource "aws_nat_gateway" "this" {
     var.tags,
     {
       AvailabilityZone = each.value
-      Name             = join("-", concat(var.namespace, [each.value]))
+      Name             = join("-", concat(var.namespace, [var.name, each.value]))
+      Network          = join("-", concat(var.namespace, [var.name]))
     }
   )
 }
@@ -22,7 +23,8 @@ resource "aws_eip" "nat" {
     var.tags,
     {
       AvailabilityZone = each.value
-      Name             = join("-", concat(var.namespace, ["nat", each.value]))
+      Name             = join("-", concat(var.namespace, [var.name, each.value]))
+      Network          = join("-", concat(var.namespace, [var.name]))
     }
   )
 }
@@ -35,8 +37,9 @@ resource "aws_route_table" "nat" {
   tags = merge(
     var.tags,
     {
-      AvailabilityZone = each.key
-      Name             = join("-", concat(var.namespace, ["nat", each.key]))
+      AvailabilityZone = each.value
+      Name             = join("-", concat(var.namespace, [var.name, each.value]))
+      Network          = join("-", concat(var.namespace, [var.name]))
     }
   )
 }

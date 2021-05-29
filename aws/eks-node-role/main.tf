@@ -1,6 +1,6 @@
 resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  name               = join("-", concat(var.namespace, ["node-group", var.name]))
+  name               = join("-", concat(var.namespace, [var.name, "nodes"]))
   tags               = var.tags
 }
 

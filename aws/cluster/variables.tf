@@ -4,18 +4,6 @@ variable "enabled_cluster_log_types" {
   description = "Which EKS control plane log types to enable"
 }
 
-variable "enable_flow_logs" {
-  type        = bool
-  default     = false
-  description = "Set to true to enable VPC flow logs"
-}
-
-variable "enable_ipv6" {
-  type        = bool
-  default     = false
-  description = "Set to false to disable IPV6"
-}
-
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version to deploy"
@@ -38,11 +26,6 @@ variable "namespace" {
   default     = []
 }
 
-variable "nat_availability_zones" {
-  type = list(string)
-  description = "Availability zones in which NAT should be provided"
-}
-
 variable "node_groups" {
   description = "Node groups to create in this cluster"
 
@@ -53,41 +36,8 @@ variable "node_groups" {
   }))
 }
 
-variable "private_subnet_cidr_blocks" {
-  type        = map(string)
-  description = "CIDR block for each availability zone"
-}
-
-variable "private_subnet_tags" {
-  type        = map(string)
-  description = "Tags to be applied to private subnets"
-  default     = {}
-}
-
-variable "public_subnet_cidr_blocks" {
-  type        = map(string)
-  description = "CIDR block for each availability zone"
-}
-
-variable "public_subnet_tags" {
-  type        = map(string)
-  description = "Tags to be applied to public subnets"
-  default     = {}
-}
-
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to all created resources"
-  default     = {}
-}
-
-variable "vpc_cidr_block" {
-  type        = string
-  description = "CIDR block to be used for the VPC, such as 10.0.0.0/16"
-}
-
-variable "vpc_tags" {
-  type        = map(string)
-  description = "Tags to be applied to the VPC"
   default     = {}
 }

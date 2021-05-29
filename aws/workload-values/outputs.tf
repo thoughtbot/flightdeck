@@ -24,7 +24,7 @@ output "cluster_autoscaler_values" {
   value = [
     yamlencode({
       autoDiscovery = {
-        clusterName = join("-", concat(var.aws_namespace, [var.cluster_name]))
+        clusterName = var.cluster_full_name
       }
       awsRegion = data.aws_region.current.name
       rbac = {

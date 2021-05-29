@@ -10,6 +10,11 @@ variable "enable_ipv6" {
   description = "Set to false to disable IPV6"
 }
 
+variable "name" {
+  type        = string
+  description = "Name for this network"
+}
+
 variable "namespace" {
   type        = list(string)
   default     = []

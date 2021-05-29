@@ -3,12 +3,14 @@ resource "aws_vpc" "this" {
   cidr_block                       = var.cidr_block
   enable_dns_hostnames             = true
   enable_dns_support               = true
-  tags                             = merge(var.tags, { Name = join("-", var.namespace) })
-}
 
-data "aws_security_group" "default" {
-  name   = "default"
-  vpc_id = aws_vpc.this.id
+  tags = merge(
+    var.tags,
+    {
+      Name    = join("-", concat(var.namespace, [var.name]))
+      Network = join("-", concat(var.namespace, [var.name]))
+    }
+  )
 }
 
 resource "aws_flow_log" "vpc" {
@@ -24,7 +26,7 @@ resource "aws_iam_role" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
 
   assume_role_policy = data.aws_iam_policy_document.flow_logs_assume_role.json
-  name               = join("-", concat(var.namespace, ["vpc-flow-logs"]))
+  name               = join("-", concat(var.namespace, [var.name, "flow-logs"]))
 }
 
 data "aws_iam_policy_document" "flow_logs_assume_role" {
@@ -48,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "flow_logs" {
 resource "aws_iam_policy" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
 
-  name   = join("-", concat(var.namespace, ["vpc-flow-logs"]))
+  name   = join("-", concat(var.namespace, [var.name, "flow-logs"]))
   policy = data.aws_iam_policy_document.flow_logs.json
 }
 
@@ -68,5 +70,5 @@ data "aws_iam_policy_document" "flow_logs" {
 resource "aws_cloudwatch_log_group" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
 
-  name = join("/", concat([""], var.namespace, ["vpc-flow-logs"]))
+  name = join("/", concat([""], var.namespace, [var.name, "flow-logs"]))
 }

@@ -1,6 +1,6 @@
 output "cluster_name" {
-  description = "Name of the created cluster"
-  value       = local.cluster_name
+  description = "Full ame of the created cluster"
+  value       = module.cluster_name.full
 }
 
 output "node_role_arn_parameter" {
@@ -11,9 +11,4 @@ output "node_role_arn_parameter" {
 output "oidc_issuer_parameter" {
   description = "SSM parameter which contains the OIDC issuer URL"
   value       = aws_ssm_parameter.oidc_issuer.name
-}
-
-output "vpc_id_parameter" {
-  description = "SSM parameter which contains the VPC ID"
-  value       = aws_ssm_parameter.vpc_id.name
 }

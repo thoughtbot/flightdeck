@@ -31,20 +31,26 @@ module "common_platform" {
   )
 }
 
+module "cluster_name" {
+  source = "../cluster-name"
+
+  name      = var.cluster_name
+  namespace = var.aws_namespace
+}
+
 module "workload_values" {
   source = "../workload-values"
 
-  aws_namespace  = var.aws_namespace
-  aws_tags       = var.aws_tags
-  cluster_name   = var.cluster_name
-  domain_filters = var.domain_filters
-  k8s_namespace  = var.k8s_namespace
+  aws_tags          = var.aws_tags
+  cluster_full_name = module.cluster_name.full
+  domain_filters    = var.domain_filters
+  k8s_namespace     = var.k8s_namespace
 }
 
 module "argocd_service_account_role" {
   source = "../argocd-service-account-role"
 
-  aws_namespace   = var.aws_namespace
+  aws_namespace   = [module.cluster_name.full]
   aws_tags        = var.aws_tags
   cluster_configs = local.cluster_configs
   k8s_namespace   = var.k8s_namespace

@@ -1,12 +1,11 @@
 variable "availability_zones" {
-  type = list(string)
+  type        = list(string)
   description = "Availability zones in which NAT should be provided"
 }
 
 variable "name" {
   type        = string
-  description = "Name for this NAT gateway group"
-  default     = "nat"
+  description = "Name for this network"
 }
 
 variable "namespace" {

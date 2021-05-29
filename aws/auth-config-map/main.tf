@@ -19,7 +19,7 @@ resource "null_resource" "aws_auth_patch" {
 }
 
 data "aws_eks_cluster" "this" {
-  name = join("-", concat(var.aws_namespace, [var.cluster_name]))
+  name = var.cluster_full_name
 }
 
 data "aws_eks_cluster_auth" "this" {

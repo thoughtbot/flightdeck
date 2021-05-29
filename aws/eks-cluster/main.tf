@@ -4,7 +4,7 @@ locals {
 
 resource "aws_eks_cluster" "this" {
   enabled_cluster_log_types = var.enabled_cluster_log_types
-  name                      = var.name
+  name                      = local.name
   role_arn                  = aws_iam_role.control_plane.arn
   tags                      = var.tags
   version                   = var.k8s_version
@@ -30,7 +30,7 @@ resource "aws_eks_cluster" "this" {
 }
 
 resource "aws_iam_role" "control_plane" {
-  name = join("-", [var.name, "control-plane"])
+  name = join("-", [local.name, "control-plane"])
 
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role.json
 }
@@ -59,13 +59,13 @@ resource "aws_iam_role_policy_attachment" "control_plane" {
 }
 
 resource "aws_cloudwatch_log_group" "eks" {
-  name              = "/aws/eks/${var.name}/cluster"
+  name              = "/aws/eks/${local.name}/cluster"
   retention_in_days = var.log_retention_in_days
 }
 
 resource "aws_security_group" "control_plane" {
   description = "Security group for Kubernetes control plane"
-  name        = join("-", distinct(concat(var.namespace, ["control-plane"])))
+  name        = join("-", [local.name, "control-plane"])
   tags        = var.tags
   vpc_id      = var.vpc.id
 
