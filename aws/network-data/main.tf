@@ -23,3 +23,14 @@ data "aws_subnet" "public" {
 
   id = each.value
 }
+
+locals {
+  private_subnets = zipmap(
+    values(data.aws_subnet.private).*.availability_zone,
+    values(data.aws_subnet.private)
+  )
+  public_subnets = zipmap(
+    values(data.aws_subnet.public).*.availability_zone,
+    values(data.aws_subnet.public)
+  )
+}

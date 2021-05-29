@@ -5,12 +5,12 @@ output "cidr_blocks" {
 
 output "private_subnets" {
   description = "Private subnets for this network"
-  value       = data.aws_subnet.private
+  value       = local.private_subnets
 }
 
 output "public_subnets" {
   description = "Private subnets for this network"
-  value       = data.aws_subnet.public
+  value       = local.public_subnets
 }
 
 output "vpc" {
