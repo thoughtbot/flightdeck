@@ -14,6 +14,7 @@ resource "aws_subnet" "this" {
       AvailabilityZone = each.key
       Name             = join("-", concat(var.namespace, [var.name, "public", each.key]))
       Network          = join("-", concat(var.namespace, [var.name]))
+      Topology         = "public"
     }
   )
 }
@@ -24,8 +25,9 @@ resource "aws_route_table" "this" {
   tags = merge(
     var.tags,
     {
-      Name    = join("-", concat(var.namespace, [var.name, "public"]))
-      Network = join("-", concat(var.namespace, [var.name]))
+      Name     = join("-", concat(var.namespace, [var.name, "public"]))
+      Network  = join("-", concat(var.namespace, [var.name]))
+      Topology = "public"
     }
   )
 }
