@@ -39,7 +39,7 @@ module "node_groups" {
   max_size       = each.value.max_size
   min_size       = each.value.min_size
   name           = each.key
-  namespace      = module.cluster_name.full
+  namespace      = [module.cluster_name.full]
   role           = module.node_role.instance
   subnets        = module.network.private_subnets
   tags           = var.tags
