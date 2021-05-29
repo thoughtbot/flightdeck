@@ -26,7 +26,7 @@ data "aws_route53_zone" "managed" {
 data "aws_ssm_parameter" "oidc_issuer" {
   name = join("/", concat(
     [""],
-    ["clusters", var.cluster_full_name, "oidc_issuer"]
+    ["flightdeck", var.cluster_full_name, "oidc_issuer"]
   ))
 }
 

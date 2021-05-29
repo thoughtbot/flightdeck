@@ -54,13 +54,13 @@ module "aws_k8s_oidc_provider" {
 }
 
 resource "aws_ssm_parameter" "oidc_issuer" {
-  name  = join("/", concat(["", "clusters", module.cluster_name.full, "oidc_issuer"]))
+  name  = join("/", concat(["", "flightdeck", module.cluster_name.full, "oidc_issuer"]))
   type  = "SecureString"
   value = module.aws_k8s_oidc_provider.issuer
 }
 
 resource "aws_ssm_parameter" "node_role_arn" {
-  name  = join("/", concat(["", "clusters", module.cluster_name.full, "node_role_arn"]))
+  name  = join("/", concat(["", "flightdeck", module.cluster_name.full, "node_role_arn"]))
   type  = "SecureString"
   value = module.node_role.arn
 }

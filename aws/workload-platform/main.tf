@@ -72,7 +72,7 @@ resource "aws_s3_bucket_object" "cluster_config" {
 data "aws_ssm_parameter" "node_role_arn" {
   name = join("/", concat(
     [""],
-    ["clusters", module.cluster_name.full, "node_role_arn"]
+    ["flightdeck", module.cluster_name.full, "node_role_arn"]
   ))
 }
 
