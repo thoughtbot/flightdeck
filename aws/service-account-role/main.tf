@@ -6,13 +6,17 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_policy" "this" {
+  count = var.policy_json == null ? 0 : 1
+
   name   = join("-", concat(var.namespace, [var.name]))
   policy = var.policy_json
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
+  for_each = aws_iam_policy.this
+
   role       = aws_iam_role.this.name
-  policy_arn = aws_iam_policy.this.arn
+  policy_arn = each.value.arn
 }
 
 data "aws_iam_policy_document" "assume_role" {

@@ -14,9 +14,16 @@ variable "oidc_issuer" {
   description = "OIDC issuer of the Kubernetes cluster"
 }
 
+variable "policy_arns" {
+  type        = list(string)
+  description = "Existing IAM policies to attach to the created role"
+  default     = []
+}
+
 variable "policy_json" {
   type        = string
-  description = "IAM policy to attach to the created role"
+  description = "IAM policy to create for this role"
+  default     = null
 }
 
 variable "service_accounts" {
