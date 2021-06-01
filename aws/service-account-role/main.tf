@@ -6,7 +6,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-  for_each = var.policy_json == null ? [] : [true]
+  for_each = var.policy_json == null ? [] : ["static"]
 
   name   = join("-", concat(var.namespace, [var.name]))
   policy = var.policy_json
