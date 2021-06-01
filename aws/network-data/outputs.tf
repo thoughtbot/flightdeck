@@ -1,3 +1,8 @@
+output "alarm_actions" {
+  description = "AWS actions invoked on alarms in this network"
+  value       = [data.aws_sns_topic.alarms]
+}
+
 output "cidr_blocks" {
   description = "CIDR blocks allowed in this network"
   value       = [data.aws_vpc.this.cidr_block]

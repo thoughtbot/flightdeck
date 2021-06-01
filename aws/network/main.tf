@@ -51,6 +51,11 @@ module "public_subnets" {
   )
 }
 
+resource "aws_sns_topic" "alarms" {
+  name = join("-", concat(var.namespace, [var.name, "alarms"]))
+  tags = var.tags
+}
+
 locals {
   cluster_tags = zipmap(
     [

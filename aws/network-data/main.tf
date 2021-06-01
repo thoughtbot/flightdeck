@@ -24,6 +24,10 @@ data "aws_subnet" "public" {
   id = each.value
 }
 
+data "aws_sns_topic" "alarms" {
+  name = "${data.aws_vpc.this.tags.Network}-alarms"
+}
+
 locals {
   private_subnets = zipmap(
     values(data.aws_subnet.private).*.availability_zone,
