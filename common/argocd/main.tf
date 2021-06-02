@@ -33,7 +33,7 @@ resource "github_repository_webhook" "this" {
   configuration {
     content_type = "json"
     secret       = random_id.github_secret.hex
-    url          = "https://${var.host}/api/webhook"
+    url          = "https://${var.host}/argocd/api/webhook"
   }
 }
 
