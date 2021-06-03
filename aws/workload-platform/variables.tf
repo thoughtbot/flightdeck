@@ -6,7 +6,7 @@ variable "admin_roles" {
 
 variable "aws_namespace" {
   type        = list(string)
-  default     = ["flightdeck"]
+  default     = []
   description = "Prefix to be applied to created AWS resources"
 }
 
