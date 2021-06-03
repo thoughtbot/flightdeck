@@ -21,6 +21,10 @@ locals {
     yamlencode({
       global = {
         istioNamespace = var.k8s_namespace
+        proxy = {
+          # Ensure istio-proxy starts before other containers
+          holdApplicationUntilProxyStarts = true
+        }
       }
     })
   ]
