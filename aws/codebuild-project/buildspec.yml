@@ -1,0 +1,13 @@
+---
+version: 0.2
+phases:
+  build:
+    commands:
+      - aws s3 cp "s3://${bucket}/build.sh.gz" build.sh.gz
+      - gunzip build.sh.gz
+      - |
+        sh build.sh \
+          "$${CODEBUILD_WEBHOOK_HEAD_REF}" \
+          "$${CODEBUILD_RESOLVED_SOURCE_VERSION}" \
+          "$${CODEBUILD_WEBHOOK_BASE_REF:-main}" \
+          "$${CODEBUILD_SOURCE_VERSION:-HEAD}"
