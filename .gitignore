@@ -1,5 +1,8 @@
 *.tfstate*
 .fmt
+.init
+.lint
+.lintinit
 .terraform
 .terraform-plugins
 .terraform.lock.hcl

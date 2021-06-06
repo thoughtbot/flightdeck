@@ -16,11 +16,14 @@ module "network" {
 module "eks_cluster" {
   source = "../eks-cluster"
 
-  name            = module.cluster_name.full
-  private_subnets = module.network.private_subnets
-  public_subnets  = module.network.public_subnets
-  tags            = var.tags
-  vpc             = module.network.vpc
+  enabled_cluster_log_types = var.enabled_cluster_log_types
+  k8s_version               = var.k8s_version
+  log_retention_in_days     = var.log_retention_in_days
+  name                      = module.cluster_name.full
+  private_subnets           = module.network.private_subnets
+  public_subnets            = module.network.public_subnets
+  tags                      = var.tags
+  vpc                       = module.network.vpc
 }
 
 module "node_role" {

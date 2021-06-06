@@ -1,5 +1,8 @@
 .SECONDEXPANSION:
 
+.PHONY: default
+default: modules local
+
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 
 export TF_CLI_CONFIG_FILE := $(CURDIR)/.terraformrc
@@ -116,27 +119,30 @@ kind-down:
 
 MODULES         := $(wildcard aws/* common/*)
 MODULEMAKEFILES := $(foreach module,$(MODULES),$(module)/makefile)
-VALIDATEMODULES := $(foreach module,$(MODULES),$(module)/validate)
+MAKEMODULES     := $(foreach module,$(MODULES),$(module)/default)
 CLEANMODULES    := $(foreach module,$(MODULES),$(module)/clean)
 
 .PHONY: fmt
 fmt:
 	terraform fmt -recursive
 
-.PHONY: validate
-validate: $(VALIDATEMODULES)
-
-$(VALIDATEMODULES): %/validate: .terraformrc
-	$(MAKE) -C "$*" .validate
-
-$(CLEANMODULES): %/clean:
-	$(MAKE) -C "$*" clean
+.PHONY: modules
+modules: makefiles makemodules
 
 .PHONY: makefiles
 makefiles: $(MODULEMAKEFILES)
 
 $(MODULEMAKEFILES): %/makefile: makefiles/terraform.mk
 	cp "$<" "$@"
+
+.PHONY: makemodules
+makemodules: $(MAKEMODULES)
+
+$(MAKEMODULES): %/default: .terraformrc
+	$(MAKE) -C "$*"
+
+$(CLEANMODULES): %/clean:
+	$(MAKE) -C "$*" clean
 
 .PHONY: clean
 clean: kind-down $(CLEANMODULES)

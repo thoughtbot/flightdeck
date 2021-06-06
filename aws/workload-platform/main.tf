@@ -51,7 +51,6 @@ module "auth_config_map" {
   source = "../auth-config-map"
 
   admin_roles       = concat(local.admin_roles, var.admin_roles)
-  aws_tags          = var.aws_tags
   cluster_full_name = module.cluster_name.full
   custom_roles      = var.custom_roles
   node_roles        = concat(local.node_roles, var.node_roles)

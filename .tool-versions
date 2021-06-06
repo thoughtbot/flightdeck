@@ -2,3 +2,6 @@ argocd 1.8.4
 helm 3.5.2
 kubectl 1.20.2
 kustomize 3.10.0
+terraform 0.15.5
+terraform-docs 0.12.1
+tflint 0.29.0

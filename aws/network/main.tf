@@ -13,10 +13,12 @@ module "nat_gateway" {
 module "vpc" {
   source = "../vpc"
 
-  cidr_block = var.vpc_cidr_block
-  name       = var.name
-  namespace  = var.namespace
-  tags       = merge(var.tags, local.cluster_tags, var.vpc_tags)
+  cidr_block       = var.vpc_cidr_block
+  enable_flow_logs = var.enable_flow_logs
+  enable_ipv6      = var.enable_ipv6
+  name             = var.name
+  namespace        = var.namespace
+  tags             = merge(var.tags, local.cluster_tags, var.vpc_tags)
 }
 
 module "private_subnets" {

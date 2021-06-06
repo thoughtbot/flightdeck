@@ -19,9 +19,3 @@ variable "oidc_issuer" {
   type        = string
   description = "OIDC issuer of the operations Kubernetes cluster"
 }
-
-variable "route53_zone_ids" {
-  type        = list(string)
-  default     = []
-  description = "Zone IDs for Route53 hosted zones managed by this cluster"
-}

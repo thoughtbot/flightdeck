@@ -14,17 +14,17 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
   policy_arn = "${local.policy_prefix}/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.this.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "eks_cni_policy" {
   policy_arn = "${local.policy_prefix}/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.this.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "ec2_container_registry_policy" {
   policy_arn = "${local.policy_prefix}/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.this.name
 }

@@ -1,9 +1,3 @@
-variable "aws_namespace" {
-  type        = list(string)
-  default     = []
-  description = "Prefix to be applied to created AWS resources"
-}
-
 variable "aws_tags" {
   type        = map(string)
   description = "Tags to be applied to created AWS resources"

@@ -4,12 +4,6 @@ variable "admin_roles" {
   description = "Role ARNs which have admin privileges within the cluster"
 }
 
-variable "aws_tags" {
-  type        = map(string)
-  description = "Tags to be applied to created AWS resources"
-  default     = {}
-}
-
 variable "cluster_full_name" {
   type        = string
   description = "Full name of the EKS cluster"
