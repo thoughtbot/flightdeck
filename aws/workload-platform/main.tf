@@ -20,8 +20,6 @@ module "common_platform" {
     module.workload_values.prometheus_operator_values,
     var.prometheus_operator_values
   )
-
-  depends_on = [module.auth_config_map]
 }
 
 module "cluster_name" {
@@ -34,10 +32,13 @@ module "cluster_name" {
 module "workload_values" {
   source = "../workload-values"
 
+  admin_roles       = concat(local.admin_roles, var.admin_roles)
   aws_tags          = var.aws_tags
   cluster_full_name = module.cluster_name.full
+  custom_roles      = var.custom_roles
   domain_filters    = var.domain_filters
   k8s_namespace     = var.k8s_namespace
+  node_roles        = var.node_roles
 }
 
 module "argocd_cluster_config" {
@@ -45,15 +46,6 @@ module "argocd_cluster_config" {
 
   argocd_service_account_role_arn = local.operations_config.argocd_service_account_role_arn
   cluster_full_name               = var.cluster_name
-}
-
-module "auth_config_map" {
-  source = "../auth-config-map"
-
-  admin_roles       = concat(local.admin_roles, var.admin_roles)
-  cluster_full_name = module.cluster_name.full
-  custom_roles      = var.custom_roles
-  node_roles        = concat(local.node_roles, var.node_roles)
 }
 
 data "aws_s3_bucket_object" "operations_config" {
@@ -68,16 +60,8 @@ resource "aws_s3_bucket_object" "cluster_config" {
   content      = module.argocd_cluster_config.json
 }
 
-data "aws_ssm_parameter" "node_role_arn" {
-  name = join("/", concat(
-    [""],
-    ["flightdeck", module.cluster_name.full, "node_role_arn"]
-  ))
-}
-
 locals {
   admin_roles = [module.argocd_cluster_config.argocd_role_arn]
-  node_roles  = [data.aws_ssm_parameter.node_role_arn.value]
 
   operations_config = jsondecode(
     data.aws_s3_bucket_object.operations_config.body

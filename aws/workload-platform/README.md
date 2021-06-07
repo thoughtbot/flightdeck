@@ -26,7 +26,6 @@ Cluster Autoscaler, and ExternalDNS.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_argocd_cluster_config"></a> [argocd\_cluster\_config](#module\_argocd\_cluster\_config) | ../argocd-cluster-config |  |
-| <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ../auth-config-map |  |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
 | <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../common/workload-platform |  |
 | <a name="module_workload_values"></a> [workload\_values](#module\_workload\_values) | ../workload-values |  |
@@ -37,7 +36,6 @@ Cluster Autoscaler, and ExternalDNS.
 |------|------|
 | [aws_s3_bucket_object.cluster_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_object) | resource |
 | [aws_s3_bucket_object.operations_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket_object) | data source |
-| [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 
 ## Inputs
 

@@ -1,3 +1,9 @@
+variable "admin_roles" {
+  type        = list(string)
+  description = "Additional IAM roles which have admin cluster privileges"
+  default     = []
+}
+
 variable "argocd_github_repositories" {
   type        = list(string)
   description = "GitHub repositories to connect to ArgoCD"
@@ -38,6 +44,12 @@ variable "cluster_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []
+}
+
+variable "custom_roles" {
+  type        = map(string)
+  description = "Additional IAM roles which have custom cluster privileges"
+  default     = {}
 }
 
 variable "certificate_email" {
@@ -94,6 +106,12 @@ variable "kustomize_versions" {
   type        = list(string)
   description = "Versions of Kustomize to install"
   default     = ["3.10.0"]
+}
+
+variable "node_roles" {
+  type        = list(string)
+  description = "Additional node roles which can join the cluster"
+  default     = []
 }
 
 variable "prometheus_operator_values" {

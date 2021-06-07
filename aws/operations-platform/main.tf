@@ -10,6 +10,7 @@ module "common_platform" {
   dex_values                 = var.dex_values
   host                       = var.host
   kustomize_versions         = var.kustomize_versions
+
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
     var.cert_manager_values
@@ -41,10 +42,13 @@ module "cluster_name" {
 module "workload_values" {
   source = "../workload-values"
 
+  admin_roles       = var.admin_roles
   aws_tags          = var.aws_tags
   cluster_full_name = module.cluster_name.full
+  custom_roles      = var.custom_roles
   domain_filters    = var.domain_filters
   k8s_namespace     = var.k8s_namespace
+  node_roles        = var.node_roles
 }
 
 module "argocd_service_account_role" {
