@@ -1,6 +1,8 @@
 module "common_platform" {
   source = "../../common/workload-platform"
 
+  prometheus_adapter_values = var.prometheus_adapter_values
+
   cert_manager_values = concat(
     module.workload_values.cert_manager_values,
     var.cert_manager_values

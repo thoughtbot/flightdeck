@@ -65,6 +65,7 @@ CertManager, Cluster Autoscaler, and ExternalDNS.
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | `"flightdeck"` | no |
 | <a name="input_kustomize_versions"></a> [kustomize\_versions](#input\_kustomize\_versions) | Versions of Kustomize to install | `list(string)` | <pre>[<br>  "3.10.0"<br>]</pre> | no |
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
+| <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_workload_account_ids"></a> [workload\_account\_ids](#input\_workload\_account\_ids) | IDs of AWS accounts in which workloads will run | `list(string)` | `[]` | no |
 | <a name="input_workload_cluster_names"></a> [workload\_cluster\_names](#input\_workload\_cluster\_names) | Names of workload clusters to which ArgoCD will deploy | `list(string)` | `[]` | no |

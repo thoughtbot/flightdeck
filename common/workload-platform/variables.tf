@@ -58,6 +58,18 @@ variable "istio_version" {
   default     = "1.10.0"
 }
 
+variable "prometheus_adapter_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "prometheus_adapter_version" {
+  type        = string
+  description = "Version of external-dns to install"
+  default     = "2.14.1"
+}
+
 variable "prometheus_operator_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

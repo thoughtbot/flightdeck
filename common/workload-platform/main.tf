@@ -76,3 +76,13 @@ module "prometheus_operator" {
 
   depends_on = [module.cert_manager]
 }
+
+module "prometheus_adapter" {
+  source = "../../common/prometheus-adapter"
+
+  chart_values  = var.prometheus_adapter_values
+  chart_version = var.prometheus_adapter_version
+  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+
+  depends_on = [module.prometheus_operator]
+}

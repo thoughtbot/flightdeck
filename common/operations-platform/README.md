@@ -55,6 +55,8 @@ No resources.
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | Kubernetes namespace in which istio should be installed | `string` | `"istio-system"` | no |
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to install | `string` | `"1.10.0"` | no |
 | <a name="input_kustomize_versions"></a> [kustomize\_versions](#input\_kustomize\_versions) | Versions of Kustomize to install | `list(string)` | <pre>[<br>  "3.10.0"<br>]</pre> | no |
+| <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_prometheus_adapter_version"></a> [prometheus\_adapter\_version](#input\_prometheus\_adapter\_version) | Version of external-dns to install | `string` | `"2.14.1"` | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_operator_version"></a> [prometheus\_operator\_version](#input\_prometheus\_operator\_version) | Version of external-dns to install | `string` | `"16.0.1"` | no |
 | <a name="input_ui_values"></a> [ui\_values](#input\_ui\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |

@@ -68,6 +68,12 @@ variable "node_roles" {
   default     = []
 }
 
+variable "prometheus_adapter_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "prometheus_operator_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
