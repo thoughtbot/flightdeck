@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "config_bucket" {
   statement {
     sid = "WorkloadsList"
     actions = [
-      "s3:ListObjects"
+      "s3:ListBucket"
     ]
     resources = [
       "arn:aws:s3:::${var.config_bucket}"
@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "config_bucket" {
   statement {
     sid = "WorkloadsWrite"
     actions = [
-      "s3:GetObject"
+      "s3:PutObject"
     ]
     resources = [
       "arn:aws:s3:::${var.config_bucket}/workload-clusters/*"
