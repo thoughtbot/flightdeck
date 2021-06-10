@@ -86,39 +86,46 @@ data "aws_iam_policy_document" "config_bucket" {
     }
   }
 
-  dynamic "statement" {
-    for_each = var.workload_account_ids
-
-    content {
-      sid = "Workloads${statement.value}"
-      actions = [
-        "s3:PutObject",
-        "s3:GetObject"
-      ]
-      resources = [
-        "arn:aws:s3:::${var.config_bucket}/workload-clusters/*"
-      ]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${statement.value}:root"]
-      }
+  statement {
+    sid = "WorkloadsList"
+    actions = [
+      "s3:ListObjects"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.config_bucket}"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = local.workload_roots
     }
   }
 
-  dynamic "statement" {
-    for_each = var.workload_account_ids
-    content {
-      sid = "Read${statement.value}"
-      actions = [
-        "s3:GetObject"
-      ]
-      resources = [
-        "arn:aws:s3:::${var.config_bucket}/operations.json"
-      ]
-      principals {
-        type        = "AWS"
-        identifiers = ["arn:aws:iam::${statement.value}:root"]
-      }
+  statement {
+    sid = "WorkloadsRead"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.config_bucket}/operations.json",
+      "arn:aws:s3:::${var.config_bucket}/workload-clusters/*"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = local.workload_roots
+    }
+  }
+
+  statement {
+    sid = "WorkloadsWrite"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.config_bucket}/workload-clusters/*"
+    ]
+    principals {
+      type        = "AWS"
+      identifiers = local.workload_roots
     }
   }
 }
@@ -185,6 +192,11 @@ locals {
   cluster_configs = [
     for s3_object in data.aws_s3_bucket_object.cluster_config :
     jsondecode(s3_object.body)
+  ]
+
+  workload_roots = [
+    for account_id in var.workload_account_ids :
+    "arn:aws:iam::${account_id}:root"
   ]
 }
 
