@@ -104,6 +104,23 @@ data "aws_iam_policy_document" "config_bucket" {
       }
     }
   }
+
+  dynamic "statement" {
+    for_each = var.workload_account_ids
+    content {
+      sid = "Read${statement.value}"
+      actions = [
+        "s3:GetObject"
+      ]
+      resources = [
+        "arn:aws:s3:::${var.config_bucket}/operations.json"
+      ]
+      principals {
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${statement.value}:root"]
+      }
+    }
+  }
 }
 
 data "aws_caller_identity" "current" {}
