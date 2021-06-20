@@ -1,27 +1,3 @@
-variable "argocd_github_repositories" {
-  type        = list(string)
-  description = "GitHub repositories to connect to ArgoCD"
-  default     = []
-}
-
-variable "argocd_policy" {
-  type        = string
-  description = "Policy grants for ArgoCD RBAC"
-  default     = ""
-}
-
-variable "argocd_values" {
-  description = "Overrides to pass to the Helm chart"
-  type        = list(string)
-  default     = []
-}
-
-variable "argocd_version" {
-  type        = string
-  description = "Chart version to install"
-  default     = "3.2.2"
-}
-
 variable "cert_manager_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
@@ -131,12 +107,6 @@ variable "prometheus_operator_version" {
   type        = string
   description = "Version of external-dns to install"
   default     = "16.0.1"
-}
-
-variable "kustomize_versions" {
-  type        = list(string)
-  description = "Versions of Kustomize to install"
-  default     = ["3.10.0"]
 }
 
 variable "ui_values" {

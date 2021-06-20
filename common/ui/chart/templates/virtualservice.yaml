@@ -15,9 +15,3 @@ spec:
     route:
     - destination:
         host: dex
-  - match:
-    - uri:
-        prefix: /argocd
-    route:
-    - destination:
-        host: argocd-server

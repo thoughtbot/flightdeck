@@ -33,11 +33,6 @@ variable "cluster_name" {
   description = "Name of the EKS cluster"
 }
 
-variable "config_bucket" {
-  description = "Name of the S3 bucket for storing Flightdeck configuration"
-  type        = string
-}
-
 variable "custom_roles" {
   type        = map(string)
   description = "Additional IAM roles which have custom cluster privileges"

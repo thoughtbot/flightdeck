@@ -1,5 +1,0 @@
-p, role:developer, applications, get, */*, allow
-p, role:developer, applications, sync, */*, allow
-p, role:developer, clusters, get, *, allow
-p, role:developer, repositories, get, *, allow
-p, role:developer, projects, get, *, allow

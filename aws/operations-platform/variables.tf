@@ -4,24 +4,6 @@ variable "admin_roles" {
   default     = []
 }
 
-variable "argocd_github_repositories" {
-  type        = list(string)
-  description = "GitHub repositories to connect to ArgoCD"
-  default     = []
-}
-
-variable "argocd_policy" {
-  type        = string
-  description = "Policy grants for ArgoCD RBAC"
-  default     = ""
-}
-
-variable "argocd_values" {
-  description = "Overrides to pass to the Helm chart"
-  type        = list(string)
-  default     = []
-}
-
 variable "aws_namespace" {
   type        = list(string)
   default     = []
@@ -55,11 +37,6 @@ variable "custom_roles" {
 variable "certificate_email" {
   type        = string
   description = "Email to be notified of certificate expiration and renewal"
-}
-
-variable "config_bucket" {
-  description = "Name of the S3 bucket for storing Flightdeck configuration"
-  type        = string
 }
 
 variable "cluster_name" {
@@ -102,12 +79,6 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
-variable "kustomize_versions" {
-  type        = list(string)
-  description = "Versions of Kustomize to install"
-  default     = ["3.10.0"]
-}
-
 variable "node_roles" {
   type        = list(string)
   description = "Additional node roles which can join the cluster"
@@ -124,16 +95,4 @@ variable "prometheus_operator_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []
-}
-
-variable "workload_account_ids" {
-  type        = list(string)
-  default     = []
-  description = "IDs of AWS accounts in which workloads will run"
-}
-
-variable "workload_cluster_names" {
-  type        = list(string)
-  default     = []
-  description = "Names of workload clusters to which ArgoCD will deploy"
 }
