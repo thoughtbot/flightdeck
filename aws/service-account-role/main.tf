@@ -1,5 +1,5 @@
 resource "aws_iam_role" "this" {
-  name                  = join("-", concat(var.namespace, [var.name]))
+  name                  = local.name
   assume_role_policy    = data.aws_iam_policy_document.assume_role.json
   force_detach_policies = true
   tags                  = var.tags
@@ -8,7 +8,7 @@ resource "aws_iam_role" "this" {
 resource "aws_iam_policy" "this" {
   for_each = toset(var.policy_json == null ? [] : ["static"])
 
-  name   = join("-", concat(var.namespace, [var.name]))
+  name   = local.name
   policy = var.policy_json
 }
 
@@ -60,3 +60,10 @@ data "aws_iam_policy_document" "assume_role" {
 
 data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
+
+locals {
+  name = join(
+    "-",
+    distinct(split("-", join("-", concat(var.namespace, [var.name]))))
+  )
+}

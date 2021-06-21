@@ -9,7 +9,7 @@ resource "kubernetes_service_account" "this" {
 }
 
 module "role" {
-  source = "git@github.com:thoughtbot/flightdeck.git//aws/service-account-role?ref=f97a961"
+  source = "../service-account-role"
 
   name             = var.name
   namespace        = ["serviceaccount", var.cluster_name, var.namespace]
