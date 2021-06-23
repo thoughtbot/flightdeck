@@ -7,10 +7,10 @@ resource "kubernetes_secret" "this" {
   data = jsondecode(data.aws_ssm_parameter.secret.value)
 }
 
-resource "aws_iam_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "this" {
   for_each = local.attachments
 
-  name       = each.value.name
+  role       = each.value.name
   policy_arn = each.value.policy_arn
 }
 
