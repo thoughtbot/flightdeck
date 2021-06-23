@@ -18,7 +18,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_role"></a> [role](#module\_role) | git@github.com:thoughtbot/flightdeck.git//aws/service-account-role?ref=f97a961 |  |
+| <a name="module_role"></a> [role](#module\_role) | ../service-account-role |  |
 
 ## Resources
 

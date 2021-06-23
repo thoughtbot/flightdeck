@@ -1,8 +1,3 @@
-variable "kind" {
-  type        = string
-  description = "Kind of this addon"
-}
-
 variable "name" {
   type        = string
   description = "Name of this addon"

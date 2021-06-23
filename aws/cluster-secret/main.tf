@@ -1,6 +1,6 @@
 resource "kubernetes_secret" "this" {
   metadata {
-    name      = join("-", [var.kind, var.name])
+    name      = var.name
     namespace = var.namespace
   }
 
@@ -15,11 +15,11 @@ resource "aws_iam_policy_attachment" "this" {
 }
 
 data "aws_ssm_parameter" "secret" {
-  name = join("/", ["", "flightdeck", var.kind, var.name, "secret"])
+  name = join("/", ["", "flightdeck", var.name, "secret"])
 }
 
 data "aws_ssm_parameter" "policies" {
-  name = join("/", ["", "flightdeck", var.kind, var.name, "policies"])
+  name = join("/", ["", "flightdeck", var.name, "policies"])
 }
 
 locals {

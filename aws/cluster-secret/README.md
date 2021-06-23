@@ -31,7 +31,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_kind"></a> [kind](#input\_kind) | Kind of addon to authorize | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the addon to authorize | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace in which the secret should be written | `string` | n/a | yes |
 | <a name="input_roles"></a> [roles](#input\_roles) | IAM roles capable of using this addon | `list(object({ name = string }))` | n/a | yes |

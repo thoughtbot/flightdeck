@@ -1,8 +1,3 @@
-variable "kind" {
-  description = "Kind of addon to authorize"
-  type        = string
-}
-
 variable "name" {
   description = "Name of the addon to authorize"
   type        = string
