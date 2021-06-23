@@ -23,7 +23,7 @@ data "aws_ssm_parameter" "policies" {
 }
 
 locals {
-  policy_arns = jsondecode(data.aws_ssm_parameter.policies.value)
+  policy_arns = jsondecode(nonsensitive(data.aws_ssm_parameter.policies.value))
 
   attachment_values = flatten(
     [
