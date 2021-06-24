@@ -16,6 +16,11 @@ variable "aws_tags" {
   default     = {}
 }
 
+variable "certificate_email" {
+  type        = string
+  description = "Email to be notified of certificate expiration and renewal"
+}
+
 variable "cert_manager_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
@@ -39,15 +44,21 @@ variable "custom_roles" {
   default     = {}
 }
 
-variable "domain_filters" {
+variable "domain_names" {
   type        = list(string)
   default     = []
-  description = "Domains on which External DNS should update entries"
+  description = "Domains which are allowed in this cluster"
 }
 
 variable "external_dns_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
+  default     = []
+}
+
+variable "hosted_zones" {
+  type        = list(string)
+  description = "Domain names for hosted zones allowed in this cluster"
   default     = []
 }
 

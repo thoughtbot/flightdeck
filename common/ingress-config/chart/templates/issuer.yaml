@@ -9,7 +9,7 @@ spec:
     email: {{ .Values.certificate.issuer.acme.email }}
     server: {{ .Values.certificate.issuer.acme.server }}
     privateKeySecretRef:
-      name: flightdeck-letsencrypt-private-key
+      name: flightdeck-issuer-private-key
     solvers:
       {{ toYaml .Values.certificate.issuer.acme.solvers | indent 6 | trim }}
 {{- end -}}

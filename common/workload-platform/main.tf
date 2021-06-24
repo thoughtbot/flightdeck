@@ -20,6 +20,15 @@ module "istio" {
   depends_on = [module.istio_charts]
 }
 
+module "ingress_config" {
+  source = "../../common/ingress-config"
+
+  certificate_email   = var.certificate_email
+  certificate_solvers = var.certificate_solvers
+  domain_names        = var.domain_names
+  k8s_namespace       = var.flightdeck_namespace
+}
+
 resource "kubernetes_namespace" "flightdeck" {
   metadata {
     name = var.flightdeck_namespace

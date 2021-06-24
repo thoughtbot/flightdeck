@@ -1,6 +1,9 @@
 module "common_platform" {
   source = "../../common/workload-platform"
 
+  certificate_email         = var.certificate_email
+  certificate_solvers       = module.workload_values.certificate_solvers
+  domain_names              = var.domain_names
   prometheus_adapter_values = var.prometheus_adapter_values
 
   cert_manager_values = concat(
@@ -38,7 +41,7 @@ module "workload_values" {
   aws_tags          = var.aws_tags
   cluster_full_name = module.cluster_name.full
   custom_roles      = var.custom_roles
-  domain_filters    = var.domain_filters
+  hosted_zones      = var.hosted_zones
   k8s_namespace     = var.k8s_namespace
   node_roles        = var.node_roles
 }

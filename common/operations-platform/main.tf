@@ -3,8 +3,11 @@ module "workload_platform" {
 
   cert_manager_values         = var.cert_manager_values
   cert_manager_version        = var.cert_manager_version
+  certificate_email           = var.certificate_email
+  certificate_solvers         = var.certificate_solvers
   cluster_autoscaler_values   = var.cluster_autoscaler_values
   cluster_autoscaler_version  = var.cluster_autoscaler_version
+  domain_names                = concat(var.domain_names, [var.host])
   external_dns_values         = var.external_dns_values
   external_dns_version        = var.external_dns_version
   flightdeck_namespace        = var.flightdeck_namespace
@@ -50,14 +53,6 @@ locals {
 
   ui_values = [
     yamlencode({
-      certificate = {
-        issuer = {
-          acme = {
-            email   = var.certificate_email
-            solvers = yamldecode(var.certificate_solvers)
-          }
-        }
-      }
       ingress = {
         host = var.host
       }

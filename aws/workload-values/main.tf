@@ -27,7 +27,7 @@ module "cluster_autoscaler_service_account_role" {
 }
 
 data "aws_route53_zone" "managed" {
-  for_each = toset(var.domain_filters)
+  for_each = toset(var.hosted_zones)
 
   name = each.value
 }
@@ -49,5 +49,19 @@ data "aws_ssm_parameter" "node_role_arn" {
 }
 
 locals {
+  certificate_solvers = yamlencode([
+    for hosted_zone in var.hosted_zones :
+    {
+      dns01 = {
+        route53 = {
+          region = data.aws_region.current.name
+        }
+      }
+      selector = {
+        dnsZones = [hosted_zone]
+      }
+    }
+  ])
+
   node_roles = [data.aws_ssm_parameter.node_role_arn.value]
 }

@@ -10,6 +10,16 @@ variable "cert_manager_version" {
   default     = "v1.3.1"
 }
 
+variable "certificate_email" {
+  type        = string
+  description = "Email to be notified of certificate expiration and renewal"
+}
+
+variable "certificate_solvers" {
+  type        = string
+  description = "YAML spec for solving ACME challenges"
+}
+
 variable "cluster_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
@@ -22,16 +32,6 @@ variable "cluster_autoscaler_version" {
   default     = "9.7.0"
 }
 
-variable "certificate_email" {
-  type        = string
-  description = "Email to be notified of certificate expiration and renewal"
-}
-
-variable "certificate_solvers" {
-  type        = string
-  description = "YAML spec for solving ACME challenges"
-}
-
 variable "dex_extra_secrets" {
   type        = map(string)
   default     = {}
@@ -42,6 +42,12 @@ variable "dex_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []
+}
+
+variable "domain_names" {
+  type        = list(string)
+  default     = []
+  description = "Domains which are allowed in this cluster"
 }
 
 variable "external_dns_values" {

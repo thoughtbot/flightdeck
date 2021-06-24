@@ -7,7 +7,7 @@ spec:
   hosts:
   - {{ .Values.ingress.host }}
   gateways:
-  - flightdeck-ui
+    {{ toYaml .Values.ingress.gateways | indent 6 | trim }}
   http:
   - match:
     - uri:

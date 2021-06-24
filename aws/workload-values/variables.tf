@@ -20,10 +20,10 @@ variable "custom_roles" {
   default     = {}
 }
 
-variable "domain_filters" {
+variable "hosted_zones" {
   type        = list(string)
+  description = "Domain names for hosted zones allowed in this cluster"
   default     = []
-  description = "Domains on which External DNS should update entries"
 }
 
 variable "k8s_namespace" {

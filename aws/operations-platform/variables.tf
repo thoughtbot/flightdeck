@@ -44,10 +44,10 @@ variable "cluster_name" {
   description = "Name of the EKS cluster"
 }
 
-variable "domain_filters" {
+variable "domain_names" {
   type        = list(string)
   default     = []
-  description = "Domains on which External DNS should update entries"
+  description = "Domains which are allowed in this cluster"
 }
 
 variable "dex_extra_secrets" {
@@ -71,6 +71,12 @@ variable "external_dns_values" {
 variable "host" {
   type        = string
   description = "Base hostname for flightdeck UI"
+}
+
+variable "hosted_zones" {
+  type        = list(string)
+  description = "Domain names for hosted zones allowed in this cluster"
+  default     = []
 }
 
 variable "k8s_namespace" {

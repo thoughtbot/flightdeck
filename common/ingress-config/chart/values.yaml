@@ -1,0 +1,27 @@
+nameOverride: ""
+fullnameOverride: ""
+
+destination:
+  server: https://kubernetes.default.svc
+
+certificate:
+  create: true
+  domains: []
+  issuer:
+    create: true
+    name: flightdeck
+    kind: Issuer
+    acme:
+      email: ""
+      server: https://acme-v02.api.letsencrypt.org/directory
+      solvers: []
+
+gateway:
+  domains: []
+  requireTLS: true
+  selector:
+    istio: flightdeck
+
+ingress:
+  host: ""
+  requireTLS: true

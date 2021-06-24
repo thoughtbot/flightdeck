@@ -28,6 +28,7 @@ Installs the components necessary for running workloads:
 | <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | ../../common/cert-manager |  |
 | <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ../../common/cluster-autoscaler |  |
 | <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ../../common/external-dns |  |
+| <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ../../common/ingress-config |  |
 | <a name="module_istio"></a> [istio](#module\_istio) | ../../common/istio |  |
 | <a name="module_istio_charts"></a> [istio\_charts](#module\_istio\_charts) | ../../common/istio-charts |  |
 | <a name="module_istio_ingress"></a> [istio\_ingress](#module\_istio\_ingress) | ../../common/istio-ingress |  |
@@ -47,8 +48,11 @@ Installs the components necessary for running workloads:
 |------|-------------|------|---------|:--------:|
 | <a name="input_cert_manager_values"></a> [cert\_manager\_values](#input\_cert\_manager\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_cert_manager_version"></a> [cert\_manager\_version](#input\_cert\_manager\_version) | Version of cert-manager to install | `string` | `"v1.3.1"` | no |
+| <a name="input_certificate_email"></a> [certificate\_email](#input\_certificate\_email) | Email to be notified of certificate expiration and renewal | `string` | n/a | yes |
+| <a name="input_certificate_solvers"></a> [certificate\_solvers](#input\_certificate\_solvers) | YAML spec for solving ACME challenges | `string` | n/a | yes |
 | <a name="input_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#input\_cluster\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_cluster_autoscaler_version"></a> [cluster\_autoscaler\_version](#input\_cluster\_autoscaler\_version) | Version of cluster-autoscaler to install | `string` | `"9.7.0"` | no |
+| <a name="input_domain_names"></a> [domain\_names](#input\_domain\_names) | Domains which are allowed in this cluster | `list(string)` | `[]` | no |
 | <a name="input_external_dns_values"></a> [external\_dns\_values](#input\_external\_dns\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_external_dns_version"></a> [external\_dns\_version](#input\_external\_dns\_version) | Version of external-dns to install | `string` | `"5.0.0"` | no |
 | <a name="input_flightdeck_namespace"></a> [flightdeck\_namespace](#input\_flightdeck\_namespace) | Kubernetes namespace in which flightdeck should be installed | `string` | `"flightdeck"` | no |

@@ -2,9 +2,10 @@ module "common_platform" {
   source = "../../common/operations-platform"
 
   certificate_email         = var.certificate_email
-  certificate_solvers       = local.certificate_solvers
+  certificate_solvers       = module.workload_values.certificate_solvers
   dex_extra_secrets         = var.dex_extra_secrets
   dex_values                = var.dex_values
+  domain_names              = var.domain_names
   host                      = var.host
   prometheus_adapter_values = var.prometheus_adapter_values
 
@@ -43,24 +44,7 @@ module "workload_values" {
   aws_tags          = var.aws_tags
   cluster_full_name = module.cluster_name.full
   custom_roles      = var.custom_roles
-  domain_filters    = var.domain_filters
+  hosted_zones      = var.hosted_zones
   k8s_namespace     = var.k8s_namespace
   node_roles        = var.node_roles
 }
-
-locals {
-  certificate_solvers = yamlencode([
-    {
-      dns01 = {
-        route53 = {
-          region = data.aws_region.current.name
-        }
-      }
-      selector = {
-        dnsZones = var.domain_filters
-      }
-    }
-  ])
-}
-
-data "aws_region" "current" {}

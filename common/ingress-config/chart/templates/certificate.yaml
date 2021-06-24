@@ -1,7 +1,8 @@
+{{- if .Values.certificate.create -}}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: flightdeck-ui
+  name: flightdeck
   namespace: {{ .Release.Namespace }}
 spec:
   secretName: flightdeck-tls
@@ -19,7 +20,8 @@ spec:
     - server auth
     - client auth
   dnsNames:
-  - {{ .Values.ingress.host }}
+    {{ toYaml .Values.certificate.domains | indent 4 | trim }}
   issuerRef:
     name: {{ .Values.certificate.issuer.name }}
     kind: {{ .Values.certificate.issuer.kind }}
+{{- end -}}
