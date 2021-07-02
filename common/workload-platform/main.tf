@@ -27,6 +27,8 @@ module "ingress_config" {
   certificate_solvers = var.certificate_solvers
   domain_names        = var.domain_names
   k8s_namespace       = var.flightdeck_namespace
+
+  depends_on = [module.cert_manager, module.istio]
 }
 
 resource "kubernetes_namespace" "flightdeck" {
