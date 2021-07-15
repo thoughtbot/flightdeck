@@ -5,20 +5,6 @@ resource "aws_iam_role" "this" {
   tags                  = var.tags
 }
 
-resource "aws_iam_policy" "this" {
-  for_each = toset(var.policy_json == null ? [] : ["static"])
-
-  name   = local.name
-  policy = var.policy_json
-}
-
-resource "aws_iam_role_policy_attachment" "this" {
-  for_each = aws_iam_policy.this
-
-  role       = aws_iam_role.this.name
-  policy_arn = each.value.arn
-}
-
 data "aws_iam_policy_document" "assume_role" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]

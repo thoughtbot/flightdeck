@@ -14,12 +14,6 @@ variable "oidc_issuer" {
   description = "OIDC issuer of the Kubernetes cluster"
 }
 
-variable "policy_json" {
-  type        = string
-  description = "IAM policy to create for this role"
-  default     = null
-}
-
 variable "service_accounts" {
   type        = list(string)
   description = "Namespace and name of service accounts allowed to use this role"

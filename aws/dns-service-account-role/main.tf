@@ -4,7 +4,6 @@ module "dns_service_account_role" {
   name        = "dns"
   namespace   = var.aws_namespace
   oidc_issuer = var.oidc_issuer
-  policy_json = data.aws_iam_policy_document.dns_service_account_role.json
   tags        = var.aws_tags
 
   service_accounts = [
@@ -13,7 +12,17 @@ module "dns_service_account_role" {
   ]
 }
 
-data "aws_iam_policy_document" "dns_service_account_role" {
+resource "aws_iam_policy" "this" {
+  name   = module.dns_service_account_role.name
+  policy = data.aws_iam_policy_document.this.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  role       = module.dns_service_account_role.name
+  policy_arn = aws_iam_policy.this.arn
+}
+
+data "aws_iam_policy_document" "this" {
   statement {
     actions = [
       "route53:GetChange"
