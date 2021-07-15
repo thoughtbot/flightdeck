@@ -1,4 +1,5 @@
 *.tfstate*
+.dependencies
 .fmt
 .init
 .lint
