@@ -24,6 +24,11 @@ module "common_platform" {
     var.external_dns_values
   )
 
+  fluent_bit_values = concat(
+    module.workload_values.fluent_bit_values,
+    var.fluent_bit_values
+  )
+
   prometheus_operator_values = concat(
     module.workload_values.prometheus_operator_values,
     var.prometheus_operator_values
@@ -40,11 +45,12 @@ module "cluster_name" {
 module "workload_values" {
   source = "../workload-values"
 
-  admin_roles       = var.admin_roles
-  aws_tags          = var.aws_tags
-  cluster_full_name = module.cluster_name.full
-  custom_roles      = var.custom_roles
-  hosted_zones      = var.hosted_zones
-  k8s_namespace     = var.k8s_namespace
-  node_roles        = var.node_roles
+  admin_roles            = var.admin_roles
+  aws_tags               = var.aws_tags
+  cluster_full_name      = module.cluster_name.full
+  custom_roles           = var.custom_roles
+  hosted_zones           = var.hosted_zones
+  k8s_namespace          = var.k8s_namespace
+  logs_retention_in_days = var.logs_retention_in_days
+  node_roles             = var.node_roles
 }

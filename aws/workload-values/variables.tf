@@ -32,6 +32,12 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
+variable "logs_retention_in_days" {
+  type        = number
+  default     = 30
+  description = "Number of days for which logs should be retained"
+}
+
 variable "node_roles" {
   type        = list(string)
   description = "Additional node roles which can join the cluster"

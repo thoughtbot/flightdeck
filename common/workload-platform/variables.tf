@@ -56,6 +56,18 @@ variable "flightdeck_namespace" {
   description = "Kubernetes namespace in which flightdeck should be installed"
 }
 
+variable "fluent_bit_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "fluent_bit_version" {
+  type        = string
+  description = "Version of Fluent Bit to install"
+  default     = "0.15.1"
+}
+
 variable "istio_ingress_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

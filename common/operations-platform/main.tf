@@ -11,6 +11,8 @@ module "workload_platform" {
   external_dns_values         = var.external_dns_values
   external_dns_version        = var.external_dns_version
   flightdeck_namespace        = var.flightdeck_namespace
+  fluent_bit_values           = var.fluent_bit_values
+  fluent_bit_version          = var.fluent_bit_version
   istio_ingress_values        = var.istio_ingress_values
   istio_namespace             = var.istio_namespace
   istio_version               = var.istio_version

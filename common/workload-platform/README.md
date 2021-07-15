@@ -28,6 +28,7 @@ Installs the components necessary for running workloads:
 | <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | ../../common/cert-manager |  |
 | <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ../../common/cluster-autoscaler |  |
 | <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ../../common/external-dns |  |
+| <a name="module_fluent_bit"></a> [fluent\_bit](#module\_fluent\_bit) | ../../common/fluent-bit |  |
 | <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ../../common/ingress-config |  |
 | <a name="module_istio"></a> [istio](#module\_istio) | ../../common/istio |  |
 | <a name="module_istio_charts"></a> [istio\_charts](#module\_istio\_charts) | ../../common/istio-charts |  |
@@ -56,6 +57,8 @@ Installs the components necessary for running workloads:
 | <a name="input_external_dns_values"></a> [external\_dns\_values](#input\_external\_dns\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_external_dns_version"></a> [external\_dns\_version](#input\_external\_dns\_version) | Version of external-dns to install | `string` | `"5.0.0"` | no |
 | <a name="input_flightdeck_namespace"></a> [flightdeck\_namespace](#input\_flightdeck\_namespace) | Kubernetes namespace in which flightdeck should be installed | `string` | `"flightdeck"` | no |
+| <a name="input_fluent_bit_values"></a> [fluent\_bit\_values](#input\_fluent\_bit\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_fluent_bit_version"></a> [fluent\_bit\_version](#input\_fluent\_bit\_version) | Version of Fluent Bit to install | `string` | `"0.15.1"` | no |
 | <a name="input_istio_ingress_values"></a> [istio\_ingress\_values](#input\_istio\_ingress\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | Kubernetes namespace in which istio should be installed | `string` | `"istio-system"` | no |
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to install | `string` | `"1.10.0"` | no |

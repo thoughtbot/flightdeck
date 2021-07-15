@@ -17,6 +17,17 @@ module "dns_service_account_role" {
   route53_zone_ids = values(data.aws_route53_zone.managed).*.id
 }
 
+module "cloudwatch_logs" {
+  source = "../cloudwatch-logs"
+
+  aws_namespace     = [var.cluster_full_name]
+  cluster_full_name = var.cluster_full_name
+  aws_tags          = var.aws_tags
+  k8s_namespace     = var.k8s_namespace
+  retention_in_days = var.logs_retention_in_days
+  oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
+}
+
 module "cluster_autoscaler_service_account_role" {
   source = "../cluster-autoscaler-service-account-role"
 

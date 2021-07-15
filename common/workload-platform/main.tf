@@ -67,6 +67,16 @@ module "external_dns" {
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
 }
 
+module "fluent_bit" {
+  source = "../../common/fluent-bit"
+
+  chart_values  = var.fluent_bit_values
+  chart_version = var.fluent_bit_version
+  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+
+  depends_on = [module.prometheus_operator]
+}
+
 module "istio_ingress" {
   source = "../../common/istio-ingress"
 

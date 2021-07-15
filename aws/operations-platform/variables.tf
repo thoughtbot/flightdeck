@@ -68,6 +68,12 @@ variable "external_dns_values" {
   default     = []
 }
 
+variable "fluent_bit_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "host" {
   type        = string
   description = "Base hostname for flightdeck UI"
@@ -83,6 +89,12 @@ variable "k8s_namespace" {
   type        = string
   default     = "flightdeck"
   description = "Kubernetes namespace in which resources should be created"
+}
+
+variable "logs_retention_in_days" {
+  type        = number
+  default     = 30
+  description = "Number of days for which logs should be retained"
 }
 
 variable "node_roles" {

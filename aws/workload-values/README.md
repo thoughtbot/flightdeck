@@ -17,6 +17,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ../auth-config-map |  |
+| <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ../cloudwatch-logs |  |
 | <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ../cluster-autoscaler-service-account-role |  |
 | <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../dns-service-account-role |  |
 
@@ -39,6 +40,7 @@
 | <a name="input_custom_roles"></a> [custom\_roles](#input\_custom\_roles) | Additional IAM roles which have custom cluster privileges | `map(string)` | `{}` | no |
 | <a name="input_hosted_zones"></a> [hosted\_zones](#input\_hosted\_zones) | Domain names for hosted zones allowed in this cluster | `list(string)` | `[]` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | `"flightdeck"` | no |
+| <a name="input_logs_retention_in_days"></a> [logs\_retention\_in\_days](#input\_logs\_retention\_in\_days) | Number of days for which logs should be retained | `number` | `30` | no |
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
 
 ## Outputs
@@ -49,6 +51,7 @@
 | <a name="output_certificate_solvers"></a> [certificate\_solvers](#output\_certificate\_solvers) | AWS certificate solvers using Route 53 dns01 challenge |
 | <a name="output_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#output\_cluster\_autoscaler\_values) | AWS-specific values for cluster-autoscaler |
 | <a name="output_external_dns_values"></a> [external\_dns\_values](#output\_external\_dns\_values) | AWS-specific values for external-dns |
+| <a name="output_fluent_bit_values"></a> [fluent\_bit\_values](#output\_fluent\_bit\_values) | AWS-specific values for Fluent Bit |
 | <a name="output_oidc_issuer"></a> [oidc\_issuer](#output\_oidc\_issuer) | OIDC issuer configured for this cluster |
 | <a name="output_prometheus_operator_values"></a> [prometheus\_operator\_values](#output\_prometheus\_operator\_values) | AWS-specific values for Prometheus Operator |
 <!-- END_TF_DOCS -->

@@ -60,6 +60,55 @@ output "external_dns_values" {
   ]
 }
 
+output "fluent_bit_values" {
+  description = "AWS-specific values for Fluent Bit"
+  value = [
+    yamlencode({
+      config = {
+        outputs = <<-EOT
+        [OUTPUT]
+            Name cloudwatch_logs
+            Match *
+            region ${data.aws_region.current.name}
+            log_group_name ${module.cloudwatch_logs.log_group_name}
+            log_stream_prefix $${HOST_NAME}-
+        EOT
+      }
+      env = [
+        {
+          name = "HOST_NAME"
+          valueFrom = {
+            fieldRef = {
+              fieldPath = "spec.nodeName"
+            }
+          }
+        },
+      ]
+      image = {
+        repository = "public.ecr.aws/aws-observability/aws-for-fluent-bit"
+        tag        = "2.12.0"
+      }
+      resources = {
+        limits = {
+          memory = "128Mi"
+        }
+        requests = {
+          cpu    = "100m"
+          memory = "128Mi"
+        }
+      }
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = module.cloudwatch_logs.service_account_role_arn
+        }
+      }
+      serviceMonitor = {
+        enabled = true
+      }
+    })
+  ]
+}
+
 output "oidc_issuer" {
   description = "OIDC issuer configured for this cluster"
   value       = data.aws_ssm_parameter.oidc_issuer.value
