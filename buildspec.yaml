@@ -1,0 +1,23 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  install:
+    commands:
+    - |
+      git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.8.1
+    - . "$HOME/.asdf/asdf.sh"
+    - asdf version
+    - asdf plugin add argocd
+    - asdf plugin add helm
+    - asdf plugin add kubectl
+    - asdf plugin add kustomize
+    - asdf plugin add terraform
+    - asdf plugin add terraform-docs
+    - asdf plugin add tflint
+    - asdf install
+  build:
+    commands:
+    - make modules
