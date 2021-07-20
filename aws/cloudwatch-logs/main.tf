@@ -4,7 +4,6 @@ module "fluent_bit_service_account_role" {
   name             = "fluent-bit"
   namespace        = var.aws_namespace
   oidc_issuer      = var.oidc_issuer
-  policy_json      = data.aws_iam_policy_document.fluent_bit_service_account_role.json
   service_accounts = ["${var.k8s_namespace}:fluent-bit"]
   tags             = var.aws_tags
 }
@@ -15,7 +14,17 @@ resource "aws_cloudwatch_log_group" "this" {
   tags              = var.aws_tags
 }
 
-data "aws_iam_policy_document" "fluent_bit_service_account_role" {
+resource "aws_iam_policy" "this" {
+  name   = module.fluent_bit_service_account_role.name
+  policy = data.aws_iam_policy_document.this.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  role       = module.fluent_bit_service_account_role.name
+  policy_arn = aws_iam_policy.this.arn
+}
+
+data "aws_iam_policy_document" "this" {
   statement {
     sid = "AllowCreateLogEvents"
     actions = [
