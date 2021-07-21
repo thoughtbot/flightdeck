@@ -114,6 +114,16 @@ output "oidc_issuer" {
   value       = data.aws_ssm_parameter.oidc_issuer.value
 }
 
+output "pagerduty_routing_key" {
+  description = "Routing key for delivering alerts to Pagerduty"
+
+  value = (
+    var.pagerduty_parameter == null ?
+    null :
+    join("", data.aws_ssm_parameter.pagerduty_routing_key.*.value)
+  )
+}
+
 output "prometheus_operator_values" {
   description = "AWS-specific values for Prometheus Operator"
   value = [
@@ -134,4 +144,3 @@ output "prometheus_operator_values" {
     })
   ]
 }
-

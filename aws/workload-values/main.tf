@@ -59,6 +59,12 @@ data "aws_ssm_parameter" "node_role_arn" {
   ))
 }
 
+data "aws_ssm_parameter" "pagerduty_routing_key" {
+  count = var.pagerduty_parameter == null ? 0 : 1
+
+  name = var.pagerduty_parameter
+}
+
 locals {
   certificate_solvers = yamlencode([
     for hosted_zone in var.hosted_zones :

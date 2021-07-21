@@ -31,3 +31,9 @@ variable "name" {
   description = "Name for the service account role"
   default     = "kube-prometheus-stack"
 }
+
+variable "pagerduty_routing_key" {
+  type        = string
+  description = "Routing key for delivering Pagerduty alerts"
+  default     = null
+}

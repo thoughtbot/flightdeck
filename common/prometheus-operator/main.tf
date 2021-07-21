@@ -11,11 +11,31 @@ locals {
   chart_values = [
     yamlencode({
       alertmanager = {
-        alertmanagerSpec = {
-          configSecret      = "alertmanager"
-          useExistingSecret = true
+        config = {
+          receivers = concat(
+            [{ name = "null" }],
+            (
+              var.pagerduty_routing_key == null ?
+              [] :
+              [
+                {
+                  name = "pagerduty"
+                  pagerduty_configs = [
+                    {
+                      routing_key = var.pagerduty_routing_key
+                    }
+                  ]
+                }
+              ]
+            )
+          )
+
+          route = {
+            receiver = var.pagerduty_routing_key == null ? "null" : "pagerduty"
+          }
         }
       }
+
       grafana = {
         enabled = false
       }
@@ -39,6 +59,13 @@ locals {
           yamldecode(file("${path.module}/istio-servicemonitor.yaml"))
         ]
         prometheusSpec = {
+          podMonitorSelector                      = {}
+          podMonitorSelectorNilUsesHelmValues     = false
+          ruleSelector                            = {}
+          ruleSelectorNilUsesHelmValues           = false
+          serviceMonitorSelector                  = {}
+          serviceMonitorSelectorNilUsesHelmValues = false
+
           containers = [
             {
               name = "prometheus"
@@ -47,12 +74,15 @@ locals {
               }
             },
           ]
-          podMonitorSelector                      = {}
-          podMonitorSelectorNilUsesHelmValues     = false
-          ruleSelector                            = {}
-          ruleSelectorNilUsesHelmValues           = false
-          serviceMonitorSelector                  = {}
-          serviceMonitorSelectorNilUsesHelmValues = false
+
+          podMetadata = {
+            annotations = {
+              # https://github.com/istio/istio/issues/33188
+              "traffic.sidecar.istio.io/excludeOutboundPorts" = "9093"
+            }
+          }
+
+          retention = "24h"
         }
       }
       prometheusOperator = {

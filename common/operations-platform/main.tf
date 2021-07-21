@@ -16,6 +16,7 @@ module "workload_platform" {
   istio_ingress_values        = var.istio_ingress_values
   istio_namespace             = var.istio_namespace
   istio_version               = var.istio_version
+  pagerduty_routing_key       = var.pagerduty_routing_key
   prometheus_adapter_values   = var.prometheus_adapter_values
   prometheus_adapter_version  = var.prometheus_adapter_version
   prometheus_operator_values  = var.prometheus_operator_values

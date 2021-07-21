@@ -62,6 +62,18 @@ variable "fluent_bit_values" {
   default     = []
 }
 
+variable "istio_discovery_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "istio_ingress_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "hosted_zones" {
   type        = list(string)
   description = "Domain names for hosted zones allowed in this cluster"
@@ -84,6 +96,12 @@ variable "node_roles" {
   type        = list(string)
   description = "Additional node roles which can join the cluster"
   default     = []
+}
+
+variable "pagerduty_parameter" {
+  type        = string
+  description = "SSM parameter containing the Pagerduty routing key"
+  default     = null
 }
 
 variable "prometheus_adapter_values" {

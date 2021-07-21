@@ -68,6 +68,12 @@ variable "fluent_bit_version" {
   default     = "0.15.1"
 }
 
+variable "istio_discovery_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "istio_ingress_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
@@ -84,6 +90,12 @@ variable "istio_version" {
   type        = string
   description = "Version of Istio to install"
   default     = "1.10.0"
+}
+
+variable "pagerduty_routing_key" {
+  type        = string
+  description = "Routing key for delivering Pagerduty alerts"
+  default     = null
 }
 
 variable "prometheus_adapter_values" {

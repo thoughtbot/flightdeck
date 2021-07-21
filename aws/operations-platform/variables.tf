@@ -103,6 +103,12 @@ variable "node_roles" {
   default     = []
 }
 
+variable "pagerduty_parameter" {
+  type        = string
+  description = "SSM parameter containing the Pagerduty routing key"
+  default     = null
+}
+
 variable "prometheus_adapter_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

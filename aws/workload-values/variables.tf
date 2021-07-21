@@ -43,3 +43,9 @@ variable "node_roles" {
   description = "Additional node roles which can join the cluster"
   default     = []
 }
+
+variable "pagerduty_parameter" {
+  type        = string
+  description = "SSM parameter containing the Pagerduty routing key"
+  default     = null
+}

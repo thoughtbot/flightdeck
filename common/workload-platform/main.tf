@@ -7,8 +7,9 @@ resource "kubernetes_namespace" "istio" {
 module "istio" {
   source = "../../common/istio"
 
-  istio_version = var.istio_version
-  k8s_namespace = kubernetes_namespace.istio.metadata[0].name
+  discovery_chart_values = var.istio_discovery_values
+  istio_version          = var.istio_version
+  k8s_namespace          = kubernetes_namespace.istio.metadata[0].name
 }
 
 module "ingress_config" {
@@ -79,9 +80,10 @@ module "istio_ingress" {
 module "prometheus_operator" {
   source = "../../common/prometheus-operator"
 
-  chart_values  = var.prometheus_operator_values
-  chart_version = var.prometheus_operator_version
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  chart_values          = var.prometheus_operator_values
+  chart_version         = var.prometheus_operator_version
+  k8s_namespace         = kubernetes_namespace.flightdeck.metadata[0].name
+  pagerduty_routing_key = var.pagerduty_routing_key
 
   depends_on = [module.cert_manager]
 }

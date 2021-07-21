@@ -103,6 +103,12 @@ variable "istio_version" {
   default     = "1.10.0"
 }
 
+variable "pagerduty_routing_key" {
+  type        = string
+  description = "Routing key for delivering Pagerduty alerts"
+  default     = null
+}
+
 variable "prometheus_adapter_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
