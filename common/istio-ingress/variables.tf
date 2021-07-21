@@ -1,6 +1,13 @@
-variable "chart_path" {
-  description = "Path at which istio charts can be found"
+variable "chart_name" {
   type        = string
+  description = "Helm chart to install"
+  default     = "istio-ingress"
+}
+
+variable "chart_repository" {
+  type        = string
+  description = "Helm repository containing the chart"
+  default     = "https://flightdeck-charts.s3.amazonaws.com/istio"
 }
 
 variable "chart_values" {

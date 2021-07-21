@@ -26,7 +26,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_chart_path"></a> [chart\_path](#input\_chart\_path) | Path at which istio charts can be found | `string` | n/a | yes |
+| <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Helm chart to install | `string` | `"istio-ingress"` | no |
+| <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository containing the chart | `string` | `"https://flightdeck-charts.s3.amazonaws.com/istio"` | no |
 | <a name="input_chart_values"></a> [chart\_values](#input\_chart\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | Kubernetes namespace in which Istio is installed | `string` | `"istio-system"` | no |
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to be installed | `string` | n/a | yes |

@@ -1,17 +1,19 @@
 resource "helm_release" "base" {
-  chart     = "${var.chart_path}/base"
-  name      = "istio-base"
-  namespace = var.k8s_namespace
-  values    = var.base_chart_values
-  version   = var.istio_version
+  chart      = var.base_chart_name
+  name       = "istio-base"
+  namespace  = var.k8s_namespace
+  repository = var.base_chart_repository
+  values     = var.base_chart_values
+  version    = var.istio_version
 }
 
 resource "helm_release" "discovery" {
-  chart     = "${var.chart_path}/istio-control/istio-discovery"
-  name      = "istio-discovery"
-  namespace = var.k8s_namespace
-  values    = concat(local.discovery_chart_values, var.discovery_chart_values)
-  version   = var.istio_version
+  chart      = var.discovery_chart_name
+  name       = "istio-discovery"
+  namespace  = var.k8s_namespace
+  repository = var.discovery_chart_repository
+  values     = concat(local.discovery_chart_values, var.discovery_chart_values)
+  version    = var.istio_version
 
   depends_on = [helm_release.base]
 }

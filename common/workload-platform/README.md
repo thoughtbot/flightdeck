@@ -31,7 +31,6 @@ Installs the components necessary for running workloads:
 | <a name="module_fluent_bit"></a> [fluent\_bit](#module\_fluent\_bit) | ../../common/fluent-bit |  |
 | <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ../../common/ingress-config |  |
 | <a name="module_istio"></a> [istio](#module\_istio) | ../../common/istio |  |
-| <a name="module_istio_charts"></a> [istio\_charts](#module\_istio\_charts) | ../../common/istio-charts |  |
 | <a name="module_istio_ingress"></a> [istio\_ingress](#module\_istio\_ingress) | ../../common/istio-ingress |  |
 | <a name="module_prometheus_adapter"></a> [prometheus\_adapter](#module\_prometheus\_adapter) | ../../common/prometheus-adapter |  |
 | <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ../../common/prometheus-operator |  |

@@ -4,20 +4,11 @@ resource "kubernetes_namespace" "istio" {
   }
 }
 
-module "istio_charts" {
-  source = "../../common/istio-charts"
-
-  istio_version = var.istio_version
-}
-
 module "istio" {
   source = "../../common/istio"
 
-  chart_path    = module.istio_charts.chart_path
   istio_version = var.istio_version
   k8s_namespace = kubernetes_namespace.istio.metadata[0].name
-
-  depends_on = [module.istio_charts]
 }
 
 module "ingress_config" {
@@ -81,11 +72,8 @@ module "istio_ingress" {
   source = "../../common/istio-ingress"
 
   chart_values  = var.istio_ingress_values
-  chart_path    = module.istio_charts.chart_path
   istio_version = var.istio_version
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
-
-  depends_on = [module.istio_charts]
 }
 
 module "prometheus_operator" {
