@@ -8,6 +8,7 @@ module "workload_platform" {
   cluster_autoscaler_values   = var.cluster_autoscaler_values
   cluster_autoscaler_version  = var.cluster_autoscaler_version
   domain_names                = concat(var.domain_names, [var.host])
+  external_dns_enabled        = var.external_dns_enabled
   external_dns_values         = var.external_dns_values
   external_dns_version        = var.external_dns_version
   flightdeck_namespace        = var.flightdeck_namespace

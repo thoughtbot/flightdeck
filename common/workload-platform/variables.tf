@@ -38,6 +38,12 @@ variable "domain_names" {
   description = "Domains which are allowed in this cluster"
 }
 
+variable "external_dns_enabled" {
+  description = "Set to false to disable External DNS"
+  type        = bool
+  default     = true
+}
+
 variable "external_dns_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

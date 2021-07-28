@@ -54,6 +54,8 @@ module "cluster_autoscaler" {
 module "external_dns" {
   source = "../../common/external-dns"
 
+  count = var.external_dns_enabled ? 1 : 0
+
   chart_values  = var.external_dns_values
   chart_version = var.external_dns_version
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name

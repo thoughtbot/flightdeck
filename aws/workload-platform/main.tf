@@ -4,6 +4,7 @@ module "common_platform" {
   certificate_email         = var.certificate_email
   certificate_solvers       = module.workload_values.certificate_solvers
   domain_names              = var.domain_names
+  external_dns_enabled      = var.external_dns_enabled
   istio_discovery_values    = var.istio_discovery_values
   istio_ingress_values      = var.istio_ingress_values
   pagerduty_routing_key     = module.workload_values.pagerduty_routing_key

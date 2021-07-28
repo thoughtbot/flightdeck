@@ -6,6 +6,7 @@ module "common_platform" {
   dex_extra_secrets         = var.dex_extra_secrets
   dex_values                = var.dex_values
   domain_names              = var.domain_names
+  external_dns_enabled      = var.external_dns_enabled
   host                      = var.host
   pagerduty_routing_key     = module.workload_values.pagerduty_routing_key
   prometheus_adapter_values = var.prometheus_adapter_values
