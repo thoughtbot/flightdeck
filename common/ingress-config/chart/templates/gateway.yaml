@@ -12,9 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    {{- range .Values.gateway.domains }}
-    - {{ . }}
-    {{- end }}
+    - "*"
     tls:
       httpsRedirect: {{ .Values.gateway.requireTLS }}
   - port:
@@ -22,9 +20,7 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-    {{- range .Values.gateway.domains }}
-    - {{ . }}
-    {{- end }}
+    - "*"
     tls:
       mode: SIMPLE
       credentialName: flightdeck-tls

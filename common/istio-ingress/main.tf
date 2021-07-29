@@ -13,6 +13,7 @@ locals {
       gateways = {
         istio-ingressgateway = {
           name = "flightdeck-ingressgateway"
+
           labels = {
             istio = "flightdeck"
           }

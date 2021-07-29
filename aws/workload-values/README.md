@@ -54,6 +54,7 @@
 | <a name="output_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#output\_cluster\_autoscaler\_values) | AWS-specific values for cluster-autoscaler |
 | <a name="output_external_dns_values"></a> [external\_dns\_values](#output\_external\_dns\_values) | AWS-specific values for external-dns |
 | <a name="output_fluent_bit_values"></a> [fluent\_bit\_values](#output\_fluent\_bit\_values) | AWS-specific values for Fluent Bit |
+| <a name="output_istio_ingress_values"></a> [istio\_ingress\_values](#output\_istio\_ingress\_values) | AWS-specific values for Istio Ingress Gateway |
 | <a name="output_oidc_issuer"></a> [oidc\_issuer](#output\_oidc\_issuer) | OIDC issuer configured for this cluster |
 | <a name="output_pagerduty_routing_key"></a> [pagerduty\_routing\_key](#output\_pagerduty\_routing\_key) | Routing key for delivering alerts to Pagerduty |
 | <a name="output_prometheus_operator_values"></a> [prometheus\_operator\_values](#output\_prometheus\_operator\_values) | AWS-specific values for Prometheus Operator |

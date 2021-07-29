@@ -109,6 +109,20 @@ output "fluent_bit_values" {
   ]
 }
 
+output "istio_ingress_values" {
+  description = "AWS-specific values for Istio Ingress Gateway"
+
+  value = [
+    yamlencode({
+      gateways = {
+        istio-ingressgateway = {
+          type = "ClusterIP"
+        }
+      }
+    })
+  ]
+}
+
 output "oidc_issuer" {
   description = "OIDC issuer configured for this cluster"
   value       = data.aws_ssm_parameter.oidc_issuer.value

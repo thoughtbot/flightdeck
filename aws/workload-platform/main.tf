@@ -6,7 +6,6 @@ module "common_platform" {
   domain_names              = var.domain_names
   external_dns_enabled      = var.external_dns_enabled
   istio_discovery_values    = var.istio_discovery_values
-  istio_ingress_values      = var.istio_ingress_values
   pagerduty_routing_key     = module.workload_values.pagerduty_routing_key
   prometheus_adapter_values = var.prometheus_adapter_values
 
@@ -30,10 +29,31 @@ module "common_platform" {
     var.fluent_bit_values
   )
 
+  istio_ingress_values = concat(
+    module.workload_values.istio_ingress_values,
+    var.istio_ingress_values
+  )
+
   prometheus_operator_values = concat(
     module.workload_values.prometheus_operator_values,
     var.prometheus_operator_values
   )
+}
+
+module "aws_load_balancer_controller" {
+  source = "../load-balancer-controller"
+
+  aws_namespace     = [module.cluster_name.full]
+  aws_tags          = var.aws_tags
+  chart_values      = var.aws_load_balancer_controller_values
+  chart_version     = var.aws_load_balancer_controller_version
+  cluster_full_name = module.cluster_name.full
+  k8s_namespace     = var.k8s_namespace
+  oidc_issuer       = module.workload_values.oidc_issuer
+  vpc_cidr_block    = module.network.vpc.cidr_block
+  vpc_id            = module.network.vpc.id
+
+  depends_on = [module.common_platform]
 }
 
 module "cluster_name" {
@@ -41,6 +61,14 @@ module "cluster_name" {
 
   name      = var.cluster_name
   namespace = var.aws_namespace
+}
+
+module "network" {
+  source = "../network-data"
+
+  network_tags = module.cluster_name.shared_tags
+  private_tags = module.cluster_name.private_tags
+  public_tags  = module.cluster_name.public_tags
 }
 
 module "workload_values" {

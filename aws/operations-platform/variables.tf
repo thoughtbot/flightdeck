@@ -4,6 +4,18 @@ variable "admin_roles" {
   default     = []
 }
 
+variable "aws_load_balancer_controller_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "aws_load_balancer_controller_version" {
+  type        = string
+  description = "Version of aws-load-balancer-controller to install"
+  default     = "1.2.3"
+}
+
 variable "aws_namespace" {
   type        = list(string)
   default     = []
@@ -88,6 +100,12 @@ variable "host" {
 variable "hosted_zones" {
   type        = list(string)
   description = "Domain names for hosted zones allowed in this cluster"
+  default     = []
+}
+
+variable "istio_ingress_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
   default     = []
 }
 

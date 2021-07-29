@@ -15,9 +15,5 @@ locals {
         acme  = { solvers = yamldecode(var.certificate_solvers) }
       }
     }
-
-    gateway = {
-      domains = var.domain_names
-    }
   })]
 }

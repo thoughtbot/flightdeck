@@ -1,0 +1,14 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  networking:
+    ingress:
+      {{ toYaml .Values.networking.ingress | indent 6 | trim }}
+  serviceRef:
+    name: {{ .Values.serviceRef.name }}
+    port: {{ .Values.serviceRef.port }}
+  targetGroupARN: {{ .Values.targetGroupARN }}
+  targetType: {{ .Values.targetType }}

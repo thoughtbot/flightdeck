@@ -17,7 +17,6 @@ certificate:
       solvers: []
 
 gateway:
-  domains: []
   requireTLS: true
   selector:
     istio: flightdeck
