@@ -12,7 +12,8 @@ locals {
     yamlencode({
       gateways = {
         istio-ingressgateway = {
-          name = "flightdeck-ingressgateway"
+          autoscaleMin = 3
+          name         = "flightdeck-ingressgateway"
 
           labels = {
             istio = "flightdeck"
