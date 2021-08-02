@@ -3,6 +3,11 @@ output "alarm_actions" {
   value       = [data.aws_sns_topic.alarms]
 }
 
+output "cluster_names" {
+  description = "List of clusters which run in this network"
+  value       = local.cluster_names
+}
+
 output "cidr_blocks" {
   description = "CIDR blocks allowed in this network"
   value       = [data.aws_vpc.this.cidr_block]

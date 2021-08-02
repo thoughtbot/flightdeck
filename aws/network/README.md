@@ -65,5 +65,6 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the AWS VPC |
 <!-- END_TF_DOCS -->

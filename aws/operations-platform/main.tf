@@ -53,7 +53,6 @@ module "aws_load_balancer_controller" {
   k8s_namespace     = var.k8s_namespace
   oidc_issuer       = module.workload_values.oidc_issuer
   vpc_cidr_block    = module.network.vpc.cidr_block
-  vpc_id            = module.network.vpc.id
 
   depends_on = [module.common_platform]
 }

@@ -41,6 +41,7 @@ No modules.
 |------|-------------|
 | <a name="output_alarm_actions"></a> [alarm\_actions](#output\_alarm\_actions) | AWS actions invoked on alarms in this network |
 | <a name="output_cidr_blocks"></a> [cidr\_blocks](#output\_cidr\_blocks) | CIDR blocks allowed in this network |
+| <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
 | <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | Private subnets for this network |
 | <a name="output_public_subnets"></a> [public\_subnets](#output\_public\_subnets) | Private subnets for this network |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | AWS VPC for this network |

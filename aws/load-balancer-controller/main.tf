@@ -40,9 +40,13 @@ resource "helm_release" "ingress_config" {
         port = 443
       }
 
-      targetGroupARN = aws_alb_target_group.this.arn
+      targetGroupARN = data.aws_lb_target_group.this.arn
     })
   ]
+}
+
+data "aws_lb_target_group" "this" {
+  name = coalesce(var.target_group_name, var.cluster_full_name)
 }
 
 module "service_account_role" {
@@ -53,21 +57,6 @@ module "service_account_role" {
   oidc_issuer      = var.oidc_issuer
   service_accounts = ["${var.k8s_namespace}:aws-load-balancer-controller"]
   tags             = var.aws_tags
-}
-
-resource "aws_alb_target_group" "this" {
-  name        = var.cluster_full_name
-  port        = 443
-  protocol    = "HTTPS"
-  tags        = var.aws_tags
-  target_type = "ip"
-  vpc_id      = var.vpc_id
-
-  health_check {
-    # This is the health check endpoint for istio-ingressgateway
-    path = "/healthz/ready"
-    port = 15021
-  }
 }
 
 resource "aws_iam_policy" "this" {

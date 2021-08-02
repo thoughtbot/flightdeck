@@ -29,10 +29,17 @@ data "aws_sns_topic" "alarms" {
 }
 
 locals {
+  cluster_names = [
+    for tag in keys(data.aws_vpc.this.tags) :
+    split("/", tag)[2]
+    if length(regexall("^kubernetes\\.io/cluster/", tag)) == 1
+  ]
+
   private_subnets = zipmap(
     values(data.aws_subnet.private).*.availability_zone,
     values(data.aws_subnet.private)
   )
+
   public_subnets = zipmap(
     values(data.aws_subnet.public).*.availability_zone,
     values(data.aws_subnet.public)

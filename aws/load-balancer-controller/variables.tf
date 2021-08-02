@@ -55,12 +55,13 @@ variable "oidc_issuer" {
   description = "OIDC issuer of the Kubernetes cluster"
 }
 
+variable "target_group_name" {
+  description = "Override the name of the target group for this cluster"
+  type        = string
+  default     = null
+}
+
 variable "vpc_cidr_block" {
   type        = string
   description = "CIDR block for the AWS VPC in which the load balancer runs"
-}
-
-variable "vpc_id" {
-  type        = string
-  description = "ID for the AWS VPC in which this cluster runs"
 }
