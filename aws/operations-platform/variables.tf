@@ -34,6 +34,12 @@ variable "cert_manager_values" {
   default     = []
 }
 
+variable "certificate_issuer" {
+  type        = string
+  description = "YAML spec for certificate issuer; defaults to self-signed"
+  default     = null
+}
+
 variable "cluster_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
@@ -44,11 +50,6 @@ variable "custom_roles" {
   type        = map(string)
   description = "Additional IAM roles which have custom cluster privileges"
   default     = {}
-}
-
-variable "certificate_email" {
-  type        = string
-  description = "Email to be notified of certificate expiration and renewal"
 }
 
 variable "cluster_name" {
@@ -99,7 +100,7 @@ variable "host" {
 
 variable "hosted_zones" {
   type        = list(string)
-  description = "Domain names for hosted zones allowed in this cluster"
+  description = "Hosted zones this cluster is allowed to update"
   default     = []
 }
 

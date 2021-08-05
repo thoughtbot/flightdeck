@@ -39,7 +39,7 @@
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
 | <a name="input_cluster_full_name"></a> [cluster\_full\_name](#input\_cluster\_full\_name) | Full name of the EKS cluster | `string` | n/a | yes |
 | <a name="input_custom_roles"></a> [custom\_roles](#input\_custom\_roles) | Additional IAM roles which have custom cluster privileges | `map(string)` | `{}` | no |
-| <a name="input_hosted_zones"></a> [hosted\_zones](#input\_hosted\_zones) | Domain names for hosted zones allowed in this cluster | `list(string)` | `[]` | no |
+| <a name="input_hosted_zones"></a> [hosted\_zones](#input\_hosted\_zones) | Hosted zones this cluster is allowed to update | `list(string)` | `[]` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | `"flightdeck"` | no |
 | <a name="input_logs_retention_in_days"></a> [logs\_retention\_in\_days](#input\_logs\_retention\_in\_days) | Number of days for which logs should be retained | `number` | `30` | no |
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
@@ -50,7 +50,6 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_cert_manager_values"></a> [cert\_manager\_values](#output\_cert\_manager\_values) | AWS-specific values for cert-manager |
-| <a name="output_certificate_solvers"></a> [certificate\_solvers](#output\_certificate\_solvers) | AWS certificate solvers using Route 53 dns01 challenge |
 | <a name="output_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#output\_cluster\_autoscaler\_values) | AWS-specific values for cluster-autoscaler |
 | <a name="output_external_dns_values"></a> [external\_dns\_values](#output\_external\_dns\_values) | AWS-specific values for external-dns |
 | <a name="output_fluent_bit_values"></a> [fluent\_bit\_values](#output\_fluent\_bit\_values) | AWS-specific values for Fluent Bit |

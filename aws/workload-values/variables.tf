@@ -22,7 +22,7 @@ variable "custom_roles" {
 
 variable "hosted_zones" {
   type        = list(string)
-  description = "Domain names for hosted zones allowed in this cluster"
+  description = "Hosted zones this cluster is allowed to update"
   default     = []
 }
 

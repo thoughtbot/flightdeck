@@ -28,15 +28,16 @@ variable "aws_tags" {
   default     = {}
 }
 
-variable "certificate_email" {
-  type        = string
-  description = "Email to be notified of certificate expiration and renewal"
-}
-
 variable "cert_manager_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []
+}
+
+variable "certificate_issuer" {
+  type        = string
+  description = "YAML spec for certificate issuer; defaults to self-signed"
+  default     = null
 }
 
 variable "cluster_autoscaler_values" {
@@ -94,7 +95,7 @@ variable "istio_ingress_values" {
 
 variable "hosted_zones" {
   type        = list(string)
-  description = "Domain names for hosted zones allowed in this cluster"
+  description = "Hosted zones this cluster is allowed to update"
   default     = []
 }
 

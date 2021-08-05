@@ -1,8 +1,7 @@
 module "common_platform" {
   source = "../../common/workload-platform"
 
-  certificate_email         = var.certificate_email
-  certificate_solvers       = module.workload_values.certificate_solvers
+  certificate_issuer        = var.certificate_issuer
   domain_names              = var.domain_names
   external_dns_enabled      = var.external_dns_enabled
   istio_discovery_values    = var.istio_discovery_values

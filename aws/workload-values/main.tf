@@ -66,19 +66,5 @@ data "aws_ssm_parameter" "pagerduty_routing_key" {
 }
 
 locals {
-  certificate_solvers = yamlencode([
-    for hosted_zone in var.hosted_zones :
-    {
-      dns01 = {
-        route53 = {
-          region = data.aws_region.current.name
-        }
-      }
-      selector = {
-        dnsZones = [hosted_zone]
-      }
-    }
-  ])
-
   node_roles = [data.aws_ssm_parameter.node_role_arn.value]
 }

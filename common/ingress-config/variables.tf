@@ -1,17 +1,13 @@
-variable "certificate_email" {
-  type        = string
-  description = "Email to be notified of certificate expiration and renewal"
-}
-
-variable "certificate_solvers" {
-  type        = string
-  description = "YAML spec for solving ACME challenges"
-}
-
 variable "domain_names" {
   type        = list(string)
   default     = []
   description = "Domains which are allowed in this cluster"
+}
+
+variable "issuer" {
+  type        = string
+  description = "YAML spec for the cert-manager issuer"
+  default     = null
 }
 
 variable "k8s_namespace" {

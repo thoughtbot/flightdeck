@@ -1,8 +1,7 @@
 module "common_platform" {
   source = "../../common/operations-platform"
 
-  certificate_email         = var.certificate_email
-  certificate_solvers       = module.workload_values.certificate_solvers
+  certificate_issuer        = var.certificate_issuer
   dex_extra_secrets         = var.dex_extra_secrets
   dex_values                = var.dex_values
   domain_names              = var.domain_names

@@ -19,11 +19,6 @@ output "cert_manager_values" {
   ]
 }
 
-output "certificate_solvers" {
-  description = "AWS certificate solvers using Route 53 dns01 challenge"
-  value       = local.certificate_solvers
-}
-
 output "cluster_autoscaler_values" {
   description = "AWS-specific values for cluster-autoscaler"
   value = [

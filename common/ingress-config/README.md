@@ -26,9 +26,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_certificate_email"></a> [certificate\_email](#input\_certificate\_email) | Email to be notified of certificate expiration and renewal | `string` | n/a | yes |
-| <a name="input_certificate_solvers"></a> [certificate\_solvers](#input\_certificate\_solvers) | YAML spec for solving ACME challenges | `string` | n/a | yes |
 | <a name="input_domain_names"></a> [domain\_names](#input\_domain\_names) | Domains which are allowed in this cluster | `list(string)` | `[]` | no |
+| <a name="input_issuer"></a> [issuer](#input\_issuer) | YAML spec for the cert-manager issuer | `string` | `null` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which secrets should be created | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"ingress-config"` | no |
 

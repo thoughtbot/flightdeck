@@ -15,10 +15,9 @@ module "istio" {
 module "ingress_config" {
   source = "../../common/ingress-config"
 
-  certificate_email   = var.certificate_email
-  certificate_solvers = var.certificate_solvers
-  domain_names        = var.domain_names
-  k8s_namespace       = var.flightdeck_namespace
+  domain_names  = var.domain_names
+  issuer        = var.certificate_issuer
+  k8s_namespace = var.flightdeck_namespace
 
   depends_on = [module.cert_manager, module.istio]
 }

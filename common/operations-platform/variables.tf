@@ -10,14 +10,10 @@ variable "cert_manager_version" {
   default     = "v1.3.1"
 }
 
-variable "certificate_email" {
+variable "certificate_issuer" {
   type        = string
-  description = "Email to be notified of certificate expiration and renewal"
-}
-
-variable "certificate_solvers" {
-  type        = string
-  description = "YAML spec for solving ACME challenges"
+  description = "YAML spec for certificate issuer; defaults to self-signed"
+  default     = null
 }
 
 variable "cluster_autoscaler_values" {

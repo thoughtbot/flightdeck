@@ -5,11 +5,5 @@ metadata:
   name: {{ .Values.certificate.issuer.name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  acme:
-    email: {{ .Values.certificate.issuer.acme.email }}
-    server: {{ .Values.certificate.issuer.acme.server }}
-    privateKeySecretRef:
-      name: flightdeck-issuer-private-key
-    solvers:
-      {{ toYaml .Values.certificate.issuer.acme.solvers | indent 6 | trim }}
+  {{ toYaml .Values.certificate.issuer.spec | indent 2 | trim }}
 {{- end -}}

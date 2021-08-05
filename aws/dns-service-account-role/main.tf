@@ -31,15 +31,19 @@ data "aws_iam_policy_document" "this" {
       "arn:aws:route53:::change/*"
     ]
   }
-  statement {
-    actions = [
-      "route53:ChangeResourceRecordSets",
-      "route53:ListResourceRecordSets"
-    ]
-    resources = [
-      for zone_id in var.route53_zone_ids :
-      "arn:aws:route53:::hostedzone/${zone_id}"
-    ]
+  dynamic "statement" {
+    for_each = length(var.route53_zone_ids) == 0 ? [] : [true]
+
+    content {
+      actions = [
+        "route53:ChangeResourceRecordSets",
+        "route53:ListResourceRecordSets"
+      ]
+      resources = [
+        for zone_id in var.route53_zone_ids :
+        "arn:aws:route53:::hostedzone/${zone_id}"
+      ]
+    }
   }
   statement {
     actions = [

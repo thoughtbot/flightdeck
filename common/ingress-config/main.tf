@@ -7,13 +7,15 @@ resource "helm_release" "ingress_config" {
 
 locals {
   chart_values = [yamlencode({
-    certificate = {
-      domains = var.domain_names
-
-      issuer = {
-        email = var.certificate_email
-        acme  = { solvers = yamldecode(var.certificate_solvers) }
-      }
-    }
+    certificate = merge(
+      {
+        domains = var.domain_names
+      },
+      (
+        var.issuer == null ?
+        {} :
+        { issuer = yamldecode(var.issuer) }
+      )
+    )
   })]
 }

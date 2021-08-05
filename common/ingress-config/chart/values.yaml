@@ -10,11 +10,8 @@ certificate:
   issuer:
     create: true
     name: flightdeck
-    kind: Issuer
-    acme:
-      email: ""
-      server: https://acme-v02.api.letsencrypt.org/directory
-      solvers: []
+    spec:
+      selfSigned: {}
 
 gateway:
   requireTLS: true

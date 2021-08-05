@@ -3,8 +3,7 @@ module "workload_platform" {
 
   cert_manager_values         = var.cert_manager_values
   cert_manager_version        = var.cert_manager_version
-  certificate_email           = var.certificate_email
-  certificate_solvers         = var.certificate_solvers
+  certificate_issuer          = var.certificate_issuer
   cluster_autoscaler_values   = var.cluster_autoscaler_values
   cluster_autoscaler_version  = var.cluster_autoscaler_version
   domain_names                = concat(var.domain_names, [var.host])
