@@ -1,0 +1,9 @@
+provider "aws" {
+  alias  = "cluster"
+  region = "us-east-1"
+}
+
+provider "aws" {
+  alias  = "route53"
+  region = "us-east-1"
+}

@@ -39,14 +39,28 @@ README.md: $(MODULEFILES)
 .PHONY: init
 init: .init
 
-.init: providers.tf.json
+.init: providers.tf.json .dependencies
 	terraform init -backend=false
 	@touch .init
 
-.validate: .init $(MODULEFILES)
-	AWS_DEFAULT_REGION=us-east-1 terraform validate
-	@touch .validate
+.validate: .init $(MODULEFILES) $(wildcard *.tf.example)
+	echo | cat - $(wildcard *.tf.example) > test.tf
+	if AWS_DEFAULT_REGION=us-east-1 terraform validate; then \
+		rm test.tf; \
+		touch .validate; \
+	else \
+		rm test.tf; \
+		false; \
+	fi
+
+.dependencies: *.tf
+	@grep -ohE \
+		"\b(backend|provider|resource|module) ['\"][[:alpha:]][[:alnum:]]*|\bsource  *=.*" *.tf | \
+		sed "s/['\"]//" | sort | uniq | \
+		tee /tmp/initdeps | \
+		diff -q .dependencies - >/dev/null 2>&1 || \
+		mv /tmp/initdeps .dependencies
 
 .PHONY: clean
 clean:
-	rm -rf .fmt .init .lint .lintinit .terraform .validate
+	rm -rf .dependencies .fmt .init .lint .lintinit .terraform .validate

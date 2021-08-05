@@ -43,9 +43,15 @@ init: .init
 	terraform init -backend=false
 	@touch .init
 
-.validate: .init $(MODULEFILES)
-	AWS_DEFAULT_REGION=us-east-1 terraform validate
-	@touch .validate
+.validate: .init $(MODULEFILES) $(wildcard *.tf.example)
+	echo | cat - $(wildcard *.tf.example) > test.tf
+	if AWS_DEFAULT_REGION=us-east-1 terraform validate; then \
+		rm test.tf; \
+		touch .validate; \
+	else \
+		rm test.tf; \
+		false; \
+	fi
 
 .dependencies: *.tf
 	@grep -ohE \
