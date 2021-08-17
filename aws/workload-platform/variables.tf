@@ -134,3 +134,15 @@ variable "prometheus_operator_values" {
   type        = list(string)
   default     = []
 }
+
+variable "monitoring_account_id" {
+  description = "ID of the account in which monitoring resources are found"
+  type        = string
+  default     = null
+}
+
+variable "prometheus_workspace_name" {
+  description = "Name of the Prometheus workspace for centralized ingestion"
+  type        = string
+  default     = null
+}

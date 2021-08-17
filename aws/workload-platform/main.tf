@@ -108,10 +108,41 @@ module "cluster_autoscaler_service_account_role" {
   oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
 }
 
+module "prometheus_service_account_role" {
+  count  = var.prometheus_workspace_name == null ? 0 : 1
+  source = "../prometheus-service-account-role"
+
+  aws_namespace        = [module.cluster_name.full]
+  aws_tags             = var.aws_tags
+  k8s_namespace        = var.k8s_namespace
+  oidc_issuer          = data.aws_ssm_parameter.oidc_issuer.value
+  workspace_account_id = local.monitoring_account_id
+  workspace_name       = var.prometheus_workspace_name
+}
+
 data "aws_route53_zone" "managed" {
   for_each = toset(var.hosted_zones)
 
   name = each.value
+}
+
+data "aws_s3_bucket_object" "prometheus" {
+  count = var.prometheus_workspace_name == null ? 0 : 1
+
+  bucket = join("-", concat([
+    "prometheus",
+    var.prometheus_workspace_name,
+    local.monitoring_account_id
+  ]))
+
+  key = "ingestion.json"
+}
+
+data "aws_ssm_parameter" "node_role_arn" {
+  name = join("/", concat(
+    [""],
+    ["flightdeck", module.cluster_name.full, "node_role_arn"]
+  ))
 }
 
 data "aws_ssm_parameter" "oidc_issuer" {
@@ -121,20 +152,15 @@ data "aws_ssm_parameter" "oidc_issuer" {
   ))
 }
 
-data "aws_region" "current" {}
-
-data "aws_ssm_parameter" "node_role_arn" {
-  name = join("/", concat(
-    [""],
-    ["flightdeck", module.cluster_name.full, "node_role_arn"]
-  ))
-}
-
 data "aws_ssm_parameter" "pagerduty_routing_key" {
   count = var.pagerduty_parameter == null ? 0 : 1
 
   name = var.pagerduty_parameter
 }
+
+data "aws_caller_identity" "this" {}
+
+data "aws_region" "current" {}
 
 locals {
   cert_manager_values = [
@@ -241,6 +267,11 @@ locals {
     })
   ]
 
+  monitoring_account_id = coalesce(
+    var.monitoring_account_id,
+    data.aws_caller_identity.this.account_id
+  )
+
   node_roles = [data.aws_ssm_parameter.node_role_arn.value]
 
   pagerduty_routing_key = (
@@ -251,6 +282,56 @@ locals {
 
   prometheus_operator_values = [
     yamlencode({
+      prometheus = {
+        serviceAccount = {
+          annotations = (
+            var.prometheus_workspace_name == null ?
+            {} :
+            {
+              "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
+            }
+          )
+        }
+        prometheusSpec = {
+          # This sidecar container can be replaced on Sigv4 support is merged
+          # https://github.com/prometheus-operator/prometheus-operator/issues/3987
+          containers = [
+            {
+              args = [
+                "--name",
+                "aps",
+                "--region",
+                local.prometheus_workspace["region"],
+                "--host",
+                local.prometheus_workspace["host"],
+                "--port",
+                ":8005",
+                "--role-arn",
+                local.prometheus_workspace["role_arn"]
+              ]
+              name  = "sigv4-proxy"
+              image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
+              ports = [
+                {
+                  containerPort = 8005
+                  name          = "aws-sigv4-proxy"
+                }
+              ]
+            }
+          ]
+          remoteWrite = [
+            for index in var.prometheus_workspace_name == null ? [] : [0] :
+            {
+              queueConfig = {
+                capacity          = 2500
+                maxSamplesPerSend = 1000
+                maxShards         = 200
+              }
+              url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
+            }
+          ]
+        }
+      }
       retentionSize = "30GB"
       storageSpec = {
         volumeClaimTemplate = {
@@ -266,4 +347,8 @@ locals {
       }
     })
   ]
+
+  prometheus_workspace = try(jsondecode(local.prometheus_workspace_json), {})
+
+  prometheus_workspace_json = join("", data.aws_s3_bucket_object.prometheus.*.body)
 }
