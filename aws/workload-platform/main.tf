@@ -5,36 +5,36 @@ module "common_platform" {
   domain_names              = var.domain_names
   external_dns_enabled      = var.external_dns_enabled
   istio_discovery_values    = var.istio_discovery_values
-  pagerduty_routing_key     = module.workload_values.pagerduty_routing_key
+  pagerduty_routing_key     = local.pagerduty_routing_key
   prometheus_adapter_values = var.prometheus_adapter_values
 
   cert_manager_values = concat(
-    module.workload_values.cert_manager_values,
+    local.cert_manager_values,
     var.cert_manager_values
   )
 
   cluster_autoscaler_values = concat(
-    module.workload_values.cluster_autoscaler_values,
+    local.cluster_autoscaler_values,
     var.cluster_autoscaler_values
   )
 
   external_dns_values = concat(
-    module.workload_values.external_dns_values,
+    local.external_dns_values,
     var.external_dns_values
   )
 
   fluent_bit_values = concat(
-    module.workload_values.fluent_bit_values,
+    local.fluent_bit_values,
     var.fluent_bit_values
   )
 
   istio_ingress_values = concat(
-    module.workload_values.istio_ingress_values,
+    local.istio_ingress_values,
     var.istio_ingress_values
   )
 
   prometheus_operator_values = concat(
-    module.workload_values.prometheus_operator_values,
+    local.prometheus_operator_values,
     var.prometheus_operator_values
   )
 }
@@ -48,7 +48,7 @@ module "aws_load_balancer_controller" {
   chart_version     = var.aws_load_balancer_controller_version
   cluster_full_name = module.cluster_name.full
   k8s_namespace     = var.k8s_namespace
-  oidc_issuer       = module.workload_values.oidc_issuer
+  oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
   vpc_cidr_block    = module.network.vpc.cidr_block
 
   depends_on = [module.common_platform]
@@ -69,16 +69,201 @@ module "network" {
   tags         = module.cluster_name.shared_tags
 }
 
-module "workload_values" {
-  source = "../workload-values"
+module "auth_config_map" {
+  source = "../auth-config-map"
 
-  admin_roles            = var.admin_roles
-  aws_tags               = var.aws_tags
-  cluster_full_name      = module.cluster_name.full
-  custom_roles           = var.custom_roles
-  hosted_zones           = var.hosted_zones
-  k8s_namespace          = var.k8s_namespace
-  logs_retention_in_days = var.logs_retention_in_days
-  node_roles             = var.node_roles
-  pagerduty_parameter    = var.pagerduty_parameter
+  admin_roles       = var.admin_roles
+  cluster_full_name = module.cluster_name.full
+  custom_roles      = var.custom_roles
+  node_roles        = concat(local.node_roles, var.node_roles)
+}
+
+module "dns_service_account_role" {
+  source = "../dns-service-account-role"
+
+  aws_namespace    = [module.cluster_name.full]
+  aws_tags         = var.aws_tags
+  k8s_namespace    = var.k8s_namespace
+  oidc_issuer      = data.aws_ssm_parameter.oidc_issuer.value
+  route53_zone_ids = values(data.aws_route53_zone.managed).*.id
+}
+
+module "cloudwatch_logs" {
+  source = "../cloudwatch-logs"
+
+  aws_namespace     = [module.cluster_name.full]
+  cluster_full_name = module.cluster_name.full
+  aws_tags          = var.aws_tags
+  k8s_namespace     = var.k8s_namespace
+  retention_in_days = var.logs_retention_in_days
+  oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
+}
+
+module "cluster_autoscaler_service_account_role" {
+  source = "../cluster-autoscaler-service-account-role"
+
+  aws_namespace = [module.cluster_name.full]
+  aws_tags      = var.aws_tags
+  k8s_namespace = var.k8s_namespace
+  oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
+}
+
+data "aws_route53_zone" "managed" {
+  for_each = toset(var.hosted_zones)
+
+  name = each.value
+}
+
+data "aws_ssm_parameter" "oidc_issuer" {
+  name = join("/", concat(
+    [""],
+    ["flightdeck", module.cluster_name.full, "oidc_issuer"]
+  ))
+}
+
+data "aws_region" "current" {}
+
+data "aws_ssm_parameter" "node_role_arn" {
+  name = join("/", concat(
+    [""],
+    ["flightdeck", module.cluster_name.full, "node_role_arn"]
+  ))
+}
+
+data "aws_ssm_parameter" "pagerduty_routing_key" {
+  count = var.pagerduty_parameter == null ? 0 : 1
+
+  name = var.pagerduty_parameter
+}
+
+locals {
+  cert_manager_values = [
+    yamlencode({
+      extraArgs = [
+        # Allow Issuers to use IRSA credentials
+        "--issuer-ambient-credentials"
+      ]
+      securityContext = {
+        # https://github.com/jetstack/cert-manager/issues/2147
+        enabled = true
+      }
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = module.dns_service_account_role.arn
+        }
+      }
+    })
+  ]
+
+  cluster_autoscaler_values = [
+    yamlencode({
+      autoDiscovery = {
+        clusterName = module.cluster_name.full
+      }
+      awsRegion = data.aws_region.current.name
+      rbac = {
+        serviceAccount = {
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.cluster_autoscaler_service_account_role.arn
+          }
+        }
+      }
+    })
+  ]
+
+  external_dns_values = [
+    yamlencode({
+      aws = {
+        region = data.aws_region.current.name
+      }
+      domainFilters = var.hosted_zones
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = module.dns_service_account_role.arn
+        }
+      }
+    })
+  ]
+
+  fluent_bit_values = [
+    yamlencode({
+      config = {
+        outputs = <<-EOT
+        [OUTPUT]
+            Name cloudwatch_logs
+            Match *
+            region ${data.aws_region.current.name}
+            log_group_name ${module.cloudwatch_logs.log_group_name}
+            log_stream_prefix $${HOST_NAME}-
+        EOT
+      }
+      env = [
+        {
+          name = "HOST_NAME"
+          valueFrom = {
+            fieldRef = {
+              fieldPath = "spec.nodeName"
+            }
+          }
+        },
+      ]
+      image = {
+        repository = "public.ecr.aws/aws-observability/aws-for-fluent-bit"
+        tag        = "2.12.0"
+      }
+      resources = {
+        limits = {
+          memory = "128Mi"
+        }
+        requests = {
+          cpu    = "100m"
+          memory = "128Mi"
+        }
+      }
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = module.cloudwatch_logs.service_account_role_arn
+        }
+      }
+      serviceMonitor = {
+        enabled = true
+      }
+    })
+  ]
+
+  istio_ingress_values = [
+    yamlencode({
+      gateways = {
+        istio-ingressgateway = {
+          type = "ClusterIP"
+        }
+      }
+    })
+  ]
+
+  node_roles = [data.aws_ssm_parameter.node_role_arn.value]
+
+  pagerduty_routing_key = (
+    var.pagerduty_parameter == null ?
+    null :
+    join("", data.aws_ssm_parameter.pagerduty_routing_key.*.value)
+  )
+
+  prometheus_operator_values = [
+    yamlencode({
+      retentionSize = "30GB"
+      storageSpec = {
+        volumeClaimTemplate = {
+          spec = {
+            resources = {
+              requests = {
+                storage = "40Gi"
+              }
+            }
+            storageClassName = "gp2"
+          }
+        }
+      }
+    })
+  ]
 }
