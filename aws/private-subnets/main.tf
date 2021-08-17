@@ -11,10 +11,9 @@ resource "aws_subnet" "this" {
   tags = merge(
     var.tags,
     {
-      AvailabilityZone = each.key
-      Name             = join("-", concat(var.namespace, [var.name, "private", each.key]))
-      Network          = join("-", concat(var.namespace, [var.name]))
-      Topology         = "private"
+      AvailabilityZone                  = each.key
+      Name                              = join("-", concat(var.namespace, [var.name, "private", each.key]))
+      "kubernetes.io/role/internal-elb" = "1"
     }
   )
 }

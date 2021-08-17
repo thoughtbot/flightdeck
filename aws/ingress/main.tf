@@ -25,11 +25,11 @@ module "alb" {
 module "network" {
   source = "../network-data"
 
-  network_tags = var.network_tags
+  tags = var.network_tags
 }
 
 locals {
-  network_name = coalesce(var.name, module.network.vpc.tags.Network)
+  network_name = coalesce(var.name, module.network.vpc.tags.Name)
 
   target_groups = zipmap(
     module.network.cluster_names,

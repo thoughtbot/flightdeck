@@ -10,8 +10,3 @@ output "ids" {
   )
   description = "IDs for the subnet created for each availability zone"
 }
-
-output "route_table" {
-  value       = aws_route_table.this
-  description = "Route table for public subnets"
-}

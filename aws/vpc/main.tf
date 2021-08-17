@@ -7,8 +7,7 @@ resource "aws_vpc" "this" {
   tags = merge(
     var.tags,
     {
-      Name    = join("-", concat(var.namespace, [var.name]))
-      Network = join("-", concat(var.namespace, [var.name]))
+      Name = join("-", concat(var.namespace, [var.name]))
     }
   )
 }

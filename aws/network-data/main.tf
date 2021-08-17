@@ -1,9 +1,9 @@
 data "aws_vpc" "this" {
-  tags = var.network_tags
+  tags = merge(var.tags, var.vpc_tags)
 }
 
 data "aws_subnet_ids" "private" {
-  tags   = merge(var.network_tags, var.private_tags)
+  tags   = merge(var.tags, var.private_tags)
   vpc_id = data.aws_vpc.this.id
 }
 
@@ -14,7 +14,7 @@ data "aws_subnet" "private" {
 }
 
 data "aws_subnet_ids" "public" {
-  tags   = merge(var.network_tags, var.public_tags)
+  tags   = merge(var.tags, var.public_tags)
   vpc_id = data.aws_vpc.this.id
 }
 
@@ -25,7 +25,7 @@ data "aws_subnet" "public" {
 }
 
 data "aws_sns_topic" "alarms" {
-  name = "${data.aws_vpc.this.tags.Network}-alarms"
+  name = "${data.aws_vpc.this.tags.Name}-alarms"
 }
 
 locals {

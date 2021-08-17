@@ -8,9 +8,9 @@ module "cluster_name" {
 module "network" {
   source = "../network-data"
 
-  network_tags = module.cluster_name.shared_tags
   private_tags = module.cluster_name.private_tags
   public_tags  = module.cluster_name.public_tags
+  tags         = module.cluster_name.shared_tags
 }
 
 module "eks_cluster" {

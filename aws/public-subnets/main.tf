@@ -11,52 +11,11 @@ resource "aws_subnet" "this" {
   tags = merge(
     var.tags,
     {
-      AvailabilityZone = each.key
-      Name             = join("-", concat(var.namespace, [var.name, "public", each.key]))
-      Network          = join("-", concat(var.namespace, [var.name]))
-      Topology         = "public"
+      AvailabilityZone         = each.key
+      Name                     = join("-", concat(var.namespace, [var.name, "public", each.key]))
+      "kubernetes.io/role/elb" = "1"
     }
   )
-}
-
-resource "aws_route_table" "this" {
-  vpc_id = var.vpc.id
-
-  tags = merge(
-    var.tags,
-    {
-      Name     = join("-", concat(var.namespace, [var.name, "public"]))
-      Network  = join("-", concat(var.namespace, [var.name]))
-      Topology = "public"
-    }
-  )
-}
-
-resource "aws_internet_gateway" "this" {
-  tags   = merge(var.tags, { Name = join("-", concat(var.namespace), [var.name]) })
-  vpc_id = var.vpc.id
-}
-
-
-resource "aws_route" "internet_gateway_ipv4" {
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.this.id
-  route_table_id         = aws_route_table.this.id
-}
-
-resource "aws_route" "internet_gateway_ipv6" {
-  count = var.enable_ipv6 ? 1 : 0
-
-  destination_ipv6_cidr_block = "::/0"
-  gateway_id                  = aws_internet_gateway.this.id
-  route_table_id              = aws_route_table.this.id
-}
-
-resource "aws_route_table_association" "this" {
-  for_each = var.cidr_blocks
-
-  subnet_id      = aws_subnet.this[each.key].id
-  route_table_id = aws_route_table.this.id
 }
 
 locals {

@@ -4,6 +4,24 @@ variable "cluster_names" {
   description = "List of clusters which run in this network"
 }
 
+variable "create_internet_gateway" {
+  description = "Set to false to disable creation of an internet gateway"
+  type        = bool
+  default     = true
+}
+
+variable "create_nat_gateways" {
+  description = "Set to false to disable creation of NAT gateways"
+  type        = bool
+  default     = true
+}
+
+variable "create_vpc" {
+  description = "Set to false to disable creation of the VPC"
+  type        = bool
+  default     = true
+}
+
 variable "enable_flow_logs" {
   type        = bool
   default     = false

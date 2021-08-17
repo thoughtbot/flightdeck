@@ -33,7 +33,9 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_nat_gateway"></a> [nat\_gateway](#module\_nat\_gateway) | ../nat-gateway |  |
+| <a name="module_private_subnet_routes"></a> [private\_subnet\_routes](#module\_private\_subnet\_routes) | ../private-subnet-routes |  |
 | <a name="module_private_subnets"></a> [private\_subnets](#module\_private\_subnets) | ../private-subnets |  |
+| <a name="module_public_subnet_routes"></a> [public\_subnet\_routes](#module\_public\_subnet\_routes) | ../public-subnet-routes |  |
 | <a name="module_public_subnets"></a> [public\_subnets](#module\_public\_subnets) | ../public-subnets |  |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ../vpc |  |
 
@@ -41,13 +43,18 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 
 | Name | Type |
 |------|------|
+| [aws_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_sns_topic.alarms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | List of clusters which run in this network | `list(string)` | `[]` | no |
+| <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | Set to false to disable creation of an internet gateway | `bool` | `true` | no |
+| <a name="input_create_nat_gateways"></a> [create\_nat\_gateways](#input\_create\_nat\_gateways) | Set to false to disable creation of NAT gateways | `bool` | `true` | no |
+| <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Set to false to disable creation of the VPC | `bool` | `true` | no |
 | <a name="input_enable_flow_logs"></a> [enable\_flow\_logs](#input\_enable\_flow\_logs) | Set to true to enable VPC flow logs | `bool` | `false` | no |
 | <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Set to false to disable IPV6 | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this network | `string` | n/a | yes |
