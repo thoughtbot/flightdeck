@@ -25,7 +25,8 @@ module "alb" {
 module "network" {
   source = "../network-data"
 
-  tags = var.network_tags
+  alarm_topic_name = var.alarm_topic_name
+  tags             = var.network_tags
 }
 
 locals {
