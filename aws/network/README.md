@@ -57,6 +57,7 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Set to false to disable creation of the VPC | `bool` | `true` | no |
 | <a name="input_enable_flow_logs"></a> [enable\_flow\_logs](#input\_enable\_flow\_logs) | Set to true to enable VPC flow logs | `bool` | `false` | no |
 | <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Set to false to disable IPV6 | `bool` | `false` | no |
+| <a name="input_enable_public_ip_on_launch"></a> [enable\_public\_ip\_on\_launch](#input\_enable\_public\_ip\_on\_launch) | Set to true to auto-assign IP addresses in public subnets | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this network | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
 | <a name="input_nat_availability_zones"></a> [nat\_availability\_zones](#input\_nat\_availability\_zones) | Availability zones in which NAT should be provided | `list(string)` | n/a | yes |

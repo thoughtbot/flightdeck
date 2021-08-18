@@ -59,10 +59,11 @@ module "private_subnet_routes" {
 module "public_subnets" {
   source = "../public-subnets"
 
-  name        = var.name
-  namespace   = var.namespace
-  cidr_blocks = var.public_subnet_cidr_blocks
-  vpc         = data.aws_vpc.this
+  enable_public_ip_on_launch = var.enable_public_ip_on_launch
+  name                       = var.name
+  namespace                  = var.namespace
+  cidr_blocks                = var.public_subnet_cidr_blocks
+  vpc                        = data.aws_vpc.this
 
   tags = merge(
     var.tags,

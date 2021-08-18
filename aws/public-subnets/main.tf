@@ -5,7 +5,7 @@ resource "aws_subnet" "this" {
   availability_zone               = each.key
   cidr_block                      = each.value
   ipv6_cidr_block                 = local.ipv6_cidrs[each.key]
-  map_public_ip_on_launch         = true
+  map_public_ip_on_launch         = var.enable_public_ip_on_launch
   vpc_id                          = var.vpc.id
 
   tags = merge(
