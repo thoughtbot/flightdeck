@@ -14,7 +14,7 @@ resource "aws_route_table" "nat" {
     var.tags,
     {
       AvailabilityZone = each.value
-      Name             = join("-", concat(var.namespace, [var.name, each.value]))
+      Name             = join("-", concat(var.namespace, [var.name, "nat", each.value]))
     }
   )
 }
