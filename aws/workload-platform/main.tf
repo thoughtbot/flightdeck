@@ -281,73 +281,79 @@ locals {
     join("", data.aws_ssm_parameter.pagerduty_routing_key.*.value)
   )
 
-  prometheus_operator_values = [
-    yamlencode({
-      prometheus = {
-        serviceAccount = {
-          annotations = (
-            var.prometheus_workspace_name == null ?
-            {} :
-            {
-              "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
+  prometheus_operator_values = concat(
+    [
+      yamlencode({
+        retentionSize = "30GB"
+        storageSpec = {
+          volumeClaimTemplate = {
+            spec = {
+              resources = {
+                requests = {
+                  storage = "40Gi"
+                }
+              }
+              storageClassName = "gp2"
             }
-          )
+          }
         }
-        prometheusSpec = {
-          # This sidecar container can be replaced on Sigv4 support is merged
-          # https://github.com/prometheus-operator/prometheus-operator/issues/3987
-          containers = [
-            {
-              args = [
-                "--name",
-                "aps",
-                "--region",
-                local.prometheus_workspace["region"],
-                "--host",
-                local.prometheus_workspace["host"],
-                "--port",
-                ":8005",
-                "--role-arn",
-                local.prometheus_workspace["role_arn"]
-              ]
-              name  = "sigv4-proxy"
-              image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
-              ports = [
+      })
+    ],
+    (
+      var.prometheus_workspace_name == null ?
+      [] :
+      [
+        yamlencode({
+          prometheus = {
+            serviceAccount = {
+              annotations = {
+                "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
+              }
+            }
+            prometheusSpec = {
+              # This sidecar container can be replaced on Sigv4 support is merged
+              # https://github.com/prometheus-operator/prometheus-operator/issues/3987
+              containers = [
                 {
-                  containerPort = 8005
-                  name          = "aws-sigv4-proxy"
+                  args = [
+                    "--name",
+                    "aps",
+                    "--region",
+                    local.prometheus_workspace["region"],
+                    "--host",
+                    local.prometheus_workspace["host"],
+                    "--port",
+                    ":8005",
+                    "--role-arn",
+                    local.prometheus_workspace["role_arn"]
+                  ]
+                  name  = "sigv4-proxy"
+                  image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
+                  ports = [
+                    {
+                      containerPort = 8005
+                      name          = "aws-sigv4-proxy"
+                    }
+                  ]
+                }
+              ]
+              remoteWrite = [
+                {
+                  queueConfig = {
+                    capacity          = 2500
+                    maxSamplesPerSend = 1000
+                    maxShards         = 200
+                  }
+                  url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
                 }
               ]
             }
-          ]
-          remoteWrite = [
-            for index in var.prometheus_workspace_name == null ? [] : [0] :
-            {
-              queueConfig = {
-                capacity          = 2500
-                maxSamplesPerSend = 1000
-                maxShards         = 200
-              }
-              url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
-            }
-          ]
-        }
-      }
-      retentionSize = "30GB"
-      storageSpec = {
-        volumeClaimTemplate = {
-          spec = {
-            resources = {
-              requests = {
-                storage = "40Gi"
-              }
-            }
-            storageClassName = "gp2"
+
           }
-        }
-      }
-    })
-  ]
+        })
+      ]
+    )
+  )
 
   prometheus_workspace = try(jsondecode(local.prometheus_workspace_json), {})
 
