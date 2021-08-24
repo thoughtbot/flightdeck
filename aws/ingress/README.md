@@ -20,7 +20,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git?ref=v0.2.0 |  |
+| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git?ref=v0.3.0 |  |
+| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
 
 ## Resources
@@ -34,13 +35,15 @@ No resources.
 | <a name="input_alarm_evaluation_minutes"></a> [alarm\_evaluation\_minutes](#input\_alarm\_evaluation\_minutes) | Number of minutes of alarm state until triggering an alarm | `number` | `2` | no |
 | <a name="input_alarm_topic_name"></a> [alarm\_topic\_name](#input\_alarm\_topic\_name) | Name of the SNS topic to which alarms should be sent | `string` | `null` | no |
 | <a name="input_alternative_domain_names"></a> [alternative\_domain\_names](#input\_alternative\_domain\_names) | Alternative domain names for the ALB | `list(string)` | `[]` | no |
+| <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | List of clusters that this ingress stack will forward to | `list(string)` | n/a | yes |
 | <a name="input_create_aliases"></a> [create\_aliases](#input\_create\_aliases) | Set to false to disable creation of Route 53 aliases | `bool` | `true` | no |
 | <a name="input_failure_threshold"></a> [failure\_threshold](#input\_failure\_threshold) | Percentage of failed requests considered an anomaly | `number` | `5` | no |
 | <a name="input_hosted_zone_name"></a> [hosted\_zone\_name](#input\_hosted\_zone\_name) | Hosted zone for AWS Route53 | `string` | `null` | no |
 | <a name="input_issue_certificates"></a> [issue\_certificates](#input\_issue\_certificates) | Set to false to disable creation of ACM certificates | `bool` | `true` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name of the AWS network in which ingress should be provided | `string` | `null` | no |
+| <a name="input_legacy_target_group_names"></a> [legacy\_target\_group\_names](#input\_legacy\_target\_group\_names) | Names of legacy target groups which should be included | `list(string)` | `[]` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of the AWS network in which ingress should be provided | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to apply to created resources | `list(string)` | `[]` | no |
-| <a name="input_network_tags"></a> [network\_tags](#input\_network\_tags) | Tags for finding the AWS VPC and subnets | `map(string)` | n/a | yes |
+| <a name="input_network_tags"></a> [network\_tags](#input\_network\_tags) | Tags for finding the AWS VPC and subnets | `map(string)` | `{}` | no |
 | <a name="input_primary_domain_name"></a> [primary\_domain\_name](#input\_primary\_domain\_name) | Primary domain name for the ALB | `string` | n/a | yes |
 | <a name="input_slow_response_threshold"></a> [slow\_response\_threshold](#input\_slow\_response\_threshold) | Response time considered extremely slow | `number` | `10` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to created resources | `map(string)` | `{}` | no |

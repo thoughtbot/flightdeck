@@ -16,6 +16,11 @@ variable "alternative_domain_names" {
   description = "Alternative domain names for the ALB"
 }
 
+variable "cluster_names" {
+  type        = list(string)
+  description = "List of clusters that this ingress stack will forward to"
+}
+
 variable "create_aliases" {
   description = "Set to false to disable creation of Route 53 aliases"
   type        = bool
@@ -40,10 +45,15 @@ variable "issue_certificates" {
   default     = true
 }
 
+variable "legacy_target_group_names" {
+  description = "Names of legacy target groups which should be included"
+  type        = list(string)
+  default     = []
+}
+
 variable "name" {
   description = "Name of the AWS network in which ingress should be provided"
   type        = string
-  default     = null
 }
 
 variable "namespace" {
@@ -55,6 +65,7 @@ variable "namespace" {
 variable "network_tags" {
   description = "Tags for finding the AWS VPC and subnets"
   type        = map(string)
+  default     = {}
 }
 
 variable "primary_domain_name" {
