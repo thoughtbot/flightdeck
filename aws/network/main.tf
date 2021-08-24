@@ -11,10 +11,10 @@ module "vpc" {
 }
 
 data "aws_vpc" "this" {
+  count = var.create_vpc ? 0 : 1
+
   cidr_block = var.vpc_cidr_block
   tags       = local.vpc_tags
-
-  depends_on = [module.vpc]
 }
 
 module "nat_gateway" {
@@ -34,7 +34,7 @@ module "private_subnets" {
   name        = var.name
   namespace   = var.namespace
   cidr_blocks = var.private_subnet_cidr_blocks
-  vpc         = data.aws_vpc.this
+  vpc         = local.vpc
 
   tags = merge(
     var.tags,
@@ -51,7 +51,7 @@ module "private_subnet_routes" {
   namespace              = var.namespace
   private_subnets        = module.private_subnets.instances
   tags                   = merge(var.tags, var.private_subnet_tags)
-  vpc                    = data.aws_vpc.this
+  vpc                    = local.vpc
 
   depends_on = [module.nat_gateway]
 }
@@ -63,7 +63,7 @@ module "public_subnets" {
   name                       = var.name
   namespace                  = var.namespace
   cidr_blocks                = var.public_subnet_cidr_blocks
-  vpc                        = data.aws_vpc.this
+  vpc                        = local.vpc
 
   tags = merge(
     var.tags,
@@ -79,7 +79,7 @@ module "public_subnet_routes" {
   namespace = var.namespace
   subnets   = module.public_subnets.instances
   tags      = merge(var.tags, var.public_subnet_tags)
-  vpc       = data.aws_vpc.this
+  vpc       = local.vpc
 
   depends_on = [module.public_subnets, aws_internet_gateway.this]
 }
@@ -88,7 +88,7 @@ resource "aws_internet_gateway" "this" {
   count = var.create_internet_gateway ? 1 : 0
 
   tags   = merge(var.tags, { Name = join("-", concat(var.namespace), [var.name]) })
-  vpc_id = data.aws_vpc.this.id
+  vpc_id = local.vpc.id
 }
 
 resource "aws_sns_topic" "alarms" {
@@ -97,6 +97,9 @@ resource "aws_sns_topic" "alarms" {
 }
 
 locals {
+  vpc_tags = merge(var.tags, local.cluster_tags, var.vpc_tags)
+  vpc      = var.create_vpc ? module.vpc[0].instance : data.aws_vpc.this[0]
+
   cluster_tags = zipmap(
     [
       for name in var.cluster_names :
@@ -108,6 +111,4 @@ locals {
     ],
     [for name in var.cluster_names : "shared"]
   )
-
-  vpc_tags = merge(var.tags, local.cluster_tags, var.vpc_tags)
 }

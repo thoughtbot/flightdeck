@@ -5,5 +5,5 @@ output "cluster_names" {
 
 output "vpc_id" {
   description = "ID of the AWS VPC"
-  value       = data.aws_vpc.this.id
+  value       = local.vpc.id
 }
