@@ -7,12 +7,12 @@ module "vpc" {
   enable_ipv6      = var.enable_ipv6
   name             = var.name
   namespace        = var.namespace
-  tags             = merge(var.tags, local.cluster_tags, var.vpc_tags)
+  tags             = local.vpc_tags
 }
 
 data "aws_vpc" "this" {
   cidr_block = var.vpc_cidr_block
-  tags       = var.tags
+  tags       = local.vpc_tags
 
   depends_on = [module.vpc]
 }
@@ -108,4 +108,6 @@ locals {
     ],
     [for name in var.cluster_names : "shared"]
   )
+
+  vpc_tags = merge(var.tags, local.cluster_tags, var.vpc_tags)
 }
