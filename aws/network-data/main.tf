@@ -25,7 +25,11 @@ data "aws_subnet" "public" {
 }
 
 data "aws_sns_topic" "alarms" {
-  name = coalesce(var.alarm_topic_name, "${data.aws_vpc.this.tags.Name}-alarms")
+  name = (
+    var.alarm_topic_name == null ?
+    "${data.aws_vpc.this.tags.Name}-alarms" :
+    var.alarm_topic_name
+  )
 }
 
 locals {

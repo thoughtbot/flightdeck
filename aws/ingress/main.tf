@@ -21,6 +21,8 @@ module "alb" {
   target_group_weights      = var.target_group_weights
   validate_certificates     = var.validate_certificates
   vpc                       = module.network.vpc
+
+  depends_on = [module.network]
 }
 
 module "network" {
@@ -33,8 +35,6 @@ module "network" {
 module "cluster_name" {
   for_each = toset(var.cluster_names)
   source   = "../cluster-name"
-
-  name = each.value
 }
 
 locals {
