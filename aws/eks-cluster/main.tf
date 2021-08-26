@@ -11,10 +11,7 @@ resource "aws_eks_cluster" "this" {
 
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
-    subnet_ids = concat(
-      values(var.private_subnets).*.id,
-      values(var.public_subnets).*.id
-    )
+    subnet_ids         = concat(var.private_subnet_ids, var.public_subnet_ids)
   }
 
   depends_on = [

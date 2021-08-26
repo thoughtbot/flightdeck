@@ -35,8 +35,8 @@ variable "role" {
   description = "IAM role nodes in this group will assume"
 }
 
-variable "subnets" {
-  type        = map(object({ id = string }))
+variable "subnet_ids" {
+  type        = list(string)
   description = "Subnets in which the node group should run"
 }
 

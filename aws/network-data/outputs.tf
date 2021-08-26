@@ -13,14 +13,14 @@ output "cidr_blocks" {
   value       = [data.aws_vpc.this.cidr_block]
 }
 
-output "private_subnets" {
+output "private_subnet_ids" {
   description = "Private subnets for this network"
-  value       = local.private_subnets
+  value       = data.aws_subnet_ids.public.ids
 }
 
-output "public_subnets" {
+output "public_subnet_ids" {
   description = "Private subnets for this network"
-  value       = local.public_subnets
+  value       = data.aws_subnet_ids.private.ids
 }
 
 output "vpc" {

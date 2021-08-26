@@ -21,8 +21,8 @@ module "eks_cluster" {
   k8s_version               = var.k8s_version
   log_retention_in_days     = var.log_retention_in_days
   name                      = module.cluster_name.full
-  private_subnets           = module.network.private_subnets
-  public_subnets            = module.network.public_subnets
+  private_subnet_ids        = module.network.private_subnet_ids
+  public_subnet_ids         = module.network.public_subnet_ids
   tags                      = var.tags
   vpc                       = module.network.vpc
 }
@@ -45,7 +45,7 @@ module "node_groups" {
   name           = each.key
   namespace      = [module.cluster_name.full]
   role           = module.node_role.instance
-  subnets        = module.network.private_subnets
+  subnet_ids     = module.network.private_subnet_ids
   tags           = var.tags
 
   depends_on = [module.node_role]

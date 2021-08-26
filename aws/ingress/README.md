@@ -20,7 +20,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git?ref=v0.3.0 |  |
+| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git?ref=674bcf5 |  |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
 

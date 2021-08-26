@@ -21,8 +21,6 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_sns_topic.alarms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
-| [aws_subnet.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet) | data source |
-| [aws_subnet.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet) | data source |
 | [aws_subnet_ids.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet_ids) | data source |
 | [aws_subnet_ids.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet_ids) | data source |
 | [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
@@ -44,7 +42,7 @@ No modules.
 | <a name="output_alarm_actions"></a> [alarm\_actions](#output\_alarm\_actions) | AWS actions invoked on alarms in this network |
 | <a name="output_cidr_blocks"></a> [cidr\_blocks](#output\_cidr\_blocks) | CIDR blocks allowed in this network |
 | <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
-| <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | Private subnets for this network |
-| <a name="output_public_subnets"></a> [public\_subnets](#output\_public\_subnets) | Private subnets for this network |
+| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | Private subnets for this network |
+| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | Private subnets for this network |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | AWS VPC for this network |
 <!-- END_TF_DOCS -->

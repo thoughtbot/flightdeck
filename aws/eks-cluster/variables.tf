@@ -21,13 +21,13 @@ variable "namespace" {
   default     = []
 }
 
-variable "private_subnets" {
-  type        = map(object({ id = string }))
+variable "private_subnet_ids" {
+  type        = list(string)
   description = "Private subnets which should be used by this cluster"
 }
 
-variable "public_subnets" {
-  type        = map(object({ id = string }))
+variable "public_subnet_ids" {
+  type        = list(string)
   description = "Public subnets which should be used by this cluster"
 }
 
