@@ -1,0 +1,37 @@
+config:
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: |
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+
+        # Disable adding pod annotations and labels to logs
+        Annotations ${annotations}
+        Labels ${labels}
+
+    # Lift the nested "kubernetes" object with prefix "kube"
+    [FILTER]
+        Name nest
+        Match kube.*
+        Operation lift
+        Nested_under kubernetes
+        Add_prefix kube_
+
+    # Remove verbose Docker data
+    [FILTER]
+        Name modify
+        Match kube.*
+        Remove_regex ^kube_(container_hash|container_image|docker_id)$
+
+    # Re-nest the "kubernetes" object
+    [FILTER]
+        Name nest
+        Match kube.*
+        Operation nest
+        Wildcard kube_*
+        Nest_under kubernetes
+        Remove_prefix kube_

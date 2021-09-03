@@ -21,6 +21,18 @@ variable "chart_repository" {
   default     = "https://fluent.github.io/helm-charts"
 }
 
+variable "enable_kubernetes_annotations" {
+  description = "Set to true to add Kubernetes annotations to log output"
+  type        = bool
+  default     = false
+}
+
+variable "enable_kubernetes_labels" {
+  description = "Set to true to add Kubernetes labels to log output"
+  type        = bool
+  default     = false
+}
+
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which resources will be written"

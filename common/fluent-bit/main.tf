@@ -11,6 +11,10 @@ locals {
   chart_values = [
     yamlencode({
       fullnameOverride = var.name
+    }),
+    templatefile("${path.module}/filters.yaml", {
+      annotations = var.enable_kubernetes_annotations ? "On" : "Off"
+      labels      = var.enable_kubernetes_labels ? "On" : "Off"
     })
   ]
 }

@@ -81,6 +81,18 @@ variable "external_dns_values" {
   default     = []
 }
 
+variable "fluent_bit_enable_kubernetes_annotations" {
+  description = "Set to true to add Kubernetes annotations to log output"
+  type        = bool
+  default     = false
+}
+
+variable "fluent_bit_enable_kubernetes_labels" {
+  description = "Set to true to add Kubernetes labels to log output"
+  type        = bool
+  default     = false
+}
+
 variable "fluent_bit_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

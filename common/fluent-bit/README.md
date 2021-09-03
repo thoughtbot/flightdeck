@@ -30,6 +30,8 @@ No modules.
 | <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository containing the chart | `string` | `"https://fluent.github.io/helm-charts"` | no |
 | <a name="input_chart_values"></a> [chart\_values](#input\_chart\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of chart to install | `string` | n/a | yes |
+| <a name="input_enable_kubernetes_annotations"></a> [enable\_kubernetes\_annotations](#input\_enable\_kubernetes\_annotations) | Set to true to add Kubernetes annotations to log output | `bool` | `false` | no |
+| <a name="input_enable_kubernetes_labels"></a> [enable\_kubernetes\_labels](#input\_enable\_kubernetes\_labels) | Set to true to add Kubernetes labels to log output | `bool` | `false` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources will be written | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"fluent-bit"` | no |
 

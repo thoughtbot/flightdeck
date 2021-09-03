@@ -58,6 +58,18 @@ variable "flightdeck_namespace" {
   description = "Kubernetes namespace in which flightdeck should be installed"
 }
 
+variable "fluent_bit_enable_kubernetes_annotations" {
+  description = "Set to true to add Kubernetes annotations to log output"
+  type        = bool
+  default     = false
+}
+
+variable "fluent_bit_enable_kubernetes_labels" {
+  description = "Set to true to add Kubernetes labels to log output"
+  type        = bool
+  default     = false
+}
+
 variable "fluent_bit_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

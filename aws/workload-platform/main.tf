@@ -1,12 +1,14 @@
 module "common_platform" {
   source = "../../common/workload-platform"
 
-  certificate_issuer        = var.certificate_issuer
-  domain_names              = var.domain_names
-  external_dns_enabled      = var.external_dns_enabled
-  istio_discovery_values    = var.istio_discovery_values
-  pagerduty_routing_key     = local.pagerduty_routing_key
-  prometheus_adapter_values = var.prometheus_adapter_values
+  certificate_issuer                       = var.certificate_issuer
+  domain_names                             = var.domain_names
+  external_dns_enabled                     = var.external_dns_enabled
+  fluent_bit_enable_kubernetes_annotations = var.fluent_bit_enable_kubernetes_annotations
+  fluent_bit_enable_kubernetes_labels      = var.fluent_bit_enable_kubernetes_labels
+  istio_discovery_values                   = var.istio_discovery_values
+  pagerduty_routing_key                    = local.pagerduty_routing_key
+  prometheus_adapter_values                = var.prometheus_adapter_values
 
   cert_manager_values = concat(
     local.cert_manager_values,
