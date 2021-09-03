@@ -6,7 +6,7 @@ variable "alarm_topic_name" {
 
 variable "enabled_cluster_log_types" {
   type        = list(string)
-  default     = ["api", "audit"]
+  default     = []
   description = "Which EKS control plane log types to enable"
 }
 
