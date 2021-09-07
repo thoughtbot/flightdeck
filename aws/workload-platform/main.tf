@@ -125,6 +125,12 @@ module "prometheus_service_account_role" {
   workspace_name       = var.prometheus_workspace_name
 }
 
+module "secrets_store_provider" {
+  source = "../secrets-store-provider"
+
+  chart_values = var.secret_store_provider_values
+}
+
 data "aws_route53_zone" "managed" {
   for_each = toset(var.hosted_zones)
 

@@ -176,3 +176,9 @@ variable "secret_store_driver_version" {
   description = "Version of the secret store driver to install"
   default     = "0.3.0"
 }
+
+variable "secret_store_provider_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}

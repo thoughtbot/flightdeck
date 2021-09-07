@@ -34,6 +34,7 @@ Cluster Autoscaler, and ExternalDNS.
 | <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../dns-service-account-role |  |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
 | <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../prometheus-service-account-role |  |
+| <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ../secrets-store-provider |  |
 
 ## Resources
 
@@ -81,6 +82,7 @@ Cluster Autoscaler, and ExternalDNS.
 | <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the Prometheus workspace for centralized ingestion | `string` | `null` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `"0.3.0"` | no |
+| <a name="input_secret_store_provider_values"></a> [secret\_store\_provider\_values](#input\_secret\_store\_provider\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 
 ## Outputs
 

@@ -1,0 +1,12 @@
+# Based on the installation manifests from AWS:
+# https://github.com/aws/secrets-store-csi-driver-provider-aws/blob/main/deployment/aws-provider-installer.yaml
+
+apiVersion: v2
+name: csi-secrets-store-provider-aws
+description: AWS CSI secrets store provider
+
+type: application
+
+version: 0.1.1
+
+appVersion: 1.0.r2-2021.08.13.20.34-linux-amd64
