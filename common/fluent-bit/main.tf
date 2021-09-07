@@ -11,6 +11,9 @@ locals {
   chart_values = [
     yamlencode({
       fullnameOverride = var.name
+
+      # Ensure fluent-bit is able to run on each node
+      priorityClassName = "system-node-critical"
     }),
     templatefile("${path.module}/filters.yaml", {
       annotations = var.enable_kubernetes_annotations ? "On" : "Off"
