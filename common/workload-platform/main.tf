@@ -101,6 +101,14 @@ module "prometheus_adapter" {
   depends_on = [module.prometheus_operator]
 }
 
+module "secret_store_driver" {
+  source = "../../common/secret-store-driver"
+
+  chart_values  = var.secret_store_driver_values
+  chart_version = var.secret_store_driver_version
+  k8s_namespace = "kube-system"
+}
+
 locals {
   k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
 }

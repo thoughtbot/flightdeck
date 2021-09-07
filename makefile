@@ -1,7 +1,7 @@
 .SECONDEXPANSION:
 
 .PHONY: default
-default: modules local
+default: modules
 
 KUBECTL := kubectl --kubeconfig tmp/kubeconfig --context kind-flightdeck
 

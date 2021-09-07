@@ -135,3 +135,15 @@ variable "prometheus_operator_version" {
   description = "Version of external-dns to install"
   default     = "16.0.1"
 }
+
+variable "secret_store_driver_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "secret_store_driver_version" {
+  type        = string
+  description = "Version of the secret store driver to install"
+  default     = "0.3.0"
+}

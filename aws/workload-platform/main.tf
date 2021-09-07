@@ -9,6 +9,8 @@ module "common_platform" {
   istio_discovery_values                   = var.istio_discovery_values
   pagerduty_routing_key                    = local.pagerduty_routing_key
   prometheus_adapter_values                = var.prometheus_adapter_values
+  secret_store_driver_values               = var.secret_store_driver_values
+  secret_store_driver_version              = var.secret_store_driver_version
 
   cert_manager_values = concat(
     local.cert_manager_values,
