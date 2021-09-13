@@ -120,8 +120,8 @@ variable "prometheus_adapter_values" {
 
 variable "prometheus_adapter_version" {
   type        = string
-  description = "Version of external-dns to install"
-  default     = "2.14.1"
+  description = "Version of prometheus adapter to install"
+  default     = "2.17.0"
 }
 
 variable "prometheus_operator_values" {
