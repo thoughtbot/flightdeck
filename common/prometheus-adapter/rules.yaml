@@ -16,7 +16,20 @@ custom:
   name:
     matches: "^pod:([^:]*):([^:]*)$"
     as: "${1}_${2}"
-  metricsQuery: (sum(irate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>))
+  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
+
+# Expose any recorded metrics following the standard service convention
+- seriesQuery: '{__name__=~"^svc:.*:.*$",service!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+      service:
+        resource: service
+  name:
+    matches: "^svc:([^:]*):([^:]*)$"
+    as: "${1}_${2}"
+  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
 
 # Expose total requests (ie istio_requests_total)
 - seriesQuery: '{__name__=~".*_requests_total$",pod!=""}'

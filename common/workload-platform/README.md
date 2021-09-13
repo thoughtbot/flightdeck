@@ -67,7 +67,7 @@ Installs the components necessary for running workloads:
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to install | `string` | `"1.10.0"` | no |
 | <a name="input_pagerduty_routing_key"></a> [pagerduty\_routing\_key](#input\_pagerduty\_routing\_key) | Routing key for delivering Pagerduty alerts | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_prometheus_adapter_version"></a> [prometheus\_adapter\_version](#input\_prometheus\_adapter\_version) | Version of external-dns to install | `string` | `"2.14.1"` | no |
+| <a name="input_prometheus_adapter_version"></a> [prometheus\_adapter\_version](#input\_prometheus\_adapter\_version) | Version of prometheus adapter to install | `string` | `"2.17.0"` | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_operator_version"></a> [prometheus\_operator\_version](#input\_prometheus\_operator\_version) | Version of external-dns to install | `string` | `"16.0.1"` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
