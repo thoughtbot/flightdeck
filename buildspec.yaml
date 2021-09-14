@@ -24,4 +24,8 @@ phases:
     - export SSH_IDENTITY_FILE="$PWD/id_rsa"
     - chmod 600 id_rsa
     - export GIT_SSH_COMMAND="ssh -F none -o IdentitiesOnly=yes -i $SSH_IDENTITY_FILE"
-    - make modules
+    - make
+
+cache:
+  paths:
+  - /root/.tflint.d/**/*
