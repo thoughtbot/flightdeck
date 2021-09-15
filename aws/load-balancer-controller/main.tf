@@ -43,6 +43,8 @@ resource "helm_release" "ingress_config" {
       targetGroupARN = data.aws_lb_target_group.this.arn
     })
   ]
+
+  depends_on = [helm_release.this]
 }
 
 data "aws_lb_target_group" "this" {
