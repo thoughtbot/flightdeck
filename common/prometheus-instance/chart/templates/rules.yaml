@@ -1,0 +1,18 @@
+{{- if .Values.rules }}
+apiVersion: v1
+kind: List
+items:
+{{- range .Values.rules }}
+- apiVersion: monitoring.coreos.com/v1
+  kind: PrometheusRule
+  metadata:
+    name: {{ .name }}
+    namespace: {{ $.Release.Namespace }}
+    labels:
+      prometheus: {{ include "prometheus.fullname" $ }}
+      {{- include "prometheus.labels" $ | nindent 6 }}
+  spec:
+    groups:
+      {{ toYaml .groups | indent 6 | trim }}
+{{- end }}
+{{- end }}

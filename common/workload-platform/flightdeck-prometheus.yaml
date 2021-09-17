@@ -1,0 +1,74 @@
+podMonitors:
+- name: envoy-stats-monitor
+  additionalLabels:
+    monitoring: istio-proxies
+    release: istio
+  selector:
+    matchExpressions:
+    - {key: istio-prometheus-ignore, operator: DoesNotExist}
+  namespaceSelector:
+    any: true
+  jobLabel: envoy-stats
+  podMetricsEndpoints:
+  - path: /stats/prometheus
+    interval: 15s
+    relabelings:
+    - action: keep
+      sourceLabels: [__meta_kubernetes_pod_container_name]
+      regex: "istio-proxy"
+    - action: keep
+      sourceLabels: [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
+    - sourceLabels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+      action: replace
+      regex: ([^:]+)(?::\d+)?;(\d+)
+      replacement: $1:$2
+      targetLabel: __address__
+    - action: labeldrop
+      regex: "__meta_kubernetes_pod_label_(.+)"
+    - sourceLabels: [__meta_kubernetes_namespace]
+      action: replace
+      targetLabel: namespace
+    - sourceLabels: [__meta_kubernetes_pod_name]
+      action: replace
+      targetLabel: pod_name
+serviceMonitors:
+- name: istio-component-monitor
+  additionalLabels:
+    monitoring: istio-components
+    release: istio
+  jobLabel: istio
+  targetLabels: [app]
+  selector:
+    matchExpressions:
+    - {key: istio, operator: In, values: [pilot]}
+  namespaceSelector:
+    any: true
+  endpoints:
+  - port: http-monitoring
+    interval: 15s
+rules:
+- name: istio
+  groups:
+  - name: istio
+    rules:
+    - record: istio:namespace_destination_service_name:istio_requests:rate5m
+      expr: |
+        sum(
+          rate(istio_requests_total[5m])
+        ) by (namespace, destination_service_name)
+    - record: istio:namespace_destination_service_name:istio_response_bytes:95p5m
+      expr: |
+        histogram_quantile(
+          0.95,
+          sum by (namespace, destination_service_name, le) (
+            rate(istio_response_bytes_bucket[5m])
+          )
+        )
+    - record: istio:namespace_destination_service_name:istio_request_duration_milliseconds:95p5m
+      expr: |
+        histogram_quantile(
+          0.95,
+          sum by (namespace, destination_service_name, le) (
+            rate(istio_response_bytes_bucket[5m])
+          )
+        )

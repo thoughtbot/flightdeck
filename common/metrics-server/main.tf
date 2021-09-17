@@ -3,14 +3,6 @@ resource "helm_release" "this" {
   name       = var.name
   namespace  = var.k8s_namespace
   repository = var.chart_repository
-  values     = concat(local.chart_values, var.chart_values)
+  values     = var.chart_values
   version    = var.chart_version
-}
-
-locals {
-  chart_values = [
-    yamlencode({
-      rules = yamldecode(file("${path.module}/rules.yaml"))
-    })
-  ]
 }

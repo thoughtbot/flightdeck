@@ -1,0 +1,34 @@
+{{- if .Values.podMonitors }}
+apiVersion: v1
+kind: List
+items:
+{{- range .Values.podMonitors }}
+- apiVersion: monitoring.coreos.com/v1
+  kind: PodMonitor
+  metadata:
+    name: {{ .name }}
+    namespace: {{ $.Release.Namespace }}
+    labels:
+      prometheus: {{ include "prometheus.fullname" $ }}
+      {{- include "prometheus.labels" $ | nindent 6 }}
+  spec:
+    podMetricsEndpoints:
+      {{ toYaml .podMetricsEndpoints | indent 6 | trim }}
+    {{- with .jobLabel }}
+    jobLabel: {{ . }}
+    {{- end }}
+    {{- with .namespaceSelector }}
+    namespaceSelector:
+      {{ toYaml . | indent 6 | trim }}
+    {{- end }}
+    selector:
+      {{ toYaml .selector | indent 6 | trim }}
+    {{- with .podTargetLabels }}
+    podTargetLabels:
+      {{ toYaml . | indent 6 | trim }}
+    {{- end }}
+    {{- with .sampleLimit }}
+    sampleLimit: {{ . }}
+    {{- end }}
+{{- end }}
+{{- end }}

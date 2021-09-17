@@ -36,7 +36,13 @@ locals {
         }
       }
 
+      # Don't deploy an in-cluster Grafana
       grafana = {
+        enabled = false
+      }
+
+      # Disable monitoring of resources managed by cloud (EKS, AKS, etc)
+      kubeApiServer = {
         enabled = false
       }
       kubeControllerManager = {
@@ -45,36 +51,18 @@ locals {
       kubeEtcd = {
         enabled = false
       }
+      kubelet = {
+        enabled = false
+      }
       kubeProxy = {
         enabled = false
       }
       kubeScheduler = {
         enabled = false
       }
+
       prometheus = {
-        additionalPodMonitors = [
-          yamldecode(file("${path.module}/istio-podmonitor.yaml"))
-        ]
-        additionalServiceMonitors = [
-          yamldecode(file("${path.module}/istio-servicemonitor.yaml"))
-        ]
         prometheusSpec = {
-          podMonitorSelector                      = {}
-          podMonitorSelectorNilUsesHelmValues     = false
-          ruleSelector                            = {}
-          ruleSelectorNilUsesHelmValues           = false
-          serviceMonitorSelector                  = {}
-          serviceMonitorSelectorNilUsesHelmValues = false
-
-          containers = [
-            {
-              name = "prometheus"
-              readinessProbe = {
-                failureThreshold = 250
-              }
-            },
-          ]
-
           podMetadata = {
             annotations = {
               # https://github.com/istio/istio/issues/33188
@@ -83,6 +71,13 @@ locals {
           }
 
           retention = "24h"
+
+          resources = {
+            requests = {
+              cpu    = "50m"
+              memory = "256Mi"
+            }
+          }
         }
       }
       prometheusOperator = {

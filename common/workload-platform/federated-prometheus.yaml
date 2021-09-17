@@ -1,0 +1,16 @@
+prometheus:
+  spec:
+    additionalScrapeConfigs:
+    - job_name: 'kube-prometheus-stack'
+      scrape_interval: 10s
+      honor_labels: true
+      metrics_path: '/federate'
+      params:
+        'match[]':
+          - '{__name__=~"instance:.*"}'
+          - '{__name__=~"istio:.*"}'
+          - '{__name__=~"svc:.*"}'
+      static_configs:
+      - targets:
+        - 'kube-prometheus-stack-prometheus.kube-prometheus-stack.svc:9090'
+        - 'flightdeck-prometheus.kube-prometheus-stack.svc:9090'

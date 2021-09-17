@@ -80,12 +80,24 @@ module "istio_ingress" {
   k8s_namespace = local.k8s_namespace
 }
 
+resource "kubernetes_namespace" "kube_prometheus_stack" {
+  metadata {
+    name = "kube-prometheus-stack"
+
+    labels = {
+      "istio-injection" = "enabled"
+    }
+  }
+
+  depends_on = [module.istio]
+}
+
 module "prometheus_operator" {
   source = "../../common/prometheus-operator"
 
   chart_values          = var.prometheus_operator_values
   chart_version         = var.prometheus_operator_version
-  k8s_namespace         = local.k8s_namespace
+  k8s_namespace         = local.kube_prometheus_stack_namespace
   pagerduty_routing_key = var.pagerduty_routing_key
 
   depends_on = [module.cert_manager]
@@ -94,9 +106,33 @@ module "prometheus_operator" {
 module "prometheus_adapter" {
   source = "../../common/prometheus-adapter"
 
-  chart_values  = var.prometheus_adapter_values
   chart_version = var.prometheus_adapter_version
-  k8s_namespace = local.k8s_namespace
+  k8s_namespace = local.kube_prometheus_stack_namespace
+
+  chart_values = concat(
+    local.prometheus_adapter_values,
+    var.prometheus_adapter_values
+  )
+
+  depends_on = [module.prometheus_operator]
+}
+
+module "flightdeck_prometheus" {
+  source = "../../common/prometheus-instance"
+
+  chart_values  = local.flightdeck_prometheus_values
+  k8s_namespace = local.kube_prometheus_stack_namespace
+  name          = "flightdeck-prometheus"
+
+  depends_on = [module.prometheus_operator]
+}
+
+module "federated_prometheus" {
+  source = "../../common/prometheus-instance"
+
+  chart_values  = local.federated_prometheus_values
+  k8s_namespace = local.kube_prometheus_stack_namespace
+  name          = "federated-prometheus"
 
   depends_on = [module.prometheus_operator]
 }
@@ -109,6 +145,34 @@ module "secret_store_driver" {
   k8s_namespace = "kube-system"
 }
 
+module "metrics_server" {
+  source = "../../common/metrics-server"
+
+  chart_values  = var.metrics_server_values
+  chart_version = var.metrics_server_version
+  k8s_namespace = "kube-system"
+}
+
 locals {
-  k8s_namespace = kubernetes_namespace.flightdeck.metadata[0].name
+  k8s_namespace                   = kubernetes_namespace.flightdeck.metadata[0].name
+  kube_prometheus_stack_namespace = kubernetes_namespace.kube_prometheus_stack.metadata[0].name
+
+  federated_prometheus_values = concat(
+    [file("${path.module}/federated-prometheus.yaml")],
+    var.federated_prometheus_values
+  )
+
+  flightdeck_prometheus_values = concat(
+    [file("${path.module}/flightdeck-prometheus.yaml")],
+    var.flightdeck_prometheus_values
+  )
+
+  prometheus_adapter_values = [
+    yamlencode({
+      prometheus = {
+        port = 9090
+        url  = "http://flightdeck-prometheus.${local.kube_prometheus_stack_namespace}.svc"
+      }
+    })
+  ]
 }

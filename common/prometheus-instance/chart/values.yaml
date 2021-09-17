@@ -1,0 +1,45 @@
+nameOverride: ""
+fullnameOverride: ""
+
+destination:
+  server: https://kubernetes.default.svc
+
+prometheus:
+  annotations: {}
+  spec:
+    alertmanagers:
+    - apiVersion: v2
+      name: kube-prometheus-stack-alertmanager
+      namespace: kube-prometheus-stack
+      pathPrefix: /
+      port: web
+    externalLabels: {}
+    disableCompaction: false
+    enableAdminAPI: false
+    listenLocal: false
+    logFormat: logfmt
+    logLevel: info
+    paused: false
+    podMetadata:
+      annotations:
+        traffic.sidecar.istio.io/excludeOutboundPorts: "9093"
+    podMonitorNamespaceSelector: {}
+    portName: web
+    probeNamespaceSelector: {}
+    replicas: 1
+    retention: 24h
+    ruleNamespaceSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    shards: 1
+    securityContext:
+      runAsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+    version: v2.26.0
+
+service:
+  port: 9090
+
+serviceAccount:
+  annotations: {}

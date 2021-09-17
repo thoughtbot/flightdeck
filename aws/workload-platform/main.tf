@@ -7,6 +7,8 @@ module "common_platform" {
   fluent_bit_enable_kubernetes_annotations = var.fluent_bit_enable_kubernetes_annotations
   fluent_bit_enable_kubernetes_labels      = var.fluent_bit_enable_kubernetes_labels
   istio_discovery_values                   = var.istio_discovery_values
+  metrics_server_values                    = var.metrics_server_values
+  metrics_server_version                   = var.metrics_server_version
   pagerduty_routing_key                    = local.pagerduty_routing_key
   prometheus_adapter_values                = var.prometheus_adapter_values
   secret_store_driver_values               = var.secret_store_driver_values
@@ -27,6 +29,16 @@ module "common_platform" {
     var.external_dns_values
   )
 
+  federated_prometheus_values = concat(
+    local.federated_prometheus_values,
+    var.federated_prometheus_values
+  )
+
+  flightdeck_prometheus_values = concat(
+    local.flightdeck_prometheus_values,
+    var.flightdeck_prometheus_values
+  )
+
   fluent_bit_values = concat(
     local.fluent_bit_values,
     var.fluent_bit_values
@@ -41,6 +53,8 @@ module "common_platform" {
     local.prometheus_operator_values,
     var.prometheus_operator_values
   )
+
+  depends_on = [module.prometheus_service_account_role]
 }
 
 module "aws_load_balancer_controller" {
@@ -119,7 +133,7 @@ module "prometheus_service_account_role" {
 
   aws_namespace        = [module.cluster_name.full]
   aws_tags             = var.aws_tags
-  k8s_namespace        = var.k8s_namespace
+  k8s_namespace        = "kube-prometheus-stack"
   oidc_issuer          = data.aws_ssm_parameter.oidc_issuer.value
   workspace_account_id = local.monitoring_account_id
   workspace_name       = var.prometheus_workspace_name
@@ -222,6 +236,83 @@ locals {
     })
   ]
 
+  federated_prometheus_values = concat(
+    (
+      var.prometheus_workspace_name == null ?
+      [] :
+      [
+        yamlencode({
+          serviceAccount = {
+            annotations = {
+              "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
+            }
+          }
+          prometheus = {
+            spec = {
+              # This sidecar container can be replaced on Sigv4 support is merged
+              # https://github.com/prometheus-operator/prometheus-operator/issues/3987
+              containers = [
+                {
+                  args = [
+                    "--name",
+                    "aps",
+                    "--region",
+                    local.prometheus_workspace["region"],
+                    "--host",
+                    local.prometheus_workspace["host"],
+                    "--port",
+                    ":8005",
+                    "--role-arn",
+                    local.prometheus_workspace["role_arn"]
+                  ]
+                  name  = "sigv4-proxy"
+                  image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
+                  ports = [
+                    {
+                      containerPort = 8005
+                      name          = "aws-sigv4-proxy"
+                    }
+                  ]
+                }
+              ]
+              remoteWrite = [
+                {
+                  queueConfig = {
+                    capacity          = 2500
+                    maxSamplesPerSend = 1000
+                    maxShards         = 200
+                  }
+                  url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
+                }
+              ]
+            }
+          }
+        })
+      ]
+    ),
+    var.federated_prometheus_values
+  )
+
+  flightdeck_prometheus_values = [
+    yamlencode({
+      prometheus = {
+        retentionSize = "8GB"
+        spec = {
+          volumeClaimTemplate = {
+            spec = {
+              resources = {
+                requests = {
+                  storage = "10Gi"
+                }
+              }
+              storageClassName = "gp2"
+            }
+          }
+        }
+      }
+    })
+  ]
+
   fluent_bit_values = [
     yamlencode({
       config = {
@@ -294,75 +385,25 @@ locals {
   prometheus_operator_values = concat(
     [
       yamlencode({
-        retentionSize = "30GB"
-        storageSpec = {
-          volumeClaimTemplate = {
-            spec = {
-              resources = {
-                requests = {
-                  storage = "40Gi"
+        prometheus = {
+          prometheusSpec = {
+            retentionSize = "8GB"
+            storageSpec = {
+              volumeClaimTemplate = {
+                spec = {
+                  resources = {
+                    requests = {
+                      storage = "10Gi"
+                    }
+                  }
+                  storageClassName = "gp2"
                 }
               }
-              storageClassName = "gp2"
             }
           }
         }
       })
-    ],
-    (
-      var.prometheus_workspace_name == null ?
-      [] :
-      [
-        yamlencode({
-          prometheus = {
-            serviceAccount = {
-              annotations = {
-                "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
-              }
-            }
-            prometheusSpec = {
-              # This sidecar container can be replaced on Sigv4 support is merged
-              # https://github.com/prometheus-operator/prometheus-operator/issues/3987
-              containers = [
-                {
-                  args = [
-                    "--name",
-                    "aps",
-                    "--region",
-                    local.prometheus_workspace["region"],
-                    "--host",
-                    local.prometheus_workspace["host"],
-                    "--port",
-                    ":8005",
-                    "--role-arn",
-                    local.prometheus_workspace["role_arn"]
-                  ]
-                  name  = "sigv4-proxy"
-                  image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
-                  ports = [
-                    {
-                      containerPort = 8005
-                      name          = "aws-sigv4-proxy"
-                    }
-                  ]
-                }
-              ]
-              remoteWrite = [
-                {
-                  queueConfig = {
-                    capacity          = 2500
-                    maxSamplesPerSend = 1000
-                    maxShards         = 200
-                  }
-                  url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
-                }
-              ]
-            }
-
-          }
-        })
-      ]
-    )
+    ]
   )
 
   prometheus_workspace = try(jsondecode(local.prometheus_workspace_json), {})

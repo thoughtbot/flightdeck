@@ -81,6 +81,18 @@ variable "external_dns_values" {
   default     = []
 }
 
+variable "federated_prometheus_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "flightdeck_prometheus_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "fluent_bit_enable_kubernetes_annotations" {
   description = "Set to true to add Kubernetes annotations to log output"
   type        = bool
@@ -127,6 +139,18 @@ variable "logs_retention_in_days" {
   type        = number
   default     = 30
   description = "Number of days for which logs should be retained"
+}
+
+variable "metrics_server_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "metrics_server_version" {
+  type        = string
+  description = "Version of the Metrics Server to install"
+  default     = "3.5.0"
 }
 
 variable "node_roles" {

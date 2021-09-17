@@ -29,7 +29,7 @@ variable "role_name" {
 variable "service_account_name" {
   type        = string
   description = "Name for the Prometheus service account"
-  default     = "kube-prometheus-stack-prometheus"
+  default     = "federated-prometheus"
 }
 
 variable "workspace_account_id" {

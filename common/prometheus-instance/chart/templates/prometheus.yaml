@@ -1,0 +1,157 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: {{ template "prometheus.fullname" . }}
+  labels:
+    {{- include "prometheus.labels" . | nindent 4 }}
+  {{- with .Values.prometheus.annotations }}
+  annotations:
+    {{- toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  alerting:
+    alertmanagers:
+      {{ toYaml .Values.prometheus.spec.alertmanagers | indent 6 | trim }}
+  disableCompaction: {{ .Values.prometheus.spec.disableCompaction }}
+  enableAdminAPI: {{ .Values.prometheus.spec.enableAdminAPI }}
+  {{- with .Values.prometheus.spec.externalLabels }}
+  externalLabels:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  externalUrl: http://{{ template "prometheus.fullname" . }}-prometheus.{{ .Release.Namespace }}:{{ .Values.service.port }}
+  listenLocal: {{ .Values.prometheus.spec.listenLocal }}
+  logFormat:  {{ .Values.prometheus.spec.logFormat }}
+  logLevel:  {{ .Values.prometheus.spec.logLevel }}
+  paused: {{ .Values.prometheus.spec.paused }}
+  {{- with .Values.prometheus.spec.podMetadata }}
+  podMetadata:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  portName: {{ .Values.prometheus.spec.portName }}
+  replicas: {{ .Values.prometheus.spec.replicas }}
+  version: {{ .Values.prometheus.spec.version }}
+  serviceAccountName: {{ template "prometheus.fullname" . }}
+  shards: {{ .Values.prometheus.spec.shards }}
+  {{- with .Values.prometheus.spec.scrapeInterval }}
+  scrapeInterval: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.scrapeTimeout }}
+  scrapeTimeout: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.evaluationInterval }}
+  evaluationInterval: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.resources }}
+    resources:
+      {{ toYaml .Values.prometheus.spec.resources | indent 4 }}
+  {{- end }}
+  retention: {{ .Values.prometheus.spec.retention | quote  }}
+  {{- with .Values.prometheus.spec.retentionSize }}
+  retentionSize: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.walCompression }}
+  walCompression: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.routePrefix }}
+  routePrefix: {{ . | quote  }}
+  {{- end }}
+  serviceMonitorSelector:
+    matchLabels:
+      prometheus: {{ template "prometheus.fullname" . }} 
+  serviceMonitorNamespaceSelector:
+    {{ toYaml .Values.prometheus.spec.serviceMonitorNamespaceSelector | indent 4 | trim }}
+  podMonitorSelector:
+    matchLabels:
+      prometheus: {{ template "prometheus.fullname" . }} 
+  podMonitorNamespaceSelector:
+    {{ toYaml .Values.prometheus.spec.podMonitorNamespaceSelector | indent 4 | trim }}
+  probeSelector:
+    matchLabels:
+      prometheus: {{ template "prometheus.fullname" . }} 
+  probeNamespaceSelector:
+    {{ toYaml .Values.prometheus.spec.probeNamespaceSelector | indent 4 | trim }}
+  ruleSelector:
+    matchLabels:
+      prometheus: {{ template "prometheus.fullname" . }} 
+  ruleNamespaceSelector:
+    {{ toYaml .Values.prometheus.spec.ruleNamespaceSelector | indent 4 | trim }}
+  {{- with .Values.prometheus.spec.remoteWrite }}
+  remoteWrite:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.securityContext }}
+  securityContext:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.storage }}
+  storage:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.query }}
+  query:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.tolerations }}
+  tolerations:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.topologySpreadConstraints }}
+  topologySpreadConstraints:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.imagePullSecrets }}
+  imagePullSecrets:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- if .Values.prometheus.spec.additionalScrapeConfigs }}
+  additionalScrapeConfigs:
+    name: {{ template "prometheus.fullname" . }}-scrape-config
+    key: additional-scrape-configs.yaml
+  {{- end }}
+  {{- with .Values.prometheus.spec.additionalAlertManagerConfigs }}
+  additionalAlertManagerConfigs:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.additionalAlertRelabelConfigs }}
+  additionalAlertRelabelConfigs:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.containers }}
+  containers:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.initContainers }}
+  initContainers:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.priorityClassName }}
+  priorityClassName: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.thanos }}
+  thanos:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.overrideHonorLabels }}
+  overrideHonorLabels:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.overrideHonorTimestamps }}
+  overrideHonorTimestamps:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.ignoreNamespaceSelectors }}
+  ignoreNamespaceSelectors:
+    {{ toYaml . | indent 4 | trim }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.enforcedNamespaceLabel }}
+  enforcedNamespaceLabel: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.queryLogFile }}
+  queryLogFile: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.enforcedSampleLimit }}
+  enforcedSampleLimit: {{ . }}
+  {{- end }}
+  {{- with .Values.prometheus.spec.allowOverlappingBlocks }}
+  allowOverlappingBlocks: {{ . }}
+  {{- end }}

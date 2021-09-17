@@ -58,6 +58,18 @@ variable "flightdeck_namespace" {
   description = "Kubernetes namespace in which flightdeck should be installed"
 }
 
+variable "federated_prometheus_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "flightdeck_prometheus_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "fluent_bit_enable_kubernetes_annotations" {
   description = "Set to true to add Kubernetes annotations to log output"
   type        = bool
@@ -104,6 +116,18 @@ variable "istio_version" {
   type        = string
   description = "Version of Istio to install"
   default     = "1.10.0"
+}
+
+variable "metrics_server_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "metrics_server_version" {
+  type        = string
+  description = "Version of the Metrics Server to install"
+  default     = "3.5.0"
 }
 
 variable "pagerduty_routing_key" {
