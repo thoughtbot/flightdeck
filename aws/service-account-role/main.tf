@@ -6,40 +6,26 @@ resource "aws_iam_role" "this" {
 }
 
 data "aws_iam_policy_document" "assume_role" {
-  statement {
-    actions = ["sts:AssumeRoleWithWebIdentity"]
+  dynamic "statement" {
+    for_each = local.oidc_issuers
 
-    principals {
-      type = "Federated"
-      identifiers = [
-        join(
-          "/",
-          [
-            join(
-              ":",
-              [
-                "arn",
-                data.aws_partition.current.partition,
-                "iam",
-                "",
-                data.aws_caller_identity.current.account_id,
-                "oidc-provider"
-              ]
-            ),
-            var.oidc_issuer
-          ]
-        )
-      ]
-    }
+    content {
+      actions = ["sts:AssumeRoleWithWebIdentity"]
 
-    condition {
-      test     = "StringEquals"
-      variable = "${var.oidc_issuer}:sub"
+      principals {
+        identifiers = ["${local.oidc_root}/${statement.value}"]
+        type        = "Federated"
+      }
 
-      values = [
-        for service_account in var.service_accounts :
-        "system:serviceaccount:${service_account}"
-      ]
+      condition {
+        test     = "StringEquals"
+        variable = "${statement.value}:sub"
+
+        values = [
+          for service_account in var.service_accounts :
+          "system:serviceaccount:${service_account}"
+        ]
+      }
     }
   }
 }
@@ -47,9 +33,30 @@ data "aws_iam_policy_document" "assume_role" {
 data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
 
+data "aws_ssm_parameter" "oidc_issuer" {
+  for_each = toset(var.cluster_names)
+
+  name = join("/", concat(["", "flightdeck", each.value, "oidc_issuer"]))
+}
+
 locals {
   name = join(
     "-",
     distinct(split("-", join("-", concat(var.namespace, [var.name]))))
   )
+
+  oidc_root = join(
+    ":",
+    [
+      "arn",
+      data.aws_partition.current.partition,
+      "iam",
+      "",
+      data.aws_caller_identity.current.account_id,
+      "oidc-provider"
+    ]
+  )
+
+  cluster_issuers = values(data.aws_ssm_parameter.oidc_issuer).*.value
+  oidc_issuers    = concat(var.oidc_issuers, local.cluster_issuers)
 }

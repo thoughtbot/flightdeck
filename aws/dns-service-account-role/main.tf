@@ -1,10 +1,10 @@
 module "dns_service_account_role" {
   source = "../service-account-role"
 
-  name        = "dns"
-  namespace   = var.aws_namespace
-  oidc_issuer = var.oidc_issuer
-  tags        = var.aws_tags
+  name         = "dns"
+  namespace    = var.aws_namespace
+  oidc_issuers = [var.oidc_issuer]
+  tags         = var.aws_tags
 
   service_accounts = [
     "${var.k8s_namespace}:cert-manager",

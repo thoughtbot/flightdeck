@@ -3,7 +3,7 @@ module "cluster_autoscaler_service_account_role" {
 
   name             = "cluster-autoscaler"
   namespace        = var.aws_namespace
-  oidc_issuer      = var.oidc_issuer
+  oidc_issuers     = [var.oidc_issuer]
   service_accounts = ["${var.k8s_namespace}:cluster-autoscaler"]
   tags             = var.aws_tags
 }

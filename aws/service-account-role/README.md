@@ -24,14 +24,16 @@ No modules.
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
+| [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | Names of Kubernetes clusters (to look up OIDC issuers) | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the role | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
-| <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
+| <a name="input_oidc_issuers"></a> [oidc\_issuers](#input\_oidc\_issuers) | OIDC issuers for Kubernetes clusters | `list(string)` | `[]` | no |
 | <a name="input_service_accounts"></a> [service\_accounts](#input\_service\_accounts) | Namespace and name of service accounts allowed to use this role | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
 

@@ -41,7 +41,7 @@ monitoring account.
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | n/a | yes |
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the operations Kubernetes cluster | `string` | n/a | yes |
 | <a name="input_role_name"></a> [role\_name](#input\_role\_name) | Name for the IAM role | `string` | `"prometheus"` | no |
-| <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Name for the Prometheus service account | `string` | `"kube-prometheus-stack-prometheus"` | no |
+| <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Name for the Prometheus service account | `string` | `"federated-prometheus"` | no |
 | <a name="input_workspace_account_id"></a> [workspace\_account\_id](#input\_workspace\_account\_id) | ID of the account in which the Prometheus workspace is found | `string` | n/a | yes |
 | <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Name of the Prometheus workspace | `string` | n/a | yes |
 

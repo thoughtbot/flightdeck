@@ -3,7 +3,7 @@ module "fluent_bit_service_account_role" {
 
   name             = "fluent-bit"
   namespace        = var.aws_namespace
-  oidc_issuer      = var.oidc_issuer
+  oidc_issuers     = [var.oidc_issuer]
   service_accounts = ["${var.k8s_namespace}:fluent-bit"]
   tags             = var.aws_tags
 }

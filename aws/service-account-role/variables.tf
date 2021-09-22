@@ -1,3 +1,9 @@
+variable "cluster_names" {
+  type        = list(string)
+  description = "Names of Kubernetes clusters (to look up OIDC issuers)"
+  default     = []
+}
+
 variable "name" {
   type        = string
   description = "Name for the role"
@@ -9,9 +15,10 @@ variable "namespace" {
   default     = []
 }
 
-variable "oidc_issuer" {
-  type        = string
-  description = "OIDC issuer of the Kubernetes cluster"
+variable "oidc_issuers" {
+  type        = list(string)
+  description = "OIDC issuers for Kubernetes clusters"
+  default     = []
 }
 
 variable "service_accounts" {
