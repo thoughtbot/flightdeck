@@ -42,6 +42,11 @@
       "repository": "https://prometheus-community.github.io/helm-charts",
       "version": "16.0.1"
     },
+    "reloader": {
+      "chart": "reloader",
+      "repository": "https://stakater.github.io/stakater-charts",
+      "version": "v0.0.99"
+    },
     "secret-store-driver": {
       "chart": "secrets-store-csi-driver",
       "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",

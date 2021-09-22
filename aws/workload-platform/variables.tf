@@ -189,6 +189,18 @@ variable "prometheus_workspace_name" {
   default     = null
 }
 
+variable "reloader_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "reloader_version" {
+  type        = string
+  description = "Version of external-dns to install"
+  default     = null
+}
+
 variable "secret_store_driver_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

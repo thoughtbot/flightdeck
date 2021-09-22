@@ -11,6 +11,8 @@ module "common_platform" {
   metrics_server_version                   = var.metrics_server_version
   pagerduty_routing_key                    = local.pagerduty_routing_key
   prometheus_adapter_values                = var.prometheus_adapter_values
+  reloader_values                          = var.reloader_values
+  reloader_version                         = var.reloader_version
   secret_store_driver_values               = var.secret_store_driver_values
   secret_store_driver_version              = var.secret_store_driver_version
 
