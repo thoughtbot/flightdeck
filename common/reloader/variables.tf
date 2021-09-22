@@ -1,7 +1,7 @@
 variable "chart_name" {
   type        = string
   description = "Helm chart to install"
-  default     = "metrics-server"
+  default     = null
 }
 
 variable "chart_values" {
@@ -30,5 +30,5 @@ variable "k8s_namespace" {
 variable "name" {
   type        = string
   description = "Name for the Helm release"
-  default     = "metrics-server"
+  default     = "reloader"
 }
