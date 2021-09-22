@@ -7,7 +7,7 @@ variable "cert_manager_values" {
 variable "cert_manager_version" {
   type        = string
   description = "Version of cert-manager to install"
-  default     = "v1.3.1"
+  default     = null
 }
 
 variable "certificate_issuer" {
@@ -49,7 +49,7 @@ variable "external_dns_values" {
 variable "external_dns_version" {
   type        = string
   description = "Version of external-dns to install"
-  default     = "5.0.0"
+  default     = null
 }
 
 variable "flightdeck_namespace" {
@@ -91,7 +91,7 @@ variable "fluent_bit_values" {
 variable "fluent_bit_version" {
   type        = string
   description = "Version of Fluent Bit to install"
-  default     = "0.15.1"
+  default     = null
 }
 
 variable "istio_discovery_values" {

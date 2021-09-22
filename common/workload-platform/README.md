@@ -53,21 +53,21 @@ Installs the components necessary for running workloads:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cert_manager_values"></a> [cert\_manager\_values](#input\_cert\_manager\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_cert_manager_version"></a> [cert\_manager\_version](#input\_cert\_manager\_version) | Version of cert-manager to install | `string` | `"v1.3.1"` | no |
+| <a name="input_cert_manager_version"></a> [cert\_manager\_version](#input\_cert\_manager\_version) | Version of cert-manager to install | `string` | `null` | no |
 | <a name="input_certificate_issuer"></a> [certificate\_issuer](#input\_certificate\_issuer) | YAML spec for certificate issuer; defaults to self-signed | `string` | `null` | no |
 | <a name="input_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#input\_cluster\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_cluster_autoscaler_version"></a> [cluster\_autoscaler\_version](#input\_cluster\_autoscaler\_version) | Version of cluster-autoscaler to install | `string` | `null` | no |
 | <a name="input_domain_names"></a> [domain\_names](#input\_domain\_names) | Domains which are allowed in this cluster | `list(string)` | `[]` | no |
 | <a name="input_external_dns_enabled"></a> [external\_dns\_enabled](#input\_external\_dns\_enabled) | Set to false to disable External DNS | `bool` | `true` | no |
 | <a name="input_external_dns_values"></a> [external\_dns\_values](#input\_external\_dns\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_external_dns_version"></a> [external\_dns\_version](#input\_external\_dns\_version) | Version of external-dns to install | `string` | `"5.0.0"` | no |
+| <a name="input_external_dns_version"></a> [external\_dns\_version](#input\_external\_dns\_version) | Version of external-dns to install | `string` | `null` | no |
 | <a name="input_federated_prometheus_values"></a> [federated\_prometheus\_values](#input\_federated\_prometheus\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_flightdeck_namespace"></a> [flightdeck\_namespace](#input\_flightdeck\_namespace) | Kubernetes namespace in which flightdeck should be installed | `string` | `"flightdeck"` | no |
 | <a name="input_flightdeck_prometheus_values"></a> [flightdeck\_prometheus\_values](#input\_flightdeck\_prometheus\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_fluent_bit_enable_kubernetes_annotations"></a> [fluent\_bit\_enable\_kubernetes\_annotations](#input\_fluent\_bit\_enable\_kubernetes\_annotations) | Set to true to add Kubernetes annotations to log output | `bool` | `false` | no |
 | <a name="input_fluent_bit_enable_kubernetes_labels"></a> [fluent\_bit\_enable\_kubernetes\_labels](#input\_fluent\_bit\_enable\_kubernetes\_labels) | Set to true to add Kubernetes labels to log output | `bool` | `false` | no |
 | <a name="input_fluent_bit_values"></a> [fluent\_bit\_values](#input\_fluent\_bit\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_fluent_bit_version"></a> [fluent\_bit\_version](#input\_fluent\_bit\_version) | Version of Fluent Bit to install | `string` | `"0.15.1"` | no |
+| <a name="input_fluent_bit_version"></a> [fluent\_bit\_version](#input\_fluent\_bit\_version) | Version of Fluent Bit to install | `string` | `null` | no |
 | <a name="input_istio_discovery_values"></a> [istio\_discovery\_values](#input\_istio\_discovery\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_ingress_values"></a> [istio\_ingress\_values](#input\_istio\_ingress\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | Kubernetes namespace in which istio should be installed | `string` | `"istio-system"` | no |
