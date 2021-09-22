@@ -37,6 +37,7 @@ variable "discovery_chart_values" {
 variable "istio_version" {
   type        = string
   description = "Version of Istio to be installed"
+  default     = null
 }
 
 variable "k8s_namespace" {

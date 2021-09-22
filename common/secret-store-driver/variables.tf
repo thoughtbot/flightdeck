@@ -1,7 +1,7 @@
 variable "chart_name" {
   type        = string
   description = "Helm chart to install"
-  default     = "secrets-store-csi-driver"
+  default     = null
 }
 
 variable "chart_values" {
@@ -13,12 +13,13 @@ variable "chart_values" {
 variable "chart_version" {
   type        = string
   description = "Version of chart to install"
+  default     = null
 }
 
 variable "chart_repository" {
   type        = string
   description = "Helm repository containing the chart"
-  default     = "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
+  default     = null
 }
 
 variable "k8s_namespace" {

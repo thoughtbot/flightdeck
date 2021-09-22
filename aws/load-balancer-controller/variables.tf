@@ -13,7 +13,7 @@ variable "aws_tags" {
 variable "chart_name" {
   type        = string
   description = "Helm chart to install"
-  default     = "aws-load-balancer-controller"
+  default     = null
 }
 
 variable "chart_values" {
@@ -25,12 +25,13 @@ variable "chart_values" {
 variable "chart_version" {
   type        = string
   description = "Version of chart to install"
+  default     = null
 }
 
 variable "chart_repository" {
   type        = string
   description = "Helm repository containing the chart"
-  default     = "https://aws.github.io/eks-charts"
+  default     = null
 }
 
 variable "cluster_full_name" {
@@ -46,7 +47,7 @@ variable "k8s_namespace" {
 
 variable "name" {
   type        = string
-  description = "Name for the service account role"
+  description = "Name for the release"
   default     = "aws-load-balancer-controller"
 }
 

@@ -1,0 +1,68 @@
+#!/bin/sh
+
+set -e
+
+platforms() {
+  jq -r 'keys[]' < charts.json
+}
+
+charts() {
+  jq -r --arg platform "$1" '.[$platform] | keys[]' < charts.json
+}
+
+version() {
+  jq -r \
+    --arg platform "$1" \
+    --arg chart "$2" \
+    '.[$platform][$chart].version' \
+    < charts.json
+}
+
+addrepo() {
+  repository=$(jq -r \
+    --arg platform "$1" \
+    --arg chart "$2" \
+    '.[$platform][$chart].repository' \
+    < charts.json)
+  helm repo add "$2" "$repository"
+}
+
+latest() {
+  chart=$(jq -r \
+    --arg platform "$1" \
+    --arg chart "$2" \
+    '.[$platform][$chart].chart' \
+    < charts.json)
+  helm search repo -o json "$2" \
+    | jq --arg chart "$2/$chart" -r '.[] | select(.name==$chart) | .version'
+}
+
+update_chart() {
+  jq \
+    --arg platform "$1" \
+    --arg chart "$2" \
+    --arg version "$3" \
+    '.[$platform][$chart].version |= $version' \
+    < charts.json \
+    > /tmp/charts.json
+  mv /tmp/charts.json charts.json
+}
+
+echo "Updating repositories..."
+platforms | while read -r platform; do
+  charts "$platform" | while read -r chart; do
+    addrepo "$platform" "$chart"
+  done
+done
+helm repo update
+
+platforms | while read -r platform; do
+  echo
+  echo "Updating $platform charts:"
+  charts "$platform" | while read -r chart; do
+    current=$(version "$platform" "$chart")
+    latest=$(latest "$platform" "$chart")
+    echo "* $chart: $current -> $latest"
+    update_chart "$platform" "$chart" "$latest"
+  done
+done

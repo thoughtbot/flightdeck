@@ -25,7 +25,7 @@ variable "cluster_autoscaler_values" {
 variable "cluster_autoscaler_version" {
   type        = string
   description = "Version of cluster-autoscaler to install"
-  default     = "9.7.0"
+  default     = null
 }
 
 variable "domain_names" {
@@ -115,7 +115,7 @@ variable "istio_namespace" {
 variable "istio_version" {
   type        = string
   description = "Version of Istio to install"
-  default     = "1.10.0"
+  default     = null
 }
 
 variable "metrics_server_values" {
@@ -127,7 +127,7 @@ variable "metrics_server_values" {
 variable "metrics_server_version" {
   type        = string
   description = "Version of the Metrics Server to install"
-  default     = "3.5.0"
+  default     = null
 }
 
 variable "pagerduty_routing_key" {
@@ -145,7 +145,7 @@ variable "prometheus_adapter_values" {
 variable "prometheus_adapter_version" {
   type        = string
   description = "Version of prometheus adapter to install"
-  default     = "2.17.0"
+  default     = null
 }
 
 variable "prometheus_operator_values" {
@@ -157,7 +157,7 @@ variable "prometheus_operator_values" {
 variable "prometheus_operator_version" {
   type        = string
   description = "Version of external-dns to install"
-  default     = "16.0.1"
+  default     = null
 }
 
 variable "secret_store_driver_values" {
@@ -169,5 +169,5 @@ variable "secret_store_driver_values" {
 variable "secret_store_driver_version" {
   type        = string
   description = "Version of the secret store driver to install"
-  default     = "0.3.0"
+  default     = null
 }

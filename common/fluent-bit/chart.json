@@ -1,0 +1,5 @@
+{
+  "chart": "fluent-bit",
+  "repository": "https://fluent.github.io/helm-charts",
+  "version": "0.15.1"
+}

@@ -19,7 +19,7 @@ variable "aws_load_balancer_controller_values" {
 variable "aws_load_balancer_controller_version" {
   type        = string
   description = "Version of aws-load-balancer-controller to install"
-  default     = "1.2.3"
+  default     = null
 }
 
 variable "aws_namespace" {
@@ -150,7 +150,7 @@ variable "metrics_server_values" {
 variable "metrics_server_version" {
   type        = string
   description = "Version of the Metrics Server to install"
-  default     = "3.5.0"
+  default     = null
 }
 
 variable "node_roles" {
@@ -198,7 +198,7 @@ variable "secret_store_driver_values" {
 variable "secret_store_driver_version" {
   type        = string
   description = "Version of the secret store driver to install"
-  default     = "0.3.0"
+  default     = null
 }
 
 variable "secret_store_provider_values" {

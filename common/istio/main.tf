@@ -4,7 +4,7 @@ resource "helm_release" "base" {
   namespace  = var.k8s_namespace
   repository = var.base_chart_repository
   values     = var.base_chart_values
-  version    = var.istio_version
+  version    = coalesce(var.istio_version, file("${path.module}/VERSION"))
 }
 
 resource "helm_release" "discovery" {
@@ -13,7 +13,7 @@ resource "helm_release" "discovery" {
   namespace  = var.k8s_namespace
   repository = var.discovery_chart_repository
   values     = concat(local.discovery_chart_values, var.discovery_chart_values)
-  version    = var.istio_version
+  version    = coalesce(var.istio_version, file("${path.module}/VERSION"))
 
   depends_on = [helm_release.base]
 }

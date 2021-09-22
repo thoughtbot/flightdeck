@@ -1,0 +1,51 @@
+{
+  "aws": {
+    "load-balancer-controller": {
+      "chart": "aws-load-balancer-controller",
+      "repository": "https://aws.github.io/eks-charts",
+      "version": "1.2.7"
+    }
+  },
+  "common": {
+    "cert-manager": {
+      "chart": "cert-manager",
+      "repository": "https://charts.jetstack.io",
+      "version": "v1.3.1"
+    },
+    "cluster-autoscaler": {
+      "chart": "cluster-autoscaler",
+      "repository": "https://kubernetes.github.io/autoscaler",
+      "version": "9.7.0"
+    },
+    "external-dns": {
+      "chart": "external-dns",
+      "repository": "https://charts.bitnami.com/bitnami",
+      "version": "5.4.7"
+    },
+    "fluent-bit": {
+      "chart": "fluent-bit",
+      "repository": "https://fluent.github.io/helm-charts",
+      "version": "0.15.1"
+    },
+    "metrics-server": {
+      "chart": "metrics-server",
+      "repository": "https://kubernetes-sigs.github.io/metrics-server",
+      "version": "3.5.0"
+    },
+    "prometheus-adapter": {
+      "chart": "prometheus-adapter",
+      "repository": "https://prometheus-community.github.io/helm-charts",
+      "version": "2.17.0"
+    },
+    "prometheus-operator": {
+      "chart": "kube-prometheus-stack",
+      "repository": "https://prometheus-community.github.io/helm-charts",
+      "version": "16.0.1"
+    },
+    "secret-store-driver": {
+      "chart": "secrets-store-csi-driver",
+      "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",
+      "version": "0.3.0"
+    }
+  }
+}

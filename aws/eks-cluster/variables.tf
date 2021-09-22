@@ -40,7 +40,6 @@ variable "tags" {
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version to deploy"
-  default     = "1.18"
 }
 
 variable "vpc" {
