@@ -9,6 +9,8 @@ prometheus:
         'match[]':
           - '{__name__=~"instance:.*"}'
           - '{__name__=~"istio:.*"}'
+          - '{__name__=~"namespace_cpu:.*"}'
+          - '{__name__=~"namespace_memory:.*"}'
           - '{__name__=~"svc:.*"}'
       static_configs:
       - targets:
