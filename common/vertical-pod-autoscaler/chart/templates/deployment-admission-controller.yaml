@@ -23,6 +23,7 @@ spec:
         - --client-ca-file=/etc/tls-certs/ca.crt
         - --tls-cert-file=/etc/tls-certs/tls.crt
         - --tls-private-key=/etc/tls-certs/tls.key
+        - --webhook-service={{ include "vpa.suffixedname" (merge (dict "suffix" "admission-controller") .) }}
         env:
         - name: NAMESPACE
           valueFrom:
