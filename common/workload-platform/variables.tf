@@ -183,3 +183,9 @@ variable "secret_store_driver_version" {
   description = "Version of the secret store driver to install"
   default     = null
 }
+
+variable "vertical_pod_autoscaler_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}

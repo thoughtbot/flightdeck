@@ -39,6 +39,7 @@ Installs the components necessary for running workloads:
 | <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ../../common/prometheus-operator |  |
 | <a name="module_reloader"></a> [reloader](#module\_reloader) | ../../common/reloader |  |
 | <a name="module_secret_store_driver"></a> [secret\_store\_driver](#module\_secret\_store\_driver) | ../../common/secret-store-driver |  |
+| <a name="module_vertical_pod_autoscaler"></a> [vertical\_pod\_autoscaler](#module\_vertical\_pod\_autoscaler) | ../../common/vertical-pod-autoscaler |  |
 
 ## Resources
 
@@ -83,6 +84,7 @@ Installs the components necessary for running workloads:
 | <a name="input_reloader_version"></a> [reloader\_version](#input\_reloader\_version) | Version of external-dns to install | `string` | `null` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
+| <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 
 ## Outputs
 

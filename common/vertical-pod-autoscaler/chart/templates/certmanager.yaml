@@ -1,0 +1,46 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "vpa.fullname" . }}-self-signed-issuer
+  namespace: {{ .Release.Namespace }}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "vpa.fullname" . }}-root-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ include "vpa.fullname" . }}-root-cert
+  duration: 43800h0m0s # 5y
+  issuerRef:
+    name: {{ include "vpa.fullname" . }}-self-signed-issuer
+  commonName: "ca.webhook.vpa"
+  isCA: true
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "vpa.fullname" . }}-root-issuer
+  namespace: {{ .Release.Namespace }}
+spec:
+  ca:
+    secretName: {{ include "vpa.fullname" . }}-root-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "vpa.fullname" . }}-admission
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ include "vpa.suffixedname" (merge (dict "suffix" "tls") .) }}
+  duration: 8760h0m0s # 1y
+  issuerRef:
+    name: {{ include "vpa.fullname" . }}-root-issuer
+  dnsNames:
+  {{- $admissionController := include "vpa.suffixedname" (merge (dict "suffix" "admission-controller") .) }}
+  - {{ $admissionController }}
+  - {{ $admissionController }}.{{ .Release.Namespace }}
+  - {{ $admissionController }}.{{ .Release.Namespace }}.svc

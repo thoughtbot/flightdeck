@@ -1,0 +1,16 @@
+{{- if .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "metrics-reader") .) }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - metrics.k8s.io
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+{{- end }}

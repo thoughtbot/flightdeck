@@ -1,0 +1,22 @@
+{{- if .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "target-reader-binding") .) }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "target-reader") .) }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "vpa.serviceAccountName" (merge (dict "component" "recommender") .) }}
+  namespace: {{ .Release.Namespace }}
+- kind: ServiceAccount
+  name: {{ include "vpa.serviceAccountName" (merge (dict "component" "admissionController") .) }}
+  namespace: {{ .Release.Namespace }}
+- kind: ServiceAccount
+  name: {{ include "vpa.serviceAccountName" (merge (dict "component" "updater") .) }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}

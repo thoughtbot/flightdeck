@@ -218,3 +218,9 @@ variable "secret_store_provider_values" {
   type        = list(string)
   default     = []
 }
+
+variable "vertical_pod_autoscaler_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}

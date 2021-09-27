@@ -1,0 +1,64 @@
+nameOverride: ""
+fullnameOverride: ""
+
+admissionController:
+  deployment:
+    affinity: {}
+    image:
+      repository: k8s.gcr.io/autoscaling/vpa-admission-controller
+      pullPolicy: IfNotPresent
+      tag: ""
+    imagePullSecrets: []
+    nodeSelector: {}
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    tolerations: []
+  service:
+    annotations: {}
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+
+recommender:
+  deployment:
+    affinity: {}
+    image:
+      repository: k8s.gcr.io/autoscaling/vpa-recommender
+      pullPolicy: IfNotPresent
+      tag: ""
+    imagePullSecrets: []
+    nodeSelector: {}
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    tolerations: []
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+
+updater:
+  deployment:
+    affinity: {}
+    image:
+      repository: k8s.gcr.io/autoscaling/vpa-updater
+      pullPolicy: IfNotPresent
+      tag: ""
+    imagePullSecrets: []
+    nodeSelector: {}
+    resources: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    tolerations: []
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+
+rbac:
+  enabled: true

@@ -1,0 +1,17 @@
+{{- if .Values.rbac.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "status-reader") .) }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+{{- end }}

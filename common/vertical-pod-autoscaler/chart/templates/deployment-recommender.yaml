@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "recommender") .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+    app.kubernetes.io/component: recommender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "vpa.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: recommender
+  template:
+    metadata:
+      labels:
+        {{- include "vpa.labels" . | nindent 8 }}
+        app.kubernetes.io/component: recommender
+    spec:
+      containers:
+      - image: {{ .Values.recommender.deployment.image.repository }}:{{ .Values.recommender.deployment.image.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.recommender.deployment.image.pullPolicy }}
+        {{- with .Values.recommender.deployment.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        name: recommender
+        ports:
+        - containerPort: 8942
+          name: prometheus
+        {{- with .Values.recommender.deployment.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.recommender.deployment.nodeSelector }}
+        nodeSelector:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.recommender.deployment.affinity }}
+        affinity:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.recommender.deployment.tolerations }}
+        tolerations:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      securityContext:
+        {{- toYaml .Values.recommender.deployment.securityContext | nindent 8 }}
+      serviceAccountName: {{ include "vpa.serviceAccountName" (merge (dict "component" "recommender") .) }}

@@ -15,6 +15,7 @@ module "common_platform" {
   reloader_version                         = var.reloader_version
   secret_store_driver_values               = var.secret_store_driver_values
   secret_store_driver_version              = var.secret_store_driver_version
+  vertical_pod_autoscaler_values           = var.vertical_pod_autoscaler_values
 
   cert_manager_values = concat(
     local.cert_manager_values,

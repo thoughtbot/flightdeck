@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "updater") .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+    app.kubernetes.io/component: updater
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "vpa.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: updater
+  template:
+    metadata:
+      labels:
+        {{- include "vpa.labels" . | nindent 8 }}
+        app.kubernetes.io/component: updater
+    spec:
+      containers:
+      - env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: {{ .Values.updater.deployment.image.repository }}:{{ .Values.updater.deployment.image.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.updater.deployment.image.pullPolicy }}
+        {{- with .Values.updater.deployment.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        name: updater
+        ports:
+        - containerPort: 8943
+          name: prometheus
+        {{- with .Values.updater.deployment.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.updater.deployment.nodeSelector }}
+        nodeSelector:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.updater.deployment.affinity }}
+        affinity:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.updater.deployment.tolerations }}
+        tolerations:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      securityContext:
+        {{- toYaml .Values.recommender.deployment.securityContext | nindent 8 }}
+      serviceAccountName: {{ include "vpa.serviceAccountName" (merge (dict "component" "updater") .) }}

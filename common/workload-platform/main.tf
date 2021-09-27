@@ -150,7 +150,16 @@ module "metrics_server" {
 
   chart_values  = var.metrics_server_values
   chart_version = var.metrics_server_version
-  k8s_namespace = "kube-system"
+  k8s_namespace = local.flightdeck_namespace
+}
+
+module "vertical_pod_autoscaler" {
+  source = "../../common/vertical-pod-autoscaler"
+
+  chart_values  = var.vertical_pod_autoscaler_values
+  k8s_namespace = local.flightdeck_namespace
+
+  depends_on = [module.cert_manager]
 }
 
 module "reloader" {

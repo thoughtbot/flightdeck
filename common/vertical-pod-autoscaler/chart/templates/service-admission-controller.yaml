@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vpa.suffixedname" (merge (dict "suffix" "admission-controller") .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vpa.labels" . | nindent 4 }}
+    app.kubernetes.io/component: admissionController
+  {{- with .Values.admissionController.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ports:
+  - port: 443
+    targetPort: 8000
+  selector:
+    {{- include "vpa.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: admissionController

@@ -5,6 +5,8 @@
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.1.2 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.1 |
 
 ## Providers
 
@@ -26,12 +28,9 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Helm chart to install | `string` | `null` | no |
-| <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository containing the chart | `string` | `null` | no |
 | <a name="input_chart_values"></a> [chart\_values](#input\_chart\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of chart to install | `string` | `null` | no |
-| <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources will be written | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"reloader"` | no |
+| <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which secrets should be created | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"vertical-pod-autoscaler"` | no |
 
 ## Outputs
 
