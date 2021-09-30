@@ -82,10 +82,10 @@ external:
   name:
     matches: "^external:([^:]*):([^:]*)$"
     as: "${1}_${2}"
-  metricsQuery: (sum(irate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>))
+  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
 
 # Queue backlogs (Sidekiq, DelayedJob)
-- seriesQuery: '{__name__=~".*_queue_backlog_total$",namespace!=""}'
+- seriesQuery: '{__name__=~".*_backlog_total$",namespace!=""}'
   resources:
     overrides:
       namespace:
@@ -93,10 +93,19 @@ external:
   name:
     matches: "^(.*)_total"
     as: "${1}_total"
-  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue))
+  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))
+- seriesQuery: '{__name__=~".*_backlog_count$",namespace!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+  name:
+    matches: "^(.*)_count"
+    as: "${1}_count"
+  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))
 
-# Queue latency (Sidekiq)
-- seriesQuery: '{__name__=~".*_queue_latency_seconds$",namespace!=""}'
+# Queue latency (Sidekiq, DelayedJob)
+- seriesQuery: '{__name__=~".*_latency_seconds$",namespace!=""}'
   resources:
     overrides:
       namespace:
@@ -104,4 +113,13 @@ external:
   name:
     matches: "^(.*)_seconds"
     as: "${1}_seconds"
-  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue))
+  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))
+- seriesQuery: '{__name__=~".*_backlog_seconds$",namespace!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+  name:
+    matches: "^(.*)_seconds"
+    as: "${1}_seconds"
+  metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))

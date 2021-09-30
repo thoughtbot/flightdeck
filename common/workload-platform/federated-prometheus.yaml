@@ -11,6 +11,8 @@ prometheus:
           - '{__name__=~"istio:.*"}'
           - '{__name__=~"namespace_cpu:.*"}'
           - '{__name__=~"namespace_memory:.*"}'
+          - '{__name__=~"external:.*"}'
+          - '{__name__=~"app:.*"}'
           - '{__name__=~"svc:.*"}'
       static_configs:
       - targets:
