@@ -7,13 +7,7 @@ prometheus:
       metrics_path: '/federate'
       params:
         'match[]':
-          - '{__name__=~"instance:.*"}'
-          - '{__name__=~"istio:.*"}'
-          - '{__name__=~"namespace_cpu:.*"}'
-          - '{__name__=~"namespace_memory:.*"}'
-          - '{__name__=~"external:.*"}'
-          - '{__name__=~"app:.*"}'
-          - '{__name__=~"svc:.*"}'
+          - '{__name__=~"(app|deploy|external|hpa|istio|namespace_cpu|namespace_memory|svc):.*"}'
       static_configs:
       - targets:
         - 'kube-prometheus-stack-prometheus.kube-prometheus-stack.svc:9090'
