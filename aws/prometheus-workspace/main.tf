@@ -79,11 +79,12 @@ resource "aws_s3_bucket_object" "this" {
   key          = "ingestion.json"
 
   content = jsonencode({
-    host       = "aps-workspaces.${data.aws_region.this.name}.amazonaws.com"
-    query_path = "workspaces/${aws_prometheus_workspace.this.id}/api/v1/query"
+    host       = local.workspace_host
+    query_path = "${local.workspace_path}/api/v1/query"
     region     = data.aws_region.this.name
     role_arn   = aws_iam_role.ingestion.arn
-    write_path = "workspaces/${aws_prometheus_workspace.this.id}/api/v1/remote_write"
+    write_path = "${local.workspace_path}/api/v1/remote_write"
+    url        = "https://${local.workspace_host}/${local.workspace_path}/"
   })
 }
 
@@ -145,6 +146,10 @@ locals {
     var.name,
     data.aws_caller_identity.this.account_id
   ]))
+
+  workspace_host = "aps-workspaces.${data.aws_region.this.name}.amazonaws.com"
+
+  workspace_path = "workspaces/${aws_prometheus_workspace.this.id}"
 
   workload_account_ids = concat(
     var.workload_account_ids,
