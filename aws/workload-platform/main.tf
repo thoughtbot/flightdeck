@@ -299,16 +299,18 @@ locals {
   flightdeck_prometheus_values = [
     yamlencode({
       prometheus = {
-        retentionSize = "8GB"
         spec = {
-          volumeClaimTemplate = {
-            spec = {
-              resources = {
-                requests = {
-                  storage = "10Gi"
+          retentionSize = "8GB"
+          storage = {
+            volumeClaimTemplate = {
+              spec = {
+                resources = {
+                  requests = {
+                    storage = "10Gi"
+                  }
                 }
+                storageClassName = "gp2"
               }
-              storageClassName = "gp2"
             }
           }
         }
