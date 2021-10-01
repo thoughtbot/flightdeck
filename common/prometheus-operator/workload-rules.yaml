@@ -1,0 +1,12 @@
+groups:
+- name: workloads
+  rules:
+  - expr: |
+      avg(kube_deployment_status_replicas_available) without (instance, pod)
+    record: deploy:replicas_available:mean
+  - expr: |
+      avg(
+        kube_horizontalpodautoscaler_status_current_replicas /
+        kube_horizontalpodautoscaler_spec_max_replicas
+      ) without (instance, pod)
+    record: hpa:replica_ratio:mean

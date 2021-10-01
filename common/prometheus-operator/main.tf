@@ -12,6 +12,9 @@ locals {
 
   chart_values = [
     yamlencode({
+      additionalPrometheusRulesMap = {
+        workloads = yamldecode(file("${path.module}/workload-rules.yaml"))
+      }
       alertmanager = {
         config = {
           receivers = concat(
