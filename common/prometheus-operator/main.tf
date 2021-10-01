@@ -57,7 +57,7 @@ locals {
         enabled = false
       }
       kubelet = {
-        enabled = false
+        enabled = true
       }
       kubeProxy = {
         enabled = false
