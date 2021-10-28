@@ -39,6 +39,7 @@ Installs the components necessary for running workloads:
 | <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ../../common/prometheus-operator |  |
 | <a name="module_reloader"></a> [reloader](#module\_reloader) | ../../common/reloader |  |
 | <a name="module_secret_store_driver"></a> [secret\_store\_driver](#module\_secret\_store\_driver) | ../../common/secret-store-driver |  |
+| <a name="module_sloth"></a> [sloth](#module\_sloth) | ../../common/sloth |  |
 | <a name="module_vertical_pod_autoscaler"></a> [vertical\_pod\_autoscaler](#module\_vertical\_pod\_autoscaler) | ../../common/vertical-pod-autoscaler |  |
 
 ## Resources

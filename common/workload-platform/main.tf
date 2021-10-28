@@ -170,6 +170,12 @@ module "reloader" {
   k8s_namespace = local.flightdeck_namespace
 }
 
+module "sloth" {
+  source = "../../common/sloth"
+
+  depends_on = [module.prometheus_operator]
+}
+
 locals {
   flightdeck_namespace            = kubernetes_namespace.flightdeck.metadata[0].name
   kube_prometheus_stack_namespace = kubernetes_namespace.kube_prometheus_stack.metadata[0].name
