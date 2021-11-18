@@ -2,6 +2,8 @@
 
 [Terraform] modules for cloud deployments compatible with [flightctl].
 
+![AWS Architecture](./docs/aws-modules.png)
+
 ## Architecture
 
 Flightdeck supports a multi-cluster architecture. You can deploy a single
