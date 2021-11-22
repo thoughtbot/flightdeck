@@ -24,6 +24,27 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Create a fully qualified stateful set name.
+https://github.com/prometheus-operator/prometheus-operator/blob/main/pkg/prometheus/statefulset.go#L86
+*/}}
+{{- define "prometheus.statefulsetname" -}}
+{{- if (eq .shard 0) }}
+{{- include "prometheus.statefulsetbase" . }}
+{{- else }}
+{{- printf "%s-shard-%d" (include "prometheus.statefulsetbase" . | trunc 63 | trimSuffix "-") .shard }}
+{{- end }}
+{{- end }}
+
+
+{{/*
+Create a stateful set name without shard.
+*/}}
+{{- define "prometheus.statefulsetbase" -}}
+{{- printf "prometheus-%s" (include "prometheus.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "prometheus.chart" -}}
