@@ -22,18 +22,12 @@ resource "aws_eks_node_group" "this" {
   }
 }
 
-data "aws_subnet" "this" {
-  for_each = toset(var.subnet_ids)
-
-  id = each.value
-}
-
 locals {
   min_size_per_node_group = ceil(var.min_size / 2)
   max_size_per_node_group = ceil(var.max_size / 2)
 
   subnets = zipmap(
-    values(data.aws_subnet.this).*.availability_zone,
-    values(data.aws_subnet.this)
+    var.subnets.*.availability_zone,
+    var.subnets
   )
 }

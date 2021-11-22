@@ -35,8 +35,8 @@ variable "role" {
   description = "IAM role nodes in this group will assume"
 }
 
-variable "subnet_ids" {
-  type        = list(string)
+variable "subnets" {
+  type        = list(object({ id = string, availability_zone = string }))
   description = "Subnets in which the node group should run"
 }
 

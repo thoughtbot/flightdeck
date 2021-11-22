@@ -45,7 +45,7 @@ module "node_groups" {
   name           = each.key
   namespace      = [module.cluster_name.full]
   role           = module.node_role.instance
-  subnet_ids     = module.network.private_subnet_ids
+  subnets        = values(data.aws_subnet.private)
   tags           = var.tags
 
   depends_on = [module.node_role]
@@ -67,4 +67,10 @@ resource "aws_ssm_parameter" "node_role_arn" {
   name  = join("/", concat(["", "flightdeck", module.cluster_name.full, "node_role_arn"]))
   type  = "SecureString"
   value = module.node_role.arn
+}
+
+data "aws_subnet" "private" {
+  for_each = module.network.private_subnet_ids
+
+  id = each.value
 }
