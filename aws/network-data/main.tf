@@ -1,5 +1,11 @@
 data "aws_vpc" "this" {
-  tags = merge(var.tags, var.vpc_tags)
+  dynamic "filter" {
+    for_each = merge(var.tags, var.vpc_tags)
+      content {
+        name = "tag:${filter.key}"
+        values = [filter.value]
+    }
+  }
 }
 
 data "aws_subnet_ids" "private" {
