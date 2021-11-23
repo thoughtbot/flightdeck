@@ -82,7 +82,9 @@ locals {
             }
           }
 
-          retention = "24h"
+          replicaExternalLabelNameClear = true
+          replicas                      = 2
+          retention                     = "24h"
 
           resources = {
             requests = {

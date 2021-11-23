@@ -28,6 +28,8 @@ spec:
     {{ toYaml . | indent 4 | trim }}
   {{- end }}
   portName: {{ .Values.prometheus.spec.portName }}
+  prometheusExternalLabelName: {{ .Values.prometheus.spec.prometheusExternalLabelName | quote }}
+  replicaExternalLabelName: {{ .Values.prometheus.spec.replicaExternalLabelName | quote }}
   replicas: {{ .Values.prometheus.spec.replicas }}
   version: {{ .Values.prometheus.spec.version }}
   serviceAccountName: {{ template "prometheus.fullname" . }}

@@ -26,6 +26,8 @@ prometheus:
     podMonitorNamespaceSelector: {}
     portName: web
     probeNamespaceSelector: {}
+    prometheusExternalLabelName: ""
+    replicaExternalLabelName: ""
     replicas: 1
     retention: 24h
     ruleNamespaceSelector: {}
