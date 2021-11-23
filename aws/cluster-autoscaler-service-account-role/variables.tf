@@ -17,5 +17,5 @@ variable "k8s_namespace" {
 
 variable "oidc_issuer" {
   type        = string
-  description = "OIDC issuer of the operations Kubernetes cluster"
+  description = "OIDC issuer of the Kubernetes cluster"
 }

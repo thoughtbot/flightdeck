@@ -13,7 +13,6 @@ phases:
     - asdf plugin add argocd
     - asdf plugin add helm
     - asdf plugin add kubectl
-    - asdf plugin add kustomize
     - asdf plugin add terraform
     - asdf plugin add terraform-docs
     - asdf plugin add tflint
