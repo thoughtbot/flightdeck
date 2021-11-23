@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kube-prometheus-stack-config
+description: Extra configuration for kube-prometheus-stack
+
+type: application
+
+version: 0.1.0
+
+appVersion: 1.0.0

@@ -20,6 +20,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [helm_release.config](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.this](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 
 ## Inputs

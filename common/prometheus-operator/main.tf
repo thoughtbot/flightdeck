@@ -7,6 +7,13 @@ resource "helm_release" "this" {
   version    = coalesce(var.chart_version, local.chart_defaults.version)
 }
 
+resource "helm_release" "config" {
+  chart     = "${path.module}/config"
+  name      = "${var.name}-config"
+  namespace = var.k8s_namespace
+  values    = concat(local.chart_values, var.chart_values, local.config_values)
+}
+
 locals {
   chart_defaults = jsondecode(file("${path.module}/chart.json"))
 
@@ -94,4 +101,8 @@ locals {
       }
     })
   ]
+
+  config_values = [yamlencode({
+    kubePrometheusStackRelease = helm_release.this.name
+  })]
 }

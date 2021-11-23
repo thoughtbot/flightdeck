@@ -1,0 +1,11 @@
+nameOverride: ""
+fullnameOverride: ""
+
+destination:
+  server: https://kubernetes.default.svc
+
+kubePrometheusStackRelease: kube-prometheus-stack
+
+prometheus:
+  prometheusSpec:
+    shards: 1

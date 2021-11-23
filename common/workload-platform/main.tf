@@ -100,7 +100,7 @@ module "prometheus_operator" {
   k8s_namespace         = local.kube_prometheus_stack_namespace
   pagerduty_routing_key = var.pagerduty_routing_key
 
-  depends_on = [module.cert_manager]
+  depends_on = [module.cert_manager, module.vertical_pod_autoscaler]
 }
 
 module "prometheus_adapter" {
@@ -124,7 +124,7 @@ module "flightdeck_prometheus" {
   k8s_namespace = local.kube_prometheus_stack_namespace
   name          = "flightdeck-prometheus"
 
-  depends_on = [module.prometheus_operator]
+  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler]
 }
 
 module "federated_prometheus" {
@@ -134,7 +134,7 @@ module "federated_prometheus" {
   k8s_namespace = local.kube_prometheus_stack_namespace
   name          = "federated-prometheus"
 
-  depends_on = [module.prometheus_operator]
+  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler]
 }
 
 module "secret_store_driver" {
