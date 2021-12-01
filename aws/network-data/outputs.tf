@@ -1,8 +1,3 @@
-output "alarm_actions" {
-  description = "AWS actions invoked on alarms in this network"
-  value       = [data.aws_sns_topic.alarms]
-}
-
 output "cluster_names" {
   description = "List of clusters which run in this network"
   value       = local.cluster_names

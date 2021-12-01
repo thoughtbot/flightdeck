@@ -4,12 +4,6 @@ variable "admin_roles" {
   default     = []
 }
 
-variable "alarm_topic_name" {
-  type        = string
-  description = "Name of the SNS topic to which alarms should be sent"
-  default     = null
-}
-
 variable "aws_load_balancer_controller_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

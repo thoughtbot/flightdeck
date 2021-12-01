@@ -91,11 +91,6 @@ resource "aws_internet_gateway" "this" {
   vpc_id = local.vpc.id
 }
 
-resource "aws_sns_topic" "alarms" {
-  name = join("-", concat(var.namespace, [var.name, "alarms"]))
-  tags = var.tags
-}
-
 locals {
   vpc_tags = merge(var.tags, local.cluster_tags, var.vpc_tags)
   vpc      = var.create_vpc ? module.vpc[0].instance : data.aws_vpc.this[0]

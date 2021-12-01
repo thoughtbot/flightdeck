@@ -1,9 +1,3 @@
-variable "alarm_topic_name" {
-  type        = string
-  description = "Name of the SNS topic to which alarms should be sent"
-  default     = null
-}
-
 variable "private_tags" {
   description = "Tags to identify private subnets"
   type        = map(string)

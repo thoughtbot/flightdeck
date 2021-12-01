@@ -44,7 +44,6 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 | Name | Type |
 |------|------|
 | [aws_internet_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
-| [aws_sns_topic.alarms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
 
 ## Inputs

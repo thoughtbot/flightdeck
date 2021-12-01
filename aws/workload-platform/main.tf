@@ -85,10 +85,9 @@ module "cluster_name" {
 module "network" {
   source = "../network-data"
 
-  alarm_topic_name = var.alarm_topic_name
-  private_tags     = module.cluster_name.private_tags
-  public_tags      = module.cluster_name.public_tags
-  tags             = module.cluster_name.shared_tags
+  private_tags = module.cluster_name.private_tags
+  public_tags  = module.cluster_name.public_tags
+  tags         = module.cluster_name.shared_tags
 }
 
 module "auth_config_map" {

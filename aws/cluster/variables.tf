@@ -1,9 +1,3 @@
-variable "alarm_topic_name" {
-  type        = string
-  description = "Name of the SNS topic to which alarms should be sent"
-  default     = null
-}
-
 variable "enabled_cluster_log_types" {
   type        = list(string)
   default     = []

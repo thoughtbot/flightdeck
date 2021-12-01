@@ -4,10 +4,10 @@ variable "alarm_evaluation_minutes" {
   description = "Number of minutes of alarm state until triggering an alarm"
 }
 
-variable "alarm_topic_name" {
-  type        = string
-  description = "Name of the SNS topic to which alarms should be sent"
-  default     = null
+variable "alarm_actions" {
+  type        = list(object({ arn = string }))
+  description = "SNS topics or other actions to invoke for alarms"
+  default     = []
 }
 
 variable "alternative_domain_names" {

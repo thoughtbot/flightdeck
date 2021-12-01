@@ -12,14 +12,6 @@ data "aws_subnet_ids" "public" {
   vpc_id = data.aws_vpc.this.id
 }
 
-data "aws_sns_topic" "alarms" {
-  name = (
-    var.alarm_topic_name == null ?
-    "${data.aws_vpc.this.tags.Name}-alarms" :
-    var.alarm_topic_name
-  )
-}
-
 locals {
   cluster_names = [
     for tag in keys(data.aws_vpc.this.tags) :

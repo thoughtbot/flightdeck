@@ -20,7 +20,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_sns_topic.alarms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
 | [aws_subnet_ids.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet_ids) | data source |
 | [aws_subnet_ids.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet_ids) | data source |
 | [aws_vpc.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc) | data source |
@@ -29,7 +28,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alarm_topic_name"></a> [alarm\_topic\_name](#input\_alarm\_topic\_name) | Name of the SNS topic to which alarms should be sent | `string` | `null` | no |
 | <a name="input_private_tags"></a> [private\_tags](#input\_private\_tags) | Tags to identify private subnets | `map(string)` | <pre>{<br>  "kubernetes.io/role/internal-elb": "1"<br>}</pre> | no |
 | <a name="input_public_tags"></a> [public\_tags](#input\_public\_tags) | Tags to identify public subnets | `map(string)` | <pre>{<br>  "kubernetes.io/role/elb": "1"<br>}</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to identify all resources | `map(string)` | `{}` | no |
@@ -39,7 +37,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_alarm_actions"></a> [alarm\_actions](#output\_alarm\_actions) | AWS actions invoked on alarms in this network |
 | <a name="output_cidr_blocks"></a> [cidr\_blocks](#output\_cidr\_blocks) | CIDR blocks allowed in this network |
 | <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
 | <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | Private subnets for this network |
