@@ -14,7 +14,7 @@ module "network" {
 }
 
 module "eks_cluster" {
-  source = "../eks-cluster"
+  source = "./modules/eks-cluster"
 
   enabled_cluster_log_types = var.enabled_cluster_log_types
   k8s_version               = var.k8s_version
@@ -27,7 +27,7 @@ module "eks_cluster" {
 }
 
 module "node_role" {
-  source = "../eks-node-role"
+  source = "./modules/eks-node-role"
 
   name = module.cluster_name.full
   tags = var.tags
@@ -35,7 +35,7 @@ module "node_role" {
 
 module "node_groups" {
   for_each = var.node_groups
-  source   = "../eks-node-group"
+  source   = "./modules/eks-node-group"
 
   cluster        = module.eks_cluster.instance
   instance_types = each.value.instance_types
@@ -51,7 +51,7 @@ module "node_groups" {
 }
 
 module "aws_k8s_oidc_provider" {
-  source = "../k8s-oidc-provider"
+  source = "./modules/k8s-oidc-provider"
 
   cluster = module.eks_cluster.instance
 }

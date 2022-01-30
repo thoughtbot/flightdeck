@@ -1,4 +1,3 @@
-TFLINTRC    := ../../.tflint.hcl
 MODULEFILES := $(wildcard *.tf)
 
 .PHONY: default

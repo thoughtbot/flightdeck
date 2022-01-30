@@ -1,4 +1,4 @@
-# Flight Deck
+# Flightdeck
 
 [Terraform] modules for rapidly building production-grade Kubernetes clusters
 with built-in support for SRE best practices.
@@ -10,7 +10,7 @@ with built-in support for SRE best practices.
 ## Deployment
 
 - [AWS](./aws/README.md)
-- [Other](./common/README.md)
+- [Other](./platform/README.md)
 
 ## Development
 

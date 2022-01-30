@@ -1,11 +1,11 @@
 # AWS Workload Platform
 
-Deploys the [Flightdeck Workload Platform] to an EKS cluster on AWS.
+Deploys the [Flightdeck Platform] to an EKS cluster on AWS.
 
 Appropriate IAM roles for service accounts are configured for CertManager,
 Cluster Autoscaler, and ExternalDNS.
 
-[Flightdeck Workload Platform]: ../../common/workload-platform
+[Flightdeck Platform]: ../../platform
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -25,16 +25,16 @@ Cluster Autoscaler, and ExternalDNS.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ../auth-config-map | n/a |
-| <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ../load-balancer-controller | n/a |
-| <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ../cloudwatch-logs | n/a |
-| <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ../cluster-autoscaler-service-account-role | n/a |
+| <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ./modules/auth-config-map | n/a |
+| <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ./modules/load-balancer-controller | n/a |
+| <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ./modules/cloudwatch-logs | n/a |
+| <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ./modules/cluster-autoscaler-service-account-role | n/a |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
-| <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../common/workload-platform | n/a |
-| <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../dns-service-account-role | n/a |
+| <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../platform | n/a |
+| <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ./modules/dns-service-account-role | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
-| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../prometheus-service-account-role | n/a |
-| <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ../secrets-store-provider | n/a |
+| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ./modules/prometheus-service-account-role | n/a |
+| <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ./modules/secrets-store-provider | n/a |
 
 ## Resources
 

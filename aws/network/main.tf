@@ -1,6 +1,6 @@
 module "vpc" {
   count  = var.create_vpc ? 1 : 0
-  source = "../vpc"
+  source = "./modules/vpc"
 
   cidr_block       = var.vpc_cidr_block
   enable_flow_logs = var.enable_flow_logs
@@ -19,7 +19,7 @@ data "aws_vpc" "this" {
 
 module "nat_gateway" {
   count  = var.create_nat_gateways ? 1 : 0
-  source = "../nat-gateway"
+  source = "./modules/nat-gateway"
 
   availability_zones = var.nat_availability_zones
   name               = var.name
@@ -29,7 +29,7 @@ module "nat_gateway" {
 }
 
 module "private_subnets" {
-  source = "../private-subnets"
+  source = "./modules/private-subnets"
 
   name        = var.name
   namespace   = var.namespace
@@ -44,7 +44,7 @@ module "private_subnets" {
 }
 
 module "private_subnet_routes" {
-  source = "../private-subnet-routes"
+  source = "./modules/private-subnet-routes"
 
   nat_availability_zones = var.nat_availability_zones
   name                   = var.name
@@ -57,7 +57,7 @@ module "private_subnet_routes" {
 }
 
 module "public_subnets" {
-  source = "../public-subnets"
+  source = "./modules/public-subnets"
 
   enable_public_ip_on_launch = var.enable_public_ip_on_launch
   name                       = var.name
@@ -73,7 +73,7 @@ module "public_subnets" {
 }
 
 module "public_subnet_routes" {
-  source = "../public-subnet-routes"
+  source = "./modules/public-subnet-routes"
 
   name      = var.name
   namespace = var.namespace

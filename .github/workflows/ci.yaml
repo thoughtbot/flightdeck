@@ -36,12 +36,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Common Docs
+    - name: Platform Docs
       uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
       with:
         git-push: true
         recursive: true
-        recursive-path: common
+        recursive-path: platform
         output-file: README.md
         output-method: inject
         working-dir: .

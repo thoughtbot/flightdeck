@@ -1,8 +1,17 @@
 .SECONDEXPANSION:
 
 export TF_CLI_CONFIG_FILE := $(CURDIR)/.terraformrc
+export TFLINTRC := $(CURDIR)/.tflint.hcl
 
-SUBMODULES         := $(filter-out %/README.md,$(wildcard common/* aws/*))
+SUBMODULES         := $(filter-out \
+	%.md,\
+	$(wildcard \
+		platform/modules/* \
+		platform \
+		aws/*/modules/*\
+		aws/* \
+		)\
+	)
 SUBMODULEMAKEFILES := $(foreach module,$(SUBMODULES),$(module)/makefile)
 MAKESUBMODULES     := $(foreach module,$(SUBMODULES),$(module)/make)
 SUBMODULESCOMMAND  ?= default
@@ -23,6 +32,7 @@ $(CHART_PARAMS): charts.json
 submodules: $(SUBMODULEMAKEFILES) $(MAKESUBMODULES)
 
 $(SUBMODULEMAKEFILES): %/makefile: makefiles/terraform.mk
+	@echo "$(SUBMODULEMAKEFILES)"
 	cp "$<" "$@"
 
 $(MAKESUBMODULES): %/make: .terraformrc

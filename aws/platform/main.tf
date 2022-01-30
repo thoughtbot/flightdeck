@@ -1,5 +1,5 @@
 module "common_platform" {
-  source = "../../common/workload-platform"
+  source = "../../platform"
 
   certificate_issuer                       = var.certificate_issuer
   domain_names                             = var.domain_names
@@ -61,7 +61,7 @@ module "common_platform" {
 }
 
 module "aws_load_balancer_controller" {
-  source = "../load-balancer-controller"
+  source = "./modules/load-balancer-controller"
 
   aws_namespace     = [module.cluster_name.full]
   aws_tags          = var.aws_tags
@@ -91,7 +91,7 @@ module "network" {
 }
 
 module "auth_config_map" {
-  source = "../auth-config-map"
+  source = "./modules/auth-config-map"
 
   admin_roles       = var.admin_roles
   cluster_full_name = module.cluster_name.full
@@ -100,7 +100,7 @@ module "auth_config_map" {
 }
 
 module "dns_service_account_role" {
-  source = "../dns-service-account-role"
+  source = "./modules/dns-service-account-role"
 
   aws_namespace    = [module.cluster_name.full]
   aws_tags         = var.aws_tags
@@ -110,7 +110,7 @@ module "dns_service_account_role" {
 }
 
 module "cloudwatch_logs" {
-  source = "../cloudwatch-logs"
+  source = "./modules/cloudwatch-logs"
 
   aws_namespace     = [module.cluster_name.full]
   cluster_full_name = module.cluster_name.full
@@ -121,7 +121,7 @@ module "cloudwatch_logs" {
 }
 
 module "cluster_autoscaler_service_account_role" {
-  source = "../cluster-autoscaler-service-account-role"
+  source = "./modules/cluster-autoscaler-service-account-role"
 
   aws_namespace = [module.cluster_name.full]
   aws_tags      = var.aws_tags
@@ -131,7 +131,7 @@ module "cluster_autoscaler_service_account_role" {
 
 module "prometheus_service_account_role" {
   count  = var.prometheus_workspace_name == null ? 0 : 1
-  source = "../prometheus-service-account-role"
+  source = "./modules/prometheus-service-account-role"
 
   aws_namespace        = [module.cluster_name.full]
   aws_tags             = var.aws_tags
@@ -142,7 +142,7 @@ module "prometheus_service_account_role" {
 }
 
 module "secrets_store_provider" {
-  source = "../secrets-store-provider"
+  source = "./modules/secrets-store-provider"
 
   chart_values = var.secret_store_provider_values
 }

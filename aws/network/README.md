@@ -32,12 +32,12 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_nat_gateway"></a> [nat\_gateway](#module\_nat\_gateway) | ../nat-gateway | n/a |
-| <a name="module_private_subnet_routes"></a> [private\_subnet\_routes](#module\_private\_subnet\_routes) | ../private-subnet-routes | n/a |
-| <a name="module_private_subnets"></a> [private\_subnets](#module\_private\_subnets) | ../private-subnets | n/a |
-| <a name="module_public_subnet_routes"></a> [public\_subnet\_routes](#module\_public\_subnet\_routes) | ../public-subnet-routes | n/a |
-| <a name="module_public_subnets"></a> [public\_subnets](#module\_public\_subnets) | ../public-subnets | n/a |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | ../vpc | n/a |
+| <a name="module_nat_gateway"></a> [nat\_gateway](#module\_nat\_gateway) | ./modules/nat-gateway | n/a |
+| <a name="module_private_subnet_routes"></a> [private\_subnet\_routes](#module\_private\_subnet\_routes) | ./modules/private-subnet-routes | n/a |
+| <a name="module_private_subnets"></a> [private\_subnets](#module\_private\_subnets) | ./modules/private-subnets | n/a |
+| <a name="module_public_subnet_routes"></a> [public\_subnet\_routes](#module\_public\_subnet\_routes) | ./modules/public-subnet-routes | n/a |
+| <a name="module_public_subnets"></a> [public\_subnets](#module\_public\_subnets) | ./modules/public-subnets | n/a |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
 
 ## Resources
 
