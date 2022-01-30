@@ -7,6 +7,11 @@ with built-in support for SRE best practices.
 
 [Terraform]: https://www.terraform.io/
 
+## Deployment
+
+- [AWS](./aws/README.md)
+- [Other](./common/README.md)
+
 ## Development
 
 You can run Terraform validation and linting on all modules using make:
@@ -15,12 +20,6 @@ You can run Terraform validation and linting on all modules using make:
 
 You will need to install Helm, kubectl, Terraform, terraform-docs, and tflint.
 
-## AWS
+<!-- BEGIN_TF_DOCS -->
 
-Build out and apply root modules using the following modules in order for each
-stage of the software development lifecycle:
-
-1. [Network](./aws/network)
-1. [Ingress](./aws/ingress)
-1. [Cluster](./aws/cluster)
-1. [Platform](./aws/workload-platform)
+<!-- END_TF_DOCS -->
