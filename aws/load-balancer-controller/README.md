@@ -25,7 +25,7 @@ target group bound to the Istio ingress gateway service.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_service_account_role"></a> [service\_account\_role](#module\_service\_account\_role) | ../service-account-role |  |
+| <a name="module_service_account_role"></a> [service\_account\_role](#module\_service\_account\_role) | ../service-account-role | n/a |
 
 ## Resources
 
@@ -53,8 +53,4 @@ target group bound to the Istio ingress gateway service.
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Override the name of the target group for this cluster | `string` | `null` | no |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | CIDR block for the AWS VPC in which the load balancer runs | `string` | n/a | yes |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

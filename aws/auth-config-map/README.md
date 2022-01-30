@@ -14,10 +14,6 @@
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.1.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -34,8 +30,4 @@ No modules.
 | <a name="input_cluster_full_name"></a> [cluster\_full\_name](#input\_cluster\_full\_name) | Full name of the EKS cluster | `string` | n/a | yes |
 | <a name="input_custom_roles"></a> [custom\_roles](#input\_custom\_roles) | Role ARNs which have custom privileges within the cluster | `map(string)` | `{}` | no |
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Roles for EKS node groups in this cluster | `list(string)` | `[]` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

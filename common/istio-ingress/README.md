@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -33,8 +29,4 @@ No modules.
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to be installed | `string` | n/a | yes |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which the gateway should be installed | `string` | `"istio-system"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of this Helm release | `string` | `"istio-ingressgateway"` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

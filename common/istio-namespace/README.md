@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |

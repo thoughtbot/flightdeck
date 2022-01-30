@@ -16,7 +16,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_fluent_bit_service_account_role"></a> [fluent\_bit\_service\_account\_role](#module\_fluent\_bit\_service\_account\_role) | ../service-account-role |  |
+| <a name="module_fluent_bit_service_account_role"></a> [fluent\_bit\_service\_account\_role](#module\_fluent\_bit\_service\_account\_role) | ../service-account-role | n/a |
 
 ## Resources
 

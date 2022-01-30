@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -30,8 +26,4 @@ No modules.
 | <a name="input_issuer"></a> [issuer](#input\_issuer) | YAML spec for the cert-manager issuer | `string` | `null` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which secrets should be created | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"ingress-config"` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

@@ -32,12 +32,12 @@ An [OIDC provider](../k8s-oidc-provider) is configured to enable [IRSA].
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_k8s_oidc_provider"></a> [aws\_k8s\_oidc\_provider](#module\_aws\_k8s\_oidc\_provider) | ../k8s-oidc-provider |  |
-| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
-| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | ../eks-cluster |  |
-| <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
-| <a name="module_node_groups"></a> [node\_groups](#module\_node\_groups) | ../eks-node-group |  |
-| <a name="module_node_role"></a> [node\_role](#module\_node\_role) | ../eks-node-role |  |
+| <a name="module_aws_k8s_oidc_provider"></a> [aws\_k8s\_oidc\_provider](#module\_aws\_k8s\_oidc\_provider) | ../k8s-oidc-provider | n/a |
+| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
+| <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | ../eks-cluster | n/a |
+| <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
+| <a name="module_node_groups"></a> [node\_groups](#module\_node\_groups) | ../eks-node-group | n/a |
+| <a name="module_node_role"></a> [node\_role](#module\_node\_role) | ../eks-node-role | n/a |
 
 ## Resources
 

@@ -16,10 +16,6 @@ Module for creating a VPC in AWS.
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |

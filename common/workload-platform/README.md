@@ -25,22 +25,22 @@ Installs the components necessary for running workloads:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | ../../common/cert-manager |  |
-| <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ../../common/cluster-autoscaler |  |
-| <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ../../common/external-dns |  |
-| <a name="module_federated_prometheus"></a> [federated\_prometheus](#module\_federated\_prometheus) | ../../common/prometheus-instance |  |
-| <a name="module_flightdeck_prometheus"></a> [flightdeck\_prometheus](#module\_flightdeck\_prometheus) | ../../common/prometheus-instance |  |
-| <a name="module_fluent_bit"></a> [fluent\_bit](#module\_fluent\_bit) | ../../common/fluent-bit |  |
-| <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ../../common/ingress-config |  |
-| <a name="module_istio"></a> [istio](#module\_istio) | ../../common/istio |  |
-| <a name="module_istio_ingress"></a> [istio\_ingress](#module\_istio\_ingress) | ../../common/istio-ingress |  |
-| <a name="module_metrics_server"></a> [metrics\_server](#module\_metrics\_server) | ../../common/metrics-server |  |
-| <a name="module_prometheus_adapter"></a> [prometheus\_adapter](#module\_prometheus\_adapter) | ../../common/prometheus-adapter |  |
-| <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ../../common/prometheus-operator |  |
-| <a name="module_reloader"></a> [reloader](#module\_reloader) | ../../common/reloader |  |
-| <a name="module_secret_store_driver"></a> [secret\_store\_driver](#module\_secret\_store\_driver) | ../../common/secret-store-driver |  |
-| <a name="module_sloth"></a> [sloth](#module\_sloth) | ../../common/sloth |  |
-| <a name="module_vertical_pod_autoscaler"></a> [vertical\_pod\_autoscaler](#module\_vertical\_pod\_autoscaler) | ../../common/vertical-pod-autoscaler |  |
+| <a name="module_cert_manager"></a> [cert\_manager](#module\_cert\_manager) | ../../common/cert-manager | n/a |
+| <a name="module_cluster_autoscaler"></a> [cluster\_autoscaler](#module\_cluster\_autoscaler) | ../../common/cluster-autoscaler | n/a |
+| <a name="module_external_dns"></a> [external\_dns](#module\_external\_dns) | ../../common/external-dns | n/a |
+| <a name="module_federated_prometheus"></a> [federated\_prometheus](#module\_federated\_prometheus) | ../../common/prometheus-instance | n/a |
+| <a name="module_flightdeck_prometheus"></a> [flightdeck\_prometheus](#module\_flightdeck\_prometheus) | ../../common/prometheus-instance | n/a |
+| <a name="module_fluent_bit"></a> [fluent\_bit](#module\_fluent\_bit) | ../../common/fluent-bit | n/a |
+| <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ../../common/ingress-config | n/a |
+| <a name="module_istio"></a> [istio](#module\_istio) | ../../common/istio | n/a |
+| <a name="module_istio_ingress"></a> [istio\_ingress](#module\_istio\_ingress) | ../../common/istio-ingress | n/a |
+| <a name="module_metrics_server"></a> [metrics\_server](#module\_metrics\_server) | ../../common/metrics-server | n/a |
+| <a name="module_prometheus_adapter"></a> [prometheus\_adapter](#module\_prometheus\_adapter) | ../../common/prometheus-adapter | n/a |
+| <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ../../common/prometheus-operator | n/a |
+| <a name="module_reloader"></a> [reloader](#module\_reloader) | ../../common/reloader | n/a |
+| <a name="module_secret_store_driver"></a> [secret\_store\_driver](#module\_secret\_store\_driver) | ../../common/secret-store-driver | n/a |
+| <a name="module_sloth"></a> [sloth](#module\_sloth) | ../../common/sloth | n/a |
+| <a name="module_vertical_pod_autoscaler"></a> [vertical\_pod\_autoscaler](#module\_vertical\_pod\_autoscaler) | ../../common/vertical-pod-autoscaler | n/a |
 
 ## Resources
 

@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -34,8 +30,4 @@ No modules.
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources will be written | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for the service account role | `string` | `"kube-prometheus-stack"` | no |
 | <a name="input_pagerduty_routing_key"></a> [pagerduty\_routing\_key](#input\_pagerduty\_routing\_key) | Routing key for delivering Pagerduty alerts | `string` | `null` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

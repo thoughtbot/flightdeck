@@ -12,21 +12,13 @@ cluster running in the configured network.
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.45 |
 
-## Providers
-
-No providers.
-
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git?ref=v0.4.0 |  |
-| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
-| <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
-
-## Resources
-
-No resources.
+| <a name="module_alb"></a> [alb](#module\_alb) | git@github.com:thoughtbot/terraform-alb-ingress.git | v0.4.0 |
+| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
+| <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
 
 ## Inputs
 

@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -35,8 +31,4 @@ No modules.
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | Private subnets for each availability\_zone | `map(object({ id = string, availability_zone = string }))` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
 | <a name="input_vpc"></a> [vpc](#input\_vpc) | AWS VPC for NAT gateways | `object({ id = string, cidr_block = string })` | n/a | yes |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

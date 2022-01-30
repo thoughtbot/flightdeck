@@ -22,7 +22,7 @@ monitoring account.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../service-account-role |  |
+| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../service-account-role | n/a |
 
 ## Resources
 

@@ -14,10 +14,6 @@
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -33,8 +29,4 @@ No modules.
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which the gateway should be installed | `string` | `"flightdeck"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of this Helm release | `string` | `"sloth"` | no |
 | <a name="input_sloth_version"></a> [sloth\_version](#input\_sloth\_version) | Version of Sloth Chart to be installed | `string` | `"0.3.0"` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

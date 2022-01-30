@@ -12,10 +12,6 @@
 |------|---------|
 | <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -35,8 +31,4 @@ No modules.
 | <a name="input_discovery_chart_values"></a> [discovery\_chart\_values](#input\_discovery\_chart\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to be installed | `string` | `null` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which secrets should be created | `string` | `"istio-system"` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->
