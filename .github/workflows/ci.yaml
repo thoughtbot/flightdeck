@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Terraform
 on:
 - push
 
@@ -10,12 +10,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Check format
+      run: make all/checkfmt
+
   validate:
     name: Validate
     runs-on: ubuntu-18.04
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Validate
+      run: make all/validate
 
   docs:
     name: Docs
@@ -24,6 +36,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Common Docs
+      uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
+      with:
+        git-push: true
+        recursive: true
+        recursive-path: common
+        output-file: README.md
+        output-method: inject
+        working-dir: .
+
+    - name: AWS Docs
+      uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
+      with:
+        git-push: true
+        recursive: true
+        recursive-path: aws
+        output-file: README.md
+        output-method: inject
+        working-dir: .
+
   lint:
     name: Lint
     runs-on: ubuntu-18.04
@@ -31,3 +63,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Setup TFLint
+      uses: terraform-linters/setup-tflint@v1
+      with:
+        tflint_version: v0.29.0
+
+    - name: Lint
+      run: make all/lint
