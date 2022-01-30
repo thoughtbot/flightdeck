@@ -1,0 +1,33 @@
+name: Continuous Integration
+on:
+- push
+
+jobs:
+  checkfmt:
+    name: Format
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+  validate:
+    name: Validate
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
