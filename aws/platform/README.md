@@ -1,11 +1,80 @@
-# AWS Workload Platform
+# Platform for AWS
 
 Deploys the [Flightdeck Platform] to an EKS cluster on AWS.
 
-Appropriate IAM roles for service accounts are configured for CertManager,
-Cluster Autoscaler, and ExternalDNS.
+The following components are included:
+
+- [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+- [AWS Secrets Store Provider](https://docs.aws.amazon.com/secretsmanager/latest/userguide/integrating_csi_driver.html)
+- [CertManager](https://cert-manager.io/)
+- [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/README.md)
+- [Fluent Bit for CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)
+- [Istio](https://istio.io/)
+- [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)
+- [Prometheus Adapter](https://github.com/kubernetes-sigs/prometheus-adapter)
+- [Prometheus Operator](https://prometheus-operator.dev/)
+- [Reloader](https://github.com/stakater/Reloader)
+- [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
+- [Sloth](https://sloth.dev/)
+- [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/README.md)
+
+Appropriate IAM roles for service accounts are configured for Prometheus,
+Cluster Autoscaler, Cert Manager, External DNS, and Fluent Bit.
 
 [Flightdeck Platform]: ../../platform
+
+## Deployment
+
+You need a compatible EKS cluster to deploy the platform for AWS. You can use
+the [cluster module] to create compatible EKS clusters.
+
+[cluster module]: ../cluster/README.md
+
+``` terraform
+module "workload_platform" {
+  source = "github.com/thoughtbot/flightdeck//aws/workload-platform?ref=v0.5.0"
+
+  # Name of the EKS cluster to which the platform will be deployed
+  cluster_name = "example-production-v1"
+
+  # These roles will be added to the `aws-auth` ConfigMap as admins.
+  # See the [EKS IAM documentation] for more information.
+  admin_roles = ["arn:aws:iam::123456789012:role/devops"]
+
+  # An Istio ingress gateway is created as part of the platform. Domains listed
+  # here will be added to the gateway and certificate.
+  domain_names = ["example.com", "www.example.com"]
+
+  # Any tags you want to add to created resources like IAM roles.
+  aws_tags = { Module = "platform/production-v1" }
+}
+
+# The Helm and Kubernetes providers must be set up to connect to your cluster.
+
+provider "helm" {
+  kubernetes {
+    host                   = data.aws_eks_cluster.this.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+    token                  = data.aws_eks_cluster_auth.kubernetes.token
+  }
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.this.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.kubernetes.token
+}
+
+data "aws_eks_cluster_auth" "kubernetes" {
+  name = data.aws_eks_cluster.this.name
+}
+
+data "aws_eks_cluster" "this" {
+  name = "example-production-v1"
+}
+```
+
+[EKS IAM documentation]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

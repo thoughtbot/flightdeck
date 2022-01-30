@@ -34,13 +34,7 @@ also recommend isolating the stack for each stage into its own AWS account.
 ### Network
 
 Flightdeck requires a VPC with public and private subnets. The VPC and subnets
-must be tagged following the conventions of the Kubernetes AWS cloud provider:
-
-| Tag                             | Value  |
-| ---                             | -----  |
-| kubernetes.io/role/internal-elb | 1      |
-| kubernetes.io/role/elb          | 1      |
-| kubernetes.io/cluster/NAME      | shared |
+must be tagged following the conventions of the Kubernetes AWS cloud provider.
 
 You can use the same VPC for multiple clusters by using more than one cluster
 tag. We recommend using separate VPCs for production and pre-production.
