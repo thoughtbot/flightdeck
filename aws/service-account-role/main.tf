@@ -5,6 +5,25 @@ resource "aws_iam_role" "this" {
   tags                  = var.tags
 }
 
+resource "aws_iam_role_policy" "inline" {
+  count = length(var.policy_documents) == 0 ? 0 : 1
+
+  name   = "${local.name}-inline"
+  policy = data.aws_iam_policy_document.inline_policy.json
+  role   = aws_iam_role.this.name
+}
+
+resource "aws_iam_role_policy_attachment" "managed" {
+  for_each = toset(var.managed_policy_arns)
+
+  policy_arn = each.value
+  role       = aws_iam_role.this.name
+}
+
+data "aws_iam_policy_document" "inline_policy" {
+  source_policy_documents = var.policy_documents
+}
+
 data "aws_iam_policy_document" "assume_role" {
   dynamic "statement" {
     for_each = local.oidc_issuers

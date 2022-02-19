@@ -1,5 +1,6 @@
 MODULEFILES := $(wildcard *.tf)
 TFLINTRC    ?= ../../.tflint.hcl
+TFDOCSRC    ?= ../../.terraform-docs.yml
 
 .PHONY: default
 default: checkfmt validate docs lint
@@ -30,7 +31,7 @@ lint: .lint
 	@touch .lintinit
 
 README.md: $(MODULEFILES)
-	terraform-docs markdown table . --output-file README.md
+	terraform-docs --config "$(TFDOCSRC)" markdown table . --output-file README.md
 
 .fmt: $(MODULEFILES)
 	terraform fmt -check

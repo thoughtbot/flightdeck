@@ -2,6 +2,7 @@
 
 export TF_CLI_CONFIG_FILE := $(CURDIR)/.terraformrc
 export TFLINTRC := $(CURDIR)/.tflint.hcl
+export TFDOCSRC := $(CURDIR)/.terraform-docs.yml
 
 SUBMODULES         := $(filter-out \
 	%.md,\

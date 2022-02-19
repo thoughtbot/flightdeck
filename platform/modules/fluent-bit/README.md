@@ -10,7 +10,11 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.1.2 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.1.2 |
+
+## Modules
+
+No modules.
 
 ## Resources
 
@@ -30,4 +34,8 @@
 | <a name="input_enable_kubernetes_labels"></a> [enable\_kubernetes\_labels](#input\_enable\_kubernetes\_labels) | Set to true to add Kubernetes labels to log output | `bool` | `false` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources will be written | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Helm release | `string` | `"fluent-bit"` | no |
+
+## Outputs
+
+No outputs.
 <!-- END_TF_DOCS -->

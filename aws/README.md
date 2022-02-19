@@ -70,6 +70,15 @@ platform in your clusters using the [platform module].
 
 [platform module]: ./platform/README.md
 
+### Service Account Roles
+
+In order for pods running in your cluster to access AWS resources, you will need
+to create IAM roles in your AWS accounts and service accounts in your cluster.
+You can use the included [service account role module] to create roles that work
+with clusters created using Flightdeck.
+
+[service account role module]: ./service-account-role/README.md
+
 <!-- BEGIN_TF_DOCS -->
 
 <!-- END_TF_DOCS -->

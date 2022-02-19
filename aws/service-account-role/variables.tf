@@ -4,6 +4,12 @@ variable "cluster_names" {
   default     = []
 }
 
+variable "managed_policy_arns" {
+  type        = list(string)
+  description = "List of managed policy ARNs to attach to the role"
+  default     = []
+}
+
 variable "name" {
   type        = string
   description = "Name for the role"
@@ -18,6 +24,12 @@ variable "namespace" {
 variable "oidc_issuers" {
   type        = list(string)
   description = "OIDC issuers for Kubernetes clusters"
+  default     = []
+}
+
+variable "policy_documents" {
+  type        = list(string)
+  description = "List of policy documents to add to the role's inline policy"
   default     = []
 }
 
