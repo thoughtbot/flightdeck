@@ -1,4 +1,5 @@
 MODULEFILES := $(wildcard *.tf)
+TFLINTRC    ?= ../../.tflint.hcl
 
 .PHONY: default
 default: checkfmt validate docs lint

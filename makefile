@@ -31,8 +31,10 @@ $(CHART_PARAMS): charts.json
 .PHONY: submodules
 submodules: $(SUBMODULEMAKEFILES) $(MAKESUBMODULES)
 
+.PHONY: makefiles
+makefiles: $(SUBMODULEMAKEFILES)
+
 $(SUBMODULEMAKEFILES): %/makefile: makefiles/terraform.mk
-	@echo "$(SUBMODULEMAKEFILES)"
 	cp "$<" "$@"
 
 $(MAKESUBMODULES): %/make: .terraformrc
