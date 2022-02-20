@@ -1,0 +1,10 @@
+name: Acceptance
+on:
+- workflow_dispatch
+
+jobs:
+  apply_network:
+    name: Apply Network
+    runs-on: ubuntu-20.04
+    steps:
+    - run: echo ok
