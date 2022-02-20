@@ -1,0 +1,80 @@
+name: Terraform
+on:
+  workflow_call:
+    inputs:
+      module:
+        type: string
+        required: true
+      terraform_command:
+        type: string
+        default: apply
+      terraform_version:
+        default: 1.0.11
+        type: string
+    secrets:
+      AWS_ACCOUNT_ID:
+        description: AWS account in which Terraform will run
+        required: true
+
+jobs:
+  plan:
+    name: Terraform
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.module }}
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        repository: thoughtbot/flightdeck-template
+        path: template
+
+    - name: Configure repository
+      working-directory: template
+      run: |
+        bin/set-flightdeck-version ${{ github.ref_name }}
+        bin/uncomment certificate_domain_name
+        bin/uncomment issue_certificates
+        bin/set-template-var ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
+        bin/set-template-var ORG_NAME flightdeck
+        bin/set-template-var REGION us-east-1
+        bin/set-template-var STATE_PREFIX ${{ github.ref_name }}
+        bin/set-template-var SANDBOX_ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
+        bin/set-template-var SANDBOX_CERTIFICATE_DOMAIN_NAME flightdeck-test.thoughtbot.com
+        bin/set-template-var SANDBOX_DOMAIN_NAME ${{ github.ref_name }}.flightdeck-test.thoughtbot.com
+        bin/set-template-var SANDBOX_EXECUTION_ROLE flightdeck-ci-execution
+        bin/set-template-var SANDBOX_HOSTED_ZONE flightdeck-test.thoughtbot.com
+        bin/set-template-var SANDBOX_STATE_BUCKET flightdeck-ci-state
+        bin/set-template-var SANDBOX_STATE_TABLE flightdeck-ci-state
+        bin/set-template-var SANDBOX_STATE_KMS_KEY flightdeck-ci-state
+        bin/set-template-var SANDBOX_STATE_ROLE flightdeck-ci-state
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: us-east-1
+        role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ inputs.terraform_version }}
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Init
+      working-directory: template/${{ inputs.module }}
+      run: terraform init
+
+    - name: Run
+      working-directory: template/${{ inputs.module }}
+      run: |
+        terraform ${{ inputs.terraform_command }} -auto-approve
+

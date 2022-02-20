@@ -16,6 +16,12 @@ variable "alternative_domain_names" {
   description = "Alternative domain names for the ALB"
 }
 
+variable "certificate_domain_name" {
+  type        = string
+  default     = null
+  description = "Override the domain name for the ACM certificate (defaults to primary domain)"
+}
+
 variable "cluster_names" {
   type        = list(string)
   description = "List of clusters that this ingress stack will forward to"

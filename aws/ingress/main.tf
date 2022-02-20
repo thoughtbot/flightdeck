@@ -1,10 +1,11 @@
 module "alb" {
   providers = { aws.cluster = aws.cluster, aws.route53 = aws.route53 }
-  source    = "github.com/thoughtbot/terraform-alb-ingress?ref=v0.4.0"
+  source    = "github.com/thoughtbot/terraform-alb-ingress?ref=131b6f8"
 
   alarm_actions             = var.alarm_actions
   alarm_evaluation_minutes  = var.alarm_evaluation_minutes
   alternative_domain_names  = var.alternative_domain_names
+  certificate_domain_name   = var.certificate_domain_name
   create_aliases            = var.create_aliases
   description               = "Flightdeck cluster load balancer"
   failure_threshold         = var.failure_threshold

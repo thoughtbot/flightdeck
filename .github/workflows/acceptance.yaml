@@ -2,9 +2,100 @@ name: Acceptance
 on:
 - workflow_dispatch
 
+permissions:
+  id-token: write
+  contents: read
+  checks: write
+
 jobs:
   apply_network:
     name: Apply Network
-    runs-on: ubuntu-20.04
-    steps:
-    - run: echo ok
+    uses: ./.github/workflows/terraform.yaml
+    concurrency: ${{ github.ref_name }}-network
+    with:
+      module: network/sandbox
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  apply_cluster:
+    name: Apply Cluster
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - apply_network
+    concurrency: ${{ github.ref_name }}-cluster
+    with:
+      module: cluster/sandbox-v1
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  apply_ingress:
+    name: Apply Ingress
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - apply_network
+    concurrency: ${{ github.ref_name }}-ingress
+    with:
+      module: ingress/sandbox
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  apply_platform:
+    name: Apply Platform
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - apply_cluster
+    - apply_ingress
+    concurrency: ${{ github.ref_name }}-platform
+    with:
+      module: platform/sandbox-v1
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  cleanup_platform:
+    name: Cleanup Platform
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - apply_platform
+    concurrency: ${{ github.ref_name }}-platform
+    with:
+      module: platform/sandbox-v1
+      terraform_command: destroy
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  cleanup_ingress:
+    name: Cleanup Ingress
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - cleanup_platform
+    concurrency: ${{ github.ref_name }}-ingress
+    with:
+      module: ingress/sandbox
+      terraform_command: destroy
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  cleanup_cluster:
+    name: Cleanup Cluster
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - cleanup_platform
+    concurrency: ${{ github.ref_name }}-cluster
+    with:
+      module: cluster/sandbox-v1
+      terraform_command: destroy
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+  cleanup_network:
+    name: Cleanup Network
+    uses: ./.github/workflows/terraform.yaml
+    needs:
+    - cleanup_ingress
+    - cleanup_cluster
+    concurrency: ${{ github.ref_name }}-network
+    with:
+      module: network/sandbox
+      terraform_command: destroy
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
