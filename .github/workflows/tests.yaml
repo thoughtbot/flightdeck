@@ -1,0 +1,65 @@
+name: Tests
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCOUNT_ID:
+        description: AWS account in which tests will run
+        required: true
+
+env:
+  KUBECONFIG: /tmp/kubeconfig
+
+jobs:
+  plan:
+    name: Test
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: us-east-1
+        role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
+
+    - name: Assume execution role
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-region: us-east-1
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+        role-duration-seconds: 3000
+        role-skip-session-tagging: true
+        role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci-execution"
+
+    - name: Set up Kubernetes context
+      run: |
+        aws \
+          --region us-east-1 \
+          eks \
+          update-kubeconfig \
+          --name flightdeck-sandbox-v1
+
+    - name: Build manifests
+      id: kustomize
+      uses: azure/k8s-bake@v1
+      with:
+        renderEngine: kustomize
+        kustomizationPath: tests/manifests
+
+    - name: Deploy test app
+      uses: Azure/k8s-deploy@v1.4
+      with:
+        manifests: ${{ steps.kustomize.outputs.manifestsBundle }}
+        namespace: acceptance
+
+    - name: Run tests
+      run: |
+        make tests ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com

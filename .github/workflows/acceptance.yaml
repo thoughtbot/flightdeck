@@ -51,11 +51,20 @@ jobs:
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
+  tests:
+    name: Run Tests
+    uses: ./.github/workflows/tests.yaml
+    needs:
+    - apply_platform
+    concurrency: ${{ github.ref_name }}-platform
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
   cleanup_platform:
     name: Cleanup Platform
     uses: ./.github/workflows/terraform.yaml
     needs:
-    - apply_platform
+    - tests
     concurrency: ${{ github.ref_name }}-platform
     with:
       module: platform/sandbox-v1

@@ -17,6 +17,8 @@ SUBMODULEMAKEFILES := $(foreach module,$(SUBMODULES),$(module)/makefile)
 MAKESUBMODULES     := $(foreach module,$(SUBMODULES),$(module)/make)
 SUBMODULESCOMMAND  ?= default
 
+include makefiles/tests.mk
+
 .PHONY: default
 default: chartparams submodules
 

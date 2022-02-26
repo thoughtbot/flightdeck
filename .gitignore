@@ -13,3 +13,5 @@ applied
 dependencies
 dist
 initialized
+tmp
+vendor
