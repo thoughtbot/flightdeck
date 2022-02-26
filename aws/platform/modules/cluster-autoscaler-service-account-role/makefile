@@ -64,4 +64,4 @@ init: .init
 
 .PHONY: clean
 clean:
-	rm -rf .dependencies .fmt .init .lint .lintinit .terraform .validate
+	rm -rf .dependencies .fmt .init .lint .lintinit .terraform* .validate
