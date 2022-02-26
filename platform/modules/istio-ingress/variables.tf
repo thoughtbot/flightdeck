@@ -1,13 +1,7 @@
 variable "chart_name" {
   type        = string
   description = "Helm chart to install"
-  default     = "istio-ingress"
-}
-
-variable "chart_repository" {
-  type        = string
-  description = "Helm repository containing the chart"
-  default     = "https://flightdeck-charts.s3.amazonaws.com/istio"
+  default     = null
 }
 
 variable "chart_values" {
@@ -16,25 +10,25 @@ variable "chart_values" {
   default     = []
 }
 
-variable "istio_namespace" {
+variable "chart_version" {
   type        = string
-  description = "Kubernetes namespace in which Istio is installed"
-  default     = "istio-system"
+  description = "Version of chart to install"
+  default     = null
 }
 
-variable "istio_version" {
+variable "chart_repository" {
   type        = string
-  description = "Version of Istio to be installed"
+  description = "Helm repository containing the chart"
+  default     = null
 }
 
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which the gateway should be installed"
-  default     = "istio-system"
 }
 
 variable "name" {
   type        = string
   description = "Name of this Helm release"
-  default     = "istio-ingressgateway"
+  default     = "istio-ingress"
 }

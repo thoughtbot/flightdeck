@@ -32,7 +32,7 @@ practices.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.5.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.0 |
 
 ## Modules
 
@@ -45,8 +45,9 @@ practices.
 | <a name="module_flightdeck_prometheus"></a> [flightdeck\_prometheus](#module\_flightdeck\_prometheus) | ./modules/prometheus-instance | n/a |
 | <a name="module_fluent_bit"></a> [fluent\_bit](#module\_fluent\_bit) | ./modules/fluent-bit | n/a |
 | <a name="module_ingress_config"></a> [ingress\_config](#module\_ingress\_config) | ./modules/ingress-config | n/a |
-| <a name="module_istio"></a> [istio](#module\_istio) | ./modules/istio | n/a |
+| <a name="module_istio_base"></a> [istio\_base](#module\_istio\_base) | ./modules/istio-base | n/a |
 | <a name="module_istio_ingress"></a> [istio\_ingress](#module\_istio\_ingress) | ./modules/istio-ingress | n/a |
+| <a name="module_istiod"></a> [istiod](#module\_istiod) | ./modules/istiod | n/a |
 | <a name="module_metrics_server"></a> [metrics\_server](#module\_metrics\_server) | ./modules/metrics-server | n/a |
 | <a name="module_prometheus_adapter"></a> [prometheus\_adapter](#module\_prometheus\_adapter) | ./modules/prometheus-adapter | n/a |
 | <a name="module_prometheus_operator"></a> [prometheus\_operator](#module\_prometheus\_operator) | ./modules/prometheus-operator | n/a |
@@ -83,10 +84,11 @@ practices.
 | <a name="input_fluent_bit_enable_kubernetes_labels"></a> [fluent\_bit\_enable\_kubernetes\_labels](#input\_fluent\_bit\_enable\_kubernetes\_labels) | Set to true to add Kubernetes labels to log output | `bool` | `false` | no |
 | <a name="input_fluent_bit_values"></a> [fluent\_bit\_values](#input\_fluent\_bit\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_fluent_bit_version"></a> [fluent\_bit\_version](#input\_fluent\_bit\_version) | Version of Fluent Bit to install | `string` | `null` | no |
-| <a name="input_istio_discovery_values"></a> [istio\_discovery\_values](#input\_istio\_discovery\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_istio_base_values"></a> [istio\_base\_values](#input\_istio\_base\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_ingress_values"></a> [istio\_ingress\_values](#input\_istio\_ingress\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | Kubernetes namespace in which istio should be installed | `string` | `"istio-system"` | no |
 | <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | Version of Istio to install | `string` | `null` | no |
+| <a name="input_istiod_values"></a> [istiod\_values](#input\_istiod\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_values"></a> [metrics\_server\_values](#input\_metrics\_server\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_version"></a> [metrics\_server\_version](#input\_metrics\_server\_version) | Version of the Metrics Server to install | `string` | `null` | no |
 | <a name="input_pagerduty_routing_key"></a> [pagerduty\_routing\_key](#input\_pagerduty\_routing\_key) | Routing key for delivering Pagerduty alerts | `string` | `null` | no |

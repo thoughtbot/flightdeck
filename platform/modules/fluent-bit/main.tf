@@ -16,6 +16,10 @@ locals {
 
       # Ensure fluent-bit is able to run on each node
       priorityClassName = "system-node-critical"
+
+      serviceMonitor = {
+        enabled = true
+      }
     }),
     templatefile("${path.module}/filters.yaml", {
       annotations = var.enable_kubernetes_annotations ? "On" : "Off"

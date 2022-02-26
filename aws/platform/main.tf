@@ -6,7 +6,8 @@ module "common_platform" {
   external_dns_enabled                     = var.external_dns_enabled
   fluent_bit_enable_kubernetes_annotations = var.fluent_bit_enable_kubernetes_annotations
   fluent_bit_enable_kubernetes_labels      = var.fluent_bit_enable_kubernetes_labels
-  istio_discovery_values                   = var.istio_discovery_values
+  istio_base_values                        = var.istio_base_values
+  istiod_values                            = var.istiod_values
   metrics_server_values                    = var.metrics_server_values
   metrics_server_version                   = var.metrics_server_version
   pagerduty_routing_key                    = local.pagerduty_routing_key
@@ -365,10 +366,8 @@ locals {
 
   istio_ingress_values = [
     yamlencode({
-      gateways = {
-        istio-ingressgateway = {
-          type = "ClusterIP"
-        }
+      service = {
+        type = "ClusterIP"
       }
     })
   ]

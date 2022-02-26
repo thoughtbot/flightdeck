@@ -6,6 +6,7 @@ output:
 
 recursive:
   enabled: true
+  path: .
 
 settings:
   hide-empty: true

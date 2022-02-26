@@ -12,14 +12,14 @@ target group bound to the Istio ingress gateway service.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.1.2 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
-| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.1.2 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.4 |
 
 ## Modules
 
@@ -53,8 +53,4 @@ target group bound to the Istio ingress gateway service.
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Override the name of the target group for this cluster | `string` | `null` | no |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | CIDR block for the AWS VPC in which the load balancer runs | `string` | n/a | yes |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->

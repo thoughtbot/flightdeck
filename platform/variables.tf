@@ -94,7 +94,13 @@ variable "fluent_bit_version" {
   default     = null
 }
 
-variable "istio_discovery_values" {
+variable "istio_base_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "istiod_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []

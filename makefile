@@ -16,11 +16,12 @@ SUBMODULES         := $(filter-out \
 SUBMODULEMAKEFILES := $(foreach module,$(SUBMODULES),$(module)/makefile)
 MAKESUBMODULES     := $(foreach module,$(SUBMODULES),$(module)/make)
 SUBMODULESCOMMAND  ?= default
-
-include makefiles/tests.mk
+CHART_PARAMS       := $(wildcard */*/*/chart.json */*/*/*/chart.json)
 
 .PHONY: default
 default: chartparams submodules
+
+include makefiles/tests.mk
 
 .PHONY: chartparams
 chartparams: $(CHART_PARAMS)
@@ -28,7 +29,7 @@ chartparams: $(CHART_PARAMS)
 $(CHART_PARAMS): charts.json
 	jq \
 		--arg target "$@" \
-		'. as $$charts | $$target | split("/") as $$path | $$charts[$$path[0]][$$path[1]]' \
+		'. as $$charts | $$target | split("/") as $$path | $$charts[$$path[-2]]' \
 		< charts.json > "$@"
 
 .PHONY: submodules

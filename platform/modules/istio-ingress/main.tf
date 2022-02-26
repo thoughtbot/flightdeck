@@ -1,27 +1,23 @@
-resource "helm_release" "istio_ingress" {
-  chart      = var.chart_name
+resource "helm_release" "this" {
+  chart      = coalesce(var.chart_name, local.chart_defaults.chart)
   name       = var.name
   namespace  = var.k8s_namespace
-  repository = var.chart_repository
+  repository = coalesce(var.chart_repository, local.chart_defaults.repository)
   values     = concat(local.chart_values, var.chart_values)
-  version    = var.istio_version
+  version    = coalesce(var.chart_version, local.chart_defaults.version)
 }
 
 locals {
+  chart_defaults = jsondecode(file("${path.module}/chart.json"))
+
   chart_values = [
     yamlencode({
-      gateways = {
-        istio-ingressgateway = {
-          autoscaleMin = 3
-          name         = "flightdeck-ingressgateway"
+      name = "flightdeck-ingressgateway"
 
-          labels = {
-            istio = "flightdeck"
-          }
-        }
-      }
-      global = {
-        istioNamespace = var.istio_namespace
+      autoscaling = {
+        enabled     = true
+        minReplicas = 2
+        maxReplicas = 5
       }
     })
   ]

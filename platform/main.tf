@@ -4,12 +4,22 @@ resource "kubernetes_namespace" "istio" {
   }
 }
 
-module "istio" {
-  source = "./modules/istio"
+module "istio_base" {
+  source = "./modules/istio-base"
 
-  discovery_chart_values = var.istio_discovery_values
-  istio_version          = var.istio_version
-  k8s_namespace          = kubernetes_namespace.istio.metadata[0].name
+  chart_values  = var.istio_base_values
+  chart_version = var.istio_version
+  k8s_namespace = kubernetes_namespace.istio.metadata[0].name
+}
+
+module "istiod" {
+  source = "./modules/istiod"
+
+  chart_values  = var.istiod_values
+  chart_version = var.istio_version
+  k8s_namespace = kubernetes_namespace.istio.metadata[0].name
+
+  depends_on = [module.istio_base]
 }
 
 module "ingress_config" {
@@ -19,7 +29,7 @@ module "ingress_config" {
   issuer        = var.certificate_issuer
   k8s_namespace = local.flightdeck_namespace
 
-  depends_on = [module.cert_manager, module.istio]
+  depends_on = [module.cert_manager, module.istiod]
 }
 
 resource "kubernetes_namespace" "flightdeck" {
@@ -31,7 +41,7 @@ resource "kubernetes_namespace" "flightdeck" {
     }
   }
 
-  depends_on = [module.istio]
+  depends_on = [module.istiod]
 }
 
 module "cert_manager" {
@@ -76,8 +86,10 @@ module "istio_ingress" {
   source = "./modules/istio-ingress"
 
   chart_values  = var.istio_ingress_values
-  istio_version = var.istio_version
+  chart_version = var.istio_version
   k8s_namespace = local.flightdeck_namespace
+
+  depends_on = [module.istiod]
 }
 
 resource "kubernetes_namespace" "kube_prometheus_stack" {
@@ -89,7 +101,7 @@ resource "kubernetes_namespace" "kube_prometheus_stack" {
     }
   }
 
-  depends_on = [module.istio]
+  depends_on = [module.istiod]
 }
 
 module "prometheus_operator" {
