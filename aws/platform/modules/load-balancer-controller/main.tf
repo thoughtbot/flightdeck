@@ -5,6 +5,11 @@ resource "helm_release" "this" {
   repository = coalesce(var.chart_repository, local.chart_defaults.repository)
   values     = concat(local.chart_values, var.chart_values)
   version    = coalesce(var.chart_version, local.chart_defaults.version)
+
+  # Ensure the role isn't detached until the chart is uninstalled. This prevents
+  # target group bindings from being orphaned when the finalizer is missing
+  # permissions.
+  depends_on = [aws_iam_role_policy_attachment.this]
 }
 
 resource "helm_release" "ingress_config" {
