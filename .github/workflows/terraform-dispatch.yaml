@@ -1,0 +1,39 @@
+name: Terraform (Manual)
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: Path to the root module
+        type: string
+        required: true
+      terraform_command:
+        description: Terraform command
+        type: choice
+        required: true
+        default: apply
+        options:
+        - apply
+        - destroy
+      terraform_version:
+        description: Terraform version
+        required: true
+        default: 1.0.11
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+  checks: write
+
+jobs:
+  terraform:
+    name: Run Command
+    uses: ./.github/workflows/terraform.yaml
+    concurrency: ${{ github.ref_name }}
+    with:
+      module: ${{ github.event.inputs.module }}
+      terraform_command: ${{ github.event.inputs.terraform_command }}
+      terraform_version: ${{ github.event.inputs.terraform_version }}
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
