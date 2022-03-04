@@ -26,6 +26,8 @@ module "nat_gateway" {
   namespace          = var.namespace
   public_subnets     = module.public_subnets.instances
   tags               = var.tags
+
+  depends_on = [aws_internet_gateway.this, module.public_subnets]
 }
 
 module "private_subnets" {
