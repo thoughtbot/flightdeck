@@ -41,11 +41,13 @@ jobs:
 
     - name: Set up Kubernetes context
       run: |
+        CLUSTER=$(echo 'flightdeck-${{ github.ref_name }}' | cut -c1-20)
+        CLUSTER="$CLUSTER-sandbox-v1"
         aws \
           --region us-east-1 \
           eks \
           update-kubeconfig \
-          --name flightdeck-sandbox-v1
+          --name "$CLUSTER"
 
     - name: Build manifests
       id: kustomize

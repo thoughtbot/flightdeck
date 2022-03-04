@@ -40,7 +40,9 @@ jobs:
         bin/uncomment certificate_domain_name
         bin/uncomment issue_certificates
         bin/set-template-var ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
-        bin/set-template-var ORG_NAME flightdeck
+        ORG_NAME=$(echo 'flightdeck-${{ github.ref_name }}' | cut -c1-20)
+        set -x
+        bin/set-template-var ORG_NAME "$ORG_NAME"
         bin/set-template-var REGION us-east-1
         bin/set-template-var STATE_PREFIX ${{ github.ref_name }}
         bin/set-template-var SANDBOX_ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
@@ -52,6 +54,7 @@ jobs:
         bin/set-template-var SANDBOX_STATE_TABLE flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_KMS_KEY flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_ROLE flightdeck-ci-state
+        set +x
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
