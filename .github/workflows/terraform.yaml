@@ -15,6 +15,17 @@ on:
       AWS_ACCOUNT_ID:
         description: AWS account in which Terraform will run
         required: true
+  workflow_dispatch:
+    inputs:
+      module:
+        type: string
+        required: true
+      terraform_command:
+        type: string
+        default: apply
+      terraform_version:
+        default: 1.0.11
+        type: string
 
 jobs:
   plan:
