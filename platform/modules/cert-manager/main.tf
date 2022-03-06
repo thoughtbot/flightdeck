@@ -17,7 +17,14 @@ locals {
           namespace = var.k8s_namespace
         }
       }
+
       installCRDs = true
+
+      startupapicheck = {
+        podAnnotations = {
+          "sidecar.istio.io/inject" = "false"
+        }
+      }
     })
   ]
 }
