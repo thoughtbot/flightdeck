@@ -16,7 +16,7 @@ certificate:
 gateway:
   requireTLS: true
   selector:
-    istio: flightdeck
+    istio: flightdeck-ingressgateway
 
 ingress:
   host: ""
