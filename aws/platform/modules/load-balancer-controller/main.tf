@@ -33,8 +33,8 @@ resource "helm_release" "ingress_config" {
             ]
             ports = [
               { port = 15021 },
-              { port = 8080 },
-              { port = 8443 },
+              { port = 80 },
+              { port = 443 },
             ]
           }
         ]
