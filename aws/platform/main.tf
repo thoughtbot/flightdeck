@@ -342,7 +342,7 @@ locals {
       ]
       image = {
         repository = "public.ecr.aws/aws-observability/aws-for-fluent-bit"
-        tag        = "2.12.0"
+        tag        = "2.22.0"
       }
       resources = {
         limits = {
