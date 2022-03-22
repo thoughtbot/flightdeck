@@ -1,7 +1,6 @@
 variable "admin_roles" {
   type        = list(string)
   description = "Additional IAM roles which have admin cluster privileges"
-  default     = []
 }
 
 variable "aws_load_balancer_controller_values" {

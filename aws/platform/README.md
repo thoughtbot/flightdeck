@@ -76,6 +76,44 @@ data "aws_eks_cluster" "this" {
 
 [EKS IAM documentation]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 
+## Preventing Cluster Lockout
+
+You are required to pass at least one role to be designated as a cluster
+administrator role. However, in case this role somehow loses admin privileges in
+the cluster, Flightdeck creates a special "breakglass" role you can use to
+regain access. This role is disabled by default and is always added as an admin
+regardless of what other roles you provide.
+
+If you have the following cluster:
+
+```
+module "workload_platform" {
+  source = "github.com/thoughtbot/flightdeck//aws/workload-platform?ref=v0.6.0"
+
+  # Name of the EKS cluster to which the platform will be deployed
+  cluster_name = "example-production-v1"
+}
+```
+
+The role will be named "example-production-v1-breakglass" and is disabled by
+default. To enable it, change the "Enabled" tag on the role to "True":
+
+```
+aws iam tag-role \
+  --role-name example-production-v1-breakglass \
+  --tags Key=Enabled,Value=True
+```
+
+You can then use it to manually edit the aws-auth ConfigMap:
+
+```
+% aws eks update-kubeconfig \
+  --name example-production-v1 \
+  --alias breakglass \
+  --role-arn arn:aws:iam:ACCOUNT_ID::role/example-production-v1
+% kubectl edit -n kube-system configmap aws-auth
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -121,7 +159,7 @@ data "aws_eks_cluster" "this" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_roles"></a> [admin\_roles](#input\_admin\_roles) | Additional IAM roles which have admin cluster privileges | `list(string)` | `[]` | no |
+| <a name="input_admin_roles"></a> [admin\_roles](#input\_admin\_roles) | Additional IAM roles which have admin cluster privileges | `list(string)` | n/a | yes |
 | <a name="input_aws_load_balancer_controller_values"></a> [aws\_load\_balancer\_controller\_values](#input\_aws\_load\_balancer\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_load_balancer_controller_version"></a> [aws\_load\_balancer\_controller\_version](#input\_aws\_load\_balancer\_controller\_version) | Version of aws-load-balancer-controller to install | `string` | `null` | no |
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |
@@ -148,7 +186,7 @@ data "aws_eks_cluster" "this" {
 | <a name="input_metrics_server_values"></a> [metrics\_server\_values](#input\_metrics\_server\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_version"></a> [metrics\_server\_version](#input\_metrics\_server\_version) | Version of the Metrics Server to install | `string` | `null` | no |
 | <a name="input_monitoring_account_id"></a> [monitoring\_account\_id](#input\_monitoring\_account\_id) | ID of the account in which monitoring resources are found | `string` | `null` | no |
-| <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
+| <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | n/a | yes |
 | <a name="input_pagerduty_parameter"></a> [pagerduty\_parameter](#input\_pagerduty\_parameter) | SSM parameter containing the Pagerduty routing key | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |

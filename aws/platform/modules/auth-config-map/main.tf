@@ -26,10 +26,63 @@ data "aws_eks_cluster_auth" "this" {
   name = data.aws_eks_cluster.this.name
 }
 
+data "aws_caller_identity" "this" {
+}
+
+resource "aws_iam_role" "breakglass" {
+  assume_role_policy = data.aws_iam_policy_document.breakglass_trust.json
+  name               = "${var.cluster_full_name}-breakglass"
+  tags               = { Enabled = "False" }
+}
+
+data "aws_iam_policy_document" "breakglass_trust" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${local.account_id}:root"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      values   = ["True"]
+      variable = "aws:ResourceTag/Enabled"
+    }
+  }
+}
+
+resource "aws_iam_role_policy" "breakglass" {
+  name   = "breakglass"
+  policy = data.aws_iam_policy_document.breakglass.json
+  role   = aws_iam_role.breakglass.id
+}
+
+data "aws_iam_policy_document" "breakglass" {
+  statement {
+    actions   = ["eks:AccessKubernetesApi"]
+    resources = [data.aws_eks_cluster.this.arn]
+
+    condition {
+      test     = "StringEquals"
+      values   = ["True"]
+      variable = "aws:PrincipalTag/Enabled"
+    }
+  }
+}
+
 locals {
-  map_roles = "    ${indent(4, yamlencode(local.mappings))}"
+  account_id = data.aws_caller_identity.this.account_id
+  map_roles  = "    ${indent(4, yamlencode(local.mappings))}"
 
   mappings = concat(
+    [
+      {
+        groups   = ["system:masters"]
+        rolearn  = aws_iam_role.breakglass.arn
+        username = "adminuser:BreakGlass"
+      }
+    ],
     [
       for role in var.admin_roles :
       {
