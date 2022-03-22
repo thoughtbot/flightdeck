@@ -40,7 +40,7 @@ README.md: $(MODULEFILES)
 .PHONY: init
 init: .init
 
-.init: providers.tf.json .dependencies
+.init: versions.tf .dependencies
 	terraform init -backend=false
 	@touch .init
 
