@@ -125,6 +125,7 @@ data "aws_eks_cluster" "this" {
 | <a name="input_aws_load_balancer_controller_values"></a> [aws\_load\_balancer\_controller\_values](#input\_aws\_load\_balancer\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_load_balancer_controller_version"></a> [aws\_load\_balancer\_controller\_version](#input\_aws\_load\_balancer\_controller\_version) | Version of aws-load-balancer-controller to install | `string` | `null` | no |
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |
+| <a name="input_aws_prometheus_workspace_id"></a> [aws\_prometheus\_workspace\_id](#input\_aws\_prometheus\_workspace\_id) | Id for the prometheus workspace created in AWS | `string` | `null` | no |
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
 | <a name="input_cert_manager_values"></a> [cert\_manager\_values](#input\_cert\_manager\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_certificate_issuer"></a> [certificate\_issuer](#input\_certificate\_issuer) | YAML spec for certificate issuer; defaults to self-signed | `string` | `null` | no |
@@ -159,4 +160,5 @@ data "aws_eks_cluster" "this" {
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
 | <a name="input_secret_store_provider_values"></a> [secret\_store\_provider\_values](#input\_secret\_store\_provider\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_workspace_region"></a> [workspace\_region](#input\_workspace\_region) | Region of the Prometheus workspace for centralized ingestion | `string` | `"us-east-1"` | no |
 <!-- END_TF_DOCS -->

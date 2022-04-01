@@ -19,6 +19,10 @@ write to the workspace.
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 
+## Modules
+
+No modules.
+
 ## Resources
 
 | Name | Type |
@@ -44,4 +48,10 @@ write to the workspace.
 | <a name="input_name"></a> [name](#input\_name) | Name for this Prometheus workspace | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
 | <a name="input_workload_account_ids"></a> [workload\_account\_ids](#input\_workload\_account\_ids) | Workload accounts allowed to write to this workspace | `list(string)` | `[]` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_aws_prometheus_workspace_id"></a> [aws\_prometheus\_workspace\_id](#output\_aws\_prometheus\_workspace\_id) | Id for the prometheus workspace created in AWS |
 <!-- END_TF_DOCS -->
