@@ -154,7 +154,7 @@ data "aws_route53_zone" "managed" {
 }
 
 data "aws_s3_bucket_object" "prometheus" {
-  count = var.prometheus_workspace_name == null ? 0 : 1
+  count = var.aws_prometheus_workspace_id != "" ? 0 : (var.prometheus_workspace_name == null ? 0 : 1)
 
   bucket = join("-", concat([
     "prometheus",
@@ -410,7 +410,24 @@ locals {
     ]
   )
 
-  prometheus_workspace = try(jsondecode(local.prometheus_workspace_json), {})
+  prometheus_workspace = local.prometheus_workspace_s3 == {} ? local.prometheus_data_source : local.prometheus_workspace_s3
 
-  prometheus_workspace_json = join("", data.aws_s3_bucket_object.prometheus.*.body)
+  prometheus_workspace_s3 = try(jsondecode(local.prometheus_workspace_json), {})
+
+  prometheus_workspace_json = try(join("", data.aws_s3_bucket_object.prometheus.*.body), {})
+
+  workspace_host = "aps-workspaces.${var.workspace_region}.amazonaws.com"
+
+  workspace_path = "workspaces/${var.aws_prometheus_workspace_id}"
+
+  injestion_role_name = var.prometheus_workspace_name == null ? "" : join("-", concat([var.prometheus_workspace_name, "prometheus", "ingestion"]))
+
+  prometheus_data_source = {
+    host       = local.workspace_host
+    query_path = "${local.workspace_path}/api/v1/query"
+    region     = var.workspace_region
+    role_arn   = "arn:aws:iam::${local.monitoring_account_id}:role/${local.injestion_role_name}"
+    write_path = "${local.workspace_path}/api/v1/remote_write"
+    url        = "https://${local.workspace_host}/${local.workspace_path}/"
+  }
 }

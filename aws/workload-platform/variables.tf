@@ -22,6 +22,12 @@ variable "aws_namespace" {
   description = "Prefix to be applied to created AWS resources"
 }
 
+variable "aws_prometheus_workspace_id" {
+  description = "Id for the prometheus workspace created in AWS. This variable is mandatory if the Prometheus workspace for centralized ingestion is in a different region"
+  type        = string
+  default     = ""
+}
+
 variable "aws_tags" {
   type        = map(string)
   description = "Tags to be applied to created AWS resources"
@@ -217,4 +223,10 @@ variable "vertical_pod_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
   default     = []
+}
+
+variable "workspace_region" {
+  description = "Region of the Prometheus workspace for centralized ingestion. This variable is mandatory if the Prometheus workspace for centralized ingestion is in a different region"
+  type        = string
+  default     = "us-east-1"
 }
