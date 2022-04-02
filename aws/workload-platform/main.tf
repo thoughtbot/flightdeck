@@ -130,15 +130,15 @@ module "cluster_autoscaler_service_account_role" {
 }
 
 module "prometheus_service_account_role" {
-  count  = var.prometheus_workspace_name == null ? 0 : 1
-  source = "../prometheus-service-account-role"
+  count  = var.prometheus_data_source["name"] == null ? 0 : 1
+  source = "./modules/prometheus-service-account-role"
 
   aws_namespace        = [module.cluster_name.full]
   aws_tags             = var.aws_tags
   k8s_namespace        = "kube-prometheus-stack"
   oidc_issuer          = data.aws_ssm_parameter.oidc_issuer.value
   workspace_account_id = local.monitoring_account_id
-  workspace_name       = var.prometheus_workspace_name
+  workspace_name       = var.prometheus_data_source["name"]
 }
 
 module "secrets_store_provider" {
@@ -151,18 +151,6 @@ data "aws_route53_zone" "managed" {
   for_each = toset(var.hosted_zones)
 
   name = each.value
-}
-
-data "aws_s3_bucket_object" "prometheus" {
-  count = var.aws_prometheus_workspace_id != "" ? 0 : (var.prometheus_workspace_name == null ? 0 : 1)
-
-  bucket = join("-", concat([
-    "prometheus",
-    var.prometheus_workspace_name,
-    local.monitoring_account_id
-  ]))
-
-  key = "ingestion.json"
 }
 
 data "aws_ssm_parameter" "node_role_arn" {
@@ -240,7 +228,7 @@ locals {
 
   federated_prometheus_values = concat(
     (
-      var.prometheus_workspace_name == null ?
+      var.prometheus_data_source["host"] == null ?
       [] :
       [
         yamlencode({
@@ -259,13 +247,13 @@ locals {
                     "--name",
                     "aps",
                     "--region",
-                    local.prometheus_workspace["region"],
+                    var.prometheus_data_source["region"],
                     "--host",
-                    local.prometheus_workspace["host"],
+                    var.prometheus_data_source["host"],
                     "--port",
                     ":8005",
                     "--role-arn",
-                    local.prometheus_workspace["role_arn"]
+                    var.prometheus_data_source["role_arn"]
                   ]
                   name  = "sigv4-proxy"
                   image = "public.ecr.aws/aws-observability/aws-sigv4-proxy:1.0"
@@ -284,7 +272,7 @@ locals {
                     maxSamplesPerSend = 1000
                     maxShards         = 200
                   }
-                  url = "http://localhost:8005/${local.prometheus_workspace["write_path"]}"
+                  url = "http://localhost:8005/${var.prometheus_data_source["write_path"]}"
                 }
               ]
             }
@@ -409,25 +397,4 @@ locals {
       })
     ]
   )
-
-  prometheus_workspace = local.prometheus_workspace_s3 == {} ? local.prometheus_data_source : local.prometheus_workspace_s3
-
-  prometheus_workspace_s3 = try(jsondecode(local.prometheus_workspace_json), {})
-
-  prometheus_workspace_json = try(join("", data.aws_s3_bucket_object.prometheus.*.body), {})
-
-  workspace_host = "aps-workspaces.${var.workspace_region}.amazonaws.com"
-
-  workspace_path = "workspaces/${var.aws_prometheus_workspace_id}"
-
-  injestion_role_name = var.prometheus_workspace_name == null ? "" : join("-", concat([var.prometheus_workspace_name, "prometheus", "ingestion"]))
-
-  prometheus_data_source = {
-    host       = local.workspace_host
-    query_path = "${local.workspace_path}/api/v1/query"
-    region     = var.workspace_region
-    role_arn   = "arn:aws:iam::${local.monitoring_account_id}:role/${local.injestion_role_name}"
-    write_path = "${local.workspace_path}/api/v1/remote_write"
-    url        = "https://${local.workspace_host}/${local.workspace_path}/"
-  }
 }
