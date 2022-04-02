@@ -112,7 +112,6 @@ data "aws_eks_cluster" "this" {
 | [aws_caller_identity.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_route53_zone.managed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
-| [aws_s3_bucket_object.prometheus](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket_object) | data source |
 | [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.pagerduty_routing_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -125,7 +124,6 @@ data "aws_eks_cluster" "this" {
 | <a name="input_aws_load_balancer_controller_values"></a> [aws\_load\_balancer\_controller\_values](#input\_aws\_load\_balancer\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_load_balancer_controller_version"></a> [aws\_load\_balancer\_controller\_version](#input\_aws\_load\_balancer\_controller\_version) | Version of aws-load-balancer-controller to install | `string` | `null` | no |
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |
-| <a name="input_aws_prometheus_workspace_id"></a> [aws\_prometheus\_workspace\_id](#input\_aws\_prometheus\_workspace\_id) | Id for the prometheus workspace created in AWS | `string` | `null` | no |
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
 | <a name="input_cert_manager_values"></a> [cert\_manager\_values](#input\_cert\_manager\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_certificate_issuer"></a> [certificate\_issuer](#input\_certificate\_issuer) | YAML spec for certificate issuer; defaults to self-signed | `string` | `null` | no |
@@ -152,13 +150,12 @@ data "aws_eks_cluster" "this" {
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
 | <a name="input_pagerduty_parameter"></a> [pagerduty\_parameter](#input\_pagerduty\_parameter) | SSM parameter containing the Pagerduty routing key | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_prometheus_data_source"></a> [prometheus\_data\_source](#input\_prometheus\_data\_source) | Prometheus datasource object with necessary details required to connect to the Prometheus workspace for centralized ingestion | <pre>object({<br>    # The name of the Prometheus workspace for centralized injestion<br>    name = string<br><br>    # The Prometheus workspace host. <br>    # A sample value for AWs managed Prometheus will be `aps-workspaces.us-east-1.amazonaws.com`<br>    host = string<br><br>    # The Prometheus workspace query path. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/query`<br>    query_path = string<br><br>    # The region for the Prometheus workspace created for centralized injestion path.<br>    region = string<br><br>    # The ARN of the AWS IAM role enabling this cluster to use the Prometheus workspace for centralized ingestion <br>    role_arn = string<br><br>    # The write path for the Prometheus workspace. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/remote_write`<br>    write_path = string<br>  })</pre> | <pre>{<br>  "host": null,<br>  "name": null,<br>  "query_path": null,<br>  "region": null,<br>  "role_arn": null,<br>  "write_path": null<br>}</pre> | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the Prometheus workspace for centralized ingestion | `string` | `null` | no |
 | <a name="input_reloader_values"></a> [reloader\_values](#input\_reloader\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_reloader_version"></a> [reloader\_version](#input\_reloader\_version) | Version of external-dns to install | `string` | `null` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
 | <a name="input_secret_store_provider_values"></a> [secret\_store\_provider\_values](#input\_secret\_store\_provider\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_workspace_region"></a> [workspace\_region](#input\_workspace\_region) | Region of the Prometheus workspace for centralized ingestion | `string` | `"us-east-1"` | no |
 <!-- END_TF_DOCS -->
