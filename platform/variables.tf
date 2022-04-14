@@ -142,6 +142,12 @@ variable "pagerduty_routing_key" {
   default     = null
 }
 
+variable "opsgenie_api_key" {
+  type        = string
+  description = "API key for delivering OpsGenie alerts"
+  default     = null
+}
+
 variable "prometheus_adapter_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

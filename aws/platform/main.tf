@@ -11,6 +11,7 @@ module "common_platform" {
   metrics_server_values                    = var.metrics_server_values
   metrics_server_version                   = var.metrics_server_version
   pagerduty_routing_key                    = local.pagerduty_routing_key
+  opsgenie_api_key                         = local.opsgenie_api_key
   prometheus_adapter_values                = var.prometheus_adapter_values
   reloader_values                          = var.reloader_values
   reloader_version                         = var.reloader_version
@@ -184,6 +185,12 @@ data "aws_ssm_parameter" "pagerduty_routing_key" {
   count = var.pagerduty_parameter == null ? 0 : 1
 
   name = var.pagerduty_parameter
+}
+
+data "aws_ssm_parameter" "opsgenie_api_key" {
+  count = var.opsgenie_parameter == null ? 0 : 1
+
+  name = var.opsgenie_parameter
 }
 
 data "aws_caller_identity" "this" {}
@@ -383,6 +390,12 @@ locals {
     var.pagerduty_parameter == null ?
     null :
     join("", data.aws_ssm_parameter.pagerduty_routing_key.*.value)
+  )
+
+  opsgenie_api_key = (
+    var.opsgenie_parameter == null ?
+    null :
+    join("", data.aws_ssm_parameter.opsgenie_api_key.*.value)
   )
 
   prometheus_operator_values = concat(

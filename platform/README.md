@@ -91,6 +91,7 @@ practices.
 | <a name="input_istiod_values"></a> [istiod\_values](#input\_istiod\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_values"></a> [metrics\_server\_values](#input\_metrics\_server\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_version"></a> [metrics\_server\_version](#input\_metrics\_server\_version) | Version of the Metrics Server to install | `string` | `null` | no |
+| <a name="input_opsgenie_api_key"></a> [opsgenie\_api\_key](#input\_opsgenie\_api\_key) | API key for delivering OpsGenie alerts | `string` | `null` | no |
 | <a name="input_pagerduty_routing_key"></a> [pagerduty\_routing\_key](#input\_pagerduty\_routing\_key) | Routing key for delivering Pagerduty alerts | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_adapter_version"></a> [prometheus\_adapter\_version](#input\_prometheus\_adapter\_version) | Version of prometheus adapter to install | `string` | `null` | no |
