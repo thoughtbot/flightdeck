@@ -19,22 +19,22 @@ Cluster Autoscaler, and ExternalDNS.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.75.1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ../auth-config-map |  |
-| <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ../load-balancer-controller |  |
-| <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ../cloudwatch-logs |  |
-| <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ../cluster-autoscaler-service-account-role |  |
-| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name |  |
-| <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../common/workload-platform |  |
-| <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../dns-service-account-role |  |
-| <a name="module_network"></a> [network](#module\_network) | ../network-data |  |
-| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../prometheus-service-account-role |  |
-| <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ../secrets-store-provider |  |
+| <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ../auth-config-map | n/a |
+| <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ../load-balancer-controller | n/a |
+| <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ../cloudwatch-logs | n/a |
+| <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ../cluster-autoscaler-service-account-role | n/a |
+| <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
+| <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../common/workload-platform | n/a |
+| <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../dns-service-account-role | n/a |
+| <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
+| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../prometheus-service-account-role | n/a |
+| <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ../secrets-store-provider | n/a |
 
 ## Resources
 
@@ -43,7 +43,6 @@ Cluster Autoscaler, and ExternalDNS.
 | [aws_caller_identity.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_route53_zone.managed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
-| [aws_s3_bucket_object.prometheus](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket_object) | data source |
 | [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.pagerduty_routing_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -81,8 +80,8 @@ Cluster Autoscaler, and ExternalDNS.
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
 | <a name="input_pagerduty_parameter"></a> [pagerduty\_parameter](#input\_pagerduty\_parameter) | SSM parameter containing the Pagerduty routing key | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_prometheus_data_source"></a> [prometheus\_data\_source](#input\_prometheus\_data\_source) | Prometheus datasource object with necessary details required to connect to the Prometheus workspace for centralized ingestion | <pre>object({<br>    # The name of the Prometheus workspace for centralized injestion<br>    name = string<br><br>    # The Prometheus workspace host. <br>    # A sample value for AWs managed Prometheus will be `aps-workspaces.us-east-1.amazonaws.com`<br>    host = string<br><br>    # The Prometheus workspace query path. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/query`<br>    query_path = string<br><br>    # The region for the Prometheus workspace created for centralized injestion path.<br>    region = string<br><br>    # The ARN of the AWS IAM role enabling this cluster to use the Prometheus workspace for centralized ingestion <br>    role_arn = string<br><br>    # The write path for the Prometheus workspace. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/remote_write`<br>    write_path = string<br>  })</pre> | <pre>{<br>  "host": null,<br>  "name": null,<br>  "query_path": null,<br>  "region": null,<br>  "role_arn": null,<br>  "write_path": null<br>}</pre> | no |
 | <a name="input_prometheus_operator_values"></a> [prometheus\_operator\_values](#input\_prometheus\_operator\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
-| <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the Prometheus workspace for centralized ingestion | `string` | `null` | no |
 | <a name="input_reloader_values"></a> [reloader\_values](#input\_reloader\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_reloader_version"></a> [reloader\_version](#input\_reloader\_version) | Version of external-dns to install | `string` | `null` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |

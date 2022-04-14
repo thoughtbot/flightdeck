@@ -183,10 +183,38 @@ variable "monitoring_account_id" {
   default     = null
 }
 
-variable "prometheus_workspace_name" {
-  description = "Name of the Prometheus workspace for centralized ingestion"
-  type        = string
-  default     = null
+variable "prometheus_data_source" {
+  description = "Prometheus datasource object with necessary details required to connect to the Prometheus workspace for centralized ingestion"
+  type = object({
+    # The name of the Prometheus workspace for centralized injestion
+    name = string
+
+    # The Prometheus workspace host. 
+    # A sample value for AWs managed Prometheus will be `aps-workspaces.us-east-1.amazonaws.com`
+    host = string
+
+    # The Prometheus workspace query path. 
+    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/query`
+    query_path = string
+
+    # The region for the Prometheus workspace created for centralized injestion path.
+    region = string
+
+    # The ARN of the AWS IAM role enabling this cluster to use the Prometheus workspace for centralized ingestion 
+    role_arn = string
+
+    # The write path for the Prometheus workspace. 
+    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/remote_write`
+    write_path = string
+  })
+  default = {
+    name       = null
+    host       = null
+    query_path = null
+    region     = null
+    role_arn   = null
+    write_path = null
+  }
 }
 
 variable "reloader_values" {

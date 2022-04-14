@@ -19,10 +19,6 @@ write to the workspace.
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -51,5 +47,8 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_aws_prometheus_workspace_endpoint"></a> [aws\_prometheus\_workspace\_endpoint](#output\_aws\_prometheus\_workspace\_endpoint) | Prometheus endpoint available for this workspace |
+| <a name="output_aws_prometheus_workspace_id"></a> [aws\_prometheus\_workspace\_id](#output\_aws\_prometheus\_workspace\_id) | Id for the prometheus workspace created in AWS |
 <!-- END_TF_DOCS -->
