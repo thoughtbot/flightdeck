@@ -131,7 +131,7 @@ module "cluster_autoscaler_service_account_role" {
 
 module "prometheus_service_account_role" {
   count  = var.prometheus_data_source["name"] == null ? 0 : 1
-  source = "./modules/prometheus-service-account-role"
+  source = "../prometheus-service-account-role"
 
   aws_namespace        = [module.cluster_name.full]
   aws_tags             = var.aws_tags
