@@ -38,3 +38,9 @@ variable "pagerduty_routing_key" {
   description = "Routing key for delivering Pagerduty alerts"
   default     = null
 }
+
+variable "opsgenie_api_key" {
+  type        = string
+  description = "API key for delivering OpsGenie alerts"
+  default     = null
+}

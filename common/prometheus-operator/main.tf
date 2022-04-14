@@ -17,6 +17,9 @@ resource "helm_release" "config" {
 locals {
   chart_defaults = jsondecode(file("${path.module}/chart.json"))
 
+  pagerduty_route = var.pagerduty_routing_key == null ? null : "pagerduty"
+  opsgenie_route  = var.opsgenie_api_key == null ? null : "opsgenie"
+
   chart_values = [
     yamlencode({
       additionalPrometheusRulesMap = {
@@ -39,11 +42,25 @@ locals {
                   ]
                 }
               ]
+            ),
+            (
+              var.opsgenie_api_key == null ?
+              [] :
+              [
+                {
+                  name = "opsgenie"
+                  opsgenie_configs = [
+                    {
+                      api_key = var.opsgenie_api_key
+                    }
+                  ]
+                }
+              ]
             )
           )
 
           route = {
-            receiver = var.pagerduty_routing_key == null ? "null" : "pagerduty"
+            receiver = coalesce(local.pagerduty_route, local.opsgenie_route, "null")
           }
         }
       }

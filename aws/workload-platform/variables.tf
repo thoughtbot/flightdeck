@@ -159,6 +159,12 @@ variable "pagerduty_parameter" {
   default     = null
 }
 
+variable "opsgenie_parameter" {
+  type        = string
+  description = "SSM parameter containing the OpsGenie API key"
+  default     = null
+}
+
 variable "prometheus_adapter_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

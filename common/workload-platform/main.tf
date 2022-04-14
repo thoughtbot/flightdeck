@@ -99,6 +99,7 @@ module "prometheus_operator" {
   chart_version         = var.prometheus_operator_version
   k8s_namespace         = local.kube_prometheus_stack_namespace
   pagerduty_routing_key = var.pagerduty_routing_key
+  opsgenie_api_key      = var.opsgenie_api_key
 
   depends_on = [module.cert_manager, module.vertical_pod_autoscaler]
 }
