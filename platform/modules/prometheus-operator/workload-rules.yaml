@@ -10,3 +10,9 @@ groups:
         kube_horizontalpodautoscaler_spec_max_replicas
       ) without (instance, pod)
     record: hpa:replica_ratio:mean
+  - expr: |
+      avg(
+        kube_deployment_status_replicas_updated /
+        kube_deployment_status_replicas
+      ) without (instance, pod)
+    record: deploy:replicas_updated_ratio:mean
