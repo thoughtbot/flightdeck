@@ -22,12 +22,12 @@ Creates a prometheus datasource object containing the necessary details to conne
 |------|------|
 | [aws_caller_identity.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_s3_bucket_object.prometheus](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket_object) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_prometheus_workspace_id"></a> [aws\_prometheus\_workspace\_id](#input\_aws\_prometheus\_workspace\_id) | AWS managed prometheus workspace name. | `string` | n/a | yes |
 | <a name="input_aws_prometheus_workspace_name"></a> [aws\_prometheus\_workspace\_name](#input\_aws\_prometheus\_workspace\_name) | AWS managed prometheus workspace name | `string` | n/a | yes |
 
 ## Outputs
