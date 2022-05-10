@@ -44,7 +44,6 @@ jobs:
         recursive-path: platform
         output-file: README.md
         output-method: inject
-        working-dir: .
 
     - name: AWS Docs
       uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
@@ -54,7 +53,6 @@ jobs:
         recursive-path: aws
         output-file: README.md
         output-method: inject
-        working-dir: .
 
   lint:
     name: Lint
