@@ -40,19 +40,19 @@ jobs:
       uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
       with:
         git-push: true
-        recursive: true
-        recursive-path: platform
+        find-dir: platform
         output-file: README.md
         output-method: inject
+        working-dir: .
 
     - name: AWS Docs
       uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
       with:
         git-push: true
-        recursive: true
-        recursive-path: aws
+        find-dir: aws
         output-file: README.md
         output-method: inject
+        working-dir: .
 
   lint:
     name: Lint
