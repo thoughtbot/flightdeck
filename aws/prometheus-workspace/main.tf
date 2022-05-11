@@ -81,6 +81,7 @@ resource "aws_s3_bucket_object" "this" {
   content = jsonencode({
     host       = local.workspace_host
     query_path = "${local.workspace_path}/api/v1/query"
+    name       = var.name
     region     = data.aws_region.this.name
     role_arn   = aws_iam_role.ingestion.arn
     write_path = "${local.workspace_path}/api/v1/remote_write"
