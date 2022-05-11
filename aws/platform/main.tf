@@ -273,6 +273,9 @@ locals {
                   ]
                 }
               ]
+              externalLabels = {
+                cluster = var.cluster_name
+              }
               remoteWrite = [
                 {
                   queueConfig = {

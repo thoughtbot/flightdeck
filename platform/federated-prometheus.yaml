@@ -14,6 +14,6 @@ prometheus:
         - 'flightdeck-prometheus.kube-prometheus-stack.svc:9090'
 
     # https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-ingest-dedupe.html
-    prometheusExternalLabelName: cluster
+    prometheusExternalLabelName: prometheus
     replicaExternalLabelName: __replica__
     replicas: 2
