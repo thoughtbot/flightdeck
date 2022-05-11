@@ -1,9 +1,3 @@
-# Prometheus Service Account Role
-
-Configures an IAM role for a Prometheus service account. This role is designed
-to be used with a managed Prometheus workspace deployed in a centralized
-monitoring account.
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -22,7 +16,7 @@ monitoring account.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../../../service-account-role | n/a |
+| <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ../../../service-account-role | n/a |
 
 ## Resources
 
@@ -40,15 +34,11 @@ monitoring account.
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | n/a | yes |
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
-| <a name="input_role_name"></a> [role\_name](#input\_role\_name) | Name for the IAM role | `string` | `"prometheus"` | no |
-| <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Name for the Prometheus service account | `string` | `"federated-prometheus"` | no |
-| <a name="input_workspace_account_id"></a> [workspace\_account\_id](#input\_workspace\_account\_id) | ID of the account in which the Prometheus workspace is found | `string` | n/a | yes |
-| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Name of the Prometheus workspace | `string` | n/a | yes |
+| <a name="input_route53_zone_ids"></a> [route53\_zone\_ids](#input\_route53\_zone\_ids) | Zone IDs for Route53 hosted zones managed by this cluster | `list(string)` | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_arn"></a> [arn](#output\_arn) | The ARN of the created role |
-| <a name="output_service_account_role_arn"></a> [service\_account\_role\_arn](#output\_service\_account\_role\_arn) | ARN of the AWS IAM role created for service accounts |
+| <a name="output_arn"></a> [arn](#output\_arn) | ARN of the AWS IAM role created for service accounts |
 <!-- END_TF_DOCS -->

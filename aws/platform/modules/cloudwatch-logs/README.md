@@ -1,9 +1,3 @@
-# Prometheus Service Account Role
-
-Configures an IAM role for a Prometheus service account. This role is designed
-to be used with a managed Prometheus workspace deployed in a centralized
-monitoring account.
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -22,12 +16,13 @@ monitoring account.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ../../../service-account-role | n/a |
+| <a name="module_fluent_bit_service_account_role"></a> [fluent\_bit\_service\_account\_role](#module\_fluent\_bit\_service\_account\_role) | ../../../service-account-role | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_log_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_iam_policy.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role_policy_attachment.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -38,17 +33,15 @@ monitoring account.
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
+| <a name="input_cluster_full_name"></a> [cluster\_full\_name](#input\_cluster\_full\_name) | Full name of the cluster which will write to this log group | `string` | n/a | yes |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources should be created | `string` | n/a | yes |
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
-| <a name="input_role_name"></a> [role\_name](#input\_role\_name) | Name for the IAM role | `string` | `"prometheus"` | no |
-| <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Name for the Prometheus service account | `string` | `"federated-prometheus"` | no |
-| <a name="input_workspace_account_id"></a> [workspace\_account\_id](#input\_workspace\_account\_id) | ID of the account in which the Prometheus workspace is found | `string` | n/a | yes |
-| <a name="input_workspace_name"></a> [workspace\_name](#input\_workspace\_name) | Name of the Prometheus workspace | `string` | n/a | yes |
+| <a name="input_retention_in_days"></a> [retention\_in\_days](#input\_retention\_in\_days) | Number of days to retain logs | `number` | `30` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_arn"></a> [arn](#output\_arn) | The ARN of the created role |
+| <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | Name of the created Cloudwatch log group |
 | <a name="output_service_account_role_arn"></a> [service\_account\_role\_arn](#output\_service\_account\_role\_arn) | ARN of the AWS IAM role created for service accounts |
 <!-- END_TF_DOCS -->
