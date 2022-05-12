@@ -13,7 +13,7 @@ VPC and subnets must be tagged following the conventions of the Kubernetes AWS
 cloud provider:
 
 | Tag                             | Value  | Add to              |
-| ---                             | -----  | ------------------- |
+| ------------------------------- | ------ | ------------------- |
 | kubernetes.io/role/internal-elb | 1      | Private subnets     |
 | kubernetes.io/role/elb          | 1      | Public subnets      |
 | kubernetes.io/cluster/NAME      | shared | VPC and all subnets |
@@ -23,11 +23,11 @@ you're bringing your own VPC, you must tag resources as documented above before
 creating your cluster.
 
 [network module]: ../network/README.md
-[IRSA]: https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html
+[irsa]: https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html
 
 ## Example
 
-``` terraform
+```terraform
 module "cluster" {
   source = "github.com/thoughtbot/flightdeck//aws/cluster?ref=v0.4.0"
 

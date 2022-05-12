@@ -21,7 +21,7 @@ The following components are included:
 Appropriate IAM roles for service accounts are configured for Prometheus,
 Cluster Autoscaler, Cert Manager, External DNS, and Fluent Bit.
 
-[Flightdeck Platform]: ../../platform
+[flightdeck platform]: ../../platform
 
 ## Deployment
 
@@ -30,7 +30,7 @@ the [cluster module] to create compatible EKS clusters.
 
 [cluster module]: ../cluster/README.md
 
-``` terraform
+```terraform
 module "workload_platform" {
   source = "github.com/thoughtbot/flightdeck//aws/workload-platform?ref=v0.5.0"
 
@@ -74,7 +74,7 @@ data "aws_eks_cluster" "this" {
 }
 ```
 
-[EKS IAM documentation]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+[eks iam documentation]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 
 ## Preventing Cluster Lockout
 
@@ -152,6 +152,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | [aws_route53_zone.managed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 | [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
+| [aws_ssm_parameter.opsgenie_api_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.pagerduty_routing_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 
 ## Inputs
@@ -185,7 +186,8 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="input_metrics_server_values"></a> [metrics\_server\_values](#input\_metrics\_server\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_metrics_server_version"></a> [metrics\_server\_version](#input\_metrics\_server\_version) | Version of the Metrics Server to install | `string` | `null` | no |
 | <a name="input_monitoring_account_id"></a> [monitoring\_account\_id](#input\_monitoring\_account\_id) | ID of the account in which monitoring resources are found | `string` | `null` | no |
-| <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | n/a | yes |
+| <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Additional node roles which can join the cluster | `list(string)` | `[]` | no |
+| <a name="input_opsgenie_parameter"></a> [opsgenie\_parameter](#input\_opsgenie\_parameter) | SSM parameter containing the OpsGenie api key | `string` | `null` | no |
 | <a name="input_pagerduty_parameter"></a> [pagerduty\_parameter](#input\_pagerduty\_parameter) | SSM parameter containing the Pagerduty routing key | `string` | `null` | no |
 | <a name="input_prometheus_adapter_values"></a> [prometheus\_adapter\_values](#input\_prometheus\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_prometheus_data_source"></a> [prometheus\_data\_source](#input\_prometheus\_data\_source) | Prometheus datasource object with necessary details required to connect to the Prometheus workspace for centralized ingestion | <pre>object({<br>    # The name of the Prometheus workspace for centralized injestion<br>    name = string<br><br>    # The Prometheus workspace host. <br>    # A sample value for AWs managed Prometheus will be `aps-workspaces.us-east-1.amazonaws.com`<br>    host = string<br><br>    # The Prometheus workspace query path. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/query`<br>    query_path = string<br><br>    # The region for the Prometheus workspace created for centralized injestion path.<br>    region = string<br><br>    # The ARN of the AWS IAM role enabling this cluster to use the Prometheus workspace for centralized ingestion <br>    role_arn = string<br><br>    # The write path for the Prometheus workspace. <br>    # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/remote_write`<br>    write_path = string<br>  })</pre> | <pre>{<br>  "host": null,<br>  "name": null,<br>  "query_path": null,<br>  "region": null,<br>  "role_arn": null,<br>  "write_path": null<br>}</pre> | no |
@@ -196,4 +198,10 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
 | <a name="input_secret_store_provider_values"></a> [secret\_store\_provider\_values](#input\_secret\_store\_provider\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_breakglass_role_arn"></a> [breakglass\_role\_arn](#output\_breakglass\_role\_arn) | ARN for a breakglass role in case of cluster lockout |
 <!-- END_TF_DOCS -->

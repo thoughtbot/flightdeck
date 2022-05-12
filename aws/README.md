@@ -49,7 +49,7 @@ have the appropriate tags.
 ### Ingress
 
 Flightdeck uses application load balancers to route public traffic to the
-cluster.  You can reuse the same load balancer for multiple clusters, but each
+cluster. You can reuse the same load balancer for multiple clusters, but each
 cluster will require its own target group. You can provision a load balancer and
 target groups using the [ingress module].
 
@@ -78,7 +78,3 @@ You can use the included [service account role module] to create roles that work
 with clusters created using Flightdeck.
 
 [service account role module]: ./service-account-role/README.md
-
-<!-- BEGIN_TF_DOCS -->
-
-<!-- END_TF_DOCS -->

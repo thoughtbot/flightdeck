@@ -11,9 +11,9 @@ the OIDC provider for the assigned clusters.
 
 To use this role, you must provide:
 
-* A list of cluster names from which this role will be assumable
-* A list of service account names in `namespace:serviceaccount` format
-* A unique name for the created IAM role
+- A list of cluster names from which this role will be assumable
+- A list of service account names in `namespace:serviceaccount` format
+- A unique name for the created IAM role
 
 Additionally, you may provide policy documents which will be attached directly
 to the role as well as ARNs for managed policies.
@@ -39,10 +39,10 @@ module "role" {
 You can combine this module with the [service account policy module] to grant
 access to AWS services for your pods.
 
-[IAM Role]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
-[IRSA]: https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html
+[iam role]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+[irsa]: https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html
 [cluster module]: ../cluster/README.md
-[SSM parameter conventions]: ../../docs/ssm-parameter-conventions.md
+[ssm parameter conventions]: ../../docs/ssm-parameter-conventions.md
 [service account policy module]: ../service-account-policy
 
 <!-- BEGIN_TF_DOCS -->

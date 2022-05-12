@@ -27,7 +27,7 @@ module "policy" {
 You can combine this module with the [service account role module] to grant
 access to AWS services for your pods.
 
-[IAM policy]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
+[iam policy]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
 [service account policy module]: ../service-account-policy
 
 <!-- BEGIN_TF_DOCS -->

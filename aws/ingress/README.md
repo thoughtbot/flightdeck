@@ -8,7 +8,7 @@ cluster running in the configured network.
 
 ## Example
 
-``` terraform
+```terraform
 module "ingress" {
   providers = {
     # You can use different provider instances when using multiple accounts.
@@ -52,7 +52,7 @@ traffic from the old deployment to the new cluster.
 
 First add a new target group for the new cluster with a weight of zero:
 
-``` terraform
+```terraform
 module "ingress" {
   cluster_names = ["example-production-v1", "example-production-v2"]
 
@@ -65,7 +65,7 @@ module "ingress" {
 
 Once applications are deployed to the new cluster, add a small weight:
 
-``` terraform
+```terraform
 module "ingress" {
   cluster_names = ["example-production-v1", "example-production-v2"]
 
@@ -79,7 +79,7 @@ module "ingress" {
 You can gradually increase the weight and reapply until all traffic targets the
 new cluster. Then, de-provision the old cluster and remove its target group:
 
-``` terraform
+```terraform
 module "ingress" {
   cluster_names = ["example-production-v2"]
 

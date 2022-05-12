@@ -8,7 +8,7 @@ recommend using separate VPCs for production and pre-production.
 
 ## Example
 
-``` terraform
+```terraform
 module "network" {
   source = "github.com/thoughtbot/flightdeck//aws/network?ref=v0.4.0"
 

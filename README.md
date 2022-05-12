@@ -12,7 +12,7 @@ learn more on the [thoughtbot website].
 
 ![AWS Architecture](./docs/aws-modules.png)
 
-[Terraform]: https://www.terraform.io/
+[terraform]: https://www.terraform.io/
 
 ## Deployment
 
@@ -29,10 +29,9 @@ This project is Copyright © 2022 Joe Ferris and thoughtbot. It is free
 software, and may be redistributed under the terms specified in the [LICENSE]
 file.
 
-[LICENSE]: ./LICENSE
+[license]: ./LICENSE
 
-About thoughtbot
-----------------
+## About thoughtbot
 
 ![thoughtbot](https://thoughtbot.com/brand_assets/93:44.svg)
 
@@ -44,7 +43,3 @@ us][hire] to design, develop, and grow your product.
 
 [community]: https://thoughtbot.com/community?utm_source=github
 [hire]: https://thoughtbot.com/hire-us?utm_source=github
-
-<!-- BEGIN_TF_DOCS -->
-
-<!-- END_TF_DOCS -->
