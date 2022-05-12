@@ -19,6 +19,9 @@ locals {
 
       serviceMonitor = {
         enabled = true
+        selector = {
+          prometheus = "flightdeck-prometheus"
+        }
       }
     }),
     templatefile("${path.module}/filters.yaml", {

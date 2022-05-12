@@ -143,3 +143,39 @@ rules:
             rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
           )
         )
+- name: cluster-autoscaler
+  groups:
+  - name: cluster-autoscaler
+    rules:
+    - record: deploy:cluster_autoscaler:cpu_current_cores:gauge
+      expr: |
+        max(cluster_autoscaler_cluster_cpu_current_cores)
+        without (instance, pod)
+    - record: deploy:cluster_autoscaler:memory_current_bytes:gauge
+      expr: |
+        max(cluster_autoscaler_cluster_memory_current_bytes)
+        without (instance, pod)
+    - record: deploy:cluster_autoscaler:nodes_count:gauge
+      expr: |
+        max(cluster_autoscaler_nodes_count)
+        without (instance, pod)
+    - record: deploy:cluster_autoscaler:unschedulable_pods_count:gauge
+      expr: |
+        max(cluster_autoscaler_unschedulable_pods_count)
+        without (instance, pod)
+- name: fluentbit
+  groups:
+  - name: fluentbit
+    rules:
+    - record: svc:fluentbit:output_proc_bytes:rate5m
+      expr: |
+        sum(rate(fluentbit_output_proc_bytes_total[5m]))
+        without (instance, pod)
+    - record: svc:fluentbit:output_proc_bytes_min:rate5m
+      expr: |
+        min(rate(fluentbit_output_proc_bytes_total[5m]))
+        without (instance, pod)
+    - record: svc:fluentbit:output_dropped_records_total:rate5m
+      expr: |
+        sum(rate(fluentbit_output_dropped_records[5m]))
+        without (instance, pod)

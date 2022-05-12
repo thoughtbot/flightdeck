@@ -17,6 +17,13 @@ locals {
         skip-nodes-with-local-storage = false
       }
       fullnameOverride = var.name
+      serviceMonitor = {
+        enabled   = true
+        namespace = var.k8s_namespace
+        selector = {
+          prometheus = "flightdeck-prometheus"
+        }
+      }
     })
   ]
 }

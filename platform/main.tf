@@ -58,6 +58,8 @@ module "cluster_autoscaler" {
   chart_values  = var.cluster_autoscaler_values
   chart_version = var.cluster_autoscaler_version
   k8s_namespace = local.flightdeck_namespace
+
+  depends_on = [module.prometheus_operator]
 }
 
 module "external_dns" {
