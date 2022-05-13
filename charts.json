@@ -47,7 +47,7 @@
   "prometheus-adapter": {
     "chart": "prometheus-adapter",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "3.0.2"
+    "version": "3.0.3"
   },
   "prometheus-operator": {
     "chart": "kube-prometheus-stack",
