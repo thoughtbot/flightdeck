@@ -211,6 +211,10 @@ variable "prometheus_data_source" {
     # The write path for the Prometheus workspace. 
     # A sample value for AWs managed Prometheus will be `workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx/api/v1/remote_write`
     write_path = string
+
+    # The url for the Prometheus workspace. 
+    # A sample value for AWs managed Prometheus will be `https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-xxxxx-xxx-xxx-xxx-xxxxxxx`
+    url = string
   })
   default = {
     name       = null
@@ -219,6 +223,7 @@ variable "prometheus_data_source" {
     region     = null
     role_arn   = null
     write_path = null
+    url        = null
   }
 }
 
