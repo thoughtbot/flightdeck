@@ -2,42 +2,42 @@
   "cert-manager": {
     "chart": "cert-manager",
     "repository": "https://charts.jetstack.io",
-    "version": "v1.7.1"
+    "version": "v1.8.0"
   },
   "cluster-autoscaler": {
     "chart": "cluster-autoscaler",
     "repository": "https://kubernetes.github.io/autoscaler",
-    "version": "9.16.0"
+    "version": "9.18.1"
   },
   "external-dns": {
     "chart": "external-dns",
     "repository": "https://charts.bitnami.com/bitnami",
-    "version": "6.1.8"
+    "version": "6.4.4"
   },
   "fluent-bit": {
     "chart": "fluent-bit",
     "repository": "https://fluent.github.io/helm-charts",
-    "version": "0.19.20"
+    "version": "0.20.1"
   },
   "istio-base": {
     "chart": "base",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.13.1"
+    "version": "1.13.4"
   },
   "istiod": {
     "chart": "istiod",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.13.1"
+    "version": "1.13.4"
   },
   "istio-ingress": {
     "chart": "gateway",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.13.1"
+    "version": "1.13.4"
   },
   "load-balancer-controller": {
     "chart": "aws-load-balancer-controller",
     "repository": "https://aws.github.io/eks-charts",
-    "version": "1.4.0"
+    "version": "1.4.2"
   },
   "metrics-server": {
     "chart": "metrics-server",
@@ -47,21 +47,21 @@
   "prometheus-adapter": {
     "chart": "prometheus-adapter",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "3.0.3"
+    "version": "3.3.0"
   },
   "prometheus-operator": {
     "chart": "kube-prometheus-stack",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "33.0.0"
+    "version": "35.3.1"
   },
   "reloader": {
     "chart": "reloader",
     "repository": "https://stakater.github.io/stakater-charts",
-    "version": "v0.0.105"
+    "version": "v0.0.110"
   },
   "secret-store-driver": {
     "chart": "secrets-store-csi-driver",
     "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",
-    "version": "1.1.0"
+    "version": "1.1.2"
   }
 }
