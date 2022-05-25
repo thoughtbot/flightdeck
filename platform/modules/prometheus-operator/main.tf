@@ -60,7 +60,16 @@ locals {
           )
 
           route = {
-            receiver = coalesce(local.pagerduty_route, local.opsgenie_route, "null")
+            receiver = "null"
+
+            routes = [
+              {
+                receiver = coalesce(local.pagerduty_route, local.opsgenie_route, "null")
+                matchers = [
+                  "severity =~ \"critical\""
+                ]
+              }
+            ]
           }
         }
       }
