@@ -123,3 +123,14 @@ external:
     matches: "^(.*)_seconds"
     as: "${1}_seconds"
   metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))
+
+# Histogram
+- seriesQuery: '{__name__=~".*_app_.*bucket$",namespace!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+  name:
+    matches: "^(.*)_bucket"
+    as: "${1}_95p"
+  metricsQuery: (histogram_quantile(0.95, sum(rate(<<.Series>>{<<.LabelMatchers>>}[5m])) by (namespace, le)))
