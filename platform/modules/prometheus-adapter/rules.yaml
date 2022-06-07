@@ -18,8 +18,8 @@ custom:
     as: "${1}_${2}"
   metricsQuery: <<.Series>>{<<.LabelMatchers>>}
 
-# Expose any recorded metrics following the standard service convention
-- seriesQuery: '{__name__=~"^svc:.*:.*$",service!=""}'
+# Expose application service histograms as 95th percentile
+- seriesQuery: '{__name__=~".*_app_.*bucket$",namespace!=""}'
   resources:
     overrides:
       namespace:
@@ -27,22 +27,9 @@ custom:
       service:
         resource: service
   name:
-    matches: "^svc:([^:]*):([^:]*)$"
-    as: "${1}_${2}"
-  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
-
-# Expose recorded rules for Istio
-- seriesQuery: '{__name__=~"^istio:namespace_destination_service:.*$",destination_service!=""}'
-  resources:
-    overrides:
-      namespace:
-        resource: namespace
-      destination_service:
-        resource: service
-  name:
-    matches: "^istio:namespace_destination_service:([^:]*):([^:]*)$"
-    as: "${1}_${2}"
-  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
+    matches: "^(.*)_bucket"
+    as: "${1}_95p"
+  metricsQuery: (histogram_quantile(0.95, sum(rate(<<.Series>>{<<.LabelMatchers>>}[5m])) without (instance, pod)))
 
 # Expose total requests (ie istio_requests_total)
 - seriesQuery: '{__name__=~".*_requests_total$",pod!=""}'
@@ -72,17 +59,6 @@ custom:
 
 # These metrics are for non-pod aggregated metrics like queue lengths
 external:
-
-# Expose any recorded metrics following the standard external convention
-- seriesQuery: '{__name__=~"^external:.*:.*$",namespace!=""}'
-  resources:
-    overrides:
-      namespace:
-        resource: namespace
-  name:
-    matches: "^external:([^:]*):([^:]*)$"
-    as: "${1}_${2}"
-  metricsQuery: <<.Series>>{<<.LabelMatchers>>}
 
 # Queue backlogs (Sidekiq, DelayedJob)
 - seriesQuery: '{__name__=~".*_backlog_total$",namespace!=""}'
@@ -123,14 +99,3 @@ external:
     matches: "^(.*)_seconds"
     as: "${1}_seconds"
   metricsQuery: (max(<<.Series>>{<<.LabelMatchers>>}) by (namespace, queue, queue_name))
-
-# Histogram
-- seriesQuery: '{__name__=~".*_app_.*bucket$",namespace!=""}'
-  resources:
-    overrides:
-      namespace:
-        resource: namespace
-  name:
-    matches: "^(.*)_bucket"
-    as: "${1}_95p"
-  metricsQuery: (histogram_quantile(0.95, sum(rate(<<.Series>>{<<.LabelMatchers>>}[5m])) by (namespace, le)))
