@@ -12,7 +12,7 @@ prometheus:
       name: kube-prometheus-stack-alertmanager
       namespace: kube-prometheus-stack
       pathPrefix: /
-      port: web
+      port: http-web
     externalLabels: {}
     disableCompaction: false
     enableAdminAPI: false
