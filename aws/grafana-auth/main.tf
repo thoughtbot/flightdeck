@@ -1,5 +1,5 @@
 module "secret" {
-  source = "github.com/thoughtbot/terraform-aws-secrets//secret?ref=v0.3.1"
+  source = "github.com/thoughtbot/terraform-aws-secrets//secret?ref=v0.4.0"
 
   admin_principals = var.admin_principals
   description      = "Grafana API Key: ${var.name}"
@@ -14,7 +14,7 @@ module "secret" {
 }
 
 module "rotation" {
-  source = "github.com/thoughtbot/terraform-aws-secrets//secret-rotation-function?ref=v0.3.1"
+  source = "github.com/thoughtbot/terraform-aws-secrets//secret-rotation-function?ref=v0.4.0"
 
   handler       = "lambda_function.lambda_handler"
   role_arn      = module.secret.rotation_role_arn

@@ -70,5 +70,5 @@ resource "aws_ssm_parameter" "node_role_arn" {
 
 data "aws_subnet" "private" {
   for_each = toset(module.network.private_subnet_ids)
-  id = each.value
+  id       = each.value
 }
