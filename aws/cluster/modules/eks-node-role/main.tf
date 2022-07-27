@@ -29,6 +29,21 @@ resource "aws_iam_role_policy_attachment" "ec2_container_registry_policy" {
   role       = aws_iam_role.this.name
 }
 
+resource "aws_iam_role_policy_attachment" "eks_cloudwatch_agent_policy" {
+  policy_arn = "${local.policy_prefix}/CloudWatchAgentServerPolicy"
+  role       = aws_iam_role.this.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_ssm_instance_policy" {
+  policy_arn = "${local.policy_prefix}/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.this.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_xray_writeonly_policy" {
+  policy_arn = "${local.policy_prefix}/AWSXrayWriteOnlyAccess"
+  role       = aws_iam_role.this.name
+}
+
 locals {
   policy_prefix = "arn:${data.aws_partition.current.partition}:iam::aws:policy"
 }
