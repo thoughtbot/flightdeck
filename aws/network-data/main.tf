@@ -2,14 +2,20 @@ data "aws_vpc" "this" {
   tags = merge(var.tags, var.vpc_tags)
 }
 
-data "aws_subnet_ids" "private" {
-  tags   = merge(var.tags, var.private_tags)
-  vpc_id = data.aws_vpc.this.id
+data "aws_subnets" "private" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.this.id]
+  }
+  tags = merge(var.tags, var.private_tags)
 }
 
-data "aws_subnet_ids" "public" {
-  tags   = merge(var.tags, var.public_tags)
-  vpc_id = data.aws_vpc.this.id
+data "aws_subnets" "public" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.this.id]
+  }
+  tags = merge(var.tags, var.public_tags)
 }
 
 locals {

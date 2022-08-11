@@ -1,5 +1,5 @@
 {
   "chart": "external-dns",
   "repository": "https://charts.bitnami.com/bitnami",
-  "version": "6.1.8"
+  "version": "6.4.4"
 }
