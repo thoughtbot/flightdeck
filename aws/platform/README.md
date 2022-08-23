@@ -88,7 +88,7 @@ If you have the following cluster:
 
 ```
 module "workload_platform" {
-  source = "github.com/thoughtbot/flightdeck//aws/workload-platform?ref=v0.6.0"
+  source = "github.com/thoughtbot/flightdeck//aws/platform?ref=v0.6.0"
 
   # Name of the EKS cluster to which the platform will be deployed
   cluster_name = "example-production-v1"
