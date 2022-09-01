@@ -57,6 +57,19 @@ custom:
     as: "${1}_per_second"
   metricsQuery: (sum(irate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (<<.GroupBy>>))
 
+# Expose http histograms (request rate, queue duration) as 95th percentile
+- seriesQuery: '{__name__=~".*_http_.*bucket$",namespace!=""}'
+  resources:
+    overrides:
+      namespace:
+        resource: namespace
+      service:
+        resource: service
+  name:
+    matches: "^(.*)_bucket"
+    as: "${1}_95p1m"
+  metricsQuery: (histogram_quantile(0.95, sum(rate(<<.Series>>{<<.LabelMatchers>>}[1m])) by (le, job, namespace, service)))
+
 # These metrics are for non-pod aggregated metrics like queue lengths
 external:
 
