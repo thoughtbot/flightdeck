@@ -191,6 +191,14 @@ module "sloth" {
   depends_on = [module.prometheus_operator]
 }
 
+module "aws_ebs_csi_driver" {
+  source = "./modules/aws-ebs-csi-driver"
+
+  chart_values  = var.aws_ebs_csi_driver_values
+  chart_version = var.aws_ebs_csi_driver_version
+  k8s_namespace = "kube-system"
+}
+
 locals {
   flightdeck_namespace            = kubernetes_namespace.flightdeck.metadata[0].name
   kube_prometheus_stack_namespace = kubernetes_namespace.kube_prometheus_stack.metadata[0].name
