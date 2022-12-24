@@ -153,7 +153,7 @@ module "ebs_csi_driver_service_account_role" {
 
   aws_namespace = [module.cluster_name.full]
   aws_tags      = var.aws_tags
-  k8s_namespace = var.k8s_namespace
+  k8s_namespace = "kube-system"
   oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
 }
 
@@ -214,7 +214,7 @@ locals {
       }
       node = {
         serviceAccount = {
-          create = true
+          create = false
           name   = "ebs-csi-controller-sa"
           annotations = {
             "eks.amazonaws.com/role-arn" = module.ebs_csi_driver_service_account_role.arn
