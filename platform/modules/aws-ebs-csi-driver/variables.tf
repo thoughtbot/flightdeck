@@ -30,5 +30,5 @@ variable "k8s_namespace" {
 variable "name" {
   type        = string
   description = "Name for the Helm release"
-  default     = "secrets-store-csi-driver"
+  default     = "aws-ebs-csi-driver"
 }
