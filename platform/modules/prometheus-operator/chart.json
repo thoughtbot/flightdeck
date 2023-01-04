@@ -1,5 +1,5 @@
 {
   "chart": "kube-prometheus-stack",
   "repository": "https://prometheus-community.github.io/helm-charts",
-  "version": "35.3.1"
+  "version": "43.2.1"
 }
