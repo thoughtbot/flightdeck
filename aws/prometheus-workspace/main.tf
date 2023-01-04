@@ -51,17 +51,23 @@ data "aws_iam_policy_document" "ingestion_assume_role" {
 resource "aws_s3_bucket" "this" {
   bucket = local.bucket_name
   tags   = var.tags
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = aws_s3_bucket.this.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.bucket
+
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -73,7 +79,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_object" "this" {
+resource "aws_s3_object" "this" {
   bucket       = aws_s3_bucket.this.bucket
   content_type = "application/json"
   key          = "ingestion.json"

@@ -27,7 +27,7 @@ locals {
   max_size_per_node_group = ceil(var.max_size / 2)
 
   subnets = zipmap(
-    var.subnets.*.availability_zone,
+    var.subnets[*].availability_zone,
     var.subnets
   )
 }

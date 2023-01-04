@@ -15,8 +15,8 @@ resource "aws_vpc" "this" {
 resource "aws_flow_log" "vpc" {
   count = var.enable_flow_logs ? 1 : 0
 
-  iam_role_arn    = join("", aws_iam_role.flow_logs.*.arn)
-  log_destination = join("", aws_cloudwatch_log_group.flow_logs.*.arn)
+  iam_role_arn    = join("", aws_iam_role.flow_logs[*].arn)
+  log_destination = join("", aws_cloudwatch_log_group.flow_logs[*].arn)
   traffic_type    = "ALL"
   vpc_id          = aws_vpc.this.id
 }
@@ -42,8 +42,8 @@ data "aws_iam_policy_document" "flow_logs_assume_role" {
 resource "aws_iam_role_policy_attachment" "flow_logs" {
   count = var.enable_flow_logs ? 1 : 0
 
-  policy_arn = join("", aws_iam_policy.flow_logs.*.arn)
-  role       = join("", aws_iam_role.flow_logs.*.name)
+  policy_arn = join("", aws_iam_policy.flow_logs[*].arn)
+  role       = join("", aws_iam_role.flow_logs[*].name)
 }
 
 resource "aws_iam_policy" "flow_logs" {

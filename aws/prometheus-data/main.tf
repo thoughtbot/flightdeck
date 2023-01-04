@@ -12,7 +12,7 @@ data "aws_s3_bucket_object" "prometheus" {
 }
 
 locals {
-  prometheus_workspace_json = join("", data.aws_s3_bucket_object.prometheus.*.body)
+  prometheus_workspace_json = join("", data.aws_s3_bucket_object.prometheus[*].body)
   prometheus_data = merge(
     jsondecode(local.prometheus_workspace_json),
     { "name" : var.aws_prometheus_workspace_name }

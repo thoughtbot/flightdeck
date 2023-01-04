@@ -113,7 +113,7 @@ module "dns_service_account_role" {
   aws_tags         = var.aws_tags
   k8s_namespace    = var.k8s_namespace
   oidc_issuer      = data.aws_ssm_parameter.oidc_issuer.value
-  route53_zone_ids = values(data.aws_route53_zone.managed).*.id
+  route53_zone_ids = values(data.aws_route53_zone.managed)[*].id
 }
 
 module "cloudwatch_logs" {
@@ -280,7 +280,7 @@ locals {
         yamlencode({
           serviceAccount = {
             annotations = {
-              "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role.*.arn)
+              "eks.amazonaws.com/role-arn" = join("", module.prometheus_service_account_role[*].arn)
             }
           }
           prometheus = {
@@ -418,13 +418,13 @@ locals {
   pagerduty_routing_key = (
     var.pagerduty_parameter == null ?
     null :
-    join("", data.aws_ssm_parameter.pagerduty_routing_key.*.value)
+    join("", data.aws_ssm_parameter.pagerduty_routing_key[*].value)
   )
 
   opsgenie_api_key = (
     var.opsgenie_parameter == null ?
     null :
-    join("", data.aws_ssm_parameter.opsgenie_api_key.*.value)
+    join("", data.aws_ssm_parameter.opsgenie_api_key[*].value)
   )
 
   prometheus_operator_values = concat(
