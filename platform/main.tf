@@ -115,7 +115,7 @@ module "prometheus_operator" {
   pagerduty_routing_key = var.pagerduty_routing_key
   opsgenie_api_key      = var.opsgenie_api_key
 
-  depends_on = [module.cert_manager, module.vertical_pod_autoscaler, module.aws_ebs_csi_driver]
+  depends_on = [module.cert_manager, module.vertical_pod_autoscaler]
 }
 
 module "prometheus_adapter" {
@@ -129,7 +129,7 @@ module "prometheus_adapter" {
     var.prometheus_adapter_values
   )
 
-  depends_on = [module.prometheus_operator, module.aws_ebs_csi_driver]
+  depends_on = [module.prometheus_operator]
 }
 
 module "flightdeck_prometheus" {
@@ -139,7 +139,7 @@ module "flightdeck_prometheus" {
   k8s_namespace = local.kube_prometheus_stack_namespace
   name          = "flightdeck-prometheus"
 
-  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler, module.aws_ebs_csi_driver]
+  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler]
 }
 
 module "federated_prometheus" {
@@ -149,7 +149,7 @@ module "federated_prometheus" {
   k8s_namespace = local.kube_prometheus_stack_namespace
   name          = "federated-prometheus"
 
-  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler, module.aws_ebs_csi_driver]
+  depends_on = [module.prometheus_operator, module.vertical_pod_autoscaler]
 }
 
 module "secret_store_driver" {
@@ -189,14 +189,6 @@ module "sloth" {
   source = "./modules/sloth"
 
   depends_on = [module.prometheus_operator]
-}
-
-module "aws_ebs_csi_driver" {
-  source = "./modules/aws-ebs-csi-driver"
-
-  chart_values  = var.aws_ebs_csi_driver_values
-  chart_version = var.aws_ebs_csi_driver_version
-  k8s_namespace = "kube-system"
 }
 
 locals {
