@@ -3,6 +3,18 @@ variable "admin_roles" {
   description = "Additional IAM roles which have admin cluster privileges"
 }
 
+variable "aws_ebs_csi_driver_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "aws_ebs_csi_driver_version" {
+  type        = string
+  description = "Version of the ebs csi driver to install"
+  default     = null
+}
+
 variable "aws_load_balancer_controller_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

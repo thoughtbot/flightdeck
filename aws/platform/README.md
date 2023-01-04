@@ -139,6 +139,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
 | <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../platform | n/a |
 | <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ./modules/dns-service-account-role | n/a |
+| <a name="module_ebs_csi_driver_service_account_role"></a> [ebs\_csi\_driver\_service\_account\_role](#module\_ebs\_csi\_driver\_service\_account\_role) | ./modules/ebs-csi-driver-service-account-role | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
 | <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ./modules/prometheus-service-account-role | n/a |
 | <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ./modules/secrets-store-provider | n/a |
@@ -160,6 +161,8 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_roles"></a> [admin\_roles](#input\_admin\_roles) | Additional IAM roles which have admin cluster privileges | `list(string)` | n/a | yes |
+| <a name="input_aws_ebs_csi_driver_values"></a> [aws\_ebs\_csi\_driver\_values](#input\_aws\_ebs\_csi\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_aws_ebs_csi_driver_version"></a> [aws\_ebs\_csi\_driver\_version](#input\_aws\_ebs\_csi\_driver\_version) | Version of the ebs csi driver to install | `string` | `null` | no |
 | <a name="input_aws_load_balancer_controller_values"></a> [aws\_load\_balancer\_controller\_values](#input\_aws\_load\_balancer\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_load_balancer_controller_version"></a> [aws\_load\_balancer\_controller\_version](#input\_aws\_load\_balancer\_controller\_version) | Version of aws-load-balancer-controller to install | `string` | `null` | no |
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |

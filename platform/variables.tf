@@ -1,3 +1,15 @@
+variable "aws_ebs_csi_driver_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "aws_ebs_csi_driver_version" {
+  type        = string
+  description = "Version of the ebs csi driver to install"
+  default     = null
+}
+
 variable "cert_manager_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

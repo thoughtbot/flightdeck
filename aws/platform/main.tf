@@ -19,6 +19,11 @@ module "common_platform" {
   secret_store_driver_version              = var.secret_store_driver_version
   vertical_pod_autoscaler_values           = var.vertical_pod_autoscaler_values
 
+  aws_ebs_csi_driver_values = concat(
+    local.aws_ebs_csi_driver_values,
+    var.aws_ebs_csi_driver_values
+  )
+  
   cert_manager_values = concat(
     local.cert_manager_values,
     var.cert_manager_values
@@ -59,7 +64,7 @@ module "common_platform" {
     var.prometheus_operator_values
   )
 
-  depends_on = [module.prometheus_service_account_role]
+  depends_on = [module.prometheus_service_account_role, module.ebs_csi_driver_service_account_role]
 }
 
 module "aws_load_balancer_controller" {
@@ -143,6 +148,15 @@ module "prometheus_service_account_role" {
   workspace_name       = var.prometheus_data_source["name"]
 }
 
+module "ebs_csi_driver_service_account_role" {
+  source = "./modules/ebs-csi-driver-service-account-role"
+
+  aws_namespace = [module.cluster_name.full]
+  aws_tags      = var.aws_tags
+  k8s_namespace = "kube-system"
+  oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
+}
+
 module "secrets_store_provider" {
   source = "./modules/secrets-store-provider"
 
@@ -186,6 +200,30 @@ data "aws_caller_identity" "this" {}
 data "aws_region" "current" {}
 
 locals {
+  aws_ebs_csi_driver_values = [
+    yamlencode({
+      controller = {
+        serviceAccount = {
+          create = true
+          name   = "ebs-csi-controller-sa"
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.ebs_csi_driver_service_account_role.arn
+          }
+        }
+        replicaCount = 2
+      }
+      node = {
+        serviceAccount = {
+          create = false
+          name   = "ebs-csi-controller-sa"
+          annotations = {
+            "eks.amazonaws.com/role-arn" = module.ebs_csi_driver_service_account_role.arn
+          }
+        }
+      }
+    })
+  ]
+
   cert_manager_values = [
     yamlencode({
       extraArgs = [
