@@ -56,6 +56,12 @@ jobs:
         bin/set-template-var SANDBOX_STATE_ROLE flightdeck-ci-state
         set +x
 
+    - name: Archive Terraform configuration
+      uses: actions/upload-artifact@v3
+      with:
+        name: terraform
+        path: template
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
