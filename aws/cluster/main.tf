@@ -24,6 +24,8 @@ module "eks_cluster" {
   public_subnet_ids         = module.network.public_subnet_ids
   tags                      = var.tags
   vpc                       = module.network.vpc
+
+  depends_on = [module.node_role]
 }
 
 module "node_role" {
