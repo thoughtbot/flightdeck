@@ -241,10 +241,6 @@ locals {
         # Allow Issuers to use IRSA credentials
         "--issuer-ambient-credentials"
       ]
-      securityContext = {
-        # https://github.com/jetstack/cert-manager/issues/2147
-        enabled = true
-      }
       serviceAccount = {
         annotations = {
           "eks.amazonaws.com/role-arn" = module.dns_service_account_role.arn
