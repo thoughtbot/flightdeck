@@ -47,11 +47,38 @@ locals {
               var.opsgenie_api_key == null ?
               [] :
               [
+                # Mapping alerts to multiple Opsgenie receivers based on different priorities was required because when multiple alerts happened
+                # at the same time, it would cause errors in the Opsgenie API because the pririties were coming as "P2P2P2" instead of just "P2".
                 {
                   name = "opsgenie"
                   opsgenie_configs = [
                     {
-                      api_key = var.opsgenie_api_key
+                      api_key  = var.opsgenie_api_key,
+                      message  = "{{ .GroupLabels.alertname }}: {{ .CommonAnnotations.summary }}",
+                      priority = "P5",
+                      tags     = "{{ range .Alerts }}{{ .Labels.Values | join \",\" }}{{end}}"
+                    }
+                  ]
+                },
+                {
+                  name = "opsgenie-warning"
+                  opsgenie_configs = [
+                    {
+                      api_key  = var.opsgenie_api_key,
+                      message  = "{{ .GroupLabels.alertname }}: {{ .CommonAnnotations.summary }}",
+                      priority = "P3",
+                      tags     = "{{ range .Alerts }}{{ .Labels.Values | join \",\" }}{{end}}"
+                    }
+                  ]
+                },
+                {
+                  name = "opsgenie-critical"
+                  opsgenie_configs = [
+                    {
+                      api_key  = var.opsgenie_api_key,
+                      message  = "{{ .GroupLabels.alertname }}: {{ .CommonAnnotations.summary }}",
+                      priority = "P1",
+                      tags     = "{{ range .Alerts }}{{ .Labels.Values | join \",\" }}{{end}}"
                     }
                   ]
                 }
