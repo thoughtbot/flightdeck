@@ -101,6 +101,8 @@ practices.
 | <a name="input_reloader_version"></a> [reloader\_version](#input\_reloader\_version) | Version of external-dns to install | `string` | `null` | no |
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
+| <a name="input_sloth_values"></a> [sloth\_values](#input\_sloth\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_sloth_version"></a> [sloth\_version](#input\_sloth\_version) | Version of Sloth to install | `string` | `null` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 
 ## Outputs

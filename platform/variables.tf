@@ -196,6 +196,18 @@ variable "secret_store_driver_version" {
   default     = null
 }
 
+variable "sloth_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "sloth_version" {
+  type        = string
+  description = "Version of Sloth to install"
+  default     = null
+}
+
 variable "vertical_pod_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
