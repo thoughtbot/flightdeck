@@ -122,6 +122,7 @@ module "cloudwatch_logs" {
   cluster_full_name = module.cluster_name.full
   aws_tags          = var.aws_tags
   k8s_namespace     = var.k8s_namespace
+  log_group_prefix  = var.logs_prefix
   retention_in_days = var.logs_retention_in_days
   oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
 }
@@ -370,7 +371,10 @@ locals {
             Match *
             region ${data.aws_region.current.name}
             log_group_name ${module.cloudwatch_logs.log_group_name}
+            log_group_template ${var.logs_prefix}/$kubernetes['namespace_name']
             log_stream_prefix $${HOST_NAME}-
+            log_stream_template $kubernetes['pod_name'].$kubernetes['container_name']
+            log_retention_days ${var.logs_retention_in_days}
         EOT
       }
       env = [
@@ -385,7 +389,7 @@ locals {
       ]
       image = {
         repository = "public.ecr.aws/aws-observability/aws-for-fluent-bit"
-        tag        = "2.22.0"
+        tag        = "2.31.6"
       }
       resources = {
         limits = {

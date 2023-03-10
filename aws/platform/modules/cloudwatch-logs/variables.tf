@@ -20,6 +20,12 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
+variable "log_group_prefix" {
+  type        = string
+  description = "Prefix for log groups for Flightdeck applications"
+  default     = "/flightdeck"
+}
+
 variable "oidc_issuer" {
   type        = string
   description = "OIDC issuer of the Kubernetes cluster"

@@ -152,6 +152,12 @@ variable "logs_retention_in_days" {
   description = "Number of days for which logs should be retained"
 }
 
+variable "logs_prefix" {
+  type        = string
+  description = "Prefix for CloudWatch log groups"
+  default     = "/flightdeck"
+}
+
 variable "metrics_server_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

@@ -9,8 +9,9 @@ module "fluent_bit_service_account_role" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = join("/", ["", "flightdeck", var.cluster_full_name])
+  name              = "${var.log_group_prefix}/${var.cluster_full_name}"
   retention_in_days = var.retention_in_days
+  skip_destroy      = true
   tags              = var.aws_tags
 }
 
@@ -37,6 +38,16 @@ data "aws_iam_policy_document" "this" {
   }
 
   statement {
+    sid = "AllowCreateLogGroup"
+    actions = [
+      "logs:CreateLogGroup"
+    ]
+    resources = [
+      "${local.arn_prefix}:log-group:${var.log_group_prefix}/*"
+    ]
+  }
+
+  statement {
     sid = "AllowCreateLogStream"
     actions = [
       "logs:CreateLogStream"
@@ -46,4 +57,18 @@ data "aws_iam_policy_document" "this" {
       "${aws_cloudwatch_log_group.this.arn}:log-stream:*"
     ]
   }
+}
+
+data "aws_caller_identity" "current" {}
+data "aws_partition" "current" {}
+data "aws_region" "current" {}
+
+locals {
+  arn_prefix = join(":", [
+    "arn",
+    data.aws_partition.current.partition,
+    "logs",
+    data.aws_region.current.name,
+    data.aws_caller_identity.current.account_id,
+  ])
 }
