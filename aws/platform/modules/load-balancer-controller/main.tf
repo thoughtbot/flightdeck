@@ -12,14 +12,19 @@ resource "helm_release" "this" {
   depends_on = [aws_iam_role_policy_attachment.this]
 }
 
-resource "helm_release" "ingress_config" {
-  chart     = "${path.module}/target-group-binding"
-  name      = "target-group-binding"
-  namespace = var.k8s_namespace
+resource "kubernetes_manifest" "target_group_binding" {
+  manifest = {
+    apiVersion = "elbv2.k8s.aws/v1beta1"
+    kind       = "TargetGroupBinding"
 
-  values = [
-    yamlencode({
-      name = "istio-ingress"
+    metadata = {
+      name      = "target-group-binding"
+      namespace = var.k8s_namespace
+    }
+
+    spec = {
+      targetGroupARN = data.aws_lb_target_group.this.arn
+      targetType     = "ip"
 
       networking = {
         ingress = [
@@ -44,11 +49,10 @@ resource "helm_release" "ingress_config" {
         name = "flightdeck-ingressgateway"
         port = 443
       }
+    }
+  }
 
-      targetGroupARN = data.aws_lb_target_group.this.arn
-    })
-  ]
-
+  # Wait for the CRD to be defined before creating
   depends_on = [helm_release.this]
 }
 
