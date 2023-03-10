@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.13.0"
+  required_version = ">= 0.14.8"
   required_providers {
     aws = {
       configuration_aliases = [aws.cluster, aws.route53]
