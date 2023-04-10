@@ -20,16 +20,16 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-region: us-east-1
         role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
 
     - name: Assume execution role
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
         aws-region: us-east-1
@@ -51,13 +51,13 @@ jobs:
 
     - name: Build manifests
       id: kustomize
-      uses: azure/k8s-bake@v1
+      uses: azure/k8s-bake@v2.4
       with:
         renderEngine: kustomize
         kustomizationPath: tests/manifests
 
     - name: Deploy test app
-      uses: Azure/k8s-deploy@v1.4
+      uses: Azure/k8s-deploy@v4
       with:
         manifests: ${{ steps.kustomize.outputs.manifestsBundle }}
         namespace: acceptance

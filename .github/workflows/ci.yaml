@@ -5,39 +5,39 @@ on:
 jobs:
   checkfmt:
     name: Format
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Check format
       run: make all/checkfmt
 
   validate:
     name: Validate
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Validate
       run: make all/validate
 
   docs:
     name: Docs
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Platform Docs
-      uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
+      uses: terraform-docs/gh-actions@v1.0.0
       with:
         git-push: true
         find-dir: platform
@@ -46,7 +46,7 @@ jobs:
         working-dir: .
 
     - name: AWS Docs
-      uses: terraform-docs/gh-actions@b70f26cbb942d355a1ec99d3aa5707a35e838b81
+      uses: terraform-docs/gh-actions@v1.0.0
       with:
         git-push: true
         find-dir: aws
@@ -56,16 +56,16 @@ jobs:
 
   lint:
     name: Lint
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Setup TFLint
-      uses: terraform-linters/setup-tflint@v1
+      uses: terraform-linters/setup-tflint@v3
       with:
         tflint_version: v0.44.1
 
