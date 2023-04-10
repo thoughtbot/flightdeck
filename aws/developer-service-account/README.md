@@ -81,4 +81,10 @@ module "platform" {
 | <a name="input_group"></a> [group](#input\_group) | Name of the Kubernetes group used by developers | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Kubernetes service account (default: developer) | `string` | `"developer"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which developers will have access | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_group_name"></a> [group\_name](#output\_group\_name) | Name of the group bound to the developer role |
 <!-- END_TF_DOCS -->

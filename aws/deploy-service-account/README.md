@@ -75,4 +75,10 @@ module "workload_platform" {
 | <a name="input_group"></a> [group](#input\_group) | Name of the Kubernetes group allowed to deploy | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Kubernetes service account (default: deploy) | `string` | `"deploy"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which this tenant deploys | `string` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_group_name"></a> [group\_name](#output\_group\_name) | Name of the group bound to the deploy role |
 <!-- END_TF_DOCS -->
