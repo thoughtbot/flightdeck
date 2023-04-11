@@ -12,7 +12,7 @@ running on Flightdeck:
 Example:
 
 ```
-module "role" {
+module "example_sandbox_v1" {
   source = "github.com/thoughtbot/flightdeck//aws/application"
 
   # Kubernetes namespace
