@@ -2,81 +2,81 @@
   "aws-ebs-csi-driver": {
     "chart": "aws-ebs-csi-driver",
     "repository": "https://kubernetes-sigs.github.io/aws-ebs-csi-driver",
-    "version": "2.14.1"
+    "version": "2.17.2"
   },
   "cert-manager": {
     "chart": "cert-manager",
     "repository": "https://charts.jetstack.io",
-    "version": "v1.10.1"
+    "version": "v1.11.1"
   },
   "cluster-autoscaler": {
     "chart": "cluster-autoscaler",
     "repository": "https://kubernetes.github.io/autoscaler",
-    "version": "9.21.1"
+    "version": "9.28.0"
   },
   "external-dns": {
     "chart": "external-dns",
     "repository": "https://charts.bitnami.com/bitnami",
-    "version": "6.12.2"
+    "version": "6.17.0"
   },
   "fluent-bit": {
     "chart": "fluent-bit",
     "repository": "https://fluent.github.io/helm-charts",
-    "version": "0.21.7"
+    "version": "0.25.0"
   },
   "istio-base": {
     "chart": "base",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.17.2"
   },
   "istiod": {
     "chart": "istiod",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.17.2"
   },
   "istio-ingress": {
     "chart": "gateway",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.17.2"
   },
   "load-balancer-controller": {
     "chart": "aws-load-balancer-controller",
     "repository": "https://aws.github.io/eks-charts",
-    "version": "1.4.6"
+    "version": "1.4.8"
   },
   "metrics-server": {
     "chart": "metrics-server",
     "repository": "https://kubernetes-sigs.github.io/metrics-server",
-    "version": "3.8.3"
+    "version": "3.9.0"
   },
   "prometheus-adapter": {
     "chart": "prometheus-adapter",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "3.5.0"
+    "version": "4.1.1"
   },
   "prometheus-operator": {
     "chart": "kube-prometheus-stack",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "43.2.1"
+    "version": "45.9.1"
   },
   "reloader": {
     "chart": "reloader",
     "repository": "https://stakater.github.io/stakater-charts",
-    "version": "v0.0.128"
+    "version": "v1.0.22"
   },
   "secret-store-driver": {
     "chart": "secrets-store-csi-driver",
     "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",
-    "version": "1.3.0"
+    "version": "1.3.2"
   },
   "secrets-store-provider": {
     "chart": "secrets-store-csi-driver-provider-aws",
     "repository": "https://aws.github.io/secrets-store-csi-driver-provider-aws",
-    "version": "0.3.1"
+    "version": "0.3.2"
   },
   "sloth": {
     "chart": "sloth",
     "repository": "https://slok.github.io/sloth",
-    "version": "0.11.0"
+    "version": "0.7.0"
   }
 }
