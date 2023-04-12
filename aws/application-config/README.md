@@ -5,8 +5,8 @@ running on Flightdeck:
 
 - An Istio-managed namespace
 - A service account for an application IAM role
-- A service account for a deployment IAM role
-- A service account for developers to view application resources
+- Role bindings for a deployment IAM role
+- Role bindings for developers to view application resources
 - A SecretsManager SecretProviderClass for mounting secrets
 
 Example:
@@ -24,14 +24,8 @@ module "example_sandbox_v1" {
   # Assign an IAM role to pods in this application
   pod_iam_role = aws_iam_role.service.arn
 
-  # Name of the deployment service account (default: deploy)
-  deploy_service_account = "example-staging-deploy"
-
   # Must match a group declared in your eks-auth configmap
   deploy_group = "example-staging-deploy"
-
-  # Name of the developer service account (default: developer)
-  name = "example-staging-developer"
 
   # Must match a group declared in your eks-auth configmap
   developer_group = "example-staging-developer"
@@ -107,8 +101,8 @@ module "platform" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_deploy_service_account"></a> [deploy\_service\_account](#module\_deploy\_service\_account) | ../deploy-service-account | n/a |
-| <a name="module_developer_service_account"></a> [developer\_service\_account](#module\_developer\_service\_account) | ../developer-service-account | n/a |
+| <a name="module_deploy_role_bindings"></a> [deploy\_role\_bindings](#module\_deploy\_role\_bindings) | ../deploy-role-bindings | n/a |
+| <a name="module_developer_role_bindings"></a> [developer\_role\_bindings](#module\_developer\_role\_bindings) | ../developer-role-bindings | n/a |
 | <a name="module_secret_provider_class"></a> [secret\_provider\_class](#module\_secret\_provider\_class) | ../secret-provider-class | n/a |
 
 ## Resources
@@ -125,9 +119,7 @@ module "platform" {
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Set to false to disable creation of the Kubernetes namespace | `bool` | `true` | no |
 | <a name="input_deploy_cluster_roles"></a> [deploy\_cluster\_roles](#input\_deploy\_cluster\_roles) | Names of cluster roles for this serviceaccount (default: admin) | `list(string)` | <pre>[<br>  "admin"<br>]</pre> | no |
 | <a name="input_deploy_group"></a> [deploy\_group](#input\_deploy\_group) | Name of the Kubernetes group allowed to deploy (default: NAMESPACE-deploy) | `string` | `null` | no |
-| <a name="input_deploy_service_account"></a> [deploy\_service\_account](#input\_deploy\_service\_account) | Name of the Kubernetes service account (default: deploy) | `string` | `"deploy"` | no |
 | <a name="input_developer_group"></a> [developer\_group](#input\_developer\_group) | Name of the Kubernetes group used by developers (default: NAMESPACE-developer) | `string` | `null` | no |
-| <a name="input_developer_service_account"></a> [developer\_service\_account](#input\_developer\_service\_account) | Name of the Kubernetes service account (default: developer) | `string` | `"developer"` | no |
 | <a name="input_enable_exec"></a> [enable\_exec](#input\_enable\_exec) | Set to true to allow running exec on pods | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which this tenant deploys | `string` | n/a | yes |
 | <a name="input_pod_iam_role"></a> [pod\_iam\_role](#input\_pod\_iam\_role) | ARN of the role which application pods should assume | `string` | n/a | yes |

@@ -1,6 +1,6 @@
 # Developer Service Account
 
-This module creates a [Kubernetes service account] which can be used by
+This module creates [Kubernetes role bindings] which can be used by
 developers to debug Flightdeck applications. It provides read access to most
 Kubernetes resources within the namespace, including the CRDs declared by
 Flightdeck.
@@ -8,11 +8,8 @@ Flightdeck.
 Example:
 
 ``` hcl
-module "developer_service_account" {
-  source = "github.com/thoughtbot/flightdeck//aws/developer-service-account?ref=VERSION"
-
-  # Name of the service account (default: developer)
-  name = "example-staging-developer"
+module "developer_role_bindings" {
+  source = "github.com/thoughtbot/flightdeck//aws/developer-role-bindings?ref=VERSION"
 
   # Kubernetes namespace
   namespace = "example-staging"
@@ -25,7 +22,7 @@ module "developer_service_account" {
 }
 ```
 
-Once the service account has been created, you must map them in your [eks-auth]
+Once the role bindings has been created, you must map them in your [eks-auth]
 config. You can use the [SSO permission set roles module] to lookup a role that
 developers will use.
 
@@ -48,7 +45,7 @@ module "platform" {
 
 ```
 
-[Kubernetes service account]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+[Kubernetes role bindings]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [eks-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 [SSO permission set roles module]: https://github.com/thoughtbot/terraform-aws-sso-permission-set-roles
 

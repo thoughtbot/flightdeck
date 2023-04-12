@@ -1,11 +1,11 @@
 output "deploy_group" {
   description = "Name of the group bound to deploy roles"
-  value       = module.deploy_service_account.group_name
+  value       = module.deploy_role_bindings.group_name
 }
 
 output "developer_group" {
   description = "Name of the group bound to developer roles"
-  value       = module.developer_service_account.group_name
+  value       = module.developer_role_bindings.group_name
 }
 
 output "namespace" {

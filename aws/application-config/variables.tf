@@ -16,22 +16,10 @@ variable "deploy_group" {
   default     = null
 }
 
-variable "deploy_service_account" {
-  description = "Name of the Kubernetes service account (default: deploy)"
-  type        = string
-  default     = "deploy"
-}
-
 variable "developer_group" {
   description = "Name of the Kubernetes group used by developers (default: NAMESPACE-developer)"
   type        = string
   default     = null
-}
-
-variable "developer_service_account" {
-  description = "Name of the Kubernetes service account (default: developer)"
-  type        = string
-  default     = "developer"
 }
 
 variable "enable_exec" {

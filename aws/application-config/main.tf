@@ -34,22 +34,20 @@ module "secret_provider_class" {
   secrets_manager_secrets = var.secrets_manager_secrets
 }
 
-module "deploy_service_account" {
+module "deploy_role_bindings" {
   depends_on = [kubernetes_namespace.this]
-  source     = "../deploy-service-account"
+  source     = "../deploy-role-bindings"
 
   cluster_roles = var.deploy_cluster_roles
   group         = coalesce(var.deploy_group, "${var.namespace}-deploy")
-  name          = var.deploy_service_account
   namespace     = var.namespace
 }
 
-module "developer_service_account" {
+module "developer_role_bindings" {
   depends_on = [kubernetes_namespace.this]
-  source     = "../developer-service-account"
+  source     = "../developer-role-bindings"
 
   enable_exec = var.enable_exec
   group       = coalesce(var.developer_group, "${var.namespace}-developer")
-  name        = var.developer_service_account
   namespace   = var.namespace
 }

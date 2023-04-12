@@ -1,17 +1,14 @@
 # Deploy Service Account
 
-This module creates a [Kubernetes service account] which can be used to write to
+This module creates [Kubernetes role bindings] which can be used to write to
 common resources used by Flightdeck applications, suitable for use in a CI/CD
 pipeline.
 
 Example:
 
 ``` hcl
-module "deploy_service_account" {
-  source = "github.com/thoughtbot/flightdeck//aws/deploy-service-account?ref=VERSION"
-
-  # Name of the service account (default: deploy)
-  name = "example-staging-deploy"
+module "deploy_role_bindings" {
+  source = "github.com/thoughtbot/flightdeck//aws/deploy-role-bindings?ref=VERSION"
 
   # Kubernetes namespace
   namespace = "example-staging"
@@ -24,8 +21,8 @@ module "deploy_service_account" {
 You can use the [github-actions-eks-deploy-role module] to create a role
 suitable for use in a GitHub Actions workflow.
 
-Once the deploy service account and role have been created, you must map them in
-your [eks-auth] config:
+Once the deploy role bindings have been created, you must map them in your
+[eks-auth] config:
 
 ``` hcl
 # In your platform configuration
@@ -41,7 +38,7 @@ module "workload_platform" {
 }
 ```
 
-[Kubernetes service account]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+[Kubernetes role bindings]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [eks-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 [github-actions-eks-deploy-role module]: github.com/thoughtbot/terraform-eks-cicd//modules/github-actions-eks-deploy-role
 
