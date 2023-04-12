@@ -1,0 +1,5 @@
+{
+  "chart": "rustrial-aws-eks-iam-auth-controller",
+  "repository": "https://rustrial.github.io/aws-eks-iam-auth-controller",
+  "version": "0.1.7"
+}

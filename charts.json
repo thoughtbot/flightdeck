@@ -4,6 +4,11 @@
     "repository": "https://kubernetes-sigs.github.io/aws-ebs-csi-driver",
     "version": "2.14.1"
   },
+  "aws-eks-iam-auth-controller": {
+    "chart": "rustrial-aws-eks-iam-auth-controller",
+    "repository": "https://rustrial.github.io/aws-eks-iam-auth-controller",
+    "version": "0.1.7"
+  },
   "cert-manager": {
     "chart": "cert-manager",
     "repository": "https://charts.jetstack.io",

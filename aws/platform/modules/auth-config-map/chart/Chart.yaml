@@ -1,0 +1,9 @@
+apiVersion: v2
+name: aws-auth-config-map
+description: aws-auth ConfigMap entries for Flightdeck
+
+type: application
+
+version: 0.1.0
+
+appVersion: 1.0.0

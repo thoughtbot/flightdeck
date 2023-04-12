@@ -134,6 +134,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 |------|--------|---------|
 | <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ./modules/auth-config-map | n/a |
 | <a name="module_aws_ebs_csi_driver"></a> [aws\_ebs\_csi\_driver](#module\_aws\_ebs\_csi\_driver) | ./modules/aws-ebs-csi-driver | n/a |
+| <a name="module_aws_eks_iam_auth_controller"></a> [aws\_eks\_iam\_auth\_controller](#module\_aws\_eks\_iam\_auth\_controller) | ./modules/aws-eks-iam-auth-controller | n/a |
 | <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ./modules/load-balancer-controller | n/a |
 | <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ./modules/cloudwatch-logs | n/a |
 | <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ./modules/cluster-autoscaler-service-account-role | n/a |
@@ -164,6 +165,8 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="input_admin_roles"></a> [admin\_roles](#input\_admin\_roles) | Additional IAM roles which have admin cluster privileges | `list(string)` | n/a | yes |
 | <a name="input_aws_ebs_csi_driver_values"></a> [aws\_ebs\_csi\_driver\_values](#input\_aws\_ebs\_csi\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_ebs_csi_driver_version"></a> [aws\_ebs\_csi\_driver\_version](#input\_aws\_ebs\_csi\_driver\_version) | Version of the ebs csi driver to install | `string` | `null` | no |
+| <a name="input_aws_eks_iam_auth_controller_values"></a> [aws\_eks\_iam\_auth\_controller\_values](#input\_aws\_eks\_iam\_auth\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_aws_eks_iam_auth_controller_version"></a> [aws\_eks\_iam\_auth\_controller\_version](#input\_aws\_eks\_iam\_auth\_controller\_version) | Override the version of the Helm chart | `string` | `null` | no |
 | <a name="input_aws_load_balancer_controller_values"></a> [aws\_load\_balancer\_controller\_values](#input\_aws\_load\_balancer\_controller\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_aws_load_balancer_controller_version"></a> [aws\_load\_balancer\_controller\_version](#input\_aws\_load\_balancer\_controller\_version) | Version of aws-load-balancer-controller to install | `string` | `null` | no |
 | <a name="input_aws_namespace"></a> [aws\_namespace](#input\_aws\_namespace) | Prefix to be applied to created AWS resources | `list(string)` | `[]` | no |

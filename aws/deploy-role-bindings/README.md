@@ -2,7 +2,8 @@
 
 This module creates [Kubernetes role bindings] which can be used to write to
 common resources used by Flightdeck applications, suitable for use in a CI/CD
-pipeline.
+pipeline. It also uses [AWS EKS iam-auth-controller] to map an IAM role to the
+group in the [aws-auth] configmap.
 
 Example:
 
@@ -13,33 +14,20 @@ module "deploy_role_bindings" {
   # Kubernetes namespace
   namespace = "example-staging"
 
-  # Must match a group declared in your eks-auth configmap
+  # Must match a group declared in your aws-auth configmap
   group = "example-staging-deploy"
+
+  # IAM role used by your CI/CD pipeline
+  iam_role_arn = module.deploy_role.arn
 }
 ```
 
 You can use the [github-actions-eks-deploy-role module] to create a role
 suitable for use in a GitHub Actions workflow.
 
-Once the deploy role bindings have been created, you must map them in your
-[eks-auth] config:
-
-``` hcl
-# In your platform configuration
-module "workload_platform" {
-  source = "github.com/thoughtbot/flightdeck//aws/platform?ref=VERSION"
-
-  # Other config
-
-  custom_roles = {
-    # Must match the group binding above
-    example-staging-deploy = aws_iam_role.example_staging_deploy.arn
-  }
-}
-```
-
 [Kubernetes role bindings]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
-[eks-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+[AWS EKS iam-auth-controller]: https://github.com/rustrial/aws-eks-iam-auth-controller
+[aws-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 [github-actions-eks-deploy-role module]: github.com/thoughtbot/terraform-eks-cicd//modules/github-actions-eks-deploy-role
 
 <!-- BEGIN_TF_DOCS -->
@@ -60,6 +48,7 @@ module "workload_platform" {
 
 | Name | Type |
 |------|------|
+| [kubernetes_manifest.identity_mapping](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_role.deploy_crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role) | resource |
 | [kubernetes_role_binding.cluster](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 | [kubernetes_role_binding.crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
@@ -70,6 +59,7 @@ module "workload_platform" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_roles"></a> [cluster\_roles](#input\_cluster\_roles) | Names of cluster roles for this serviceaccount (default: admin) | `list(string)` | <pre>[<br>  "admin"<br>]</pre> | no |
 | <a name="input_group"></a> [group](#input\_group) | Name of the Kubernetes group allowed to deploy | `string` | n/a | yes |
+| <a name="input_iam_role_arn"></a> [iam\_role\_arn](#input\_iam\_role\_arn) | ARN of the IAM role used to deploy | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Kubernetes service account (default: deploy) | `string` | `"deploy"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which this tenant deploys | `string` | n/a | yes |
 

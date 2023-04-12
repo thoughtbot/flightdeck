@@ -8,6 +8,7 @@ running on Flightdeck:
 - Role bindings for a deployment IAM role
 - Role bindings for developers to view application resources
 - A SecretsManager SecretProviderClass for mounting secrets
+- Entries in the aws-auth ConfigMap to map IAM roles to Kubernetes groups
 
 Example:
 
@@ -27,8 +28,14 @@ module "example_sandbox_v1" {
   # Must match a group declared in your eks-auth configmap
   deploy_group = "example-staging-deploy"
 
+  # ARN of the IAM role used by your CI/CD pipelines
+  deploy_role_arn = module.deploy_role.arn
+
   # Must match a group declared in your eks-auth configmap
   developer_group = "example-staging-developer"
+
+  # ARN of the IAM role used by developers
+  developer_role_arn = module.permission_set_roles.by_name_without_path.DeveloperAccess
 
   # Define mappings from SecretsManager
   secrets_manager_secrets = [
@@ -60,28 +67,8 @@ module "example_sandbox_v1" {
 }
 ```
 
-After applying this module, you will need to map the service accounts to IAM
-roles using the [eks-auth] config.
-
-You can do this in your platform configuration:
-
-```
-module "sso_roles" {
-  source = "git@github.com:thoughtbot/terraform-aws-sso-permission-set-roles.git?ref=v0.2.0"
-}
-
-module "platform" {
-  source = "github.com/thoughtbot/flightdeck//aws/platform?ref=VERSION"
-
-  # Other config
-
-  custom_roles = {
-    example-staging-deploy    = aws_iam_role.deploy.arn
-    example-staging-developer = module.permission_set_roles.by_name_without_path.DeveloperAccess
-  }
-}
-
-[eks-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+[AWS EKS iam-auth-controller]: https://github.com/rustrial/aws-eks-iam-auth-controller
+[aws-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -119,7 +106,9 @@ module "platform" {
 | <a name="input_create_namespace"></a> [create\_namespace](#input\_create\_namespace) | Set to false to disable creation of the Kubernetes namespace | `bool` | `true` | no |
 | <a name="input_deploy_cluster_roles"></a> [deploy\_cluster\_roles](#input\_deploy\_cluster\_roles) | Names of cluster roles for this serviceaccount (default: admin) | `list(string)` | <pre>[<br>  "admin"<br>]</pre> | no |
 | <a name="input_deploy_group"></a> [deploy\_group](#input\_deploy\_group) | Name of the Kubernetes group allowed to deploy (default: NAMESPACE-deploy) | `string` | `null` | no |
+| <a name="input_deploy_role_arn"></a> [deploy\_role\_arn](#input\_deploy\_role\_arn) | ARN of the IAM role used to deploy | `string` | n/a | yes |
 | <a name="input_developer_group"></a> [developer\_group](#input\_developer\_group) | Name of the Kubernetes group used by developers (default: NAMESPACE-developer) | `string` | `null` | no |
+| <a name="input_developer_role_arn"></a> [developer\_role\_arn](#input\_developer\_role\_arn) | ARN of the IAM role used by developers | `string` | n/a | yes |
 | <a name="input_enable_exec"></a> [enable\_exec](#input\_enable\_exec) | Set to true to allow running exec on pods | `bool` | `false` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which this tenant deploys | `string` | n/a | yes |
 | <a name="input_pod_iam_role"></a> [pod\_iam\_role](#input\_pod\_iam\_role) | ARN of the role which application pods should assume | `string` | n/a | yes |

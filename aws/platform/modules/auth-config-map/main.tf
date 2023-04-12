@@ -1,29 +1,53 @@
-resource "null_resource" "aws_auth_patch" {
-  triggers = {
-    ca_data   = sha256(data.aws_eks_cluster.this.certificate_authority[0].data)
-    map_roles = local.map_roles
-    server    = sha256(data.aws_eks_cluster.this.endpoint)
-  }
+resource "helm_release" "identity_mappings" {
+  chart     = "${path.module}/chart"
+  name      = "iam-identity-mappings"
+  namespace = var.k8s_namespace
 
-  provisioner "local-exec" {
-    command     = "./aws-auth-patch.sh"
-    working_dir = path.module
-
-    environment = {
-      KUBE_CA_DATA = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
-      KUBE_SERVER  = data.aws_eks_cluster.this.endpoint
-      KUBE_TOKEN   = data.aws_eks_cluster_auth.this.token
-      MAP_ROLES    = local.map_roles
-    }
-  }
+  values = [
+    yamlencode({
+      identityMappings = concat(
+        [
+          {
+            arn      = aws_iam_role.breakglass.arn
+            groups   = ["system:masters"]
+            name     = "breakglass"
+            username = "adminuser:BreakGlass"
+          }
+        ],
+        [
+          for node_role in var.node_roles :
+          {
+            arn      = node_role
+            groups   = ["system:bootstrappers", "system:nodes"]
+            name     = node_role
+            username = "system:node:{{EC2PrivateDNSName}}"
+          }
+        ],
+        [
+          for admin_role in var.admin_roles :
+          {
+            arn      = admin_role
+            groups   = ["system:masters"]
+            name     = admin_role
+            username = "adminuser:{{SessionName}}"
+          }
+        ],
+        [
+          for name, arn in var.custom_roles :
+          {
+            name     = name
+            arn      = arn
+            groups   = ["system:masters"]
+            username = "user:{{SessionName}}"
+          }
+        ]
+      )
+    })
+  ]
 }
 
 data "aws_eks_cluster" "this" {
   name = var.cluster_full_name
-}
-
-data "aws_eks_cluster_auth" "this" {
-  name = data.aws_eks_cluster.this.name
 }
 
 data "aws_caller_identity" "this" {
@@ -73,40 +97,4 @@ data "aws_iam_policy_document" "breakglass" {
 
 locals {
   account_id = data.aws_caller_identity.this.account_id
-  map_roles  = "    ${indent(4, yamlencode(local.mappings))}"
-
-  mappings = concat(
-    [
-      {
-        groups   = ["system:masters"]
-        rolearn  = aws_iam_role.breakglass.arn
-        username = "adminuser:BreakGlass"
-      }
-    ],
-    [
-      for role in var.admin_roles :
-      {
-        groups   = ["system:masters"]
-        rolearn  = role
-        username = "adminuser:{{SessionName}}"
-      }
-    ],
-    [
-      for group in keys(var.custom_roles) :
-      {
-        groups   = [group]
-        rolearn  = var.custom_roles[group]
-        username = "user:{{SessionName}}"
-      }
-    ],
-    [
-      for role in var.node_roles :
-      {
-        username = "system:node:{{EC2PrivateDNSName}}"
-        rolearn  = role
-        groups   = ["system:bootstrappers", "system:nodes"]
-      }
-    ]
-  )
 }
-

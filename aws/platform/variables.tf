@@ -15,6 +15,18 @@ variable "aws_ebs_csi_driver_version" {
   default     = null
 }
 
+variable "aws_eks_iam_auth_controller_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "aws_eks_iam_auth_controller_version" {
+  description = "Override the version of the Helm chart"
+  type        = string
+  default     = null
+}
+
 variable "aws_load_balancer_controller_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)

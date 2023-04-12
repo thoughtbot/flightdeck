@@ -40,6 +40,7 @@ module "deploy_role_bindings" {
 
   cluster_roles = var.deploy_cluster_roles
   group         = coalesce(var.deploy_group, "${var.namespace}-deploy")
+  iam_role_arn  = var.deploy_role_arn
   namespace     = var.namespace
 }
 
@@ -47,7 +48,8 @@ module "developer_role_bindings" {
   depends_on = [kubernetes_namespace.this]
   source     = "../developer-role-bindings"
 
-  enable_exec = var.enable_exec
-  group       = coalesce(var.developer_group, "${var.namespace}-developer")
-  namespace   = var.namespace
+  enable_exec  = var.enable_exec
+  group        = coalesce(var.developer_group, "${var.namespace}-developer")
+  iam_role_arn = var.developer_role_arn
+  namespace    = var.namespace
 }

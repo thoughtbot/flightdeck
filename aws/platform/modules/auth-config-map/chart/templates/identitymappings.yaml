@@ -1,0 +1,11 @@
+{{ range .Values.identityMappings }}
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: IAMIdentityMapping
+metadata:
+  name: {{ .name }}
+spec:
+  arn: {{ .arn }}
+  groups:
+    {{- .groups | toYaml | nindent 4 }}
+  username: {{ .username }}
+{{ end }}

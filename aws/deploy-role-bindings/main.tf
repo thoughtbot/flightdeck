@@ -62,3 +62,20 @@ resource "kubernetes_role" "deploy_crd" {
     verbs      = ["*"]
   }
 }
+
+resource "kubernetes_manifest" "identity_mapping" {
+  manifest = {
+    apiVersion = "iamauthenticator.k8s.aws/v1alpha1"
+    kind       = "IAMIdentityMapping"
+
+    metadata = {
+      name = var.group
+    }
+
+    spec = {
+      arn      = var.iam_role_arn
+      groups   = [var.group]
+      username = "user:{{SessionName}}"
+    }
+  }
+}

@@ -16,10 +16,20 @@ variable "deploy_group" {
   default     = null
 }
 
+variable "deploy_role_arn" {
+  description = "ARN of the IAM role used to deploy"
+  type        = string
+}
+
 variable "developer_group" {
   description = "Name of the Kubernetes group used by developers (default: NAMESPACE-developer)"
   type        = string
   default     = null
+}
+
+variable "developer_role_arn" {
+  description = "ARN of the IAM role used by developers"
+  type        = string
 }
 
 variable "enable_exec" {

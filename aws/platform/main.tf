@@ -97,7 +97,8 @@ module "network" {
 }
 
 module "auth_config_map" {
-  source = "./modules/auth-config-map"
+  depends_on = [module.aws_eks_iam_auth_controller]
+  source     = "./modules/auth-config-map"
 
   admin_roles       = var.admin_roles
   cluster_full_name = module.cluster_name.full
@@ -169,6 +170,15 @@ module "aws_ebs_csi_driver" {
     var.aws_ebs_csi_driver_values
   )
 }
+
+module "aws_eks_iam_auth_controller" {
+  source = "./modules/aws-eks-iam-auth-controller"
+
+  chart_values  = var.aws_eks_iam_auth_controller_values
+  chart_version = var.aws_eks_iam_auth_controller_version
+  k8s_namespace = "kube-system"
+}
+
 
 module "secrets_store_provider" {
   source = "./modules/secrets-store-provider"

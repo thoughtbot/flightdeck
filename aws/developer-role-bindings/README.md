@@ -3,7 +3,9 @@
 This module creates [Kubernetes role bindings] which can be used by
 developers to debug Flightdeck applications. It provides read access to most
 Kubernetes resources within the namespace, including the CRDs declared by
-Flightdeck.
+Flightdeck. It also uses [AWS EKS iam-auth-controller] to map an IAM role to the
+group in the [aws-auth] configmap. You can use the [SSO permission set roles
+module] to lookup a role that developers will use.
 
 Example:
 
@@ -17,36 +19,21 @@ module "developer_role_bindings" {
   # Must match a group declared in your eks-auth configmap
   group = "example-staging-developer"
 
+  # IAM role used by developers
+  iam_role_arn = module.permission_set_roles.by_name_without_path.DeveloperAccess
+
   # Uncomment if you want developers to be able to use kubectl exec
   # enable_exec = true
 }
-```
 
-Once the role bindings has been created, you must map them in your [eks-auth]
-config. You can use the [SSO permission set roles module] to lookup a role that
-developers will use.
-
-
-``` hcl
-# In your platform configuration
 module "sso_roles" {
   source = "git@github.com:thoughtbot/terraform-aws-sso-permission-set-roles.git?ref=v0.2.0"
 }
-
-module "platform" {
-  source = "github.com/thoughtbot/flightdeck//aws/platform?ref=v0.9.0-alpha.0"
-
-  # Other config
-
-  custom_roles = {
-    example-developer  module.permission_set_roles.by_name_without_path.DeveloperAccess
-  }
-}
-
 ```
 
 [Kubernetes role bindings]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
-[eks-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+[AWS EKS iam-auth-controller]: https://github.com/rustrial/aws-eks-iam-auth-controller
+[aws-auth]: https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
 [SSO permission set roles module]: https://github.com/thoughtbot/terraform-aws-sso-permission-set-roles
 
 <!-- BEGIN_TF_DOCS -->
@@ -67,6 +54,7 @@ module "platform" {
 
 | Name | Type |
 |------|------|
+| [kubernetes_manifest.identity_mapping](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest) | resource |
 | [kubernetes_role.developer_access](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role) | resource |
 | [kubernetes_role_binding.developer_access](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 
@@ -76,6 +64,7 @@ module "platform" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_enable_exec"></a> [enable\_exec](#input\_enable\_exec) | Set to true to allow running exec on pods | `bool` | `false` | no |
 | <a name="input_group"></a> [group](#input\_group) | Name of the Kubernetes group used by developers | `string` | n/a | yes |
+| <a name="input_iam_role_arn"></a> [iam\_role\_arn](#input\_iam\_role\_arn) | ARN of the IAM role used by developers | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Kubernetes service account (default: developer) | `string` | `"developer"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Kubernetes namespace to which developers will have access | `string` | n/a | yes |
 

@@ -19,6 +19,12 @@ variable "custom_roles" {
   description = "Role ARNs which have custom privileges within the cluster"
 }
 
+variable "k8s_namespace" {
+  type        = string
+  description = "Kubernetes namespace for the Helm release"
+  default     = "kube-system"
+}
+
 variable "node_roles" {
   type        = list(string)
   description = "Roles for EKS node groups in this cluster"

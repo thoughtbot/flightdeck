@@ -9,6 +9,11 @@ variable "group" {
   type        = string
 }
 
+variable "iam_role_arn" {
+  description = "ARN of the IAM role used to deploy"
+  type        = string
+}
+
 variable "name" {
   description = "Name of the Kubernetes service account (default: deploy)"
   type        = string
