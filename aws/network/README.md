@@ -107,5 +107,6 @@ module "network" {
 | Name | Description |
 |------|-------------|
 | <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
+| <a name="output_nat_ip_addresses"></a> [nat\_ip\_addresses](#output\_nat\_ip\_addresses) | List of IP addresses created for NAT gateways |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the AWS VPC |
 <!-- END_TF_DOCS -->

@@ -34,4 +34,5 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_instances"></a> [instances](#output\_instances) | The created NAT gateways for each availability zone |
+| <a name="output_ip_addresses"></a> [ip\_addresses](#output\_ip\_addresses) | IP addresses created for NAT gateways |
 <!-- END_TF_DOCS -->
