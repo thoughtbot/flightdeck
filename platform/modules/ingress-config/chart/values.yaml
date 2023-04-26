@@ -1,0 +1,23 @@
+nameOverride: ""
+fullnameOverride: ""
+
+destination:
+  server: https://kubernetes.default.svc
+
+certificate:
+  create: true
+  domains: []
+  issuer:
+    create: true
+    name: flightdeck
+    spec:
+      selfSigned: {}
+
+gateway:
+  requireTLS: true
+  selector:
+    istio: flightdeck-ingressgateway
+
+ingress:
+  host: ""
+  requireTLS: true
