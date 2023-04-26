@@ -9,7 +9,7 @@ on:
         type: string
         default: apply
       terraform_version:
-        default: 1.0.11
+        default: 1.4.2
         type: string
     secrets:
       AWS_ACCOUNT_ID:
@@ -44,7 +44,7 @@ jobs:
         set -x
         bin/set-template-var ORG_NAME "$ORG_NAME"
         bin/set-template-var REGION us-east-1
-        bin/set-template-var STATE_PREFIX ${{ github.ref_name }}
+        bin/set-template-var STATE_PREFIX ${{ github.ref_name }}/
         bin/set-template-var SANDBOX_ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
         bin/set-template-var SANDBOX_CERTIFICATE_DOMAIN_NAME flightdeck-test.thoughtbot.com
         bin/set-template-var SANDBOX_DOMAIN_NAME ${{ github.ref_name }}.flightdeck-test.thoughtbot.com
