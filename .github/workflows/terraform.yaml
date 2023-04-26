@@ -38,7 +38,7 @@ jobs:
       run: |
         bin/set-flightdeck-version ${{ github.ref_name }}
         bin/set-terraform-value attach_certificate_domains "[\"flightdeck-test.thoughtbot.com\"]"
-        bin/set-terraform-value issue_certificates '[]'
+        bin/set-terraform-value issue_certificate_domains '[]'
         bin/set-template-var ACCOUNT_ID ${{ secrets.AWS_ACCOUNT_ID }}
         ORG_NAME=$(echo 'flightdeck-${{ github.ref_name }}' | cut -c1-20)
         set -x
