@@ -1,6 +1,8 @@
 name: Acceptance
 on:
-- workflow_dispatch
+  schedule:
+  - cron: '0 0 1 * *' # First day of each month
+  workflow_dispatch:
 
 permissions:
   id-token: write
