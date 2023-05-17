@@ -5,9 +5,9 @@ locals {
 resource "aws_sns_topic_subscription" "alertmanager_opsgenie_delivery" {
   count = var.endpoint == "Opsgenie" ? 1 : 0
 
-  endpoint      = "https://api.opsgenie.com/v1/json/amazonsns?apiKey=${var.opsgenie_sns_api_key}"
-  protocol      = "https"
-  topic_arn     = var.source_sns_topic_arn
+  endpoint  = "https://api.opsgenie.com/v1/json/amazonsns?apiKey=${var.opsgenie_sns_api_key}"
+  protocol  = "https"
+  topic_arn = var.source_sns_topic_arn
 }
 
 resource "aws_lambda_function" "alertmanger_sentry_notification" {
@@ -40,31 +40,23 @@ resource "random_id" "unique_id" {
 }
 
 data "archive_file" "function" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   output_path = "lambda_function.zip"
   source_file = "${path.module}/lambda-script/lambda_function.py"
   type        = "zip"
 }
 
 resource "aws_iam_role" "lambda_role" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   name               = "${local.function_name}-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
 }
 
 resource "aws_iam_role_policy" "logs_role_policy" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   name   = "${local.function_name}-policy"
   role   = aws_iam_role.lambda_role.id
   policy = data.aws_iam_policy_document.lamada_role_policy.json
 }
 
 resource "aws_cloudwatch_log_group" "lambda_logs" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   name              = "/aws/lambda/${local.function_name}"
   retention_in_days = 14
 }
@@ -74,7 +66,7 @@ resource "aws_lambda_permission" "allow_sns" {
 
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.alertmanger_sentry_notification.function_name
+  function_name = aws_lambda_function.alertmanger_sentry_notification[count.index].function_name
   principal     = "sns.amazonaws.com"
   source_arn    = var.source_sns_topic_arn
 }
@@ -82,14 +74,12 @@ resource "aws_lambda_permission" "allow_sns" {
 resource "aws_sns_topic_subscription" "lambda" {
   count = var.endpoint == "Sentry" ? 1 : 0
 
-  endpoint      = aws_lambda_function.alertmanger_sentry_notification.arn
-  protocol      = "lambda"
-  topic_arn     = var.source_sns_topic_arn
+  endpoint  = aws_lambda_function.alertmanger_sentry_notification[count.index].arn
+  protocol  = "lambda"
+  topic_arn = var.source_sns_topic_arn
 }
 
 resource "aws_lambda_layer_version" "sentry_sdk_layer" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   compatible_runtimes = ["python3.8"]
   description         = "Lambda layer to package sentry sdk dependency"
   filename            = "${path.module}/lambda-script/sentry_sdk.zip"
@@ -98,8 +88,6 @@ resource "aws_lambda_layer_version" "sentry_sdk_layer" {
 }
 
 data "aws_iam_policy_document" "lamada_role_policy" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   statement {
     sid = "lambdaReadSecrets"
     actions = [
@@ -119,8 +107,6 @@ data "aws_iam_policy_document" "lamada_role_policy" {
 }
 
 data "aws_iam_policy_document" "assume_role_policy_doc" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   statement {
     sid    = "AllowAwsToAssumeRole"
     effect = "Allow"

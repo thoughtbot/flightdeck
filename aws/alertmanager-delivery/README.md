@@ -1,13 +1,26 @@
-<!-- BEGIN_TF_DOCS -->
+# AlertManager Deliery Module
 
+A module to deliver AlertManger messages to one of the selected endpoints. Available endpoints are Opsgenie and Sentry.
+
+Creates SNS topics for different sources and alert severity levels. Topic
+contents are encrypted at rest using KMS.
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
+| <a name="requirement_archive"></a> [archive](#requirement\_archive) | ~> 2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_archive"></a> [archive](#provider\_archive) | n/a |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_archive"></a> [archive](#provider\_archive) | ~> 2.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | ~> 3.0 |
 
 ## Resources
 
@@ -39,11 +52,4 @@
 | <a name="input_sentry_environment"></a> [sentry\_environment](#input\_sentry\_environment) | Sentry environment to push warning logs | `string` | `"production"` | no |
 | <a name="input_sentry_secret_name"></a> [sentry\_secret\_name](#input\_sentry\_secret\_name) | Name of the secrets manager secret containing the sentry credentials | `string` | `null` | no |
 | <a name="input_source_sns_topic_arn"></a> [source\_sns\_topic\_arn](#input\_source\_sns\_topic\_arn) | Source SNS topic for AlertManager messages. | `string` | n/a | yes |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| <a name="output_alertmanager_sentry_lambda_role_arn"></a> [alertmanager\_sentry\_lambda\_role\_arn](#output\_alertmanager\_sentry\_lambda\_role\_arn) | IAM role arn for the Lambda function that will send alertmanager messages from SNS to Sentry. |
-| <a name="output_alertmanager_sns_topic_arn"></a> [alertmanager\_sns\_topic\_arn](#output\_alertmanager\_sns\_topic\_arn) | SNS topic arn for Alertmanager |
 <!-- END_TF_DOCS -->

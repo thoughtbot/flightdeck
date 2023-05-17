@@ -10,7 +10,7 @@ variable "endpoint" {
   validation {
     condition     = contains(["Opsgenie", "Sentry"], var.endpoint)
     error_message = "Valid values for var: endpoint are (Opsgenie, Sentry)."
-  } 
+  }
 }
 
 variable "name" {
