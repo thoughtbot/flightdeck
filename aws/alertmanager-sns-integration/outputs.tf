@@ -5,5 +5,5 @@ output "alertmanager_sns_topic_arn" {
 
 output "alertmanager_sentry_lambda_role_arn" {
   description = "IAM role arn for the Lambda function that will send alertmanager messages from SNS to Sentry."
-  value       = "aws_iam_role.lambda_role.arn"
+  value       = aws_iam_role.lambda_role.arn
 }
