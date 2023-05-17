@@ -1,20 +1,30 @@
-data "aws_caller_identity" "this" {}
+data "aws_region" "this" {}
 
-data "aws_s3_bucket_object" "prometheus" {
+data "aws_prometheus_workspace" "this" {
+  workspace_id = data.aws_ssm_parameter.workspace_id.value
+}
 
-  bucket = join("-", concat([
-    "prometheus",
-    var.aws_prometheus_workspace_name,
-    data.aws_caller_identity.this.account_id
-  ]))
+data "aws_ssm_parameter" "workspace_id" {
+  name = join("/", concat(["", "flightdeck", "prometheus", var.aws_prometheus_workspace_name, "workspace_id"]))
+}
 
-  key = "ingestion.json"
+data "aws_ssm_parameter" "ingestion_role_arn" {
+  name = join("/", concat(["", "flightdeck", "prometheus", var.aws_prometheus_workspace_name, "ingestion_role_arn"]))
 }
 
 locals {
-  prometheus_workspace_json = join("", data.aws_s3_bucket_object.prometheus[*].body)
-  prometheus_data = merge(
-    jsondecode(local.prometheus_workspace_json),
-    { "name" : var.aws_prometheus_workspace_name }
-  )
+  prometheus_data = {
+    host       = local.workspace_host
+    query_path = "${local.workspace_path}/api/v1/query"
+    name       = var.aws_prometheus_workspace_name
+    region     = data.aws_region.this.name
+    role_arn   = data.aws_ssm_parameter.ingestion_role_arn.value
+    write_path = "${local.workspace_path}/api/v1/remote_write"
+    url        = "https://${local.workspace_host}/${local.workspace_path}/"
+  }
+}
+
+locals {
+  workspace_host = "aps-workspaces.${data.aws_region.this.name}.amazonaws.com"
+  workspace_path = "workspaces/${data.aws_prometheus_workspace.this.id}"
 }
