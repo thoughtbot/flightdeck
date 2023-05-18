@@ -55,9 +55,9 @@ def lambda_handler(event, context):
             Subject="CloudWatch-Logs-Extract",
             MessageStructure='string',
             MessageAttributes={
-            '{}'.format(key): {
-                'DataType': 'String',
-                'StringValue': value,
-            } for key,value in message_attributes.items()
-        },
+                '{}'.format(key): {
+                    'DataType': 'String',
+                    'StringValue': value,
+                } for key,value in message_attributes.items()
+            },
         )
