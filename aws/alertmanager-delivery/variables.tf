@@ -1,8 +1,3 @@
-variable "alertmanager_sns_topic_name" {
-  description = "Alertmanager SNS topic name"
-  type        = string
-}
-
 variable "endpoint" {
   description = "Endpoint for AlertManager message"
   type        = string
