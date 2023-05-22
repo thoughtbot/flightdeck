@@ -1,5 +1,5 @@
 locals {
-  function_name = "alertmanager-delivery-${random_id.unique_id.dec}"
+  function_name = "${var.name}-alertmanager-delivery-${random_id.unique_id.dec}"
 }
 
 resource "aws_sns_topic_subscription" "alertmanager_opsgenie_delivery" {
@@ -122,7 +122,5 @@ data "aws_iam_policy_document" "assume_role_policy_doc" {
     }
   }
 }
-
-data "aws_region" "this" {}
 
 data "aws_caller_identity" "this" {}
