@@ -1,5 +1,5 @@
 locals {
-  function_name = "cloudwatch-alarms-delivery-${random_id.unique_id.dec}"
+  function_name = "${var.name}-cloudwatch-alarms-delivery-${random_id.unique_id.dec}"
 }
 
 resource "aws_sns_topic_subscription" "cloudwatch_opsgenie_delivery" {
