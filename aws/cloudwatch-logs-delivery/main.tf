@@ -1,5 +1,5 @@
 locals {
-  function_name = "cloudwatch-logs-delivery-${random_id.unique_id.dec}"
+  function_name = "${var.name}cloudwatch-logs-delivery-${random_id.unique_id.dec}"
 }
 
 resource "aws_lambda_function" "cloudwatch_log_sentry_notification" {
