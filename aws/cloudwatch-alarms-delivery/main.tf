@@ -5,7 +5,7 @@ locals {
 resource "aws_sns_topic_subscription" "cloudwatch_opsgenie_delivery" {
   count = var.endpoint == "Opsgenie" ? 1 : 0
 
-  endpoint  = "https://api.opsgenie.com/v1/json/cloudwatch?apiKey=${var.opsgenie_sns_api_key}"
+  endpoint  = "https://api.opsgenie.com/v1/json/cloudwatch?apiKey=${var.opsgenie_cloudwatch_api_key}"
   protocol  = "https"
   topic_arn = var.source_sns_topic_arn
 }
@@ -122,7 +122,5 @@ data "aws_iam_policy_document" "assume_role_policy_doc" {
     }
   }
 }
-
-data "aws_region" "this" {}
 
 data "aws_caller_identity" "this" {}

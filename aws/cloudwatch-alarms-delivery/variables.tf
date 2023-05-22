@@ -1,8 +1,3 @@
-variable "cloudwatch_sns_topic_name" {
-  description = "CloudWatch SNS topic name"
-  type        = string
-}
-
 variable "endpoint" {
   description = "Endpoint for CloudWatch alarm"
   type        = string
