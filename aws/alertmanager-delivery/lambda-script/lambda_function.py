@@ -46,7 +46,7 @@ def lambda_handler(event, context):
     
     matchObject = re.match(r'(.*).Alerts ([\w]+):Labels: - (.*)Annotations: -(.*).Source:(.*)', alertMessageBody)
 
-    # If message is from Alertmanager
+    # If message contains Alertmanager keys
     if matchObject != None:
         snsMessage = matchObject.group(1)
         snsAertStatus = matchObject.group(2)
@@ -63,7 +63,6 @@ def lambda_handler(event, context):
         logging.warning(snsSubject, extra=dict(alertMessageBody=snsMessage,alertStatus=snsAertStatus,labels=snsAlertLabels,annotations=snsAlertAnnotations,source=snsAlertSource))
 
     else:
-        # if message is not from Alertmanager
         
         messageBody = json.loads(alertMessageBody)
 
