@@ -39,13 +39,11 @@ contents are encrypted at rest using KMS.
 | [aws_caller_identity.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.assume_role_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.lamada_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_region.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloudwatch_sns_topic_name"></a> [cloudwatch\_sns\_topic\_name](#input\_cloudwatch\_sns\_topic\_name) | CloudWatch SNS topic name | `string` | n/a | yes |
 | <a name="input_endpoint"></a> [endpoint](#input\_endpoint) | Endpoint for CloudWatch alarm | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Unique name for CloudWatch Alarm delivery | `string` | n/a | yes |
 | <a name="input_opsgenie_cloudwatch_api_key"></a> [opsgenie\_cloudwatch\_api\_key](#input\_opsgenie\_cloudwatch\_api\_key) | API key of the Opsgenie CloudWatch integration | `string` | `null` | no |
