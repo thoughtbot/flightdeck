@@ -44,7 +44,6 @@ contents are encrypted at rest using KMS.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_alertmanager_sns_topic_name"></a> [alertmanager\_sns\_topic\_name](#input\_alertmanager\_sns\_topic\_name) | Alertmanager SNS topic name | `string` | n/a | yes |
 | <a name="input_endpoint"></a> [endpoint](#input\_endpoint) | Endpoint for AlertManager message | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Unique name for alertmanager delivery | `string` | n/a | yes |
 | <a name="input_opsgenie_sns_api_key"></a> [opsgenie\_sns\_api\_key](#input\_opsgenie\_sns\_api\_key) | API key of the Opsgenie SNS integration | `string` | `null` | no |
