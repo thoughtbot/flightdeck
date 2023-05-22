@@ -66,7 +66,7 @@ resource "aws_lambda_permission" "allow_sns" {
 
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.cloudwatch_sentry_notification[count.index].function_name
+  function_name = aws_lambda_function.cloudwatch_alarm_sentry_notification[count.index].function_name
   principal     = "sns.amazonaws.com"
   source_arn    = var.source_sns_topic_arn
 }
@@ -74,7 +74,7 @@ resource "aws_lambda_permission" "allow_sns" {
 resource "aws_sns_topic_subscription" "lambda" {
   count = var.endpoint == "Sentry" ? 1 : 0
 
-  endpoint  = aws_lambda_function.cloudwatch_sentry_notification[count.index].arn
+  endpoint  = aws_lambda_function.cloudwatch_alarm_sentry_notification[count.index].arn
   protocol  = "lambda"
   topic_arn = var.source_sns_topic_arn
 }
