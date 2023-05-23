@@ -1,3 +1,8 @@
+# Rotating Grafana API key.
+
+Uses AWS SecretsManager to maintain a rotating Grafana API key. An initial admin
+key must be provided.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -7,24 +12,12 @@
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 | <a name="requirement_grafana"></a> [grafana](#requirement\_grafana) | ~> 1.13 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
-
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_rotation"></a> [rotation](#module\_rotation) | github.com/thoughtbot/terraform-aws-secrets//secret-rotation-function | v0.4.0 |
 | <a name="module_secret"></a> [secret](#module\_secret) | github.com/thoughtbot/terraform-aws-secrets//secret | v0.4.0 |
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [aws_secretsmanager_secret_version.latest_version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret_version) | data source |
 
 ## Inputs
 
@@ -42,7 +35,6 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_api_key"></a> [api\_key](#output\_api\_key) | Current API key for Grafana |
 | <a name="output_policy_json"></a> [policy\_json](#output\_policy\_json) | Required IAM policies |
 | <a name="output_secret_arn"></a> [secret\_arn](#output\_secret\_arn) | ARN of the secrets manager secret containing credentials |
 | <a name="output_secret_name"></a> [secret\_name](#output\_secret\_name) | Name of the secrets manager secret containing credentials |

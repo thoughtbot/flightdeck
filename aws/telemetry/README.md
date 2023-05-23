@@ -7,6 +7,7 @@ Creates AWS-managed resources for telemetry, including:
 - SNS topics for AlertManager alerts
 - Different SNS topics for different levels of severity
 - KMS encryption at rest for SNS topics
+- An IAM role for Grafana to access data sources in this account
 
 ## Example
 
@@ -36,6 +37,7 @@ module "telemetry" {
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_grafana_role"></a> [grafana\_role](#module\_grafana\_role) | ./modules/grafana-role | n/a |
 | <a name="module_prometheus_workspace"></a> [prometheus\_workspace](#module\_prometheus\_workspace) | ./modules/prometheus-workspace | n/a |
 | <a name="module_sns_topics"></a> [sns\_topics](#module\_sns\_topics) | ./modules/sns-topics | n/a |
 
@@ -57,6 +59,9 @@ module "telemetry" {
 | <a name="input_alert_resolve_timeout"></a> [alert\_resolve\_timeout](#input\_alert\_resolve\_timeout) | Time after which alerts without an end time after resolved | `string` | `null` | no |
 | <a name="input_alert_severities"></a> [alert\_severities](#input\_alert\_severities) | List of alert priorities for AlertManager | `list(string)` | <pre>[<br>  "warning",<br>  "ticket",<br>  "page"<br>]</pre> | no |
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
+| <a name="input_grafana_role_name"></a> [grafana\_role\_name](#input\_grafana\_role\_name) | Name of the IAM role created for Grafana | `string` | `"grafana"` | no |
+| <a name="input_grafana_workspace_name"></a> [grafana\_workspace\_name](#input\_grafana\_workspace\_name) | Name of the Grafana workspace which will use telemetry resources | `string` | `"Grafana"` | no |
+| <a name="input_monitoring_account_ids"></a> [monitoring\_account\_ids](#input\_monitoring\_account\_ids) | AWS account IDs in which Grafana will run | `list(string)` | `null` | no |
 | <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the AWS Managed Prometheus workspace | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
 

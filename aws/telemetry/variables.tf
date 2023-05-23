@@ -40,6 +40,24 @@ variable "alert_default_severity" {
   default     = "warning"
 }
 
+variable "grafana_role_name" {
+  description = "Name of the IAM role created for Grafana"
+  type        = string
+  default     = "grafana"
+}
+
+variable "grafana_workspace_name" {
+  description = "Name of the Grafana workspace which will use telemetry resources"
+  type        = string
+  default     = "Grafana"
+}
+
+variable "monitoring_account_ids" {
+  description = "AWS account IDs in which Grafana will run"
+  type        = list(string)
+  default     = null
+}
+
 variable "prometheus_workspace_name" {
   description = "Name of the AWS Managed Prometheus workspace"
   type        = string

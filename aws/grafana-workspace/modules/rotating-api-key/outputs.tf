@@ -1,11 +1,3 @@
-output "api_key" {
-  description = "Current API key for Grafana"
-
-  value = jsondecode(
-    data.aws_secretsmanager_secret_version.latest_version.secret_string
-  ).GRAFANA_API_KEY
-}
-
 output "policy_json" {
   description = "Required IAM policies"
   value       = module.secret.policy_json

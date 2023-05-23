@@ -36,6 +36,14 @@ module "prometheus_workspace" {
   )
 }
 
+module "grafana_role" {
+  source = "./modules/grafana-role"
+
+  grafana_workspace_name = var.grafana_workspace_name
+  monitoring_account_ids = var.monitoring_account_ids
+  name                   = var.grafana_role_name
+}
+
 resource "aws_ssm_parameter" "prometheus_workspace_id" {
   name  = join("/", concat(["", "flightdeck", "prometheus", var.prometheus_workspace_name, "workspace_id"]))
   type  = "String"

@@ -1,51 +1,76 @@
 resource "grafana_data_source" "prometheus" {
-  for_each = local.prometheus_workspaces
-
-  is_default = length(var.prometheus_workspace_names) == 1
-  name       = each.key
+  is_default = false
+  name       = local.prometheus_data_source
   type       = "prometheus"
-  url        = each.value.url
+  url        = data.aws_prometheus_workspace.this.prometheus_endpoint
 
-  json_data {
-    http_method     = "POST"
-    sigv4_auth      = true
-    sigv4_auth_type = "default"
-    sigv4_region    = each.value.region
-  }
+  json_data_encoded = jsonencode({
+    alertmanagerUid    = grafana_data_source.alertmanager.uid
+    httpMethod         = "POST"
+    sigV4Auth          = true
+    sigV4AuthType      = "default"
+    sigV4Region        = data.aws_region.this.name
+    sigV4AssumeRoleArn = data.aws_iam_role.grafana.arn
+  })
 }
 
 resource "grafana_data_source" "cloudwatch" {
   type = "cloudwatch"
-  name = "cloudwatch"
+  name = local.cloudwatch_data_source
 
-  json_data {
-    default_region = data.aws_region.this.name
-    auth_type      = "default"
-  }
+  json_data_encoded = jsonencode({
+    defaultRegion = data.aws_region.this.name
+    authType      = "default"
+    assumeRoleArn = data.aws_iam_role.grafana.arn
+  })
 }
 
-data "aws_s3_bucket_object" "prometheus" {
-  for_each = toset(var.prometheus_workspace_names)
+resource "grafana_data_source" "alertmanager" {
+  type = "alertmanager"
+  name = local.alertmanager_data_source
+  url  = "${data.aws_prometheus_workspace.this.prometheus_endpoint}alertmanager"
 
-  bucket = join("-", concat([
-    "prometheus",
-    each.value,
-    data.aws_caller_identity.this.account_id
-  ]))
-
-  key = "ingestion.json"
+  json_data_encoded = jsonencode({
+    implementation     = "prometheus"
+    sigV4Auth          = true
+    sigV4AuthType      = "default"
+    sigV4Region        = data.aws_region.this.name
+    sigV4AssumeRoleArn = data.aws_iam_role.grafana.arn
+  })
 }
 
-data "aws_caller_identity" "this" {}
+data "aws_iam_role" "grafana" {
+  name = var.grafana_role_name
+}
+
+data "aws_prometheus_workspace" "this" {
+  workspace_id = data.aws_ssm_parameter.prometheus_workspace_id.value
+}
+
+data "aws_ssm_parameter" "prometheus_workspace_id" {
+  name = join("/", concat(["", "flightdeck", "prometheus", local.prometheus_workspace_name, "workspace_id"]))
+}
 
 data "aws_region" "this" {}
 
 locals {
-  prometheus_workspaces = zipmap(
-    var.prometheus_workspace_names,
-    [
-      for name in var.prometheus_workspace_names :
-      jsondecode(data.aws_s3_bucket_object.prometheus[name].body)
-    ]
+  alertmanager_data_source = coalesce(
+    var.alertmanager_data_source_name,
+    "AlertManager (${var.name})"
+  )
+
+  cloudwatch_data_source = coalesce(
+    var.cloudwatch_data_source_name,
+    "Cloudwatch (${var.name})"
+  )
+
+  prometheus_data_source = coalesce(
+    var.prometheus_data_source_name,
+    "Prometheus (${var.name})"
+  )
+
+  prometheus_workspace_name = coalesce(
+    var.prometheus_workspace_name,
+    "flightdeck-${var.name}"
   )
 }

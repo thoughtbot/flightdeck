@@ -27,9 +27,3 @@ module "rotation" {
     WORKSPACE_URL = var.workspace_url
   }
 }
-
-data "aws_secretsmanager_secret_version" "latest_version" {
-  depends_on = [module.secret]
-
-  secret_id = module.secret.arn
-}
