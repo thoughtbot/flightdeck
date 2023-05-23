@@ -19,6 +19,10 @@ sentrySecretName = os.environ['sentrySecretName']
 
 sentryEnvironment = os.environ['sentryEnvironment']
 
+sentrySubjectPrefix = os.environ['sentrySubjectPrefix']
+
+snsMessageAsSubject = os.environ['snsMessageAsSubject']
+
 awsSecretResponse = awsSecretsClient.get_secret_value(
     SecretId=sentrySecretName,
 )
@@ -64,11 +68,20 @@ def lambda_handler(event, context):
 
     else:
         
-        messageBody = json.loads(alertMessageBody)
+        messageBodyExtra = json.loads(alertMessageBody)
 
-        snsSubject = messageBody["message"]
+        messageBodyExtra.update(dict(subject=snsSubject))
 
-        messageBodyExtra = messageBody.pop("message")
+        messageBody = messageBody.get("message")
+
+        if messageBody is None:
+            messageBody = snsSubject
+
+        if snsMessageAsSubject:
+            snsSubject = messageBody["message"]
+
+        if sentrySubjectPrefix:
+            snsSubject = sentrySubjectPrefix + " " + snsSubject
 
         logging.warning(snsSubject, extra=messageBodyExtra)
 

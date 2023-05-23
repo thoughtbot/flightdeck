@@ -1,9 +1,7 @@
 # AlertManager Deliery Module
 
-A module to deliver AlertManger messages to one of the selected endpoints. Available endpoints are Opsgenie and Sentry.
+A module to deliver messages from SNS to Sentry.
 
-Creates SNS topics for different sources and alert severity levels. Topic
-contents are encrypted at rest using KMS.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

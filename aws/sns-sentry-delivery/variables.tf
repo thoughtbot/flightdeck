@@ -31,8 +31,19 @@ variable "sentry_secret_name" {
   default     = null
 }
 
+variable "sentry_subject_prefix" {
+  description = "Set a prefix to add to the subject before being published to Sentry"
+  type        = string
+  default     = ""
+}
+
+variable "sns_message_as_subject" {
+  description = "Set the SNS message field as the subject for Sentry"
+  type        = bool
+  default     = false
+}
+
 variable "source_sns_topic_arn" {
   description = "Source SNS topic for AlertManager messages."
   type        = string
 }
-

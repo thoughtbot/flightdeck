@@ -2,17 +2,7 @@ locals {
   function_name = "${var.name}-alertmanager-delivery-${random_id.unique_id.dec}"
 }
 
-resource "aws_sns_topic_subscription" "alertmanager_opsgenie_delivery" {
-  count = var.endpoint == "Opsgenie" ? 1 : 0
-
-  endpoint  = "https://api.opsgenie.com/v1/json/amazonsns?apiKey=${var.opsgenie_sns_api_key}"
-  protocol  = "https"
-  topic_arn = var.source_sns_topic_arn
-}
-
 resource "aws_lambda_function" "alertmanger_sentry_notification" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   function_name    = local.function_name
   description      = "Lambda function to forward AlertManager messages to Sentry"
   filename         = data.archive_file.function.output_path
@@ -25,8 +15,10 @@ resource "aws_lambda_function" "alertmanger_sentry_notification" {
 
   environment {
     variables = {
-      sentrySecretName  = var.sentry_secret_name
-      sentryEnvironment = var.sentry_environment
+      sentrySecretName    = var.sentry_secret_name
+      sentryEnvironment   = var.sentry_environment
+      sentrySubjectPrefix = var.sentry_subject_prefix
+      snsMessageAsSubject = var.sns_message_as_subject
     }
   }
   depends_on = [
@@ -62,8 +54,6 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
 }
 
 resource "aws_lambda_permission" "allow_sns" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.alertmanger_sentry_notification[count.index].function_name
@@ -72,8 +62,6 @@ resource "aws_lambda_permission" "allow_sns" {
 }
 
 resource "aws_sns_topic_subscription" "lambda" {
-  count = var.endpoint == "Sentry" ? 1 : 0
-
   endpoint  = aws_lambda_function.alertmanger_sentry_notification[count.index].arn
   protocol  = "lambda"
   topic_arn = var.source_sns_topic_arn
