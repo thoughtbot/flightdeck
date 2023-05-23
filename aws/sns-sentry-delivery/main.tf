@@ -56,13 +56,13 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
 resource "aws_lambda_permission" "allow_sns" {
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.alertmanger_sentry_notification[count.index].function_name
+  function_name = aws_lambda_function.alertmanger_sentry_notification.function_name
   principal     = "sns.amazonaws.com"
   source_arn    = var.source_sns_topic_arn
 }
 
 resource "aws_sns_topic_subscription" "lambda" {
-  endpoint  = aws_lambda_function.alertmanger_sentry_notification[count.index].arn
+  endpoint  = aws_lambda_function.alertmanger_sentry_notification.arn
   protocol  = "lambda"
   topic_arn = var.source_sns_topic_arn
 }

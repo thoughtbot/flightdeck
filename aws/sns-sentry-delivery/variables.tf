@@ -13,12 +13,6 @@ variable "name" {
   type        = string
 }
 
-variable "opsgenie_sns_api_key" {
-  description = "API key of the Opsgenie SNS integration"
-  type        = string
-  default     = null
-}
-
 variable "sentry_environment" {
   description = "Sentry environment to push warning logs"
   type        = string
