@@ -61,22 +61,37 @@ rules:
   groups:
   - name: istio
     rules:
+    # Total requests by service
     - record: istio:namespace_destination_service_name:istio_requests:rate5m
       expr: |
         sum(
-          rate(istio_requests_total{destination_service_namespace!="unknown"}[5m])
+          rate(istio_requests_total{
+            source_workload_namespace!="kube-prometheus-stack",
+            destination_service_namespace!="unknown",
+            reporter="source"
+          }[5m])
         ) by (namespace, destination_service_name)
+    # Total requests by service, response code
     - record: istio:namespace_destination_service_name_response_code:istio_requests:rate5m
       expr: |
         sum(
-          rate(istio_requests_total{destination_service_namespace!="unknown"}[5m])
+          rate(istio_requests_total{
+            source_workload_namespace!="kube-prometheus-stack",
+            destination_service_namespace!="unknown",
+            reporter="source"
+          }[5m])
         ) by (namespace, destination_service_name, response_code)
+    # Response size percentiles by service
     - record: istio:namespace_destination_service_name:istio_response_bytes:50p5m
       expr: |
         histogram_quantile(
           0.50,
           sum by (namespace, destination_service_name, le) (
-            rate(istio_response_bytes_bucket{destination_service_namespace!="unknown"}[5m])
+            rate(istio_response_bytes_bucket{
+              source_workload_namespace!="kube-prometheus-stack",
+              destination_service_namespace!="unknown",
+              reporter="source"
+            }[5m])
           )
         )
     - record: istio:namespace_destination_service_name:istio_response_bytes:95p5m
@@ -84,7 +99,11 @@ rules:
         histogram_quantile(
           0.95,
           sum by (namespace, destination_service_name, le) (
-            rate(istio_response_bytes_bucket{destination_service_namespace!="unknown"}[5m])
+            rate(istio_response_bytes_bucket{
+              source_workload_namespace!="kube-prometheus-stack",
+              destination_service_namespace!="unknown",
+              reporter="source"
+            }[5m])
           )
         )
     - record: istio:namespace_destination_service_name:istio_response_bytes:99p5m
@@ -92,56 +111,32 @@ rules:
         histogram_quantile(
           0.99,
           sum by (namespace, destination_service_name, le) (
-            rate(istio_response_bytes_bucket{destination_service_namespace!="unknown"}[5m])
+            rate(istio_response_bytes_bucket{
+              source_workload_namespace!="kube-prometheus-stack",
+              destination_service_namespace!="unknown",
+              reporter="source"
+            }[5m])
           )
         )
-    - record: istio:namespace_destination_service_name_response_code:istio_request_duration_milliseconds:50p5m
+    # Request duration by service, response code, bucket
+    - record: istio:namespace_destination_service_name_response_code_le:istio_request_duration_milliseconds_bucket:rate5m
       expr: |
-        histogram_quantile(
-          0.50,
-          sum by (namespace, destination_service_name, response_code, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
+        sum by (namespace, destination_service_name, response_code, le) (
+          rate(istio_request_duration_milliseconds_bucket{
+            source_workload_namespace!="kube-prometheus-stack",
+            destination_service_namespace!="unknown",
+            reporter="source"
+          }[5m])
         )
-    - record: istio:namespace_destination_service_name_response_code:istio_request_duration_milliseconds:95p5m
+    # Count of request duration samples by service, response code
+    - record: istio:namespace_destination_service_name_response_code:istio_request_duration_milliseconds_count:rate5m
       expr: |
-        histogram_quantile(
-          0.95,
-          sum by (namespace, destination_service_name, response_code, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
-        )
-    - record: istio:namespace_destination_service_name_response_code:istio_request_duration_milliseconds:99p5m
-      expr: |
-        histogram_quantile(
-          0.99,
-          sum by (namespace, destination_service_name, response_code, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
-        )
-    - record: istio:namespace_destination_service_name:istio_request_duration_milliseconds:50p5m
-      expr: |
-        histogram_quantile(
-          0.50,
-          sum by (namespace, destination_service_name, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
-        )
-    - record: istio:namespace_destination_service_name:istio_request_duration_milliseconds:95p5m
-      expr: |
-        histogram_quantile(
-          0.95,
-          sum by (namespace, destination_service_name, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
-        )
-    - record: istio:namespace_destination_service_name:istio_request_duration_milliseconds:99p5m
-      expr: |
-        histogram_quantile(
-          0.99,
-          sum by (namespace, destination_service_name, le) (
-            rate(istio_request_duration_milliseconds_bucket{destination_service_namespace!="unknown"}[5m])
-          )
+        sum by (namespace, destination_service_name, response_code) (
+          rate(istio_request_duration_milliseconds_count{
+            source_workload_namespace!="kube-prometheus-stack",
+            destination_service_namespace!="unknown",
+            reporter="source"
+          }[5m])
         )
 - name: cluster-autoscaler
   groups:
