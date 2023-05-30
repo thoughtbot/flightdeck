@@ -70,7 +70,7 @@ rules:
             destination_service_namespace!="unknown",
             reporter="source"
           }[5m])
-        ) by (namespace, destination_service_name)
+        ) by (destination_service_namespace, destination_service_name)
     # Total requests by service, response code
     - record: istio:namespace_destination_service_name_response_code:istio_requests:rate5m
       expr: |
@@ -80,13 +80,13 @@ rules:
             destination_service_namespace!="unknown",
             reporter="source"
           }[5m])
-        ) by (namespace, destination_service_name, response_code)
+        ) by (destination_service_namespace, destination_service_name, response_code)
     # Response size percentiles by service
     - record: istio:namespace_destination_service_name:istio_response_bytes:50p5m
       expr: |
         histogram_quantile(
           0.50,
-          sum by (namespace, destination_service_name, le) (
+          sum by (destination_service_namespace, destination_service_name, le) (
             rate(istio_response_bytes_bucket{
               source_workload_namespace!="kube-prometheus-stack",
               destination_service_namespace!="unknown",
@@ -98,7 +98,7 @@ rules:
       expr: |
         histogram_quantile(
           0.95,
-          sum by (namespace, destination_service_name, le) (
+          sum by (destination_service_namespace, destination_service_name, le) (
             rate(istio_response_bytes_bucket{
               source_workload_namespace!="kube-prometheus-stack",
               destination_service_namespace!="unknown",
@@ -110,7 +110,7 @@ rules:
       expr: |
         histogram_quantile(
           0.99,
-          sum by (namespace, destination_service_name, le) (
+          sum by (destination_service_namespace, destination_service_name, le) (
             rate(istio_response_bytes_bucket{
               source_workload_namespace!="kube-prometheus-stack",
               destination_service_namespace!="unknown",
@@ -121,7 +121,7 @@ rules:
     # Request duration by service, response code, bucket
     - record: istio:namespace_destination_service_name_response_code_le:istio_request_duration_milliseconds_bucket:rate5m
       expr: |
-        sum by (namespace, destination_service_name, response_code, le) (
+        sum by (destination_service_namespace, destination_service_name, response_code, le) (
           rate(istio_request_duration_milliseconds_bucket{
             source_workload_namespace!="kube-prometheus-stack",
             destination_service_namespace!="unknown",
@@ -131,7 +131,7 @@ rules:
     # Count of request duration samples by service, response code
     - record: istio:namespace_destination_service_name_response_code:istio_request_duration_milliseconds_count:rate5m
       expr: |
-        sum by (namespace, destination_service_name, response_code) (
+        sum by (destination_service_namespace, destination_service_name, response_code) (
           rate(istio_request_duration_milliseconds_count{
             source_workload_namespace!="kube-prometheus-stack",
             destination_service_namespace!="unknown",
