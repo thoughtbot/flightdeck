@@ -2,6 +2,10 @@ resource "kubernetes_namespace" "istio" {
   metadata {
     name = var.istio_namespace
   }
+
+  timeouts {
+    delete = "15m"
+  }
 }
 
 module "istio_base" {
@@ -42,6 +46,10 @@ resource "kubernetes_namespace" "flightdeck" {
   }
 
   depends_on = [module.istiod]
+
+  timeouts {
+    delete = "15m"
+  }
 }
 
 module "cert_manager" {
@@ -104,6 +112,10 @@ resource "kubernetes_namespace" "kube_prometheus_stack" {
   }
 
   depends_on = [module.istiod]
+
+  timeouts {
+    delete = "15m"
+  }
 }
 
 module "prometheus_operator" {
