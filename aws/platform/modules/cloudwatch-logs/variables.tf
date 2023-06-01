@@ -36,3 +36,9 @@ variable "retention_in_days" {
   type        = number
   default     = 30
 }
+
+variable "skip_destroy" {
+  description = "Set to false to destroy the log group when cleaning up"
+  type        = bool
+  default     = true
+}

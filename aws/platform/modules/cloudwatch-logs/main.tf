@@ -11,7 +11,7 @@ module "fluent_bit_service_account_role" {
 resource "aws_cloudwatch_log_group" "this" {
   name              = "${var.log_group_prefix}/${var.cluster_full_name}"
   retention_in_days = var.retention_in_days
-  skip_destroy      = true
+  skip_destroy      = var.skip_destroy
   tags              = var.aws_tags
 }
 
