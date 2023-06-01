@@ -34,7 +34,7 @@ jobs:
     name: Apply Ingress
     uses: ./.github/workflows/terraform.yaml
     needs:
-    - apply_network
+    - apply_cluster
     concurrency: ${{ github.ref_name }}-ingress
     with:
       module: ingress/sandbox
@@ -45,7 +45,6 @@ jobs:
     name: Apply Platform
     uses: ./.github/workflows/terraform.yaml
     needs:
-    - apply_cluster
     - apply_ingress
     concurrency: ${{ github.ref_name }}-platform
     with:
@@ -90,7 +89,7 @@ jobs:
     name: Cleanup Cluster
     uses: ./.github/workflows/terraform.yaml
     needs:
-    - cleanup_platform
+    - cleanup_ingress
     concurrency: ${{ github.ref_name }}-cluster
     with:
       module: cluster/sandbox-v1
@@ -102,7 +101,6 @@ jobs:
     name: Cleanup Network
     uses: ./.github/workflows/terraform.yaml
     needs:
-    - cleanup_ingress
     - cleanup_cluster
     concurrency: ${{ github.ref_name }}-network
     with:
