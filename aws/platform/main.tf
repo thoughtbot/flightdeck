@@ -120,11 +120,13 @@ module "cloudwatch_logs" {
   source = "./modules/cloudwatch-logs"
 
   aws_namespace     = [module.cluster_name.full]
-  cluster_full_name = module.cluster_name.full
   aws_tags          = var.aws_tags
+  cluster_full_name = module.cluster_name.full
   k8s_namespace     = var.k8s_namespace
-  retention_in_days = var.logs_retention_in_days
+  log_group_prefix  = var.logs_prefix
   oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
+  retention_in_days = var.logs_retention_in_days
+  skip_destroy      = var.logs_skip_destroy
 }
 
 module "cluster_autoscaler_service_account_role" {

@@ -54,6 +54,9 @@ jobs:
         bin/set-template-var SANDBOX_STATE_TABLE flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_KMS_KEY flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_ROLE flightdeck-ci-state
+
+        # Destroy log group when destroying cluster
+        bin/append-terraform-value platform/sandbox-v1/main.tf workload_platform logs_skip_destroy 'false'
         set +x
 
     - name: Archive Terraform configuration

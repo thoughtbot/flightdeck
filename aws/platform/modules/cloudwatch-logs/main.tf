@@ -9,8 +9,9 @@ module "fluent_bit_service_account_role" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = join("/", ["", "flightdeck", var.cluster_full_name])
+  name              = "${var.log_group_prefix}/${var.cluster_full_name}"
   retention_in_days = var.retention_in_days
+  skip_destroy      = var.skip_destroy
   tags              = var.aws_tags
 }
 
