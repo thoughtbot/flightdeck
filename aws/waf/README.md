@@ -1,6 +1,7 @@
-# AlertManager Deliery Module
+# AWS WAF Module
 
-A module to create AWS WAF. It supports Rate limiting and accepts a list of AWS managed rules to be applied to the WAF for incoming requests from cloudfront, ELB or API Gateway.
+A module to create and configure an [AWS WAF](https://aws.amazon.com/waf/faqs/) (Web Application Firewall) resource. It supports Rate limiting and accepts a list of AWS managed rules to be applied to the WAF for incoming requests from cloudfront, ELB or API Gateway.
+
 
 Example:
 
