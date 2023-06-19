@@ -34,5 +34,6 @@ variable "rate_limit" {
   type = object({
     Priority = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
     Limit    = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period
+    count_override = optional(bool, true) # Override the rule action setting to count, this instructs AWS WAF to count the matching web request and allow it
   })
 }

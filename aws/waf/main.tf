@@ -17,8 +17,17 @@ resource "aws_wafv2_web_acl" "main" {
     name     = "${var.name}-IP-Ratelimit"
     priority = var.rate_limit["Priority"]
 
-    action {
-      count {}
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == true ? [1] : []
+      content {
+        count {}
+      }
+    }
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == false ? [1] : []
+      content {
+        block {}
+      }
     }
 
     statement {
@@ -44,6 +53,12 @@ resource "aws_wafv2_web_acl" "main" {
         for_each = rule.value["count_override"] == true ? [1] : []
         content {
           count {}
+        }
+      }
+      dynamic "override_action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
         }
       }
       statement {
