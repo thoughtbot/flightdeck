@@ -55,6 +55,12 @@ resource "aws_wafv2_web_acl" "main" {
           count {}
         }
       }
+      dynamic "override_action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          none {}
+        }
+      }
       statement {
         managed_rule_group_statement {
           name        = rule.value["name"]
