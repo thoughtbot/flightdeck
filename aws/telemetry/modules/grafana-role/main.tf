@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "trust" {
 
     condition {
       test     = "StringEquals"
-      variable = "iam:ResourceTag/grafana.workspace.${var.name}"
+      variable = "iam:ResourceTag/grafana.workspace.${var.grafana_workspace_name}"
       values   = ["true"]
     }
   }
