@@ -27,10 +27,6 @@ module "grafana_dashboards" {
 |------|---------|
 | <a name="provider_grafana"></a> [grafana](#provider\_grafana) | ~> 1.13 |
 
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -42,8 +38,4 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_istio_dashboard"></a> [create\_istio\_dashboard](#input\_create\_istio\_dashboard) | Create Istio dashboard | `bool` | `false` | no |
-
-## Outputs
-
-No outputs.
 <!-- END_TF_DOCS -->
