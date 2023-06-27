@@ -31,11 +31,11 @@ module "grafana_dashboards" {
 
 | Name | Type |
 |------|------|
-| [grafana_dashboard.istio](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/dashboard) | resource |
+| [grafana_dashboard.this](https://registry.terraform.io/providers/grafana/grafana/latest/docs/resources/dashboard) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_create_istio_dashboard"></a> [create\_istio\_dashboard](#input\_create\_istio\_dashboard) | Create Istio dashboard | `bool` | `false` | no |
+| <a name="input_dashboards_to_create"></a> [dashboards\_to\_create](#input\_dashboards\_to\_create) | List of dashboards to create (cluster-resources, istio, rds-databases, slo-details, and/or slo-overview) | `list(string)` | n/a | yes |
 <!-- END_TF_DOCS -->
