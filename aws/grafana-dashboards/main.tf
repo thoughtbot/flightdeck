@@ -1,5 +1,5 @@
-resource "grafana_dashboard" "istio" {
-  count = var.create_istio_dashboard ? 1 : 0
+resource "grafana_dashboard" "this" {
+  for_each = toset(var.dashboards_to_create)
 
-  config_json = file("${path.module}/dashboards/istio.json")
+  config_json = file("${path.module}/dashboards/${each.value}.json")
 }
