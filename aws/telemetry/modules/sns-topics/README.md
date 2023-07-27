@@ -37,6 +37,7 @@ contents are encrypted at rest using KMS.
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_principals"></a> [admin\_principals](#input\_admin\_principals) | IAM principals allowed to manage this topic (defaults to current account) | `list(string)` | `[]` | no |
 | <a name="input_enable_kms"></a> [enable\_kms](#input\_enable\_kms) | Set to false to disable encryption with KMS | `bool` | `true` | no |
+| <a name="input_kms_alias_name"></a> [kms\_alias\_name](#input\_kms\_alias\_name) | KMS alias name for SNS topics | `string` | n/a | yes |
 | <a name="input_sns_topic_names"></a> [sns\_topic\_names](#input\_sns\_topic\_names) | Names of SNS topics for alarms | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
 
