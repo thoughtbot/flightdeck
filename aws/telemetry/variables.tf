@@ -68,3 +68,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "kms_alias_name" {
+  description = "KMS alias name for SNS topics"
+  type        = string
+  default     = "alias/sns-alarm-topics"
+}
