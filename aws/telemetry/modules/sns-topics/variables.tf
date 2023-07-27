@@ -15,6 +15,11 @@ variable "sns_topic_names" {
   type        = list(string)
 }
 
+variable "kms_alias_name" {
+  description = "KMS alias name for SNS topics"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to be applied to created resources"
   type        = map(string)

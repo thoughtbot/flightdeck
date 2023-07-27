@@ -61,6 +61,7 @@ module "telemetry" {
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
 | <a name="input_grafana_role_name"></a> [grafana\_role\_name](#input\_grafana\_role\_name) | Name of the IAM role created for Grafana | `string` | `"grafana"` | no |
 | <a name="input_grafana_workspace_name"></a> [grafana\_workspace\_name](#input\_grafana\_workspace\_name) | Name of the Grafana workspace which will use telemetry resources | `string` | `"Grafana"` | no |
+| <a name="input_kms_alias_name"></a> [kms\_alias\_name](#input\_kms\_alias\_name) | KMS alias name for SNS topics | `string` | `"alias/sns-alarm-topics"` | no |
 | <a name="input_monitoring_account_ids"></a> [monitoring\_account\_ids](#input\_monitoring\_account\_ids) | AWS account IDs in which Grafana will run | `list(string)` | `null` | no |
 | <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the AWS Managed Prometheus workspace | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |

@@ -11,6 +11,8 @@ module "sns_topics" {
       "${source}-${severity}"
     ]
   ])
+
+  kms_alias_name = var.kms_alias_name
 }
 
 module "prometheus_workspace" {

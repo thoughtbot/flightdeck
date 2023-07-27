@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "sns" {
 resource "aws_kms_alias" "sns" {
   count = length(aws_kms_key.sns)
 
-  name          = "alias/sns-alarm-topics"
+  name          = var.kms_alias_name
   target_key_id = aws_kms_key.sns[count.index].id
 }
 
