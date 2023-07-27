@@ -102,7 +102,7 @@ locals {
           receiver = name
 
           matchers = [
-            "severity = ${name}"
+            "severity =~ ${name}"
           ]
         }
       ]
