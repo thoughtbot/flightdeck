@@ -14,6 +14,13 @@ resource "aws_eks_cluster" "this" {
     subnet_ids         = concat(var.private_subnet_ids, var.public_subnet_ids)
   }
 
+  encryption_config {
+    provider {
+      key_arn = aws_kms_key.eks_key.arn
+    }
+    resources = "secrets"
+  }
+
   depends_on = [
     # Ensure that IAM Role permissions are created before and deleted after EKS
     # Cluster handling. Otherwise, EKS will not be able to properly delete EKS
@@ -79,6 +86,17 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = aws_security_group.control_plane.id
   to_port           = 0
   type              = "egress"
+}
+
+resource "aws_kms_key" "eks_key" {
+  description         = "KMS Key for EKS cluster ${var.name} secrets encryption"
+  key_usage           = "ENCRYPT_DECRYPT"
+  enable_key_rotation = true
+}
+
+resource "aws_kms_alias" "eks_key_alias" {
+  target_key_id = aws_kms_key.eks_key
+  name_prefix   = "alias/${var.name}"
 }
 
 data "aws_partition" "current" {
