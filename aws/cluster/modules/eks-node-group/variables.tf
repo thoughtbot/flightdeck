@@ -45,3 +45,26 @@ variable "tags" {
   description = "Tags to be applied to created resources"
   default     = {}
 }
+variable "capacity_type" {
+  type        = string
+  description = "Instance capacity type ON_DEMAND or SPOT"
+  default     = "ON_DEMAND"
+}
+
+variable "labels" {
+  type        = map(string)
+  description = "Labels to be applied to created resources"
+  default     = {}
+}
+
+variable "node_role" {
+  type        = string
+  description = "Role to struct kubernetes scheduler to use for this node group"
+  default     = "general"
+}
+
+variable "max_unavailable" {
+  type        = number
+  description = "Maximum number of nodes that can be unavailable during a rolling update"
+  default     = 1
+}

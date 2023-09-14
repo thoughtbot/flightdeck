@@ -39,15 +39,18 @@ module "node_groups" {
   for_each = var.node_groups
   source   = "./modules/eks-node-group"
 
-  cluster        = module.eks_cluster.instance
-  instance_types = each.value.instance_types
-  max_size       = each.value.max_size
-  min_size       = each.value.min_size
-  name           = each.key
-  namespace      = [module.cluster_name.full]
-  role           = module.node_role.instance
-  subnets        = values(data.aws_subnet.private)
-  tags           = var.tags
+  cluster         = module.eks_cluster.instance
+  instance_types  = each.value.instance_types
+  max_size        = each.value.max_size
+  min_size        = each.value.min_size
+  capacity_type   = each.value.capacity_type
+  max_unavailable = each.value.max_unavailable
+  name            = each.key
+  namespace       = [module.cluster_name.full]
+  role            = module.node_role.instance
+  subnets         = values(data.aws_subnet.private)
+  tags            = var.tags
+  labels          = var.labels
 
   depends_on = [module.node_role]
 }
