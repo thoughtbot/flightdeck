@@ -98,7 +98,7 @@ resource "aws_kms_key" "eks_key" {
 }
 
 resource "aws_kms_alias" "eks_key_alias" {
-  target_key_id = aws_kms_key.eks_key
+  target_key_id = aws_kms_key.eks_key.key_id
   name_prefix   = "alias/${var.name}"
 
   depends_on = [aws_kms_key.eks_key]
