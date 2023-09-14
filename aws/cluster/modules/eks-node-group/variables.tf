@@ -57,7 +57,7 @@ variable "labels" {
   default     = {}
 }
 
-variable "node_role" {
+variable "label_node_role" {
   type        = string
   description = "Role to struct kubernetes scheduler to use for this node group"
   default     = "general"
