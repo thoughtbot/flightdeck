@@ -19,7 +19,7 @@ resource "aws_eks_node_group" "this" {
   }
 
   labels = merge(var.labels, {
-    role = var.node_role
+    role = var.label_node_role
   })
 
   tags = merge(var.tags, {
