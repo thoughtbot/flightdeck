@@ -41,3 +41,9 @@ variable "tags" {
   description = "Tags to be applied to all created resources"
   default     = {}
 }
+
+variable "labels" {
+  type        = map(string)
+  description = "Labels to be applied to created resources"
+  default     = {}
+}
