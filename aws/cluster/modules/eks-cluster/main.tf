@@ -29,7 +29,10 @@ resource "aws_eks_cluster" "this" {
 
     # Ensure EKS doesn't automatically create the log group before we create it
     # and set retention.
-    aws_cloudwatch_log_group.eks
+    aws_cloudwatch_log_group.eks,
+
+    # Ensure that the KMS key is created before EKS Cluster start using it.
+    aws_kms_key.eks_key
   ]
 }
 
@@ -97,6 +100,8 @@ resource "aws_kms_key" "eks_key" {
 resource "aws_kms_alias" "eks_key_alias" {
   target_key_id = aws_kms_key.eks_key
   name_prefix   = "alias/${var.name}"
+
+  depends_on = [aws_kms_key.eks_key]
 }
 
 data "aws_partition" "current" {
