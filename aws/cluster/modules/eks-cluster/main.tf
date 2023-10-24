@@ -18,7 +18,7 @@ resource "aws_eks_cluster" "this" {
     provider {
       key_arn = aws_kms_key.eks_key.arn
     }
-    resources = "secrets"
+    resources = ["secrets"]
   }
 
   depends_on = [
