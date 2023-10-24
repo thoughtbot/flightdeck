@@ -21,7 +21,7 @@ The example will create two organization backup policies to target resources in 
 
    providers = { aws = aws.management }
 
-   delegate_account_id = 8976366647
+   delegate_account_id = 0123456789
  }
 
 # Terraform module to manage the Central Backup policy in the delegated backup account
