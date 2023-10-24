@@ -155,5 +155,6 @@ You may then use the created IAM role as a provider for the `backup-organization
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 <!-- END_TF_DOCS -->
