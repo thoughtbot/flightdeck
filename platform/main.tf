@@ -60,6 +60,13 @@ module "cert_manager" {
   k8s_namespace = local.flightdeck_namespace
 }
 
+module "cloudwatch_adapter" {
+  source = "./modules/cloudwatch-adapter"
+
+  chart_values  = var.cloudwatch_adapter_values
+  k8s_namespace = local.flightdeck_namespace
+}
+
 module "cluster_autoscaler" {
   source = "./modules/cluster-autoscaler"
 
