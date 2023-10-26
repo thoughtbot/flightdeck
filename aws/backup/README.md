@@ -4,6 +4,7 @@ These modules can help setup and enable a delegated backup administrator in an o
 
 All backups are taken in the target resource AWS account. A copy of the backup is then copied to another AWS account / the backup account to achieve cross-account backup retention, while another copy of the backup is replicated to a secondary region to achieve cross-region backup retention.
 
+![Diagram](./flightdeck-aws-backup.drawio.png)
 
 ## Example
 
