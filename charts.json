@@ -78,5 +78,9 @@
     "chart": "sloth",
     "repository": "https://slok.github.io/sloth",
     "version": "0.7.0"
+  "k8s-cloudwatch-adapter": {
+    "chart": "k8s-cloudwatch-adapter",
+    "repository": "https://charts.deliveryhero.io",
+    "version": "0.2.1"
   }
 }
