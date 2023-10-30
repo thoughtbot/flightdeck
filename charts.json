@@ -68,5 +68,10 @@
     "chart": "secrets-store-csi-driver",
     "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",
     "version": "1.3.0"
+  },
+  "k8s-cloudwatch-adapter": {
+    "chart": "k8s-cloudwatch-adapter",
+    "repository": "https://charts.deliveryhero.io",
+    "version": "0.2.1"
   }
 }

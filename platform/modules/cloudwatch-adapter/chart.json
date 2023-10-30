@@ -1,0 +1,5 @@
+{
+  "chart": "k8s-cloudwatch-adapter",
+  "repository": "https://charts.deliveryhero.io",
+  "version": "0.2.1"
+}
