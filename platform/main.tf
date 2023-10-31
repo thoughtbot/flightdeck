@@ -65,6 +65,8 @@ module "cloudwatch_adapter" {
 
   chart_values  = var.cloudwatch_adapter_values
   k8s_namespace = local.flightdeck_namespace
+
+  depends_on = [ module.module.prometheus_adapter ]
 }
 
 module "cluster_autoscaler" {
