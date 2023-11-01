@@ -54,6 +54,7 @@ module "cert_manager" {
 
 module "cloudwatch_adapter" {
   source = "./modules/cloudwatch-adapter"
+  count = var.install_cloudwatch_adapter == true ? 1 : 0
 
   chart_values  = var.cloudwatch_adapter_values
   k8s_namespace = local.flightdeck_namespace

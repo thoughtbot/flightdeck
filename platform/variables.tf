@@ -100,6 +100,12 @@ variable "fluent_bit_version" {
   default     = null
 }
 
+variable "install_cloudwatch_adapter" {
+  type = bool
+  description = "Boolean to choose if the cloudwatch adapter helm chart can be installed."
+  default = false
+}
+
 variable "istio_base_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
