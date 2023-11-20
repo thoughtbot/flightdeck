@@ -58,3 +58,15 @@ locals {
     ]
   )
 }
+
+module "waf" {
+  count  = var.enable_waf ? 1 : 0
+  source = "../waf"
+
+  name                    = "${var.name}-waf"
+  resource_arn            = module.alb.instance.arn
+  aws_managed_rule_groups = var.waf_aws_managed_rule_groups
+  rate_limit              = var.waf_rate_limit
+
+  depends_on = [module.alb]
+}
