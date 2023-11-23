@@ -104,6 +104,7 @@ module "ingress" {
 | <a name="module_alb"></a> [alb](#module\_alb) | github.com/thoughtbot/terraform-alb-ingress | v0.5.0 |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
+| <a name="module_waf"></a> [waf](#module\_waf) | ../waf | n/a |
 
 ## Inputs
 
@@ -115,6 +116,7 @@ module "ingress" {
 | <a name="input_certificate_domain_name"></a> [certificate\_domain\_name](#input\_certificate\_domain\_name) | Override the domain name for the ACM certificate (defaults to primary domain) | `string` | `null` | no |
 | <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | List of clusters that this ingress stack will forward to | `list(string)` | n/a | yes |
 | <a name="input_create_aliases"></a> [create\_aliases](#input\_create\_aliases) | Set to false to disable creation of Route 53 aliases | `bool` | `true` | no |
+| <a name="input_enable_waf"></a> [enable\_waf](#input\_enable\_waf) | Enable AWS WAF for this ingress resource | `bool` | `false` | no |
 | <a name="input_failure_threshold"></a> [failure\_threshold](#input\_failure\_threshold) | Percentage of failed requests considered an anomaly | `number` | `5` | no |
 | <a name="input_hosted_zone_name"></a> [hosted\_zone\_name](#input\_hosted\_zone\_name) | Hosted zone for AWS Route53 | `string` | `null` | no |
 | <a name="input_issue_certificates"></a> [issue\_certificates](#input\_issue\_certificates) | Set to false to disable creation of ACM certificates | `bool` | `true` | no |
@@ -127,6 +129,8 @@ module "ingress" {
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to created resources | `map(string)` | `{}` | no |
 | <a name="input_target_group_weights"></a> [target\_group\_weights](#input\_target\_group\_weights) | Weight for each target group (defaults to 100) | `map(number)` | `{}` | no |
 | <a name="input_validate_certificates"></a> [validate\_certificates](#input\_validate\_certificates) | Set to false to disable validation via Route 53 | `bool` | `true` | no |
+| <a name="input_waf_aws_managed_rule_groups"></a> [waf\_aws\_managed\_rule\_groups](#input\_waf\_aws\_managed\_rule\_groups) | Applicable if WAF is enabled. Rule statement values used to run the rules that are defined in a managed rule group. You may review this list for the available AWS managed rule groups - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>map(object({<br>    name           = string               # Name of the Managed rule group<br>    priority       = number               # Relative processing order for rules processed by AWS WAF. All rules are processed from lowest priority to the highest.<br>    count_override = optional(bool, true) # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.<br>  }))</pre> | <pre>{<br>  "rule_five": {<br>    "name": "AWSManagedRulesUnixRuleSet",<br>    "priority": 60<br>  },<br>  "rule_four": {<br>    "name": "AWSManagedRulesLinuxRuleSet",<br>    "priority": 50<br>  },<br>  "rule_one": {<br>    "name": "AWSManagedRulesAmazonIpReputationList",<br>    "priority": 20<br>  },<br>  "rule_six": {<br>    "name": "AWSManagedRulesBotControlRuleSet",<br>    "priority": 70<br>  },<br>  "rule_three": {<br>    "name": "AWSManagedRulesSQLiRuleSet",<br>    "priority": 40<br>  },<br>  "rule_two": {<br>    "name": "AWSManagedRulesKnownBadInputsRuleSet",<br>    "priority": 30<br>  }<br>}</pre> | no |
+| <a name="input_waf_rate_limit"></a> [waf\_rate\_limit](#input\_waf\_rate\_limit) | Applicable if WAF is enabled. Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>object({<br>    Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.<br>    Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period<br>    count_override = optional(bool, true)   # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.<br>  })</pre> | <pre>{<br>  "Limit": 1000,<br>  "Priority": 10<br>}</pre> | no |
 
 ## Outputs
 

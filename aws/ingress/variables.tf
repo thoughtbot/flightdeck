@@ -33,6 +33,12 @@ variable "create_aliases" {
   default     = true
 }
 
+variable "enable_waf" {
+  description = "Enable AWS WAF for this ingress resource"
+  type        = bool
+  default     = false
+}
+
 variable "failure_threshold" {
   type        = number
   description = "Percentage of failed requests considered an anomaly"
@@ -101,4 +107,52 @@ variable "validate_certificates" {
   description = "Set to false to disable validation via Route 53"
   type        = bool
   default     = true
+}
+
+variable "waf_aws_managed_rule_groups" {
+  description = "Applicable if WAF is enabled. Rule statement values used to run the rules that are defined in a managed rule group. You may review this list for the available AWS managed rule groups - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html"
+  type = map(object({
+    name           = string               # Name of the Managed rule group
+    priority       = number               # Relative processing order for rules processed by AWS WAF. All rules are processed from lowest priority to the highest.
+    count_override = optional(bool, true) # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.
+  }))
+  default = {
+    rule_one = {
+      name     = "AWSManagedRulesAmazonIpReputationList"
+      priority = 20
+    }
+    rule_two = {
+      name     = "AWSManagedRulesKnownBadInputsRuleSet"
+      priority = 30
+    }
+    rule_three = {
+      name     = "AWSManagedRulesSQLiRuleSet"
+      priority = 40
+    }
+    rule_four = {
+      name     = "AWSManagedRulesLinuxRuleSet"
+      priority = 50
+    }
+    rule_five = {
+      name     = "AWSManagedRulesUnixRuleSet"
+      priority = 60
+    }
+    rule_six = {
+      name     = "AWSManagedRulesBotControlRuleSet"
+      priority = 70
+    }
+  }
+}
+
+variable "waf_rate_limit" {
+  description = "Applicable if WAF is enabled. Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html"
+  type = object({
+    Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
+    Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period
+    count_override = optional(bool, true)   # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.
+  })
+  default = {
+    Priority = 10
+    Limit    = 1000
+  }
 }
