@@ -37,3 +37,15 @@ variable "rate_limit" {
     count_override = optional(bool, true)   # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.
   })
 }
+
+variable "allowed_ip_list" {
+  description = "List of allowed IP addresses, these IP addresses will be exempted from any configured rules"
+  type        = list(string)
+  default     = []
+}
+
+variable "block_ip_list" {
+  description = "List of IP addresses to be blocked and denied access to the ingress / cloudfront."
+  type        = list(string)
+  default     = []
+}
