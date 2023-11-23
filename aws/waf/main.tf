@@ -43,6 +43,64 @@ resource "aws_wafv2_web_acl" "main" {
     }
   }
 
+  rule {
+    name     = "${var.name}-allowed-ip-list"
+    priority = 0
+
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == true ? [1] : []
+      content {
+        count {}
+      }
+    }
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == false ? [1] : []
+      content {
+        allow {}
+      }
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.allowed_ip_list.arn
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "${var.name}-allowed-ip-list"
+    }
+  }
+
+  rule {
+    name     = "${var.name}-blocked-ip-list"
+    priority = 1
+
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == true ? [1] : []
+      content {
+        count {}
+      }
+    }
+    dynamic "action" {
+      for_each = var.rate_limit["count_override"] == false ? [1] : []
+      content {
+        block {}
+      }
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.block_ip_list.arn
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "${var.name}-blocked-ip-list"
+    }
+  }
+
   dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
@@ -100,4 +158,18 @@ resource "aws_wafv2_web_acl_logging_configuration" "main" {
 resource "aws_cloudwatch_log_group" "aws_waf_log_group" {
   name              = "aws-waf-logs-waf/${var.name}/logs"
   retention_in_days = 120
+}
+
+resource "aws_wafv2_ip_set" "allowed_ip_list" {
+  name               = "${var.name}-allowed-ip-set"
+  scope              = var.waf_scope
+  ip_address_version = "IPV4"
+  addresses          = var.allowed_ip_list
+}
+
+resource "aws_wafv2_ip_set" "block_ip_list" {
+  name               = "${var.name}-blocked-ip-set"
+  scope              = var.waf_scope
+  ip_address_version = "IPV4"
+  addresses          = var.block_ip_list
 }
