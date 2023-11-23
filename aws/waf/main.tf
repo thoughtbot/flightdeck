@@ -47,17 +47,8 @@ resource "aws_wafv2_web_acl" "main" {
     name     = "${var.name}-allowed-ip-list"
     priority = 0
 
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == true ? [1] : []
-      content {
-        count {}
-      }
-    }
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == false ? [1] : []
-      content {
-        allow {}
-      }
+    action {
+      allow {}
     }
 
     statement {
@@ -76,17 +67,8 @@ resource "aws_wafv2_web_acl" "main" {
     name     = "${var.name}-blocked-ip-list"
     priority = 1
 
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == true ? [1] : []
-      content {
-        count {}
-      }
-    }
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == false ? [1] : []
-      content {
-        block {}
-      }
+    action {
+      block {}
     }
 
     statement {
