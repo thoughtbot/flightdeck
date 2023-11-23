@@ -10,6 +10,18 @@ variable "alarm_actions" {
   default     = []
 }
 
+variable "waf_allowed_ip_list" {
+  description = "Applicable if WAF is enabled. List of allowed IP addresses, these IP addresses will be exempted from any configured rules"
+  type        = list(string)
+  default     = []
+}
+
+variable "waf_block_ip_list" {
+  description = "Applicable if WAF is enabled. List of IP addresses to be blocked and denied access to the ingress / cloudfront."
+  type        = list(string)
+  default     = []
+}
+
 variable "alternative_domain_names" {
   type        = list(string)
   default     = []
@@ -149,7 +161,7 @@ variable "waf_rate_limit" {
   type = object({
     Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
     Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period
-    count_override = optional(bool, true)   # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.
+    count_override = optional(bool, false)  # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
   })
   default = {
     Priority = 10
