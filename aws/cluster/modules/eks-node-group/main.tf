@@ -1,6 +1,7 @@
 resource "aws_eks_node_group" "this" {
   for_each = local.subnets
 
+  capacity_type   = var.capacity_type
   cluster_name    = var.cluster.name
   instance_types  = var.instance_types
   node_group_name = join("-", concat(var.namespace, [var.name, each.key]))

@@ -30,6 +30,7 @@ variable "node_groups" {
   description = "Node groups to create in this cluster"
 
   type = map(object({
+    capacity_type  = optional(string, "ON_DEMAND")
     instance_types = list(string),
     max_size       = number
     min_size       = number
