@@ -100,7 +100,7 @@ module "cluster" {
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | How many days until control plane logs are purged | `number` | `7` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS cluster | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
-| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    instance_types = list(string),<br>    max_size       = number<br>    min_size       = number<br>  }))</pre> | n/a | yes |
+| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    capacity_type  = optional(string, "ON_DEMAND")<br>    instance_types = list(string),<br>    max_size       = number<br>    min_size       = number<br>  }))</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
 
 ## Outputs

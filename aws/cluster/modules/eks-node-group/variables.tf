@@ -1,3 +1,9 @@
+variable "capacity_type" {
+  type        = string
+  default     = "ON_DEMAND"
+  description = "Allow values: ON_DEMAND (default), SPOT"
+}
+
 variable "cluster" {
   type        = object({ name = string })
   description = "Cluster which this node group should join"

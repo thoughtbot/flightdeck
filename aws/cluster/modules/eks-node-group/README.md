@@ -22,6 +22,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_capacity_type"></a> [capacity\_type](#input\_capacity\_type) | Allow values: ON\_DEMAND (default), SPOT | `string` | `"ON_DEMAND"` | no |
 | <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster which this node group should join | `object({ name = string })` | n/a | yes |
 | <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | EC2 instance types allowed in this node group | `list(string)` | <pre>[<br>  "t3.medium"<br>]</pre> | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Maximum number of nodes in this group | `number` | n/a | yes |

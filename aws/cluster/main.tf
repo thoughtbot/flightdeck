@@ -39,6 +39,7 @@ module "node_groups" {
   for_each = var.node_groups
   source   = "./modules/eks-node-group"
 
+  capacity_type  = each.value.capacity_type
   cluster        = module.eks_cluster.instance
   instance_types = each.value.instance_types
   max_size       = each.value.max_size
