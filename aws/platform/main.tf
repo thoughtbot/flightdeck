@@ -371,6 +371,7 @@ locals {
             Name cloudwatch_logs
             Match *
             region ${data.aws_region.current.name}
+            auto_create_group true
             log_group_name ${module.cloudwatch_logs.log_group_name}
             log_group_template ${var.logs_prefix}/$kubernetes['namespace_name']
             log_stream_prefix $${HOST_NAME}-

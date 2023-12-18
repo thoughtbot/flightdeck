@@ -40,7 +40,8 @@ data "aws_iam_policy_document" "this" {
   statement {
     sid = "AllowCreateLogGroup"
     actions = [
-      "logs:CreateLogGroup"
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream"
     ]
     resources = [
       "${local.arn_prefix}:log-group:${var.log_group_prefix}/*"
