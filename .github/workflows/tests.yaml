@@ -43,6 +43,7 @@ jobs:
       run: |
         CLUSTER=$(echo 'flightdeck-${{ github.ref_name }}' | cut -c1-20)
         CLUSTER="$CLUSTER-sandbox-v1"
+        echo "CLUSTER=$CLUSTER" >> "$GITHUB_ENV"
         aws \
           --region us-east-1 \
           eks \
@@ -64,4 +65,6 @@ jobs:
 
     - name: Run tests
       run: |
-        make tests ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com
+        make tests \
+          ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com \
+          CLUSTER="$CLUSTER"
