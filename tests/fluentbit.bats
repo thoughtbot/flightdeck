@@ -29,3 +29,33 @@
     false
   fi
 }
+
+@test "creates log streams within groups for Kubernetes namespaces" {
+  expected="$RANDOM"
+  curl -v "$ADDRESS/echo?log=$expected"
+  pod=$(kubectl \
+    get pod \
+    --field-selector=status.phase=Running \
+    --selector=app=echoserver \
+    -n acceptance \
+    --output=name \
+    | cut -d'/' -f2)
+  logs=$(aws \
+    --region us-east-1 \
+    logs \
+    get-log-events \
+    --log-group-name "/flightdeck/acceptance" \
+    --log-stream-name "$pod.echoserver" \
+    --query 'events[*].[message]' \
+      --output text)
+
+  if ! echo "$logs" | grep -q "log=$expected"; then
+    echo "Failed to find log for test request." >&2
+    echo >&2
+    echo "Test request was: GET /echo?log=$expected" >&2
+    echo >&2
+    echo "Found log entries" >&2
+    echo "$logs" >&2
+    false
+  fi
+}

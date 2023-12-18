@@ -370,6 +370,7 @@ locals {
         [OUTPUT]
             Name cloudwatch_logs
             Match *
+            auto_create_group true
             region ${data.aws_region.current.name}
             log_group_name ${module.cloudwatch_logs.log_group_name}
             log_group_template ${var.logs_prefix}/$kubernetes['namespace_name']
