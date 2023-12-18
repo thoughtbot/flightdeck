@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
 
     - name: Check format
       run: make all/checkfmt
@@ -24,7 +24,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
 
     - name: Validate
       run: make all/validate
@@ -62,7 +62,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
 
     - name: Setup TFLint
       uses: terraform-linters/setup-tflint@v3
