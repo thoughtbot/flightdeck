@@ -51,3 +51,21 @@ variable "tags" {
   description = "Tags to be applied to created resources"
   default     = {}
 }
+
+variable "labels" {
+  type        = map(string)
+  description = "Labels to be applied to created resources"
+  default     = {}
+}
+
+variable "label_node_role" {
+  type        = string
+  description = "Role to struct kubernetes scheduler to use for this node group"
+  default     = "general"
+}
+
+variable "max_unavailable" {
+  type        = number
+  description = "Maximum number of nodes that can be unavailable during a rolling update"
+  default     = 1
+}

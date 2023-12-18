@@ -14,6 +14,14 @@ resource "aws_eks_node_group" "this" {
     min_size     = local.min_size_per_node_group
   }
 
+  update_config {
+    max_unavailable = var.max_unavailable
+  }
+
+  labels = merge(var.labels, {
+    role = var.label_node_role
+  })
+
   tags = merge(var.tags, {
     AvailabilityZone = each.key
   })

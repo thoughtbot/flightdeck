@@ -30,15 +30,22 @@ variable "node_groups" {
   description = "Node groups to create in this cluster"
 
   type = map(object({
-    capacity_type  = optional(string, "ON_DEMAND")
-    instance_types = list(string),
-    max_size       = number
-    min_size       = number
+    capacity_type   = optional(string, "ON_DEMAND")
+    instance_types  = list(string),
+    max_size        = number
+    max_unavailable = optional(number, 3)
+    min_size        = number
   }))
 }
 
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to all created resources"
+  default     = {}
+}
+
+variable "labels" {
+  type        = map(string)
+  description = "Labels to be applied to created resources"
   default     = {}
 }
