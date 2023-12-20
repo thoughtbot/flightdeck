@@ -23,6 +23,8 @@ learn more on the [thoughtbot website].
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+For details on how we test Flightdeck, see [TESTING.md](./TESTING.md).
+
 ## License
 
 This project is Copyright © 2022 Joe Ferris and thoughtbot. It is free
