@@ -61,7 +61,7 @@ jobs:
         set +x
 
     - name: Archive Terraform configuration
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: terraform
         path: template
