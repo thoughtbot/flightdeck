@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flightdeck-example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flightdeck-example
+  template:
+    metadata:
+      labels:
+        app: flightdeck-example
+    spec:
+      containers:
+      - name: web
+        image: <your-docker-image> # Replace with your Docker image path
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flightdeck-example-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: flightdeck-example
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
