@@ -15,3 +15,5 @@ dist
 initialized
 tmp
 vendor
+
+.DS_Store

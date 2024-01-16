@@ -23,6 +23,13 @@ UUID_TAG := $(shell uuidgen)
 # This tag is only used locally.  It assumes container is re-built in place each time, but a UUID could be utilized here as well if keeping multiple iterations in local development (uncommon).
 DEV_TAG = "dev"
 
+# Deploy ECR repository to hold the Docker container for the sample app.  Note that in a proper Terraform setup, state must be managed and best practices would include variables and outputs for multiple elements; this is just to get a ECR repo in scope of the sample application.  Optionally, you may skip this and create an ECR repo through the AWS Console.
+ecr:
+	echo "not yet implemented.  Run terraform init, terraform plan, terraform apply"
+	# TODO
+	# terraform init
+	# terraform plan | terraform deploy
+
 # Build from scratch (assumes at least multistage base is built).  Clean install if things get wonky.
 # Log in to ECR.  If not utilizing profiles in AWS CLI, --profile can be removed.
 # The container has been built and tagged with the DEV TAG.  This sets the tag on a copy of the container in the format that ECR expects.
@@ -34,11 +41,3 @@ docker:
 	docker tag $(CONTAINER_IMAGE):$(DEV_TAG) $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_NAME):$(UUID_TAG)
 	docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_NAME):$(UUID_TAG)
 
-dtest:
-	echo $(CONTAINER_IMAGE):$(DEV_TAG) $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_NAME):$(UUID_TAG)
-	echo "how about a $(UUID_TAG)"
-	echo "how about b $(UUID_TAG)"
-
-terraform:
-	terraform init
-	terraform plan
