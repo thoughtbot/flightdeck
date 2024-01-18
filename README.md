@@ -14,12 +14,10 @@ learn more on the [thoughtbot website].
 
 [terraform]: https://www.terraform.io/
 
-## Deployment
+## Getting Started
+Please see [GETTING_STARTED.md](./GETTING_STARTED.md).
 
-- [AWS](./aws/README.md)
-- [Other](./platform/README.md)
-
-## Development
+## Contributing 
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
