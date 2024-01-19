@@ -11,7 +11,7 @@ AWS_PROFILE = "ADDME"
 
 # To create a private ECR repository: 
 # https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html 
-AWS_ECR_NAME = "flightdeck-example"
+AWS_ECR_NAME = "flightdeck-getting-started"
 
 # Whatever you like.  In this script the same name is used for local and AWS; but they need not be the same.
 CONTAINER_IMAGE = "generic-app"

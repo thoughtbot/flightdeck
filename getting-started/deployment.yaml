@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flightdeck-example
+  name: flightdeck-getting-started
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: flightdeck-example
+      app: flightdeck-getting-started
   template:
     metadata:
       labels:
-        app: flightdeck-example
+        app: flightdeck-getting-started
     spec:
       containers:
       - name: web
@@ -21,11 +21,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flightdeck-example-service
+  name: flightdeck-getting-started-service
 spec:
   type: LoadBalancer
   selector:
-    app: flightdeck-example
+    app: flightdeck-getting-started
   ports:
     - protocol: TCP
       port: 80

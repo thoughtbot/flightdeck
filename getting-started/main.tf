@@ -17,8 +17,8 @@ provider "aws" {
 }
 
 
-resource "aws_ecr_repository" "flightdeck_example_ecr_repo" {
-  name                 = "flightdeck-example"  # Replace with your repository name
+resource "aws_ecr_repository" "flightdeck_getting-started_ecr_repo" {
+  name                 = "flightdeck-getting-started"  # Replace with your repository name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
