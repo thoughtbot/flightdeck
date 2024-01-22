@@ -36,7 +36,7 @@ ecr:
 # Push the tagged continer from above to ECR utilizinag the UUID.
 # TODO: Explain when/why username and password flags are utilized.
 docker:
-	docker build --no-cache -t $(CONTAINER_IMAGE):$(DEV_TAG) .
+	docker build --no-cache -t $(CONTAINER_IMAGE):$(DEV_TAG) ./example-app
 	aws --profile $(AWS_PROFILE) ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
 	docker tag $(CONTAINER_IMAGE):$(DEV_TAG) $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_NAME):$(UUID_TAG)
 	docker push $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_NAME):$(UUID_TAG)
