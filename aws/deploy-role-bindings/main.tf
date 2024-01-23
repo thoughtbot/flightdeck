@@ -46,7 +46,7 @@ resource "kubernetes_role" "deploy_crd" {
 
   rule {
     api_groups = ["monitoring.coreos.com"]
-    resources  = ["servicemonitors"]
+    resources  = ["servicemonitors", "prometheusrules"]
     verbs      = ["*"]
   }
 
