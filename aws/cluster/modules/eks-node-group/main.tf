@@ -1,3 +1,10 @@
+resource "aws_launch_template" "this" {
+  name = "flightdeck-eks-launch-template"
+  metadata_options {
+    http_endpoint = "disabled"
+  }
+}
+
 resource "aws_eks_node_group" "this" {
   for_each = local.subnets
 
@@ -7,6 +14,10 @@ resource "aws_eks_node_group" "this" {
   node_group_name = join("-", concat(var.namespace, [var.name, each.key]))
   node_role_arn   = var.role.arn
   subnet_ids      = [each.value.id]
+
+  launch_template {
+    id = aws_launch_template.this.id
+  }
 
   scaling_config {
     desired_size = local.min_size_per_node_group
