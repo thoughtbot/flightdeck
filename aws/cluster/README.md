@@ -29,13 +29,13 @@ creating your cluster.
 
 ```terraform
 module "cluster" {
-  source = "github.com/thoughtbot/flightdeck//aws/cluster?ref=v0.4.0"
+  source = "github.com/thoughtbot/flightdeck//aws/cluster?ref=v0.9.0"
 
   # Unique name for this EKS cluster.
   name = "example-production-v1"
 
   # Version of Kubernetes for this cluster. Must be supported by EKS.
-  k8s_version = "1.21"
+  k8s_version = "1.28"
 
   node_groups = {
     # You need at least one node group definition.
