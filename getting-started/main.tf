@@ -12,7 +12,7 @@ terraform {
 
 # Add the AWS provider
 provider "aws" {
-  region = "us-east-1" 
+  region = "ADDME" 
 	profile = "ADDME"
 }
 
