@@ -6,20 +6,54 @@ For new or existing projects, especially ones that have PII data (think health a
 This guide walks through a linear process of deployment based on the [AWS Platform Guide](https://thoughtbot.atlassian.net/wiki/spaces/APG/overview).  It is highly recommended to read through each relevant section to understand the nuances of the steps this tutorial outlines.
 
 ## Steps
-* [Platform Dependencies](https://thoughtbot.atlassian.net/wiki/spaces/MC/pages/104824833/Platform+Dependencies).
 * Create email groups for AWS root users.
+* Create management AWS account (e.g. aws-management@example.com).
+* Create Email addresses for root users of AWS accounts, for example:
+    * aws-identity@example.com
+    * aws-audit@example.com
+    * aws-backup@example.com
+    * aws-report@example.com
+    * aws-log-archive@example.com
+    * aws-network@example.com
+    * aws-operations@example.com
+    * aws-sandbox@example.com
+    * aws-production@example.com
+    * sso-management@example.com
+* Create email groups for permission sets.
+    * Google
+        * Google login for each developer working on the platform
+        * Set up SAML
+        * Set up SCIM
+        * Google Groups for permission sets:
+            * aws-production-developers
+            * aws-production-secrets
+            * aws-production-viewers
+            * aws-sandbox-developers
+            * aws-sandbox-secrets
+            * aws-sandbox-viewers
+    * Microsoft
+        * ActiveDirectory login for each developer working on the platform
+        * Set up the Microsoft SSO app
+        * ActiveDirectory security groups for permission sets:
+            * aws-production-developers
+            * aws-production-secrets
+            * aws-production-viewers
+            * aws-sandbox-developers
+            * aws-sandbox-secrets
+            * aws-sandbox-viewers
 * Create source code repositories -- for details on the repos needed, see [Repository Conventions](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/10649919).
-* Create password vault.
-* Create management AWS account.
+* Create password vault (e.g. 1Password or similar).
 * Register or delegate domains.
 * [Launch Control Tower](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/11239471).
 * [Launch Customizations for Control Tower](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/86999041).
 * [Set up accounts](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/11173895).
 * [Configure Single Sign On](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/86933512).
-* Create email groups for permission sets.
-* Configure SAML for SSO.
-* Configure SCIM for SSO.
 * Configure DNS for domains.
+    * If a domain name already exists:
+        * Prefer that DNS be transferred to Route 53 in the network account.
+        * If can’t be transferred, determine if Terraform access can be set up for IAC.
+    * If no domain exists:
+        * Register a new domain through Route 53 in the network account.
 * Continuous Integration and Deployment (CI/CD) for infrastructure
 * [Provision Platform Resources](https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/11304961/Install).
 * Create users for developers.
