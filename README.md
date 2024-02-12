@@ -10,14 +10,19 @@ learn more on the [thoughtbot website].
 
 [thoughtbot website]: https://thoughtbot.com/services/site-reliability
 
+
 ![AWS Architecture](./docs/aws-modules.png)
 
 [terraform]: https://www.terraform.io/
 
 ## Deployment
 
+There are detailed install instructions in our [AWS Platform Guide].
+
 - [AWS](./aws/README.md)
 - [Other](./platform/README.md)
+
+[AWS Platform Guide]: https://thoughtbot.atlassian.net/wiki/spaces/APG/pages/11304961/Provision+Platform+Resources
 
 ## Development
 
