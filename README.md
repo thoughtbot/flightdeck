@@ -10,7 +10,6 @@ learn more on the [thoughtbot website].
 
 [thoughtbot website]: https://thoughtbot.com/services/site-reliability
 
-
 ![AWS Architecture](./docs/aws-modules.png)
 
 [terraform]: https://www.terraform.io/
