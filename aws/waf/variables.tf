@@ -35,7 +35,7 @@ variable "rate_limit_rules" {
   type = map(object({
     name           = string                     # Name of the Rate limit rule group
     priority       = number                     # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
-    limit          = optional(number, 1000)     # This is the limit on requests from any single IP address within a 5 minute period
+    limit          = optional(number, 2000)     # This is the limit on requests from any single IP address within a 5 minute period
     count_override = optional(bool, false)      # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
     country_list   = optional(list(string), []) # List of countries to apply the rate limit to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic.
   }))

@@ -166,8 +166,10 @@ variable "waf_rate_limit" {
     country_list   = optional(list(string), []) # List of countries to apply the rate limit to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic.
   }))
   default = {
-    name     = "General"
-    priority = 10
-    limit    = 2000
+    default_rule = {
+      name     = "General"
+      priority = 10
+      limit    = 2000
+    }
   }
 }
