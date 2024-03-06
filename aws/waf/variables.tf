@@ -31,11 +31,12 @@ variable "aws_managed_rule_groups" {
 
 variable "rate_limit" {
   description = "Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html"
-  type = object({
+  type = map(object({
     Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
     Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period
     count_override = optional(bool, false)  # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
-  })
+    country_list   = optional(list, [])
+  }))
 }
 
 variable "allowed_ip_list" {
