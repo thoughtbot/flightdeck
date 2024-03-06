@@ -13,33 +13,44 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.name}-cloudfront-web-acl"
   }
 
-  rule {
-    name     = "${var.name}-IP-Ratelimit"
-    priority = var.rate_limit["Priority"]
+  dynamic "rule" {
+    for_each = var.rate_limit
+    content {
+      name     = "${rule.value["name"]}-IP-Ratelimit"
+      priority = rule.value["priority"]
 
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == true ? [1] : []
-      content {
-        count {}
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
       }
-    }
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == false ? [1] : []
-      content {
-        block {}
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
       }
-    }
+      statement {
+        rate_based_statement {
+          limit              = rule.value["Limit"]
+          aggregate_key_type = "IP"
 
-    statement {
-      rate_based_statement {
-        limit              = var.rate_limit["Limit"]
-        aggregate_key_type = "IP"
+          dynamic "scope_down_statement" {
+            for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+            content {
+              geo_match_statement {
+                country_codes = rule.value["country_list"]
+              }
+            }
+          }
+        }
       }
-    }
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      sampled_requests_enabled   = true
-      metric_name                = "${var.name}-IP-Ratelimit"
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-IP-Ratelimit"
+      }
     }
   }
 
@@ -105,8 +116,18 @@ resource "aws_wafv2_web_acl" "main" {
         managed_rule_group_statement {
           name        = rule.value["name"]
           vendor_name = "AWS"
+
+          dynamic "scope_down_statement" {
+            for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+            content {
+              geo_match_statement {
+                country_codes = rule.value["country_list"]
+              }
+            }
+          }
         }
       }
+
       visibility_config {
         cloudwatch_metrics_enabled = true
         sampled_requests_enabled   = true
