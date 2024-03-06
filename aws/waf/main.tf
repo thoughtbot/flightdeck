@@ -14,7 +14,7 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
-    for_each = var.rate_limit
+    for_each = var.rate_limit_rules
     content {
       name     = "${rule.value["name"]}-IP-Ratelimit"
       priority = rule.value["priority"]
@@ -33,7 +33,7 @@ resource "aws_wafv2_web_acl" "main" {
       }
       statement {
         rate_based_statement {
-          limit              = rule.value["Limit"]
+          limit              = rule.value["limit"]
           aggregate_key_type = "IP"
 
           dynamic "scope_down_statement" {
