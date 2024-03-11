@@ -37,10 +37,29 @@ resource "aws_wafv2_web_acl" "main" {
           aggregate_key_type = "IP"
 
           dynamic "scope_down_statement" {
-            for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
             content {
-              geo_match_statement {
-                country_codes = rule.value["country_list"]
+              and_statement {
+                dynamic "statement" {
+                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                  content {
+                    geo_match_statement {
+                      country_codes = rule.value["country_list"]
+                    }
+                  }
+                }
+                dynamic "statement" {
+                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                  content {
+                    not_statement {
+                      statement {
+                        geo_match_statement {
+                          country_codes = rule.value["exempt_country_list"]
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -118,10 +137,29 @@ resource "aws_wafv2_web_acl" "main" {
           vendor_name = "AWS"
 
           dynamic "scope_down_statement" {
-            for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
             content {
-              geo_match_statement {
-                country_codes = rule.value["country_list"]
+              and_statement {
+                dynamic "statement" {
+                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                  content {
+                    geo_match_statement {
+                      country_codes = rule.value["country_list"]
+                    }
+                  }
+                }
+                dynamic "statement" {
+                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                  content {
+                    not_statement {
+                      statement {
+                        geo_match_statement {
+                          country_codes = rule.value["exempt_country_list"]
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
