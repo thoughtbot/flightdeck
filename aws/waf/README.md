@@ -37,7 +37,7 @@ module "aws_waf" {
       name          = "Country-Specific"
       priority      = 10
       limit         = 2000      # The limit on requests from any single IP address within a 5 minute period
-      country_list = ["US"]     # Set rate limit rule for only traffic from the US
+      exempt_country_list = ["BE"]     # Set rate limit rule for only traffic from the US
     }
     general_rate_limit = {
       name          = "General"
@@ -46,6 +46,8 @@ module "aws_waf" {
     }
   }
 }
+
+Note: For each rule, if you are providing a country list, you can only specify either country_list or exempt_country_list, but you cannot enter both
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
