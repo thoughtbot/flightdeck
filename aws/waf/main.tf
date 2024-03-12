@@ -39,24 +39,18 @@ resource "aws_wafv2_web_acl" "main" {
           dynamic "scope_down_statement" {
             for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
             content {
-              and_statement {
-                dynamic "statement" {
-                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
-                  content {
-                    geo_match_statement {
-                      country_codes = rule.value["country_list"]
-                    }
-                  }
+              dynamic "geo_match_statement" {
+                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                content {
+                  country_codes = rule.value["country_list"]
                 }
-                dynamic "statement" {
-                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
-                  content {
-                    not_statement {
-                      statement {
-                        geo_match_statement {
-                          country_codes = rule.value["exempt_country_list"]
-                        }
-                      }
+              }
+              dynamic "not_statement" {
+                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                content {
+                  statement {
+                    geo_match_statement {
+                      country_codes = rule.value["exempt_country_list"]
                     }
                   }
                 }
@@ -116,7 +110,7 @@ resource "aws_wafv2_web_acl" "main" {
   dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
-      name     = rule.value["name"]
+      name     = "${rule.value["name"]}-${rule.key}"
       priority = rule.value["priority"]
 
       dynamic "override_action" {
@@ -139,24 +133,18 @@ resource "aws_wafv2_web_acl" "main" {
           dynamic "scope_down_statement" {
             for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
             content {
-              and_statement {
-                dynamic "statement" {
-                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
-                  content {
-                    geo_match_statement {
-                      country_codes = rule.value["country_list"]
-                    }
-                  }
+              dynamic "geo_match_statement" {
+                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                content {
+                  country_codes = rule.value["country_list"]
                 }
-                dynamic "statement" {
-                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
-                  content {
-                    not_statement {
-                      statement {
-                        geo_match_statement {
-                          country_codes = rule.value["exempt_country_list"]
-                        }
-                      }
+              }
+              dynamic "not_statement" {
+                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                content {
+                  statement {
+                    geo_match_statement {
+                      country_codes = rule.value["exempt_country_list"]
                     }
                   }
                 }
