@@ -158,13 +158,19 @@ variable "waf_aws_managed_rule_groups" {
 
 variable "waf_rate_limit" {
   description = "Applicable if WAF is enabled. Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html"
-  type = object({
-    Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
-    Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period
-    count_override = optional(bool, false)  # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
-  })
+  type = map(object({
+    name                = string                     # Name of the Rate limit rule group
+    priority            = number                     # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.
+    limit               = optional(number, 2000)     # This is the limit on requests from any single IP address within a 5 minute period
+    count_override      = optional(bool, false)      # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
+    country_list        = optional(list(string), []) # List of countries to apply the rate limit to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic.
+    exempt_country_list = optional(list(string), []) # List of countries to exempt from the rate limit. If populated, the selected countries will be ignored by this rule. IF empty, the rule will apply to all traffic.
+  }))
   default = {
-    Priority = 10
-    Limit    = 1000
+    default_rule = {
+      name     = "General"
+      priority = 10
+      limit    = 2000
+    }
   }
 }

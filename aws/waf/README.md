@@ -14,16 +14,36 @@ module "aws_waf" {
   aws_managed_rule_groups = {
     rule_one = {
       name     = "AWSManagedRulesAmazonIpReputationList"
-      priority = 20
-    }
-    rule_two = {
-      name     = "AWSManagedRulesKnownBadInputsRuleSet"
       priority = 30
     }
+    rule_two = {
+      name     = "AWSManagedRulesAmazonIpReputationList"
+      priority = 40
+      count_override = false    # Set count override to false to enable rule in blocking mode
+    }
+    rule_three = {
+      name     = "AWSManagedRulesAmazonIpReputationList"
+      priority = 50
+      country_list = ["US"]     # Set rule for only traffic from the US
+      count_override = false    # Set count override to false to enable rule in blocking mode
+    }
+    rule_four = {
+      name     = "AWSManagedRulesKnownBadInputsRuleSet"
+      priority = 60
+    }
   }
-  rate_limit = {
-    Priority      = 10
-    Limit         = 1000  # The limit on requests from any single IP address within a 5 minute period
+  rate_limit_rules = {
+    country_specific_rate_limit = {
+      name          = "Country-Specific"
+      priority      = 10
+      limit         = 2000      # The limit on requests from any single IP address within a 5 minute period
+      country_list = ["US"]     # Set rate limit rule for only traffic from the US
+    }
+    general_rate_limit = {
+      name          = "General"
+      priority      = 20
+      limit         = 1000  # The limit on requests from any single IP address within a 5 minute period
+    }
   }
 }
 ```
@@ -58,10 +78,10 @@ module "aws_waf" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_allowed_ip_list"></a> [allowed\_ip\_list](#input\_allowed\_ip\_list) | List of allowed IP addresses, these IP addresses will be exempted from any configured rules | `list(string)` | `[]` | no |
-| <a name="input_aws_managed_rule_groups"></a> [aws\_managed\_rule\_groups](#input\_aws\_managed\_rule\_groups) | Rule statement values used to run the rules that are defined in a managed rule group. You may review this list for the available AWS managed rule groups - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>map(object({<br>    name           = string               # Name of the Managed rule group<br>    priority       = number               # Relative processing order for rules processed by AWS WAF. All rules are processed from lowest priority to the highest.<br>    count_override = optional(bool, true) # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.<br>  }))</pre> | n/a | yes |
+| <a name="input_aws_managed_rule_groups"></a> [aws\_managed\_rule\_groups](#input\_aws\_managed\_rule\_groups) | Rule statement values used to run the rules that are defined in a managed rule group. You may review this list for the available AWS managed rule groups - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>map(object({<br>    name                = string                     # Name of the Managed rule group<br>    priority            = number                     # Relative processing order for rules processed by AWS WAF. All rules are processed from lowest priority to the highest.<br>    count_override      = optional(bool, true)       # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`.<br>    country_list        = optional(list(string), []) # List of countries to apply the managed rule to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic.<br>    exempt_country_list = optional(list(string), []) # List of countries to exempt from the managed rule. If populated, the selected countries will be ignored by this rule. IF empty, the rule will apply to all traffic.<br>  }))</pre> | n/a | yes |
 | <a name="input_block_ip_list"></a> [block\_ip\_list](#input\_block\_ip\_list) | List of IP addresses to be blocked and denied access to the ingress / cloudfront. | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Friendly name of the WebACL. | `string` | n/a | yes |
-| <a name="input_rate_limit"></a> [rate\_limit](#input\_rate\_limit) | Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>object({<br>    Priority       = number                 # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.<br>    Limit          = optional(number, 1000) # This is the limit on requests from any single IP address within a 5 minute period<br>    count_override = optional(bool, false)  # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.<br>  })</pre> | n/a | yes |
+| <a name="input_rate_limit_rules"></a> [rate\_limit\_rules](#input\_rate\_limit\_rules) | Rule statement to track and rate limits requests when they are coming at too fast a rate.. For more details, visit - https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html | <pre>map(object({<br>    name                = string                     # Name of the Rate limit rule group<br>    priority            = number                     # Relative processing order for rate limit rule relative to other rules processed by AWS WAF.<br>    limit               = optional(number, 2000)     # This is the limit on requests from any single IP address within a 5 minute period<br>    count_override      = optional(bool, false)      # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.<br>    country_list        = optional(list(string), []) # List of countries to apply the rate limit to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic.<br>    exempt_country_list = optional(list(string), []) # List of countries to exempt from the rate limit. If populated, the selected countries will be ignored by this rule. IF empty, the rule will apply to all traffic.<br>  }))</pre> | n/a | yes |
 | <a name="input_resource_arn"></a> [resource\_arn](#input\_resource\_arn) | The Amazon Resource Name (ARN) of the resource to associate with the web ACL. This must be an ARN of an Application Load Balancer or an Amazon API Gateway stage. Value is required if scope is REGIONAL | `string` | `null` | no |
 | <a name="input_waf_scope"></a> [waf\_scope](#input\_waf\_scope) | Specifies whether this is for an AWS CloudFront distribution or for a regional application. Valid values are CLOUDFRONT or REGIONAL. | `string` | `"REGIONAL"` | no |
 
