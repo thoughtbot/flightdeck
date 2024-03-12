@@ -110,7 +110,7 @@ resource "aws_wafv2_web_acl" "main" {
   dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
-      name     = rule.value["name"]
+      name     = "${rule.value["name"]}-${rule.key}"
       priority = rule.value["priority"]
 
       dynamic "override_action" {
@@ -127,7 +127,7 @@ resource "aws_wafv2_web_acl" "main" {
       }
       statement {
         managed_rule_group_statement {
-          name        = "${rule.value["name"]}-${rule.key}"
+          name        = rule.value["name"]
           vendor_name = "AWS"
 
           dynamic "scope_down_statement" {
