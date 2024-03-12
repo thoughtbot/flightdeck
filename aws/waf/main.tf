@@ -41,7 +41,7 @@ resource "aws_wafv2_web_acl" "main" {
             content {
               and_statement {
                 dynamic "statement" {
-                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                  for_each = length(rule.value["country_list"]) >= 0 ? [1] : []
                   content {
                     geo_match_statement {
                       country_codes = rule.value["country_list"]
@@ -49,7 +49,7 @@ resource "aws_wafv2_web_acl" "main" {
                   }
                 }
                 dynamic "statement" {
-                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                  for_each = length(rule.value["exempt_country_list"]) >= 0 ? [1] : []
                   content {
                     not_statement {
                       statement {
@@ -141,7 +141,7 @@ resource "aws_wafv2_web_acl" "main" {
             content {
               and_statement {
                 dynamic "statement" {
-                  for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                  for_each = length(rule.value["country_list"]) >= 0 ? [1] : []
                   content {
                     geo_match_statement {
                       country_codes = rule.value["country_list"]
@@ -149,7 +149,7 @@ resource "aws_wafv2_web_acl" "main" {
                   }
                 }
                 dynamic "statement" {
-                  for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                  for_each = length(rule.value["exempt_country_list"]) >= 0 ? [1] : []
                   content {
                     not_statement {
                       statement {
