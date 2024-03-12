@@ -127,7 +127,7 @@ resource "aws_wafv2_web_acl" "main" {
       }
       statement {
         managed_rule_group_statement {
-          name        = rule.value["name"]
+          name        = "${rule.value["name"]}-${rule.key}"
           vendor_name = "AWS"
 
           dynamic "scope_down_statement" {
