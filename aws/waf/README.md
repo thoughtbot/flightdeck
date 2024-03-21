@@ -63,11 +63,18 @@ Note: For each rule, if you are providing a country list, you can only specify e
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cloudwatch_log_extract"></a> [cloudwatch\_log\_extract](#module\_cloudwatch\_log\_extract) | ../cloudwatch-log-extract | n/a |
+
 ## Resources
 
 | Name | Type |
 |------|------|
 | [aws_cloudwatch_log_group.aws_waf_log_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_sns_topic.waf_logs_sns_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_ssm_parameter.aws_waf_acl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_wafv2_ip_set.allowed_ip_list](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_ip_set) | resource |
 | [aws_wafv2_ip_set.block_ip_list](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_ip_set) | resource |
