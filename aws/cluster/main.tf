@@ -17,6 +17,8 @@ module "eks_cluster" {
   source = "./modules/eks-cluster"
 
   enabled_cluster_log_types = var.enabled_cluster_log_types
+  endpoint_private_access   = var.endpoint_private_access
+  endpoint_public_access    = var.endpoint_public_access
   k8s_version               = var.k8s_version
   log_retention_in_days     = var.log_retention_in_days
   name                      = module.cluster_name.full
