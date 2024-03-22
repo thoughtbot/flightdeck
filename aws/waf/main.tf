@@ -202,3 +202,18 @@ resource "aws_wafv2_ip_set" "block_ip_list" {
   ip_address_version = "IPV4"
   addresses          = var.block_ip_list
 }
+
+module "cloudwatch_log_extract" {
+  source = "../cloudwatch-log-extract"
+
+  source_cloudwatch_log_group = aws_cloudwatch_log_group.aws_waf_log_group.name
+  log_group_filter_pattern    = "{ $.action = \"BLOCK\" }"
+  message_attributes = {
+    waf = aws_wafv2_web_acl.main.id
+  }
+  destination_sns_topic_arn = aws_sns_topic.waf_logs_sns_subscription.arn
+}
+
+resource "aws_sns_topic" "waf_logs_sns_subscription" {
+  name = "${aws_wafv2_web_acl.main.id}-waf-logs-topic"
+}
