@@ -5,9 +5,11 @@ locals {
 
 resource "aws_cloudwatch_log_subscription_filter" "cloudwatch_log_filter" {
   name            = "cloudwatch_log_filter-${random_id.unique_id.dec}"
-  log_group_name  = var.source_cloudwatch_log_group
+  log_group_name  = data.aws_cloudwatch_log_group.log_group.name
   filter_pattern  = var.log_group_filter_pattern
   destination_arn = aws_lambda_function.sql_query_update.arn
+
+  depends_on = [ aws_lambda_permission.allow_cloudwatch_logs ]
 }
 
 resource "aws_lambda_function" "sql_query_update" {
