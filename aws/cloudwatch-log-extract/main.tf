@@ -106,7 +106,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_logs" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.sql_query_update.function_name
   principal     = "logs.${data.aws_region.current.name}.amazonaws.com"
-  source_arn    = data.aws_cloudwatch_log_group.log_group.arn
+  source_arn    = "${data.aws_cloudwatch_log_group.log_group.arn}:*"
 }
 
 data "aws_region" "current" {}
