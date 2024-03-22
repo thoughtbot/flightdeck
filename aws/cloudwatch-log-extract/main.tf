@@ -9,7 +9,7 @@ resource "aws_cloudwatch_log_subscription_filter" "cloudwatch_log_filter" {
   filter_pattern  = var.log_group_filter_pattern
   destination_arn = aws_lambda_function.sql_query_update.arn
 
-  depends_on = [ aws_lambda_permission.allow_cloudwatch_logs ]
+  depends_on = [aws_lambda_permission.allow_cloudwatch_logs]
 }
 
 resource "aws_lambda_function" "sql_query_update" {
