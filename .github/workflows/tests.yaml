@@ -58,7 +58,7 @@ jobs:
         kustomizationPath: tests/manifests
 
     - name: Deploy test app
-      uses: Azure/k8s-deploy@v4
+      uses: Azure/k8s-deploy@v5
       with:
         manifests: ${{ steps.kustomize.outputs.manifestsBundle }}
         namespace: acceptance
