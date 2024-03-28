@@ -217,3 +217,10 @@ module "cloudwatch_log_extract" {
 resource "aws_sns_topic" "waf_logs_sns_subscription" {
   name = "${aws_wafv2_web_acl.main.id}-waf-logs-topic"
 }
+
+resource "aws_ssm_parameter" "aws_waf_acl" {
+  name        = "/aws-waf/sns/${var.name}"
+  description = "Name of the SNS for the AWS WAF logs - ${var.name}"
+  type        = "SecureString"
+  value       = "${aws_wafv2_web_acl.main.id}-waf-logs-topic"
+}
