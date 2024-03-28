@@ -219,7 +219,7 @@ resource "aws_sns_topic" "waf_logs_sns_subscription" {
 }
 
 resource "aws_ssm_parameter" "aws_waf_sns_log" {
-  name        = "/aws-waf/sns/${var.name}"
+  name        = "/waflogs/sns/${var.name}"
   description = "Name of the SNS for the AWS WAF logs - ${var.name}"
   type        = "SecureString"
   value       = "${aws_wafv2_web_acl.main.id}-waf-logs-topic"
