@@ -56,6 +56,8 @@ variable "header_match_rules" {
   }))
 
   default = null
+
+  sensitive = true
 }
 
 variable "allowed_ip_list" {
