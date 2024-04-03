@@ -13,7 +13,7 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.name}-cloudfront-web-acl"
   }
 
-  dynamic "header_rule" {
+  dynamic "rule" {
     for_each = var.header_match_rules
     content {
       name     = "${header_rule.value["name"]}-header-match-rule"
@@ -34,7 +34,9 @@ resource "aws_wafv2_web_acl" "main" {
       statement {
         byte_match_statement {
           field_to_match {
-            single_header = lower(header_rule.value["header_name"])
+            single_header {
+              name = lower(header_rule.value["header_name"])
+            }
           }
 
           positional_constraint = "CONTAINS"
