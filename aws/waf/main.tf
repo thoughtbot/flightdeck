@@ -14,20 +14,19 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
-    # for_each = var.header_match_rules == null ? {} : var.header_match_rules
     for_each = var.header_match_rules == null ? {} : var.header_match_rules
     content {
-      name     = "${header_rule.value["name"]}-header-match-rule"
-      priority = header_rule.value["priority"]
+      name     = "${rule.value["name"]}-header-match-rule"
+      priority = rule.value["priority"]
 
       dynamic "action" {
-        for_each = header_rule.value["count_override"] == true ? [1] : []
+        for_each = rule.value["count_override"] == true ? [1] : []
         content {
           count {}
         }
       }
       dynamic "action" {
-        for_each = header_rule.value["count_override"] == false ? [1] : []
+        for_each = rule.value["count_override"] == false ? [1] : []
         content {
           block {}
         }
@@ -36,13 +35,13 @@ resource "aws_wafv2_web_acl" "main" {
         byte_match_statement {
           field_to_match {
             single_header {
-              name = lower(header_rule.value["header_name"])
+              name = lower(rule.value["header_name"])
             }
           }
 
           positional_constraint = "CONTAINS"
 
-          search_string = header_rule.value["header_value"]
+          search_string = rule.value["header_value"]
 
           text_transformation {
             priority = 1
