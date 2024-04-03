@@ -13,6 +13,70 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.name}-cloudfront-web-acl"
   }
 
+  dynamic "header_rule" {
+    for_each = var.header_match_rules
+    content {
+      name     = "${header_rule.value["name"]}-header-match-rule"
+      priority = header_rule.value["priority"]
+
+      dynamic "action" {
+        for_each = header_rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = header_rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+      statement {
+        byte_match_statement {
+          field_to_match {
+            single_header = lower(header_rule.value["header_name"])
+          }
+
+          positional_constraint = "CONTAINS"
+
+          search_string = header_rule.value["header_value"]
+
+          text_transformation {
+            priority = 1
+            type     = "LOWERCASE"
+          }
+
+          dynamic "scope_down_statement" {
+            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
+            content {
+              dynamic "geo_match_statement" {
+                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                content {
+                  country_codes = rule.value["country_list"]
+                }
+              }
+              dynamic "not_statement" {
+                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                content {
+                  statement {
+                    geo_match_statement {
+                      country_codes = rule.value["exempt_country_list"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-header-match-rule"
+      }
+    }
+  }
+
   dynamic "rule" {
     for_each = var.rate_limit_rules
     content {
