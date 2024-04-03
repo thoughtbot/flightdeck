@@ -14,7 +14,8 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
-    for_each = var.header_match_rules
+    # for_each = var.header_match_rules == null ? {} : var.header_match_rules
+    for_each = var.header_match_rules == null ? {} : var.header_match_rules
     content {
       name     = "${rule.value["name"]}-header-match-rule"
       priority = rule.value["priority"]
@@ -46,28 +47,6 @@ resource "aws_wafv2_web_acl" "main" {
           text_transformation {
             priority = 1
             type     = "LOWERCASE"
-          }
-
-          dynamic "scope_down_statement" {
-            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
-            content {
-              dynamic "geo_match_statement" {
-                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
-                content {
-                  country_codes = rule.value["country_list"]
-                }
-              }
-              dynamic "not_statement" {
-                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
-                content {
-                  statement {
-                    geo_match_statement {
-                      country_codes = rule.value["exempt_country_list"]
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
