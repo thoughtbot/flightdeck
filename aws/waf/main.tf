@@ -14,7 +14,6 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
-    # for_each = var.header_match_rules == null ? {} : var.header_match_rules
     for_each = var.header_match_rules == null ? {} : var.header_match_rules
     content {
       name     = "${rule.value["name"]}-header-match-rule"
