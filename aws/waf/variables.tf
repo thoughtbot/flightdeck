@@ -43,6 +43,21 @@ variable "rate_limit_rules" {
   }))
 }
 
+variable "header_match_rules" {
+  description = "Rule statement to inspect and match the header for an incoming request."
+  type = map(object({
+    name                = string                     # Name of the header match rule group
+    priority            = number                     # Relative processing order for header match rule relative to other rules processed by AWS WAF.
+    header_name         = string                     # This is the name of the header to inspect for all incoming requests.
+    header_value        = string                     # This is the value to look out for a matching header name for all incoming requests
+    count_override      = optional(bool, true)       # If true, this will override the rule action setting to `count`, if false, the rule action will be set to `block`. Default value is false.
+    country_list        = optional(list(string), []) # List of countries to apply the header match to. If populated, from other countries will be ignored by this rule. IF empty, the rule will apply to all traffic. You must either specify country_list or exempt_country_list, but not both.
+    exempt_country_list = optional(list(string), []) # List of countries to exempt from the header match rule. If populated, the selected countries will be ignored by this rule. IF empty, the rule will apply to all traffic. You must either specify country_list or exempt_country_list, but not both.
+  }))
+
+  default = null
+}
+
 variable "allowed_ip_list" {
   description = "List of allowed IP addresses, these IP addresses will be exempted from any configured rules"
   type        = list(string)
