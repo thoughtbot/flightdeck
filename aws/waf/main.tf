@@ -31,21 +31,104 @@ resource "aws_wafv2_web_acl" "main" {
           block {}
         }
       }
-      statement {
-        byte_match_statement {
-          field_to_match {
-            single_header {
-              name = lower(rule.value["header_name"])
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) == 1 ? rule.value["header_values"] : {}
+        content {
+          dynamic "byte_match_statement" {
+            for_each = statement.value["not_statement"] == false ? [1] : []
+            content {
+              field_to_match {
+                single_header {
+                  name = lower(statement.value["header_name"])
+                }
+              }
+
+              positional_constraint = "CONTAINS"
+
+              search_string = statement.value["header_value"]
+
+              text_transformation {
+                priority = 1
+                type     = "LOWERCASE"
+              }
             }
           }
+          dynamic "not_statement" {
+            for_each = statement.value["not_statement"] == true ? [1] : []
+            content {
+              statement {
+                byte_match_statement {
+                  field_to_match {
+                    single_header {
+                      name = lower(statement.value["header_name"])
+                    }
+                  }
 
-          positional_constraint = "CONTAINS"
+                  positional_constraint = "CONTAINS"
 
-          search_string = rule.value["header_value"]
+                  search_string = statement.value["header_value"]
 
-          text_transformation {
-            priority = 1
-            type     = "LOWERCASE"
+                  text_transformation {
+                    priority = 1
+                    type     = "LOWERCASE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) > 1 ? [1] : []
+        content {
+          and_statement {
+            dynamic "statement" {
+              for_each = rule.value["header_values"]
+              content {
+                dynamic "byte_match_statement" {
+                  for_each = statement.value["not_statement"] == false ? [1] : []
+                  content {
+                    field_to_match {
+                      single_header {
+                        name = lower(statement.value["header_name"])
+                      }
+                    }
+
+                    positional_constraint = "CONTAINS"
+
+                    search_string = statement.value["header_value"]
+
+                    text_transformation {
+                      priority = 1
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+                dynamic "not_statement" {
+                  for_each = statement.value["not_statement"] == true ? [1] : []
+                  content {
+                    statement {
+                      byte_match_statement {
+                        field_to_match {
+                          single_header {
+                            name = lower(statement.value["header_name"])
+                          }
+                        }
+
+                        positional_constraint = "CONTAINS"
+
+                        search_string = statement.value["header_value"]
+
+                        text_transformation {
+                          priority = 1
+                          type     = "LOWERCASE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
