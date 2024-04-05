@@ -93,5 +93,4 @@ Note: For each rule, if you are providing a country list, you can only specify e
 | Name | Description |
 |------|-------------|
 | <a name="output_aws_waf_arn"></a> [aws\_waf\_arn](#output\_aws\_waf\_arn) | The arn for AWS WAF WebACL. |
-| <a name="output_waf_logs_sns_topic_arn"></a> [waf\_logs\_sns\_topic\_arn](#output\_waf\_logs\_sns\_topic\_arn) | The arn for the SNS topic to receive the AWS WAF logs |
 <!-- END_TF_DOCS -->
