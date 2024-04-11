@@ -5,9 +5,13 @@ on:
       AWS_ACCOUNT_ID:
         description: AWS account in which tests will run
         required: true
+      SLACK_BOT_TOKEN:
+        description: Token used to send messages to Slack
+        required: true
 
 env:
   KUBECONFIG: /tmp/kubeconfig
+  SLACK_CHANNEL: '#mission-control'
 
 jobs:
   plan:
@@ -68,3 +72,12 @@ jobs:
         make tests \
           ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com \
           CLUSTER="$CLUSTER"
+
+    - name: Notify Slack
+      if: failure()
+      uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      with:
+        channel-id: ${{ env.SLACK_CHANNEL }}
+        slack-message: "Flightdeck acceptance tests have failed on the testing cluster."
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

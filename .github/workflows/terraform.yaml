@@ -15,6 +15,12 @@ on:
       AWS_ACCOUNT_ID:
         description: AWS account in which Terraform will run
         required: true
+      SLACK_BOT_TOKEN:
+        description: Token used to send messages to Slack
+        required: true
+
+env:
+  SLACK_CHANNEL: '#mission-control'
 
 jobs:
   plan:
@@ -26,7 +32,6 @@ jobs:
         working-directory: ${{ inputs.module }}
 
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
@@ -92,3 +97,11 @@ jobs:
       run: |
         terraform ${{ inputs.terraform_command }} -auto-approve
 
+    - name: Notify Slack
+      if: failure()
+      uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      with:
+        channel-id: ${{ env.SLACK_CHANNEL }}
+        slack-message: "Flightdeck acceptance terraform has failed to ${{ inputs.terraform_command }} on the ${{ inputs.module }} module."
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

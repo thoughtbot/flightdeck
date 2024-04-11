@@ -36,4 +36,4 @@ jobs:
       terraform_version: ${{ github.event.inputs.terraform_version }}
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
