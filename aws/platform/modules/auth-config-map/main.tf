@@ -100,6 +100,14 @@ locals {
       }
     ],
     [
+      for role, groups in var.custom_groups :
+      {
+        groups   = groups
+        rolearn  = role
+        username = "user:{{SessionName}}"
+      }
+    ],
+    [
       for role in var.node_roles :
       {
         username = "system:node:{{EC2PrivateDNSName}}"
