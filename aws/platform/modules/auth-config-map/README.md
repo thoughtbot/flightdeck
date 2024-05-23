@@ -33,6 +33,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_roles"></a> [admin\_roles](#input\_admin\_roles) | Role ARNs which have admin privileges within the cluster | `list(string)` | n/a | yes |
 | <a name="input_cluster_full_name"></a> [cluster\_full\_name](#input\_cluster\_full\_name) | Full name of the EKS cluster | `string` | n/a | yes |
+| <a name="input_custom_groups"></a> [custom\_groups](#input\_custom\_groups) | RBAC groups to be assigned to an IAM role for custom privileges within the cluster | `map(list(string))` | `{}` | no |
 | <a name="input_custom_roles"></a> [custom\_roles](#input\_custom\_roles) | Role ARNs which have custom privileges within the cluster | `map(string)` | `{}` | no |
 | <a name="input_node_roles"></a> [node\_roles](#input\_node\_roles) | Roles for EKS node groups in this cluster | `list(string)` | n/a | yes |
 
