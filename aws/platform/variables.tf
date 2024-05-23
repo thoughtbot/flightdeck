@@ -62,6 +62,12 @@ variable "cluster_name" {
   description = "Name of the EKS cluster"
 }
 
+variable "custom_groups" {
+  type        = map(list(string))
+  description = "List of custom RBAC groups to be assigned to an IAM role for custom cluster privileges,"
+  default     = {}
+}
+
 variable "custom_roles" {
   type        = map(string)
   description = "Additional IAM roles which have custom cluster privileges"

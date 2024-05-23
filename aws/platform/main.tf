@@ -103,6 +103,7 @@ module "auth_config_map" {
   admin_roles       = var.admin_roles
   cluster_full_name = module.cluster_name.full
   custom_roles      = var.custom_roles
+  custom_groups     = var.custom_groups
   node_roles        = concat(local.node_roles, var.node_roles)
 }
 
