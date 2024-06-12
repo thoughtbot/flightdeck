@@ -14,6 +14,133 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
+    for_each = var.header_match_rules == null ? {} : var.header_match_rules
+    content {
+      name     = "${rule.value["name"]}-header-match-rule"
+      priority = rule.value["priority"]
+
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) == 1 ? rule.value["header_values"] : {}
+        content {
+          dynamic "byte_match_statement" {
+            for_each = statement.value["not_statement"] == false ? [1] : []
+            content {
+              field_to_match {
+                single_header {
+                  name = lower(statement.value["header_name"])
+                }
+              }
+
+              positional_constraint = "CONTAINS"
+
+              search_string = statement.value["header_value"]
+
+              text_transformation {
+                priority = 1
+                type     = "LOWERCASE"
+              }
+            }
+          }
+          dynamic "not_statement" {
+            for_each = statement.value["not_statement"] == true ? [1] : []
+            content {
+              statement {
+                byte_match_statement {
+                  field_to_match {
+                    single_header {
+                      name = lower(statement.value["header_name"])
+                    }
+                  }
+
+                  positional_constraint = "CONTAINS"
+
+                  search_string = statement.value["header_value"]
+
+                  text_transformation {
+                    priority = 1
+                    type     = "LOWERCASE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) > 1 ? [1] : []
+        content {
+          and_statement {
+            dynamic "statement" {
+              for_each = rule.value["header_values"]
+              content {
+                dynamic "byte_match_statement" {
+                  for_each = statement.value["not_statement"] == false ? [1] : []
+                  content {
+                    field_to_match {
+                      single_header {
+                        name = lower(statement.value["header_name"])
+                      }
+                    }
+
+                    positional_constraint = "CONTAINS"
+
+                    search_string = statement.value["header_value"]
+
+                    text_transformation {
+                      priority = 1
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+                dynamic "not_statement" {
+                  for_each = statement.value["not_statement"] == true ? [1] : []
+                  content {
+                    statement {
+                      byte_match_statement {
+                        field_to_match {
+                          single_header {
+                            name = lower(statement.value["header_name"])
+                          }
+                        }
+
+                        positional_constraint = "CONTAINS"
+
+                        search_string = statement.value["header_value"]
+
+                        text_transformation {
+                          priority = 1
+                          type     = "LOWERCASE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-header-match-rule"
+      }
+    }
+  }
+
+  dynamic "rule" {
     for_each = var.rate_limit_rules
     content {
       name     = "${rule.value["name"]}-IP-Ratelimit"
@@ -201,4 +328,26 @@ resource "aws_wafv2_ip_set" "block_ip_list" {
   scope              = var.waf_scope
   ip_address_version = "IPV4"
   addresses          = var.block_ip_list
+}
+
+module "cloudwatch_log_extract" {
+  source = "../cloudwatch-log-extract"
+
+  source_cloudwatch_log_group = aws_cloudwatch_log_group.aws_waf_log_group.name
+  log_group_filter_pattern    = "{ $.action = \"BLOCK\" }"
+  message_attributes = {
+    waf = aws_wafv2_web_acl.main.id
+  }
+  destination_sns_topic_arn = aws_sns_topic.waf_logs_sns_subscription.arn
+}
+
+resource "aws_sns_topic" "waf_logs_sns_subscription" {
+  name = "${aws_wafv2_web_acl.main.id}-waf-logs-topic"
+}
+
+resource "aws_ssm_parameter" "aws_waf_sns_log" {
+  name        = "/waflogs/sns/${var.name}"
+  description = "Name of the SNS for the AWS WAF logs - ${var.name}"
+  type        = "SecureString"
+  value       = aws_sns_topic.waf_logs_sns_subscription.arn
 }
