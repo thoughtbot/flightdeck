@@ -62,6 +62,12 @@ variable "cluster_name" {
   description = "Name of the EKS cluster"
 }
 
+variable "create_load_balancer_controller" {
+  type        = bool
+  description = "Set to false to disable creation of the Load Balancer Controller"
+  default     = true
+}
+
 variable "custom_groups" {
   type        = map(list(string))
   description = "List of custom RBAC groups to be assigned to an IAM role for custom cluster privileges,"

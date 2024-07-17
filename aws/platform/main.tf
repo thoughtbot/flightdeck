@@ -67,6 +67,7 @@ module "common_platform" {
 }
 
 module "aws_load_balancer_controller" {
+  count  = var.create_load_balancer_controller ? 1 : 0
   source = "./modules/load-balancer-controller"
 
   aws_namespace     = [module.cluster_name.full]
