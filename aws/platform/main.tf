@@ -69,14 +69,15 @@ module "common_platform" {
 module "aws_load_balancer_controller" {
   source = "./modules/load-balancer-controller"
 
-  aws_namespace     = [module.cluster_name.full]
-  aws_tags          = var.aws_tags
-  chart_values      = var.aws_load_balancer_controller_values
-  chart_version     = var.aws_load_balancer_controller_version
-  cluster_full_name = module.cluster_name.full
-  k8s_namespace     = var.k8s_namespace
-  oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
-  vpc_cidr_block    = module.network.vpc.cidr_block
+  aws_namespace      = [module.cluster_name.full]
+  aws_tags           = var.aws_tags
+  chart_values       = var.aws_load_balancer_controller_values
+  chart_version      = var.aws_load_balancer_controller_version
+  cluster_full_name  = module.cluster_name.full
+  default_ssl_policy = var.default_ssl_policy
+  k8s_namespace      = var.k8s_namespace
+  oidc_issuer        = data.aws_ssm_parameter.oidc_issuer.value
+  vpc_cidr_block     = module.network.vpc.cidr_block
 
   depends_on = [module.common_platform]
 }

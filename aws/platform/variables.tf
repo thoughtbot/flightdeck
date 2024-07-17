@@ -74,6 +74,12 @@ variable "custom_roles" {
   default     = {}
 }
 
+variable "default_ssl_policy" {
+  type        = string
+  description = "The default SSL policy to use for the load balancer"
+  default     = null
+}
+
 variable "domain_names" {
   type        = list(string)
   default     = []

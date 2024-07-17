@@ -66,3 +66,9 @@ variable "vpc_cidr_block" {
   type        = string
   description = "CIDR block for the AWS VPC in which the load balancer runs"
 }
+
+variable "default_ssl_policy" {
+  type        = string
+  description = "The default SSL policy to use for the load balancer"
+  default     = null
+}
