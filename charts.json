@@ -27,17 +27,17 @@
   "istio-base": {
     "chart": "base",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.22.3"
   },
   "istiod": {
     "chart": "istiod",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.22.3"
   },
   "istio-ingress": {
     "chart": "gateway",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.16.1"
+    "version": "1.22.3"
   },
   "load-balancer-controller": {
     "chart": "aws-load-balancer-controller",
