@@ -61,4 +61,10 @@ resource "kubernetes_role" "deploy_crd" {
     resources  = ["prometheusservicelevels"]
     verbs      = ["*"]
   }
+
+  rule {
+    api_groups = ["apiextensions.k8s.io"]
+    resources  = ["customresourcedefinitions"]
+    verbs      = ["*"]
+  }
 }
