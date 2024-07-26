@@ -5,15 +5,15 @@ variable "enabled_cluster_log_types" {
 }
 
 variable "endpoint_private_access" {
-  type = bool
+  type        = bool
   description = "Enables the Amazon EKS private API server endpoint."
-  default = false
+  default     = false
 }
 
 variable "endpoint_public_access" {
-  type = bool
+  type        = bool
   description = "Enables the Amazon EKS public API server endpoint."
-  default = true
+  default     = true
 }
 
 variable "log_retention_in_days" {

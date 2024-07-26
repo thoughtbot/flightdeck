@@ -10,8 +10,8 @@ resource "aws_eks_cluster" "this" {
   version                   = var.k8s_version
 
   vpc_config {
-    security_group_ids = [aws_security_group.control_plane.id]
-    subnet_ids         = concat(var.private_subnet_ids, var.public_subnet_ids)
+    security_group_ids      = [aws_security_group.control_plane.id]
+    subnet_ids              = concat(var.private_subnet_ids, var.public_subnet_ids)
     endpoint_private_access = var.endpoint_private_access
     endpoint_public_access  = var.endpoint_public_access
   }
