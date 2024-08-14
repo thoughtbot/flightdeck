@@ -17,6 +17,7 @@
 | Name | Type |
 |------|------|
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
+| [aws_launch_template.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 
 ## Inputs
 
@@ -35,6 +36,7 @@
 | <a name="input_role"></a> [role](#input\_role) | IAM role nodes in this group will assume | `object({ arn = string })` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets in which the node group should run | `list(object({ id = string, availability_zone = string }))` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
+| <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Optional user data script for the launch template | `string` | `null` | no |
 
 ## Outputs
 
