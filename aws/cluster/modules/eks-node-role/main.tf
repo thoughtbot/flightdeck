@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "eks_cloudwatch_agent_policy" {
   role       = aws_iam_role.this.name
 }
 
-resource "aws_iam_role_policy_attachment" "eks_ssm_instance_policy" {
+resource "aws_iam_role_policy_attachment" "eks_s3_instance_policy" {
   policy_arn = "${local.policy_prefix}/AmazonS3ReadOnlyAccess"
   role       = aws_iam_role.this.name
 }
