@@ -7,7 +7,7 @@
   "cert-manager": {
     "chart": "cert-manager",
     "repository": "https://charts.jetstack.io",
-    "version": "v1.10.1"
+    "version": "v1.12.13"
   },
   "cluster-autoscaler": {
     "chart": "cluster-autoscaler",
@@ -27,17 +27,17 @@
   "istio-base": {
     "chart": "base",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.22.3"
+    "version": "1.23.0"
   },
   "istiod": {
     "chart": "istiod",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.22.3"
+    "version": "1.23.0"
   },
   "istio-ingress": {
     "chart": "gateway",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.22.3"
+    "version": "1.23.0"
   },
   "load-balancer-controller": {
     "chart": "aws-load-balancer-controller",
