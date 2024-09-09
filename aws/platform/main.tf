@@ -77,6 +77,7 @@ module "aws_load_balancer_controller" {
   k8s_namespace     = var.k8s_namespace
   oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
   vpc_cidr_block    = module.network.vpc.cidr_block
+  vpc_id            = module.network.vpc.id
 
   depends_on = [module.common_platform]
 }
