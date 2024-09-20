@@ -23,7 +23,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster which this node group should join | `object({ name = string })` | n/a | yes |
-| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | EC2 instance types allowed in this node group | `list(string)` | <pre>[<br>  "t3.medium"<br>]</pre> | no |
+| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | EC2 instance types allowed in this node group | `list(string)` | <pre>[<br/>  "t3.medium"<br/>]</pre> | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Maximum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Minimum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS node group | `string` | n/a | yes |
