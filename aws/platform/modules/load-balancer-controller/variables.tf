@@ -66,3 +66,8 @@ variable "vpc_cidr_block" {
   type        = string
   description = "CIDR block for the AWS VPC in which the load balancer runs"
 }
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC ID for the Kubernetes cluster."
+}
