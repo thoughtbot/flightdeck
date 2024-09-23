@@ -76,6 +76,8 @@ resource "aws_iam_role_policy_attachment" "this" {
   policy_arn = aws_iam_policy.this.arn
 }
 
+data "aws_region" "current" {}
+
 locals {
   chart_defaults = jsondecode(file("${path.module}/chart.json"))
 
@@ -90,6 +92,8 @@ locals {
           "eks.amazonaws.com/role-arn" = module.service_account_role.arn
         }
       }
+      region = data.aws_region.current.name
+      vpcId  = var.vpc_id
     })
   ]
 }
