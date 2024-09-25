@@ -105,6 +105,7 @@ module "cluster" {
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    capacity_type   = optional(string, "ON_DEMAND")<br>    instance_types  = list(string),<br>    max_size        = number<br>    max_unavailable = optional(number, 3)<br>    min_size        = number<br>  }))</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
+| <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Optional user data script for the launch template | `map(string)` | `{}` | no |
 
 ## Outputs
 
