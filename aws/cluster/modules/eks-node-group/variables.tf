@@ -69,3 +69,15 @@ variable "max_unavailable" {
   description = "Maximum number of nodes that can be unavailable during a rolling update"
   default     = 1
 }
+
+variable "user_data" {
+  type        = string
+  description = "Optional user data script for the launch template"
+  default     = null # Default to an empty string if no user data is provided
+}
+
+variable "metadata_options" {
+  type        = map(string)
+  description = "Customize the metadata options for the cluster nodes"
+  default     = {}
+}

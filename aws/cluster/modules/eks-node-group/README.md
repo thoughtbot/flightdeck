@@ -17,6 +17,7 @@
 | Name | Type |
 |------|------|
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
+| [aws_launch_template.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 
 ## Inputs
 
@@ -29,12 +30,14 @@
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels to be applied to created resources | `map(string)` | `{}` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Maximum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_max_unavailable"></a> [max\_unavailable](#input\_max\_unavailable) | Maximum number of nodes that can be unavailable during a rolling update | `number` | `1` | no |
+| <a name="input_metadata_options"></a> [metadata\_options](#input\_metadata\_options) | Customize the metadata options for the cluster nodes | `map(string)` | `{}` | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Minimum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS node group | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
 | <a name="input_role"></a> [role](#input\_role) | IAM role nodes in this group will assume | `object({ arn = string })` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets in which the node group should run | `list(object({ id = string, availability_zone = string }))` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
+| <a name="input_user_data"></a> [user\_data](#input\_user\_data) | Optional user data script for the launch template | `string` | `null` | no |
 
 ## Outputs
 

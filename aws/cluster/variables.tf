@@ -61,3 +61,15 @@ variable "labels" {
   description = "Labels to be applied to created resources"
   default     = {}
 }
+
+variable "user_data" {
+  type        = map(string)
+  description = "Optional user data script for the launch template"
+  default     = {} # Default to an empty string if no user data is provided
+}
+
+variable "metadata_options" {
+  type        = map(string)
+  description = "Customize the metadata options for the cluster nodes"
+  default     = {}
+}
