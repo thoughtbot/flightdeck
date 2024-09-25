@@ -52,7 +52,7 @@ resource "aws_launch_template" "this" {
   metadata_options {
     http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
     http_tokens                 = lookup(var.metadata_options, "http_tokens", "optional")
-    http_put_response_hop_limit = lookup(var.metadata_options, "htthttp_put_response_hop_limit", "1")
+    http_put_response_hop_limit = lookup(var.metadata_options, "http_put_response_hop_limit", "2")
     http_protocol_ipv6          = lookup(var.metadata_options, "http_protocol_ipv6", "disabled")
     instance_metadata_tags      = lookup(var.metadata_options, "instance_metadata_tags", "disabled")
   }
