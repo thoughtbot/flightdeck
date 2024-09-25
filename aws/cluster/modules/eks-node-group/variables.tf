@@ -75,3 +75,9 @@ variable "user_data" {
   description = "Optional user data script for the launch template"
   default     = null # Default to an empty string if no user data is provided
 }
+
+variable "metadata_options" {
+  type        = map(string)
+  description = "Customize the metadata options for the cluster nodes"
+  default     = {}
+}

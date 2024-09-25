@@ -9,7 +9,7 @@ resource "aws_eks_node_group" "this" {
   subnet_ids      = [each.value.id]
 
   dynamic "launch_template" {
-    for_each = var.user_data != null ? [aws_launch_template.this[0]] : []
+    for_each = var.metadata_options != {} ? [aws_launch_template.this[0]] : []
 
     content {
       id      = launch_template.value.id
@@ -40,10 +40,22 @@ resource "aws_eks_node_group" "this" {
   }
 }
 
-resource "aws_launch_template" "this" {
-  count = var.user_data != null ? 1 : 0
+# resource "aws_launch_template" "this" {
+#   count = var.user_data != null ? 1 : 0
 
-  user_data = base64encode(var.user_data)
+#   user_data = base64encode(var.user_data)
+# }
+
+resource "aws_launch_template" "this" {
+  count = var.metadata_options != {} ? 1 : 0
+
+  metadata_options {
+    http_endpoint               = lookup(var.metadata_options, "http_endpoint", "enabled")
+    http_tokens                 = lookup(var.metadata_options, "http_tokens", "optional")
+    http_put_response_hop_limit = lookup(var.metadata_options, "htthttp_put_response_hop_limit", "1")
+    http_protocol_ipv6          = lookup(var.metadata_options, "http_protocol_ipv6", "disabled")
+    instance_metadata_tags      = lookup(var.metadata_options, "instance_metadata_tags", "disabled")
+  }
 }
 
 locals {
@@ -54,4 +66,6 @@ locals {
     var.subnets[*].availability_zone,
     var.subnets
   )
+
+
 }
