@@ -30,6 +30,7 @@
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels to be applied to created resources | `map(string)` | `{}` | no |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | Maximum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_max_unavailable"></a> [max\_unavailable](#input\_max\_unavailable) | Maximum number of nodes that can be unavailable during a rolling update | `number` | `1` | no |
+| <a name="input_metadata_options"></a> [metadata\_options](#input\_metadata\_options) | Customize the metadata options for the cluster nodes | `map(string)` | `{}` | no |
 | <a name="input_min_size"></a> [min\_size](#input\_min\_size) | Minimum number of nodes in this group | `number` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS node group | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
