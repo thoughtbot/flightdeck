@@ -8,6 +8,15 @@ resource "aws_eks_node_group" "this" {
   node_role_arn   = var.role.arn
   subnet_ids      = [each.value.id]
 
+  dynamic "launch_template" {
+    for_each = var.enforce_imdsv2 ? [aws_launch_template.this[0]] : []
+
+    content {
+      id      = launch_template.value.id
+      version = launch_template.value.latest_version
+    }
+  }
+
   scaling_config {
     desired_size = local.min_size_per_node_group
     max_size     = local.max_size_per_node_group
@@ -28,6 +37,14 @@ resource "aws_eks_node_group" "this" {
 
   lifecycle {
     ignore_changes = [scaling_config[0].desired_size]
+  }
+}
+
+resource "aws_launch_template" "this" {
+  count = var.enforce_imdsv2 ? 1 : 0
+
+  metadata_options {
+    http_tokens = "required"
   }
 }
 

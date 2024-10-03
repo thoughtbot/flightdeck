@@ -44,6 +44,7 @@ variable "node_groups" {
   type = map(object({
     capacity_type   = optional(string, "ON_DEMAND")
     instance_types  = list(string),
+    enforce_imdsv2  = optional(bool, false)
     max_size        = number
     max_unavailable = optional(number, 3)
     min_size        = number
