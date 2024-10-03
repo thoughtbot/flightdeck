@@ -17,6 +17,7 @@
 | Name | Type |
 |------|------|
 | [aws_eks_node_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
+| [aws_launch_template.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 
 ## Inputs
 
@@ -24,6 +25,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_capacity_type"></a> [capacity\_type](#input\_capacity\_type) | Allow values: ON\_DEMAND (default), SPOT | `string` | `"ON_DEMAND"` | no |
 | <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster which this node group should join | `object({ name = string })` | n/a | yes |
+| <a name="input_enforce_imdsv2"></a> [enforce\_imdsv2](#input\_enforce\_imdsv2) | Whether to enforce IMDSv2 on the launch template | `bool` | `false` | no |
 | <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | EC2 instance types allowed in this node group | `list(string)` | <pre>[<br>  "t3.medium"<br>]</pre> | no |
 | <a name="input_label_node_role"></a> [label\_node\_role](#input\_label\_node\_role) | Role to struct kubernetes scheduler to use for this node group | `string` | `"general"` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels to be applied to created resources | `map(string)` | `{}` | no |
