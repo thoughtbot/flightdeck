@@ -44,6 +44,7 @@ module "node_groups" {
   capacity_type   = each.value.capacity_type
   cluster         = module.eks_cluster.instance
   instance_types  = each.value.instance_types
+  enforce_imdsv2  = each.value.enforce_imdsv2
   labels          = var.labels
   max_size        = each.value.max_size
   max_unavailable = each.value.max_unavailable
