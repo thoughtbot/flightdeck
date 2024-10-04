@@ -36,6 +36,7 @@ target group bound to the Istio ingress gateway service.
 | [helm_release.ingress_config](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.this](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [aws_lb_target_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lb_target_group) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -53,4 +54,5 @@ target group bound to the Istio ingress gateway service.
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Override the name of the target group for this cluster | `string` | `null` | no |
 | <a name="input_vpc_cidr_block"></a> [vpc\_cidr\_block](#input\_vpc\_cidr\_block) | CIDR block for the AWS VPC in which the load balancer runs | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID for the Kubernetes cluster. | `string` | n/a | yes |
 <!-- END_TF_DOCS -->
