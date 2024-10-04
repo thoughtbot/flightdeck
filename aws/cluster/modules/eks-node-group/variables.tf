@@ -69,3 +69,9 @@ variable "max_unavailable" {
   description = "Maximum number of nodes that can be unavailable during a rolling update"
   default     = 1
 }
+
+variable "enforce_imdsv2" {
+  type        = bool
+  description = "Whether to enforce IMDSv2 on the launch template"
+  default     = false
+}
