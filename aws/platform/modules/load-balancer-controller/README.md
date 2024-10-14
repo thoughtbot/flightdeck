@@ -48,6 +48,7 @@ target group bound to the Istio ingress gateway service.
 | <a name="input_chart_values"></a> [chart\_values](#input\_chart\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of chart to install | `string` | `null` | no |
 | <a name="input_cluster_full_name"></a> [cluster\_full\_name](#input\_cluster\_full\_name) | Full name of the cluster in which the chart is installed | `string` | n/a | yes |
+| <a name="input_default_ssl_policy"></a> [default\_ssl\_policy](#input\_default\_ssl\_policy) | The default SSL policy to use for the load balancer | `string` | `null` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which resources will be written | `string` | `"default"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the release | `string` | `"aws-load-balancer-controller"` | no |
 | <a name="input_oidc_issuer"></a> [oidc\_issuer](#input\_oidc\_issuer) | OIDC issuer of the Kubernetes cluster | `string` | n/a | yes |

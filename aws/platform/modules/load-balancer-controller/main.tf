@@ -90,6 +90,8 @@ locals {
           "eks.amazonaws.com/role-arn" = module.service_account_role.arn
         }
       }
+
+      defaultSSLPolicy = coalesce(var.default_ssl_policy, "ELBSecurityPolicy-2016-08")
     })
   ]
 }
