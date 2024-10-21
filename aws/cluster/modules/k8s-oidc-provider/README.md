@@ -25,7 +25,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster providing an OpenID connect issuer | <pre>object({<br/>    identity = list(object({ oidc = list(object({ issuer = string })) }))<br/>  })</pre> | n/a | yes |
+| <a name="input_cluster"></a> [cluster](#input\_cluster) | Cluster providing an OpenID connect issuer | <pre>object({<br>    identity = list(object({ oidc = list(object({ issuer = string })) }))<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
