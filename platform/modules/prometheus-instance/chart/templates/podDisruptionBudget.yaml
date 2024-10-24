@@ -5,8 +5,7 @@ metadata:
   name: {{ template "prometheus.fullname" . }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    app: {{ template "kube-prometheus-stack.name" . }}-prometheus
-{{ include "kube-prometheus-stack.labels" . | indent 4 }}
+    {{- include "prometheus.labels" . | nindent 4 }}
 spec:
   {{- if .Values.prometheus.podDisruptionBudget.minAvailable }}
   minAvailable: {{ .Values.prometheus.podDisruptionBudget.minAvailable }}

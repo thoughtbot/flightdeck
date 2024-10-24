@@ -41,8 +41,8 @@ prometheus:
     version: v2.26.0
     
     ## Pod anti-affinity can prevent the scheduler from placing Prometheus replicas on the same node.
-    ## The default value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
-    ## The value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
+    ## The value "soft" means that the scheduler should *prefer* to not schedule two replica pods onto the same node but no guarantee is provided.
+    ## The default value "hard" means that the scheduler is *required* to not schedule two replica pods onto the same node.
     ## The value "" will disable pod anti-affinity so that no anti-affinity rules will be configured.
     podAntiAffinity: "hard"
 
@@ -58,7 +58,7 @@ prometheus:
   ## https://github.com/kubernetes/kubernetes/issues/45398
   ##
   podDisruptionBudget:
-    enabled: false
+    enabled: true
     minAvailable: 1
     maxUnavailable: ""
   
