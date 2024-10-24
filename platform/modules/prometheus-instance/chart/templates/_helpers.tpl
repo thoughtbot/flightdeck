@@ -23,6 +23,15 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
+{{/* Prometheus custom resource instance name */}}
+{{- define "prometheus.crname" -}}
+{{- if .Values.cleanPrometheusOperatorObjectNames }}
+{{- include "prometheus.fullname" . }}
+{{- else }}
+{{- print (include "prometheus.fullname" .) "-prometheus" }}
+{{- end }}
+{{- end }}
+
 {{/*
 Create a fully qualified stateful set name.
 https://github.com/prometheus-operator/prometheus-operator/blob/main/pkg/prometheus/statefulset.go#L86
