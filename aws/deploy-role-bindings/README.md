@@ -60,8 +60,10 @@ module "workload_platform" {
 
 | Name | Type |
 |------|------|
+| [kubernetes_cluster_role.cluster_crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role) | resource |
+| [kubernetes_cluster_role_binding.cluster](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
+| [kubernetes_cluster_role_binding.cluster_crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/cluster_role_binding) | resource |
 | [kubernetes_role.deploy_crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role) | resource |
-| [kubernetes_role_binding.cluster](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 | [kubernetes_role_binding.crd](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/role_binding) | resource |
 
 ## Inputs
