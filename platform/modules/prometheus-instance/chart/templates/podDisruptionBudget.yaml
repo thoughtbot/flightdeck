@@ -1,0 +1,19 @@
+{{- if .Values.prometheus.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "prometheus.fullname" . }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: {{ template "kube-prometheus-stack.name" . }}-prometheus
+{{ include "kube-prometheus-stack.labels" . | indent 4 }}
+spec:
+  {{- if .Values.prometheus.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.prometheus.podDisruptionBudget.minAvailable }}
+  {{- end  }}
+  {{- if .Values.prometheus.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.prometheus.podDisruptionBudget.maxUnavailable }}
+  {{- end  }}
+  selector:
+    {{- include "prometheus.selectorLabels" . | nindent 4 }}
+{{- end }}
