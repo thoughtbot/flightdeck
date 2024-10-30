@@ -2,7 +2,7 @@ resource "kubernetes_cluster_role_binding" "cluster" {
   for_each = toset(var.cluster_roles)
 
   metadata {
-    name = var.name
+    name = "${var.name}-${var.namespace}"
   }
 
   role_ref {
@@ -20,7 +20,8 @@ resource "kubernetes_cluster_role_binding" "cluster" {
 
 resource "kubernetes_cluster_role" "cluster_crd" {
   metadata {
-    name = "${var.name}-cluster-crd"
+    name = "${var.name}-${var.namespace}-crd"
+
   }
 
   rule {
@@ -32,13 +33,13 @@ resource "kubernetes_cluster_role" "cluster_crd" {
 
 resource "kubernetes_cluster_role_binding" "cluster_crd" {
   metadata {
-    name = "${var.name}-cluster-crd"
+    name = "${var.name}-${var.namespace}-crd"
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = "${var.name}-cluster-crd"
+    name      = kubernetes_cluster_role.cluster_crd.metadata[0].name
   }
 
   subject {
@@ -46,8 +47,6 @@ resource "kubernetes_cluster_role_binding" "cluster_crd" {
     name      = var.group
     api_group = "rbac.authorization.k8s.io"
   }
-
-  depends_on = [kubernetes_cluster_role.cluster_crd]
 }
 
 resource "kubernetes_role_binding" "crd" {
