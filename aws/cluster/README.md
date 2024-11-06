@@ -64,13 +64,13 @@ module "cluster" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.74.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.74.0 |
 
 ## Modules
 
@@ -87,9 +87,9 @@ module "cluster" {
 
 | Name | Type |
 |------|------|
-| [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
-| [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
-| [aws_subnet.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet) | data source |
+| [aws_ssm_parameter.node_role_arn](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/ssm_parameter) | resource |
+| [aws_ssm_parameter.oidc_issuer](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/ssm_parameter) | resource |
+| [aws_subnet.private](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/data-sources/subnet) | data source |
 
 ## Inputs
 
