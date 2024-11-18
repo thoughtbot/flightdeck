@@ -41,3 +41,9 @@ variable "tags" {
   description = "Tags to be applied to all created resources"
   default     = {}
 }
+
+variable "auth_mode" {
+  type        = string
+  description = "Authentiation mode associated with the cluster Access config"
+  default     = "API_AND_CONFIG_MAP"
+}

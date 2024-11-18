@@ -46,3 +46,9 @@ variable "vpc" {
   type        = object({ id = string })
   description = "VPC in which this cluster should run"
 }
+
+variable "auth_mode" {
+  type        = string
+  description = "Authentiation mode associated with the cluster Access config"
+  default     = "API_AND_CONFIG_MAP"
+}
