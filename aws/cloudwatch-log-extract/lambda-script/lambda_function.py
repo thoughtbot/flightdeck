@@ -40,8 +40,12 @@ def lambda_handler(event, context):
         if regex_pattern:
             matchObject = re.match(regex_pattern, log_message)
             if matchObject:
-                for key,value in capture_group.items():
-                    publish_dict[value] = matchObject.group(int(key))
+                if capture_group:
+                    for key,value in capture_group.items():
+                        publish_dict[value] = matchObject.group(int(key))
+                else:
+                    publish_dict["message"] = log_message
+
 
         else:
             publish_dict["message"] = log_message
