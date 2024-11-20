@@ -33,8 +33,9 @@ resource "aws_wafv2_web_acl" "main" {
       }
       statement {
         rate_based_statement {
-          limit              = rule.value["limit"]
-          aggregate_key_type = "IP"
+          limit                 = rule.value["limit"]
+          aggregate_key_type    = "IP"
+          evaluation_window_sec = rule.value["evaluation_window_sec"]
 
           dynamic "scope_down_statement" {
             for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
