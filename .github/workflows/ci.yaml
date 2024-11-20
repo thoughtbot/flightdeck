@@ -37,7 +37,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Platform Docs
-      uses: terraform-docs/gh-actions@v1.0.0
+      uses: terraform-docs/gh-actions@v1.2.0
       with:
         git-push: true
         find-dir: platform
@@ -46,7 +46,7 @@ jobs:
         working-dir: .
 
     - name: AWS Docs
-      uses: terraform-docs/gh-actions@v1.0.0
+      uses: terraform-docs/gh-actions@v1.2.0
       with:
         git-push: true
         find-dir: aws
