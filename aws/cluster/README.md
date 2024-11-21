@@ -96,6 +96,7 @@ module "cluster" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_auth_mode"></a> [auth\_mode](#input\_auth\_mode) | Authentiation mode associated with the cluster Access config | `string` | `"API_AND_CONFIG_MAP"` | no |
+| <a name="input_enable_cluster_creator_admin_permission"></a> [enable\_cluster\_creator\_admin\_permission](#input\_enable\_cluster\_creator\_admin\_permission) | Bootstrap access config values to the cluster | `bool` | `false` | no |
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | Which EKS control plane log types to enable | `list(string)` | `[]` | no |
 | <a name="input_k8s_version"></a> [k8s\_version](#input\_k8s\_version) | Kubernetes version to deploy | `string` | n/a | yes |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | How many days until control plane logs are purged | `number` | `7` | no |
