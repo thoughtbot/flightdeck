@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "this" {
 
   access_config {
     authentication_mode                         = var.auth_mode
-    bootstrap_cluster_creator_admin_permissions = var.enable_cluster_creator_admin_permission
+    bootstrap_cluster_creator_admin_permissions = var.bootstrap_cluster_creator_admin_permission
   }
 
   vpc_config {

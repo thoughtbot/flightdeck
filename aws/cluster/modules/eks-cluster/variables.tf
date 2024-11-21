@@ -53,7 +53,7 @@ variable "auth_mode" {
   default     = "API_AND_CONFIG_MAP"
 }
 
-variable "enable_cluster_creator_admin_permission" {
+variable "bootstrap_cluster_creator_admin_permission" {
   type        = bool
   description = "Bootstrap access config values to the cluster"
   default     = false
