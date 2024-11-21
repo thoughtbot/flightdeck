@@ -10,10 +10,10 @@ resource "aws_eks_cluster" "this" {
   version                   = var.k8s_version
 
   access_config {
-    authentication_mode = var.auth_mode
-    bootstrap_cluster_creator_admin_permissions = true
+    authentication_mode                         = var.auth_mode
+    bootstrap_cluster_creator_admin_permissions = var.enable_cluster_creator_admin_permission
   }
-  
+
   vpc_config {
     security_group_ids = [aws_security_group.control_plane.id]
     subnet_ids         = concat(var.private_subnet_ids, var.public_subnet_ids)

@@ -52,3 +52,9 @@ variable "auth_mode" {
   description = "Authentiation mode associated with the cluster Access config"
   default     = "API_AND_CONFIG_MAP"
 }
+
+variable "enable_cluster_creator_admin_permission" {
+  type        = bool
+  description = "Bootstrap access config values to the cluster"
+  default     = false
+}

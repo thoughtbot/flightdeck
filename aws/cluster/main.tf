@@ -16,15 +16,16 @@ module "network" {
 module "eks_cluster" {
   source = "./modules/eks-cluster"
 
-  enabled_cluster_log_types = var.enabled_cluster_log_types
-  k8s_version               = var.k8s_version
-  log_retention_in_days     = var.log_retention_in_days
-  name                      = module.cluster_name.full
-  private_subnet_ids        = module.network.private_subnet_ids
-  public_subnet_ids         = module.network.public_subnet_ids
-  tags                      = var.tags
-  vpc                       = module.network.vpc
-  auth_mode                 = var.auth_mode 
+  enabled_cluster_log_types               = var.enabled_cluster_log_types
+  k8s_version                             = var.k8s_version
+  log_retention_in_days                   = var.log_retention_in_days
+  name                                    = module.cluster_name.full
+  private_subnet_ids                      = module.network.private_subnet_ids
+  public_subnet_ids                       = module.network.public_subnet_ids
+  tags                                    = var.tags
+  vpc                                     = module.network.vpc
+  auth_mode                               = var.auth_mode
+  enable_cluster_creator_admin_permission = var.enable_cluster_creator_admin_permission
 
   depends_on = [module.node_role]
 }
