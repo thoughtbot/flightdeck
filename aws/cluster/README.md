@@ -29,13 +29,13 @@ creating your cluster.
 
 ```terraform
 module "cluster" {
-  source = "github.com/thoughtbot/flightdeck//aws/cluster?ref=v0.4.0"
+  source = "github.com/thoughtbot/flightdeck//aws/cluster?ref=v0.9.0"
 
   # Unique name for this EKS cluster.
   name = "example-production-v1"
 
   # Version of Kubernetes for this cluster. Must be supported by EKS.
-  k8s_version = "1.21"
+  k8s_version = "1.28"
 
   node_groups = {
     # You need at least one node group definition.
@@ -98,11 +98,14 @@ module "cluster" {
 | <a name="input_auth_mode"></a> [auth\_mode](#input\_auth\_mode) | Authentiation mode associated with the cluster Access config | `string` | `"API_AND_CONFIG_MAP"` | no |
 | <a name="input_bootstrap_cluster_creator_admin_permission"></a> [bootstrap\_cluster\_creator\_admin\_permission](#input\_bootstrap\_cluster\_creator\_admin\_permission) | Bootstrap access config values to the cluster | `bool` | `false` | no |
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | Which EKS control plane log types to enable | `list(string)` | `[]` | no |
+| <a name="input_endpoint_private_access"></a> [endpoint\_private\_access](#input\_endpoint\_private\_access) | Enables the Amazon EKS private API server endpoint. | `bool` | `false` | no |
+| <a name="input_endpoint_public_access"></a> [endpoint\_public\_access](#input\_endpoint\_public\_access) | Enables the Amazon EKS public API server endpoint. | `bool` | `true` | no |
 | <a name="input_k8s_version"></a> [k8s\_version](#input\_k8s\_version) | Kubernetes version to deploy | `string` | n/a | yes |
+| <a name="input_labels"></a> [labels](#input\_labels) | Labels to be applied to created resources | `map(string)` | `{}` | no |
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | How many days until control plane logs are purged | `number` | `7` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS cluster | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
-| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    instance_types = list(string),<br>    max_size       = number<br>    min_size       = number<br>  }))</pre> | n/a | yes |
+| <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    capacity_type   = optional(string, "ON_DEMAND")<br>    instance_types  = list(string),<br>    enforce_imdsv2  = optional(bool, false)<br>    max_size        = number<br>    max_unavailable = optional(number, 3)<br>    min_size        = number<br>  }))</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
 
 ## Outputs

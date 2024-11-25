@@ -157,3 +157,32 @@ spec:
   {{- with .Values.prometheus.spec.allowOverlappingBlocks }}
   allowOverlappingBlocks: {{ . }}
   {{- end }}
+  {{- if or .Values.prometheus.spec.podAntiAffinity .Values.prometheus.spec.affinity }}
+  affinity:
+  {{- if .Values.prometheus.spec.affinity }}
+  {{ toYaml .Values.prometheus.spec.affinity | indent 4 }}
+  {{- end }}
+  {{- if eq .Values.prometheus.spec.podAntiAffinity "hard" }}
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: {{ .Values.prometheus.spec.podAntiAffinityTopologyKey }}
+        labelSelector:
+          matchExpressions:
+            - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
+            - {key: prometheus, operator: In, values: [{{ template "prometheus.crname" . }}]}
+  {{- else if eq .Values.prometheus.spec.podAntiAffinity "soft" }}
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          topologyKey: {{ .Values.prometheus.spec.podAntiAffinityTopologyKey }}
+          labelSelector:
+            matchExpressions:
+              - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
+              - {key: prometheus, operator: In, values: [{{ template "prometheus.crname" . }}]}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.prometheus.spec.tolerations }}
+  tolerations:
+  {{ toYaml .Values.prometheus.spec.tolerations | indent 4 }}
+  {{- end }}

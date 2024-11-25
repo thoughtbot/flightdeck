@@ -16,7 +16,11 @@ module "network" {
 module "eks_cluster" {
   source = "./modules/eks-cluster"
 
+  auth_mode                                  = var.auth_mode
+  bootstrap_cluster_creator_admin_permission = var.bootstrap_cluster_creator_admin_permission
   enabled_cluster_log_types                  = var.enabled_cluster_log_types
+  endpoint_private_access                    = var.endpoint_private_access
+  endpoint_public_access                     = var.endpoint_public_access
   k8s_version                                = var.k8s_version
   log_retention_in_days                      = var.log_retention_in_days
   name                                       = module.cluster_name.full
@@ -24,8 +28,6 @@ module "eks_cluster" {
   public_subnet_ids                          = module.network.public_subnet_ids
   tags                                       = var.tags
   vpc                                        = module.network.vpc
-  auth_mode                                  = var.auth_mode
-  bootstrap_cluster_creator_admin_permission = var.bootstrap_cluster_creator_admin_permission
 
   depends_on = [module.node_role]
 }
@@ -41,15 +43,19 @@ module "node_groups" {
   for_each = var.node_groups
   source   = "./modules/eks-node-group"
 
-  cluster        = module.eks_cluster.instance
-  instance_types = each.value.instance_types
-  max_size       = each.value.max_size
-  min_size       = each.value.min_size
-  name           = each.key
-  namespace      = [module.cluster_name.full]
-  role           = module.node_role.instance
-  subnets        = values(data.aws_subnet.private)
-  tags           = var.tags
+  capacity_type   = each.value.capacity_type
+  cluster         = module.eks_cluster.instance
+  instance_types  = each.value.instance_types
+  enforce_imdsv2  = each.value.enforce_imdsv2
+  labels          = var.labels
+  max_size        = each.value.max_size
+  max_unavailable = each.value.max_unavailable
+  min_size        = each.value.min_size
+  name            = each.key
+  namespace       = [module.cluster_name.full]
+  role            = module.node_role.instance
+  subnets         = values(data.aws_subnet.private)
+  tags            = var.tags
 
   depends_on = [module.node_role]
 }

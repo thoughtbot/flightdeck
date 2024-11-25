@@ -15,8 +15,17 @@ resource "aws_eks_cluster" "this" {
   }
 
   vpc_config {
-    security_group_ids = [aws_security_group.control_plane.id]
-    subnet_ids         = concat(var.private_subnet_ids, var.public_subnet_ids)
+    security_group_ids      = [aws_security_group.control_plane.id]
+    subnet_ids              = concat(var.private_subnet_ids, var.public_subnet_ids)
+    endpoint_private_access = var.endpoint_private_access
+    endpoint_public_access  = var.endpoint_public_access
+  }
+
+  encryption_config {
+    provider {
+      key_arn = aws_kms_key.eks_key.arn
+    }
+    resources = ["secrets"]
   }
 
   depends_on = [
@@ -27,7 +36,10 @@ resource "aws_eks_cluster" "this" {
 
     # Ensure EKS doesn't automatically create the log group before we create it
     # and set retention.
-    aws_cloudwatch_log_group.eks
+    aws_cloudwatch_log_group.eks,
+
+    # Ensure that the KMS key is created before EKS Cluster start using it.
+    aws_kms_key.eks_key
   ]
 }
 
@@ -84,6 +96,19 @@ resource "aws_security_group_rule" "egress" {
   security_group_id = aws_security_group.control_plane.id
   to_port           = 0
   type              = "egress"
+}
+
+resource "aws_kms_key" "eks_key" {
+  description         = "KMS Key for EKS cluster ${var.name} secrets encryption"
+  key_usage           = "ENCRYPT_DECRYPT"
+  enable_key_rotation = true
+}
+
+resource "aws_kms_alias" "eks_key_alias" {
+  target_key_id = aws_kms_key.eks_key.key_id
+  name_prefix   = "alias/${var.name}"
+
+  depends_on = [aws_kms_key.eks_key]
 }
 
 data "aws_partition" "current" {

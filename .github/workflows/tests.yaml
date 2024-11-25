@@ -5,9 +5,13 @@ on:
       AWS_ACCOUNT_ID:
         description: AWS account in which tests will run
         required: true
+      SLACK_BOT_TOKEN:
+        description: Token used to send messages to Slack
+        required: true
 
 env:
   KUBECONFIG: /tmp/kubeconfig
+  SLACK_CHANNEL: '#mission-control'
 
 jobs:
   plan:
@@ -20,16 +24,16 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: us-east-1
         role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
 
     - name: Assume execution role
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
         aws-region: us-east-1
@@ -43,6 +47,7 @@ jobs:
       run: |
         CLUSTER=$(echo 'flightdeck-${{ github.ref_name }}' | cut -c1-20)
         CLUSTER="$CLUSTER-sandbox-v1"
+        echo "CLUSTER=$CLUSTER" >> "$GITHUB_ENV"
         aws \
           --region us-east-1 \
           eks \
@@ -64,4 +69,15 @@ jobs:
 
     - name: Run tests
       run: |
-        make tests ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com
+        make tests \
+          ADDRESS=https://${{ github.ref_name }}.flightdeck-test.thoughtbot.com \
+          CLUSTER="$CLUSTER"
+
+    - name: Notify Slack
+      if: failure()
+      uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      with:
+        channel-id: ${{ env.SLACK_CHANNEL }}
+        slack-message: "Flightdeck acceptance tests have failed on the testing cluster."
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

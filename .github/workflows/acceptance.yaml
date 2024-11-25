@@ -18,6 +18,7 @@ jobs:
       module: network/sandbox
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   apply_cluster:
     name: Apply Cluster
@@ -29,6 +30,7 @@ jobs:
       module: cluster/sandbox-v1
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   apply_ingress:
     name: Apply Ingress
@@ -40,6 +42,7 @@ jobs:
       module: ingress/sandbox
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   apply_platform:
     name: Apply Platform
@@ -51,6 +54,7 @@ jobs:
       module: platform/sandbox-v1
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   tests:
     name: Run Tests
@@ -60,6 +64,7 @@ jobs:
     concurrency: ${{ github.ref_name }}-platform
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   cleanup_platform:
     name: Cleanup Platform
@@ -72,6 +77,7 @@ jobs:
       terraform_command: destroy
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   cleanup_ingress:
     name: Cleanup Ingress
@@ -84,6 +90,7 @@ jobs:
       terraform_command: destroy
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   cleanup_cluster:
     name: Cleanup Cluster
@@ -96,6 +103,7 @@ jobs:
       terraform_command: destroy
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
   cleanup_network:
     name: Cleanup Network
@@ -108,3 +116,4 @@ jobs:
       terraform_command: destroy
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

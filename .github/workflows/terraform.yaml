@@ -15,6 +15,12 @@ on:
       AWS_ACCOUNT_ID:
         description: AWS account in which Terraform will run
         required: true
+      SLACK_BOT_TOKEN:
+        description: Token used to send messages to Slack
+        required: true
+
+env:
+  SLACK_CHANNEL: '#mission-control'
 
 jobs:
   plan:
@@ -26,9 +32,8 @@ jobs:
         working-directory: ${{ inputs.module }}
 
     steps:
-
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: thoughtbot/flightdeck-template
         path: template
@@ -61,26 +66,27 @@ jobs:
         set +x
 
     - name: Archive Terraform configuration
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: terraform
         path: template
+        overwrite: true
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-region: us-east-1
         role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ inputs.terraform_version }}
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '14'
+        node-version: '20'
 
     - name: Init
       working-directory: template/${{ inputs.module }}
@@ -91,3 +97,11 @@ jobs:
       run: |
         terraform ${{ inputs.terraform_command }} -auto-approve
 
+    - name: Notify Slack
+      if: failure()
+      uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      with:
+        channel-id: ${{ env.SLACK_CHANNEL }}
+        slack-message: "Flightdeck acceptance terraform has failed to ${{ inputs.terraform_command }} on the ${{ inputs.module }} module."
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

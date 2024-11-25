@@ -17,7 +17,7 @@ on:
       terraform_version:
         description: Terraform version
         required: true
-        default: 1.0.11
+        default: 1.4.2
         type: string
 
 permissions:
@@ -36,4 +36,4 @@ jobs:
       terraform_version: ${{ github.event.inputs.terraform_version }}
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

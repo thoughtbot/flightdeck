@@ -27,34 +27,15 @@ resource "aws_iam_role_policy_attachment" "this" {
 
 data "aws_iam_policy_document" "this" {
   statement {
-    sid = "AllowCreateLogEvents"
+    sid = "AllowWriteLogs"
     actions = [
-      "logs:DescribeLogStreams",
-      "logs:PutLogEvents"
-    ]
-    resources = [
-      "${aws_cloudwatch_log_group.this.arn}:log-stream:*"
-    ]
-  }
-
-  statement {
-    sid = "AllowCreateLogGroup"
-    actions = [
-      "logs:CreateLogGroup"
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:PutRetentionPolicy",
     ]
     resources = [
       "${local.arn_prefix}:log-group:${var.log_group_prefix}/*"
-    ]
-  }
-
-  statement {
-    sid = "AllowCreateLogStream"
-    actions = [
-      "logs:CreateLogStream"
-    ]
-    resources = [
-      aws_cloudwatch_log_group.this.arn,
-      "${aws_cloudwatch_log_group.this.arn}:log-stream:*"
     ]
   }
 }

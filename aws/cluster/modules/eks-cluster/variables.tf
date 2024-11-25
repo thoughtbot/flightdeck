@@ -4,6 +4,18 @@ variable "enabled_cluster_log_types" {
   description = "Which EKS control plane log types to enable"
 }
 
+variable "endpoint_private_access" {
+  type        = bool
+  description = "Enables the Amazon EKS private API server endpoint."
+  default     = false
+}
+
+variable "endpoint_public_access" {
+  type        = bool
+  description = "Enables the Amazon EKS public API server endpoint."
+  default     = true
+}
+
 variable "log_retention_in_days" {
   type        = number
   description = "How many days until control plane logs are purged"

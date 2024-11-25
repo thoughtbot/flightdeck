@@ -77,6 +77,7 @@ module "aws_load_balancer_controller" {
   k8s_namespace     = var.k8s_namespace
   oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
   vpc_cidr_block    = module.network.vpc.cidr_block
+  vpc_id            = module.network.vpc.id
 
   depends_on = [module.common_platform]
 }
@@ -102,6 +103,7 @@ module "auth_config_map" {
   admin_roles       = var.admin_roles
   cluster_full_name = module.cluster_name.full
   custom_roles      = var.custom_roles
+  custom_groups     = var.custom_groups
   node_roles        = concat(local.node_roles, var.node_roles)
 }
 
@@ -370,6 +372,7 @@ locals {
         [OUTPUT]
             Name cloudwatch_logs
             Match *
+            auto_create_group true
             region ${data.aws_region.current.name}
             log_group_name ${module.cloudwatch_logs.log_group_name}
             log_group_template ${var.logs_prefix}/$kubernetes['namespace_name']

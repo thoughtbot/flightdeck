@@ -1,3 +1,9 @@
+variable "capacity_type" {
+  type        = string
+  default     = "ON_DEMAND"
+  description = "Allow values: ON_DEMAND (default), SPOT"
+}
+
 variable "cluster" {
   type        = object({ name = string })
   description = "Cluster which this node group should join"
@@ -44,4 +50,28 @@ variable "tags" {
   type        = map(string)
   description = "Tags to be applied to created resources"
   default     = {}
+}
+
+variable "labels" {
+  type        = map(string)
+  description = "Labels to be applied to created resources"
+  default     = {}
+}
+
+variable "label_node_role" {
+  type        = string
+  description = "Role to struct kubernetes scheduler to use for this node group"
+  default     = "general"
+}
+
+variable "max_unavailable" {
+  type        = number
+  description = "Maximum number of nodes that can be unavailable during a rolling update"
+  default     = 1
+}
+
+variable "enforce_imdsv2" {
+  type        = bool
+  description = "Whether to enforce IMDSv2 on the launch template"
+  default     = false
 }

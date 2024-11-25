@@ -13,40 +13,104 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.name}-cloudfront-web-acl"
   }
 
-  rule {
-    name     = "${var.name}-IP-Ratelimit"
-    priority = var.rate_limit["Priority"]
+  dynamic "rule" {
+    for_each = var.rate_limit_rules
+    content {
+      name     = "${rule.value["name"]}-IP-Ratelimit"
+      priority = rule.value["priority"]
 
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == true ? [1] : []
-      content {
-        count {}
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+      statement {
+        rate_based_statement {
+          limit              = rule.value["limit"]
+          aggregate_key_type = "IP"
+
+          dynamic "scope_down_statement" {
+            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
+            content {
+              dynamic "geo_match_statement" {
+                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                content {
+                  country_codes = rule.value["country_list"]
+                }
+              }
+              dynamic "not_statement" {
+                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                content {
+                  statement {
+                    geo_match_statement {
+                      country_codes = rule.value["exempt_country_list"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-IP-Ratelimit"
       }
     }
-    dynamic "action" {
-      for_each = var.rate_limit["count_override"] == false ? [1] : []
-      content {
-        block {}
-      }
+  }
+
+  rule {
+    name     = "${var.name}-allowed-ip-list"
+    priority = 0
+
+    action {
+      allow {}
     }
 
     statement {
-      rate_based_statement {
-        limit              = var.rate_limit["Limit"]
-        aggregate_key_type = "IP"
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.allowed_ip_list.arn
       }
     }
     visibility_config {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
-      metric_name                = "${var.name}-IP-Ratelimit"
+      metric_name                = "${var.name}-allowed-ip-list"
+    }
+  }
+
+  rule {
+    name     = "${var.name}-blocked-ip-list"
+    priority = 1
+
+    action {
+      block {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.block_ip_list.arn
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "${var.name}-blocked-ip-list"
     }
   }
 
   dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
-      name     = rule.value["name"]
+      name     = "${rule.value["name"]}-${rule.key}"
       priority = rule.value["priority"]
 
       dynamic "override_action" {
@@ -65,8 +129,31 @@ resource "aws_wafv2_web_acl" "main" {
         managed_rule_group_statement {
           name        = rule.value["name"]
           vendor_name = "AWS"
+
+          dynamic "scope_down_statement" {
+            for_each = length(concat(rule.value["country_list"], rule.value["exempt_country_list"])) > 0 ? [1] : []
+            content {
+              dynamic "geo_match_statement" {
+                for_each = length(rule.value["country_list"]) > 0 ? [1] : []
+                content {
+                  country_codes = rule.value["country_list"]
+                }
+              }
+              dynamic "not_statement" {
+                for_each = length(rule.value["exempt_country_list"]) > 0 ? [1] : []
+                content {
+                  statement {
+                    geo_match_statement {
+                      country_codes = rule.value["exempt_country_list"]
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
+
       visibility_config {
         cloudwatch_metrics_enabled = true
         sampled_requests_enabled   = true
@@ -100,4 +187,18 @@ resource "aws_wafv2_web_acl_logging_configuration" "main" {
 resource "aws_cloudwatch_log_group" "aws_waf_log_group" {
   name              = "aws-waf-logs-waf/${var.name}/logs"
   retention_in_days = 120
+}
+
+resource "aws_wafv2_ip_set" "allowed_ip_list" {
+  name               = "${var.name}-allowed-ip-set"
+  scope              = var.waf_scope
+  ip_address_version = "IPV4"
+  addresses          = var.allowed_ip_list
+}
+
+resource "aws_wafv2_ip_set" "block_ip_list" {
+  name               = "${var.name}-blocked-ip-set"
+  scope              = var.waf_scope
+  ip_address_version = "IPV4"
+  addresses          = var.block_ip_list
 }

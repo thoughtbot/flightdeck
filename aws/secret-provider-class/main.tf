@@ -7,13 +7,22 @@ locals {
       objectName = secret.name
       objectType = "secretsmanager"
 
-      jmesPath = coalescelist(secret.jmes_paths, [
-        for key in secret.environment_variables :
-        {
-          path        = key
-          objectAlias = key
-        }
-      ])
+      jmesPath = coalescelist(
+        [
+          for jmes_path in secret.jmes_paths :
+          {
+            path = jmes_path.path,
+            objectAlias : jmes_path.object_alias
+          }
+        ],
+        [
+          for key in secret.environment_variables :
+          {
+            path        = key
+            objectAlias = key
+          }
+        ]
+      )
     }
   ])
 }

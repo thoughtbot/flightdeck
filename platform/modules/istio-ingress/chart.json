@@ -1,5 +1,5 @@
 {
   "chart": "gateway",
   "repository": "https://istio-release.storage.googleapis.com/charts",
-  "version": "1.16.1"
+  "version": "1.23.0"
 }

@@ -1,15 +1,45 @@
-resource "kubernetes_role_binding" "cluster" {
+resource "kubernetes_cluster_role_binding" "cluster" {
   for_each = toset(var.cluster_roles)
 
   metadata {
-    name      = var.name
-    namespace = var.namespace
+    name = "${var.name}-${var.namespace}"
   }
 
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
     name      = each.value
+  }
+
+  subject {
+    kind      = "Group"
+    name      = var.group
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
+resource "kubernetes_cluster_role" "cluster_crd" {
+  metadata {
+    name = "${var.name}-${var.namespace}-crd"
+
+  }
+
+  rule {
+    api_groups = ["apiextensions.k8s.io"]
+    resources  = ["customresourcedefinitions"]
+    verbs      = ["get", "list"]
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "cluster_crd" {
+  metadata {
+    name = "${var.name}-${var.namespace}-crd"
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = kubernetes_cluster_role.cluster_crd.metadata[0].name
   }
 
   subject {
@@ -46,7 +76,7 @@ resource "kubernetes_role" "deploy_crd" {
 
   rule {
     api_groups = ["monitoring.coreos.com"]
-    resources  = ["servicemonitors"]
+    resources  = ["servicemonitors", "prometheusrules"]
     verbs      = ["*"]
   }
 
