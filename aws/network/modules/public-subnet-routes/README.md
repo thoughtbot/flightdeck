@@ -4,23 +4,23 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.74.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.74.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_route.internet_gateway_ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route.internet_gateway_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
-| [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
-| [aws_route_table_association.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
-| [aws_internet_gateway.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/internet_gateway) | data source |
+| [aws_route.internet_gateway_ipv4](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route) | resource |
+| [aws_route.internet_gateway_ipv6](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route) | resource |
+| [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route_table) | resource |
+| [aws_route_table_association.this](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route_table_association) | resource |
+| [aws_internet_gateway.vpc](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/data-sources/internet_gateway) | data source |
 
 ## Inputs
 
