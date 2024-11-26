@@ -4,35 +4,33 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.74.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.74.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_cloudwatch_log_group.eks](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/cloudwatch_log_group) | resource |
-| [aws_eks_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/eks_cluster) | resource |
-| [aws_iam_role.control_plane](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.control_plane](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/iam_role_policy_attachment) | resource |
-| [aws_kms_alias.eks_key_alias](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/kms_alias) | resource |
-| [aws_kms_key.eks_key](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/kms_key) | resource |
-| [aws_security_group.control_plane](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/security_group) | resource |
-| [aws_security_group_rule.egress](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/security_group_rule) | resource |
-| [aws_iam_policy_document.eks_assume_role](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/data-sources/iam_policy_document) | data source |
-| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/data-sources/partition) | data source |
+| [aws_cloudwatch_log_group.eks](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_eks_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
+| [aws_iam_role.control_plane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.control_plane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_kms_alias.eks_key_alias](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
+| [aws_kms_key.eks_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_security_group.control_plane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group_rule.egress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_iam_policy_document.eks_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_auth_mode"></a> [auth\_mode](#input\_auth\_mode) | Authentiation mode associated with the cluster Access config | `string` | `"API_AND_CONFIG_MAP"` | no |
-| <a name="input_bootstrap_cluster_creator_admin_permission"></a> [bootstrap\_cluster\_creator\_admin\_permission](#input\_bootstrap\_cluster\_creator\_admin\_permission) | Bootstrap access config values to the cluster | `bool` | `false` | no |
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | Which EKS control plane log types to enable | `list(string)` | <pre>[<br>  "api",<br>  "audit"<br>]</pre> | no |
 | <a name="input_endpoint_private_access"></a> [endpoint\_private\_access](#input\_endpoint\_private\_access) | Enables the Amazon EKS private API server endpoint. | `bool` | `false` | no |
 | <a name="input_endpoint_public_access"></a> [endpoint\_public\_access](#input\_endpoint\_public\_access) | Enables the Amazon EKS public API server endpoint. | `bool` | `true` | no |

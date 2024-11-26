@@ -4,22 +4,22 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.74.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.74.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [aws_route.nat](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route) | resource |
-| [aws_route_table.nat](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route_table) | resource |
-| [aws_route_table_association.nat](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/resources/route_table_association) | resource |
-| [aws_nat_gateway.vpc](https://registry.terraform.io/providers/hashicorp/aws/5.74.0/docs/data-sources/nat_gateway) | data source |
+| [aws_route.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route_table.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table_association.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_nat_gateway.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/nat_gateway) | data source |
 
 ## Inputs
 
