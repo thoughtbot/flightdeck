@@ -72,9 +72,10 @@ module "grafana_workspace" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_admin_groups"></a> [admin\_groups](#input\_admin\_groups) | IAM Identity Center groups with administrator access to Grafana | `list(string)` | `[]` | no |
-| <a name="input_authentication_providers"></a> [authentication\_providers](#input\_authentication\_providers) | Providers used to sign in to Grafana | `list(string)` | <pre>[<br>  "AWS_SSO"<br>]</pre> | no |
+| <a name="input_authentication_providers"></a> [authentication\_providers](#input\_authentication\_providers) | Providers used to sign in to Grafana | `list(string)` | <pre>[<br/>  "AWS_SSO"<br/>]</pre> | no |
 | <a name="input_editor_groups"></a> [editor\_groups](#input\_editor\_groups) | IAM Identity Center groups with edit access to Grafana | `list(string)` | `[]` | no |
 | <a name="input_grafana_api_key_name"></a> [grafana\_api\_key\_name](#input\_grafana\_api\_key\_name) | Name for the Grafana API key used by Terraform | `string` | `"terraform"` | no |
+| <a name="input_grafana_version"></a> [grafana\_version](#input\_grafana\_version) | Version of AWS Managed Grafana to use (e.g., '11.3.0') | `string` | `null` | no |
 | <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | Override the name of the service role for Grafana | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of this Grafana workspace | `string` | `"Grafana"` | no |
 | <a name="input_viewer_groups"></a> [viewer\_groups](#input\_viewer\_groups) | IAM Identity Center groups with view access to Grafana | `list(string)` | `[]` | no |
