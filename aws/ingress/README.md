@@ -101,7 +101,7 @@ module "ingress" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_alb"></a> [alb](#module\_alb) | github.com/thoughtbot/terraform-alb-ingress | v0.7.0 |
+| <a name="module_alb"></a> [alb](#module\_alb) | github.com/thoughtbot/terraform-alb-ingress | v0.5.2 |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
 | <a name="module_waf"></a> [waf](#module\_waf) | ../waf | n/a |
