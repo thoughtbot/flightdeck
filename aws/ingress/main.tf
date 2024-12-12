@@ -1,6 +1,6 @@
 module "alb" {
   # TODO: update ref when merged into main
-  providers = { aws.cluster = aws.cluster, aws.route53 = aws.route53 }
+  providers = { aws.alb = aws.cluster, aws.route53 = aws.route53 }
   source    = "github.com/thoughtbot/terraform-alb-ingress?ref=v0.7.0"
 
   alarm_actions             = var.alarm_actions
