@@ -11,6 +11,19 @@ on:
       terraform_version:
         default: 1.4.2
         type: string
+      aws_provider_version:
+        default: "5.0"
+        type: string
+      helm_provider_version:
+        default: "2.4"
+        type: string
+      kubernetes_provider_version:
+        default: "2.6"
+        type: string
+      tls_provider_version:
+        default: "3.0"
+        type: string
+
     secrets:
       AWS_ACCOUNT_ID:
         description: AWS account in which Terraform will run
@@ -60,6 +73,11 @@ jobs:
         bin/set-template-var SANDBOX_STATE_TABLE flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_KMS_KEY flightdeck-ci-state
         bin/set-template-var SANDBOX_STATE_ROLE flightdeck-ci-state
+        bin/set-template-var TERRAFORM_VERSION ${{ inputs.terraform_version }}
+        bin/set-template-var AWS_PROVIDER_VERSION ${{ inputs.aws_provider_version }}
+        bin/set-template-var HELM_PROVIDER_VERSION ${{ inputs.helm_provider_version }}
+        bin/set-template-var KUBERNETES_PROVIDER_VERSION ${{ inputs.kubernetes_provider_version }}
+        bin/set-template-var TLS_PROVIDER_VERSION ${{ inputs.tls_provider_version }}
 
         # Destroy log group when destroying cluster
         bin/append-terraform-value platform/sandbox-v1/main.tf workload_platform logs_skip_destroy 'false'
