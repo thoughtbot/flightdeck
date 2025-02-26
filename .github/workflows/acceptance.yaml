@@ -71,6 +71,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     needs:
     - tests
+    if: always()
     concurrency: ${{ github.ref_name }}-platform
     with:
       module: platform/sandbox-v1
@@ -84,6 +85,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     needs:
     - cleanup_platform
+    if: always()
     concurrency: ${{ github.ref_name }}-ingress
     with:
       module: ingress/sandbox
@@ -97,6 +99,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     needs:
     - cleanup_ingress
+    if: always()
     concurrency: ${{ github.ref_name }}-cluster
     with:
       module: cluster/sandbox-v1
@@ -110,6 +113,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     needs:
     - cleanup_cluster
+    if: always()
     concurrency: ${{ github.ref_name }}-network
     with:
       module: network/sandbox
