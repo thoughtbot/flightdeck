@@ -33,7 +33,7 @@ on:
         required: true
 
 env:
-  SLACK_CHANNEL: '#mission-control'
+  SLACK_CHANNEL: '#thoughtbot-platform-notifications'
 
 jobs:
   plan:
