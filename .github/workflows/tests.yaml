@@ -56,7 +56,7 @@ jobs:
 
     - name: Build manifests
       id: kustomize
-      uses: azure/k8s-bake@v2.4
+      uses: azure/k8s-bake@v3
       with:
         renderEngine: kustomize
         kustomizationPath: tests/manifests
