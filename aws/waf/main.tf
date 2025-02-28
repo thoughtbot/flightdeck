@@ -14,6 +14,133 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
+    for_each = var.header_match_rules == null ? {} : var.header_match_rules
+    content {
+      name     = "${rule.value["name"]}-header-match-rule"
+      priority = rule.value["priority"]
+
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) == 1 ? rule.value["header_values"] : {}
+        content {
+          dynamic "byte_match_statement" {
+            for_each = statement.value["not_statement"] == false ? [1] : []
+            content {
+              field_to_match {
+                single_header {
+                  name = lower(statement.value["header_name"])
+                }
+              }
+
+              positional_constraint = "CONTAINS"
+
+              search_string = statement.value["header_value"]
+
+              text_transformation {
+                priority = 1
+                type     = "LOWERCASE"
+              }
+            }
+          }
+          dynamic "not_statement" {
+            for_each = statement.value["not_statement"] == true ? [1] : []
+            content {
+              statement {
+                byte_match_statement {
+                  field_to_match {
+                    single_header {
+                      name = lower(statement.value["header_name"])
+                    }
+                  }
+
+                  positional_constraint = "CONTAINS"
+
+                  search_string = statement.value["header_value"]
+
+                  text_transformation {
+                    priority = 1
+                    type     = "LOWERCASE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      dynamic "statement" {
+        for_each = length(rule.value["header_values"]) > 1 ? [1] : []
+        content {
+          and_statement {
+            dynamic "statement" {
+              for_each = rule.value["header_values"]
+              content {
+                dynamic "byte_match_statement" {
+                  for_each = statement.value["not_statement"] == false ? [1] : []
+                  content {
+                    field_to_match {
+                      single_header {
+                        name = lower(statement.value["header_name"])
+                      }
+                    }
+
+                    positional_constraint = "CONTAINS"
+
+                    search_string = statement.value["header_value"]
+
+                    text_transformation {
+                      priority = 1
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+                dynamic "not_statement" {
+                  for_each = statement.value["not_statement"] == true ? [1] : []
+                  content {
+                    statement {
+                      byte_match_statement {
+                        field_to_match {
+                          single_header {
+                            name = lower(statement.value["header_name"])
+                          }
+                        }
+
+                        positional_constraint = "CONTAINS"
+
+                        search_string = statement.value["header_value"]
+
+                        text_transformation {
+                          priority = 1
+                          type     = "LOWERCASE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-header-match-rule"
+      }
+    }
+  }
+
+  dynamic "rule" {
     for_each = var.rate_limit_rules
     content {
       name     = "${rule.value["name"]}-IP-Ratelimit"
