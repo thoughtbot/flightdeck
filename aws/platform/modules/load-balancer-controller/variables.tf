@@ -39,6 +39,12 @@ variable "cluster_full_name" {
   description = "Full name of the cluster in which the chart is installed"
 }
 
+variable "ingress_config_release_name" {
+  type        = string
+  description = "Name for the ingress config release"
+  default     = "target-group-binding"
+}
+
 variable "k8s_namespace" {
   type        = string
   description = "Kubernetes namespace in which resources will be written"
@@ -49,6 +55,12 @@ variable "name" {
   type        = string
   description = "Name for the release"
   default     = "aws-load-balancer-controller"
+}
+
+variable "service_account_name" {
+  type        = string
+  description = "Name for the service account for the load balancer controller"
+  default     = "load-balancer-controller"
 }
 
 variable "oidc_issuer" {

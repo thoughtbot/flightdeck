@@ -14,7 +14,7 @@ resource "helm_release" "this" {
 
 resource "helm_release" "ingress_config" {
   chart     = "${path.module}/target-group-binding"
-  name      = "target-group-binding"
+  name      = var.ingress_config_release_name
   namespace = var.k8s_namespace
 
   values = [
@@ -59,10 +59,10 @@ data "aws_lb_target_group" "this" {
 module "service_account_role" {
   source = "../../../service-account-role"
 
-  name             = "load-balancer-controller"
+  name             = var.service_account_name
   namespace        = var.aws_namespace
   oidc_issuers     = [var.oidc_issuer]
-  service_accounts = ["${var.k8s_namespace}:aws-load-balancer-controller"]
+  service_accounts = ["${var.k8s_namespace}:aws-${var.service_account_name}"]
   tags             = var.aws_tags
 }
 
@@ -84,7 +84,7 @@ locals {
       clusterName = var.cluster_full_name
 
       serviceAccount = {
-        name = "aws-load-balancer-controller"
+        name = "aws-${var.service_account_name}"
 
         annotations = {
           "eks.amazonaws.com/role-arn" = module.service_account_role.arn
