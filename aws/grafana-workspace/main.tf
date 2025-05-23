@@ -6,6 +6,7 @@ resource "aws_grafana_workspace" "this" {
   notification_destinations = ["SNS"]
   permission_type           = "CUSTOMER_MANAGED"
   role_arn                  = aws_iam_role.grafana.arn
+  grafana_version           = var.grafana_version
 
   configuration = jsonencode({
     unifiedAlerting = { enabled = true }
