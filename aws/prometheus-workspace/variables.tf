@@ -14,3 +14,8 @@ variable "workload_account_ids" {
   type        = list(string)
   default     = []
 }
+
+variable "logging_configuration" {
+  type    = object({ log_group_arn = string })
+  default = null
+}

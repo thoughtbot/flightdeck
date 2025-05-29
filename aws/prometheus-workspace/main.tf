@@ -1,5 +1,12 @@
 resource "aws_prometheus_workspace" "this" {
   alias = var.name
+
+  dynamic "logging_configuration" {
+    for_each = var.logging_configuration != null ? [1] : []
+    content {
+      log_group_arn = var.logging_configuration.log_group_arn
+    }
+  }
 }
 
 resource "aws_iam_role" "ingestion" {
