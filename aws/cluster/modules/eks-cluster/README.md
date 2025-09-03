@@ -40,6 +40,7 @@
 | <a name="input_log_retention_in_days"></a> [log\_retention\_in\_days](#input\_log\_retention\_in\_days) | How many days until control plane logs are purged | `number` | `7` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS cluster | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
+| <a name="input_prevent_log_group_destroy"></a> [prevent\_log\_group\_destroy](#input\_prevent\_log\_group\_destroy) | When true, the CloudWatch log group will be protected from deletion. Terraform will fail if a destroy is attempted on this resource. | `bool` | `false` | no |
 | <a name="input_private_subnet_ids"></a> [private\_subnet\_ids](#input\_private\_subnet\_ids) | Private subnets which should be used by this cluster | `list(string)` | n/a | yes |
 | <a name="input_public_subnet_ids"></a> [public\_subnet\_ids](#input\_public\_subnet\_ids) | Public subnets which should be used by this cluster | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
