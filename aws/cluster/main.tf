@@ -24,6 +24,7 @@ module "eks_cluster" {
   k8s_version                                = var.k8s_version
   log_retention_in_days                      = var.log_retention_in_days
   name                                       = module.cluster_name.full
+  prevent_log_group_destroy                  = var.prevent_log_group_destroy
   private_subnet_ids                         = module.network.private_subnet_ids
   public_subnet_ids                          = module.network.public_subnet_ids
   tags                                       = var.tags
