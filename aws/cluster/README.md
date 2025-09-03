@@ -106,6 +106,7 @@ module "cluster" {
 | <a name="input_name"></a> [name](#input\_name) | Name for this EKS cluster | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Prefix to be applied to created resources | `list(string)` | `[]` | no |
 | <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups) | Node groups to create in this cluster | <pre>map(object({<br>    capacity_type   = optional(string, "ON_DEMAND")<br>    instance_types  = list(string),<br>    enforce_imdsv2  = optional(bool, false)<br>    max_size        = number<br>    max_unavailable = optional(number, 3)<br>    min_size        = number<br>  }))</pre> | n/a | yes |
+| <a name="input_prevent_log_group_destroy"></a> [prevent\_log\_group\_destroy](#input\_prevent\_log\_group\_destroy) | When true, the CloudWatch log group will be protected from deletion. Terraform will fail if a destroy is attempted on this resource. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
 
 ## Outputs
