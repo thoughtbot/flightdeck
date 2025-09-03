@@ -75,7 +75,7 @@ resource "aws_iam_role_policy_attachment" "control_plane" {
 resource "aws_cloudwatch_log_group" "eks" {
   name              = "/aws/eks/${local.name}/cluster"
   retention_in_days = var.log_retention_in_days
-  
+
   skip_destroy = var.prevent_log_group_destroy
 }
 

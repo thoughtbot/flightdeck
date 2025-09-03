@@ -46,8 +46,8 @@ variable "namespace" {
 }
 
 variable "prevent_log_group_destroy" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "When true, the CloudWatch log group will be protected from deletion. Terraform will fail if a destroy is attempted on this resource."
 }
 
