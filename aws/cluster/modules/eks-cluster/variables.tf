@@ -45,6 +45,13 @@ variable "namespace" {
   default     = []
 }
 
+variable "prevent_log_group_destroy" {
+  type    = bool
+  default = false
+  description = "When true, the CloudWatch log group will be protected from deletion. Terraform will fail if a destroy is attempted on this resource."
+}
+
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "Private subnets which should be used by this cluster"
