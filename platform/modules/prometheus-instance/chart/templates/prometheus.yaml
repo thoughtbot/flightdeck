@@ -159,8 +159,8 @@ spec:
   {{- end }}
   {{- if or .Values.prometheus.spec.podAntiAffinity .Values.prometheus.spec.affinity }}
   affinity:
-  {{- if .Values.prometheus.spec.affinity }}
-  {{ toYaml .Values.prometheus.spec.affinity | indent 4 }}
+  {{- if .Values.prometheus.spec.affinity -}}
+  {{ toYaml .Values.prometheus.spec.affinity | nindent 4 }}
   {{- end }}
   {{- if eq .Values.prometheus.spec.podAntiAffinity "hard" }}
     podAntiAffinity:
