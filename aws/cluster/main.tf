@@ -48,7 +48,7 @@ module "node_groups" {
   cluster         = module.eks_cluster.instance
   instance_types  = each.value.instance_types
   enforce_imdsv2  = each.value.enforce_imdsv2
-  labels          = var.labels
+  labels          = merge(var.labels, each.value.node_group_labels)
   max_size        = each.value.max_size
   max_unavailable = each.value.max_unavailable
   min_size        = each.value.min_size
