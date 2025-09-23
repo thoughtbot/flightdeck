@@ -35,6 +35,15 @@ resource "aws_eks_node_group" "this" {
     AvailabilityZone = each.key
   })
 
+  dynamic "taint" {
+    for_each = var.taints
+    content {
+      key    = taint.value["key"]
+      value  = taint.value["value"]
+      effect = taint.value["effect"]
+    }
+  }
+
   lifecycle {
     ignore_changes = [scaling_config[0].desired_size]
   }
