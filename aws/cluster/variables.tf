@@ -65,6 +65,7 @@ variable "node_groups" {
       value  = optional(string)
       effect = string
     })), [])
+    node_group_labels = optional(map(string), {})
   }))
 }
 
