@@ -182,7 +182,3 @@ spec:
               - {key: prometheus, operator: In, values: [{{ template "prometheus.crname" . }}]}
   {{- end }}
   {{- end }}
-  {{- if .Values.prometheus.spec.tolerations }}
-  tolerations:
-  {{ toYaml .Values.prometheus.spec.tolerations | indent 4 }}
-  {{- end }}
