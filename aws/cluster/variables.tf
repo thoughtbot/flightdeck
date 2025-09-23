@@ -33,9 +33,13 @@ variable "node_groups" {
     instance_types = list(string),
     max_size       = number
     min_size       = number
+    taints         = optional(list(object({
+      key    = string
+      value  = optional(string)
+      effect = string
+    })), [])
   }))
 }
-
 variable "tags" {
   type        = map(string)
   description = "Tags to be applied to all created resources"

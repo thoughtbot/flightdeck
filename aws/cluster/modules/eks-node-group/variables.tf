@@ -39,6 +39,20 @@ variable "subnets" {
   type        = list(object({ id = string, availability_zone = string }))
   description = "Subnets in which the node group should run"
 }
+variable "taints" {
+  type = list(object({
+    key    = string
+    value  = optional(string)
+    effect = string
+  }))
+  description = <<-EOT
+    List of `key`, `value`, `effect` objects representing Kubernetes taints.
+    `effect` must be one of `NO_SCHEDULE`, `NO_EXECUTE`, or `PREFER_NO_SCHEDULE`.
+    `key` and `effect` are required, `value` may be null.
+    EOT
+  default     = []
+  nullable    = false
+}
 
 variable "tags" {
   type        = map(string)
