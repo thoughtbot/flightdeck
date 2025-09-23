@@ -57,6 +57,7 @@ module "node_groups" {
   role            = module.node_role.instance
   subnets         = values(data.aws_subnet.private)
   tags            = var.tags
+  taints          = each.value.taints
 
   depends_on = [module.node_role]
 }

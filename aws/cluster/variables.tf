@@ -60,6 +60,11 @@ variable "node_groups" {
     max_size        = number
     max_unavailable = optional(number, 3)
     min_size        = number
+    taints = optional(list(object({
+      key    = string
+      value  = optional(string)
+      effect = string
+    })), [])
   }))
 }
 
