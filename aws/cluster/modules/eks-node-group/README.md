@@ -31,6 +31,7 @@
 | <a name="input_role"></a> [role](#input\_role) | IAM role nodes in this group will assume | `object({ arn = string })` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets in which the node group should run | `list(object({ id = string, availability_zone = string }))` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
+| <a name="input_taints"></a> [taints](#input\_taints) | List of `key`, `value`, `effect` objects representing Kubernetes taints.<br/>`effect` must be one of `NO_SCHEDULE`, `NO_EXECUTE`, or `PREFER_NO_SCHEDULE`.<br/>`key` and `effect` are required, `value` may be null. | <pre>list(object({<br/>    key    = string<br/>    value  = optional(string)<br/>    effect = string<br/>  }))</pre> | `[]` | no |
 
 ## Outputs
 
