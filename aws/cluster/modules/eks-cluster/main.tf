@@ -8,6 +8,7 @@ resource "aws_eks_cluster" "this" {
   role_arn                  = aws_iam_role.control_plane.arn
   tags                      = var.tags
   version                   = var.k8s_version
+  deletion_protection       = var.deletion_protection
 
   access_config {
     authentication_mode                         = var.auth_mode

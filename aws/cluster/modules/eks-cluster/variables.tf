@@ -77,3 +77,9 @@ variable "vpc" {
   type        = object({ id = string })
   description = "VPC in which this cluster should run"
 }
+
+variable "deletion_protection" {
+  type        = bool
+  description = "Enables the deletion protection for the EKS cluster."
+  default     = false
+}
