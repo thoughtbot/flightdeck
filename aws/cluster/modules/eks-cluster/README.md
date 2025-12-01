@@ -3,14 +3,14 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.2 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 6.0 |
 
 ## Resources
 
@@ -33,6 +33,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_auth_mode"></a> [auth\_mode](#input\_auth\_mode) | Authentiation mode associated with the cluster Access config | `string` | `"API_AND_CONFIG_MAP"` | no |
 | <a name="input_bootstrap_cluster_creator_admin_permission"></a> [bootstrap\_cluster\_creator\_admin\_permission](#input\_bootstrap\_cluster\_creator\_admin\_permission) | Bootstrap access config values to the cluster | `bool` | `false` | no |
+| <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | Enables the deletion protection for the EKS cluster. | `bool` | `false` | no |
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | Which EKS control plane log types to enable | `list(string)` | <pre>[<br>  "api",<br>  "audit"<br>]</pre> | no |
 | <a name="input_endpoint_private_access"></a> [endpoint\_private\_access](#input\_endpoint\_private\_access) | Enables the Amazon EKS private API server endpoint. | `bool` | `false` | no |
 | <a name="input_endpoint_public_access"></a> [endpoint\_public\_access](#input\_endpoint\_public\_access) | Enables the Amazon EKS public API server endpoint. | `bool` | `true` | no |
