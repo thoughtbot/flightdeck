@@ -1,25 +1,19 @@
 variable "chart_name" {
   type        = string
   description = "Helm chart to install"
-  default     = null
+  default     = "sloth"
 }
 
 variable "chart_repository" {
   type        = string
   description = "Helm repository containing the chart"
-  default     = null
+  default     = "https://flightdeck-charts.s3.amazonaws.com/sloth"
 }
 
-variable "chart_values" {
-  description = "Overrides to pass to the Helm chart"
-  type        = list(string)
-  default     = []
-}
-
-variable "chart_version" {
+variable "sloth_version" {
   type        = string
   description = "Version of Sloth Chart to be installed"
-  default     = null
+  default     = "0.3.0"
 }
 
 variable "k8s_namespace" {
