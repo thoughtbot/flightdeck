@@ -200,10 +200,6 @@ module "reloader" {
 module "sloth" {
   source = "./modules/sloth"
 
-  chart_values  = var.sloth_values
-  chart_version = var.sloth_version
-  k8s_namespace = local.flightdeck_namespace
-
   depends_on = [module.prometheus_operator]
 }
 
