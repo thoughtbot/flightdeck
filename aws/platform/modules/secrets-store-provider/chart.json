@@ -1,5 +1,0 @@
-{
-  "chart": "secrets-store-csi-driver-provider-aws",
-  "repository": "https://aws.github.io/secrets-store-csi-driver-provider-aws",
-  "version": "0.3.1"
-}
