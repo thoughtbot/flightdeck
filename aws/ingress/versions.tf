@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 0.14.8"
+  required_version = ">= 1.6.2"
   required_providers {
     aws = {
-      configuration_aliases = [aws.cluster, aws.route53]
+      configuration_aliases = [aws.cluster, aws.route53, aws.alb]
       source                = "hashicorp/aws"
-      version               = "~> 5.0"
+      version               = "~> 6.0"
     }
   }
 }
