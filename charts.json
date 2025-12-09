@@ -7,7 +7,7 @@
   "cert-manager": {
     "chart": "cert-manager",
     "repository": "https://charts.jetstack.io",
-    "version": "v1.12.13"
+    "version": "1.19.1"
   },
   "cluster-autoscaler": {
     "chart": "cluster-autoscaler",
@@ -17,27 +17,27 @@
   "external-dns": {
     "chart": "external-dns",
     "repository": "https://charts.bitnami.com/bitnami",
-    "version": "6.12.2"
+    "version": "9.0.3"
   },
   "fluent-bit": {
     "chart": "fluent-bit",
     "repository": "https://fluent.github.io/helm-charts",
-    "version": "0.21.7"
+    "version": "0.54.0"
   },
   "istio-base": {
     "chart": "base",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.23.0"
+    "version": "1.28.0"
   },
   "istiod": {
     "chart": "istiod",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.23.0"
+    "version": "1.28.0"
   },
   "istio-ingress": {
     "chart": "gateway",
     "repository": "https://istio-release.storage.googleapis.com/charts",
-    "version": "1.23.0"
+    "version": "1.28.0"
   },
   "load-balancer-controller": {
     "chart": "aws-load-balancer-controller",
