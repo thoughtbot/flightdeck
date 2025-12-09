@@ -1,5 +1,5 @@
 {
   "chart": "cert-manager",
   "repository": "https://charts.jetstack.io",
-  "version": "v1.12.13"
+  "version": "v1.19.1"
 }
