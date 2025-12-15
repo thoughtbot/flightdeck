@@ -57,7 +57,7 @@
   "prometheus-operator": {
     "chart": "kube-prometheus-stack",
     "repository": "https://prometheus-community.github.io/helm-charts",
-    "version": "80.0.0"
+    "version": "43.2.1"
   },
   "reloader": {
     "chart": "reloader",
@@ -67,7 +67,7 @@
   "secret-store-driver": {
     "chart": "secrets-store-csi-driver",
     "repository": "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts",
-    "version": "1.5.4"
+    "version": "0.3.1"
   },
   "secrets-store-provider": {
     "chart": "secrets-store-csi-driver-provider-aws",
