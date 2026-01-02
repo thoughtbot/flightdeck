@@ -207,6 +207,16 @@ module "sloth" {
   depends_on = [module.prometheus_operator]
 }
 
+module "sonarqube" {
+  source = "./modules/sonarqube"
+
+  count = var.sonarqube_enabled ? 1 : 0
+
+  chart_values  = var.sonarqube_values
+  chart_version = var.sonarqube_version
+  k8s_namespace = var.sonarqube_namespace
+}
+
 locals {
   flightdeck_namespace            = kubernetes_namespace.flightdeck.metadata[0].name
   kube_prometheus_stack_namespace = kubernetes_namespace.kube_prometheus_stack.metadata[0].name

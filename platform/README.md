@@ -15,6 +15,7 @@ The following components are included:
 - [Reloader](https://github.com/stakater/Reloader)
 - [Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)
 - [Sloth](https://sloth.dev/)
+- [SonarQube](https://www.sonarqube.org/)
 - [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/README.md)
 
 Components are pre-configured to work with each other and support SRE best
@@ -54,6 +55,7 @@ practices.
 | <a name="module_reloader"></a> [reloader](#module\_reloader) | ./modules/reloader | n/a |
 | <a name="module_secret_store_driver"></a> [secret\_store\_driver](#module\_secret\_store\_driver) | ./modules/secret-store-driver | n/a |
 | <a name="module_sloth"></a> [sloth](#module\_sloth) | ./modules/sloth | n/a |
+| <a name="module_sonarqube"></a> [sonarqube](#module\_sonarqube) | ./modules/sonarqube | n/a |
 | <a name="module_vertical_pod_autoscaler"></a> [vertical\_pod\_autoscaler](#module\_vertical\_pod\_autoscaler) | ./modules/vertical-pod-autoscaler | n/a |
 
 ## Resources
@@ -103,6 +105,10 @@ practices.
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
 | <a name="input_sloth_values"></a> [sloth\_values](#input\_sloth\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_sloth_version"></a> [sloth\_version](#input\_sloth\_version) | Version of Sloth to install | `string` | `null` | no |
+| <a name="input_sonarqube_enabled"></a> [sonarqube\_enabled](#input\_sonarqube\_enabled) | Set to true to enable SonarQube | `bool` | `false` | no |
+| <a name="input_sonarqube_namespace"></a> [sonarqube\_namespace](#input\_sonarqube\_namespace) | Kubernetes namespace for SonarQube. Defaults to the flightdeck namespace if not set. | `string` | `null` | no |
+| <a name="input_sonarqube_values"></a> [sonarqube\_values](#input\_sonarqube\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_sonarqube_version"></a> [sonarqube\_version](#input\_sonarqube\_version) | Version of SonarQube chart to install | `string` | `null` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 
 ## Outputs

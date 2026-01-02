@@ -1,0 +1,5 @@
+{
+    "chart": "sonarqube",
+    "version": "2025.6.1",
+    "repository": "https://SonarSource.github.io/helm-chart-sonarqube"
+}
