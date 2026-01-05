@@ -16,7 +16,7 @@ resource "aws_nat_gateway" "this" {
 resource "aws_eip" "nat" {
   for_each = toset(var.availability_zones)
 
-  vpc = true
+  domain = "vpc"
 
   tags = merge(
     var.tags,
