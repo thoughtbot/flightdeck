@@ -237,3 +237,9 @@ variable "sonarqube_namespace" {
   description = "Kubernetes namespace for SonarQube. Defaults to the flightdeck namespace if not set."
   default     = null
 }
+
+variable "sonarqube_release_name" {
+  type        = string
+  description = "Helm release name for SonarQube. Defaults to 'sonarqube'."
+  default     = "sonarqube"
+}

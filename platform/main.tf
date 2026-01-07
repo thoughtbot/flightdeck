@@ -215,6 +215,7 @@ module "sonarqube" {
   chart_values  = var.sonarqube_values
   chart_version = var.sonarqube_version
   k8s_namespace = var.sonarqube_namespace
+  name          = var.sonarqube_release_name
 }
 
 locals {
