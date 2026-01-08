@@ -213,3 +213,33 @@ variable "vertical_pod_autoscaler_values" {
   type        = list(string)
   default     = []
 }
+
+variable "sonarqube_enabled" {
+  description = "Set to true to enable SonarQube"
+  type        = bool
+  default     = false
+}
+
+variable "sonarqube_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
+variable "sonarqube_version" {
+  type        = string
+  description = "Version of SonarQube chart to install"
+  default     = null
+}
+
+variable "sonarqube_namespace" {
+  type        = string
+  description = "Kubernetes namespace for SonarQube. Defaults to the flightdeck namespace if not set."
+  default     = null
+}
+
+variable "sonarqube_release_name" {
+  type        = string
+  description = "Helm release name for SonarQube. Defaults to 'sonarqube'."
+  default     = "sonarqube"
+}
