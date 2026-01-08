@@ -1,0 +1,237 @@
+# Default values for SonarQube in Platform
+# These serve as the base configuration.
+# Sensitive values and environment-specific overrides should be passed via 'sonarqube_values' in variables.tf from the private repository.
+
+deploymentType: "Deployment"
+replicaCount: 1
+revisionHistoryLimit: 10
+
+deploymentStrategy:
+  type: Recreate
+
+community:
+  enabled: true
+  buildNumber: "25.12.0.117093"
+
+image:
+  repository: sonarqube
+  pullPolicy: IfNotPresent
+
+securityContext:
+  fsGroup: 1000
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop: ["ALL"]
+
+elasticsearch:
+  configureNode: false
+  bootstrapChecks: true
+
+service:
+  type: ClusterIP
+  externalPort: 9000
+  internalPort: 9000
+  annotations: {}
+
+httpProxySecret: ""
+httpProxy: ""
+httpsProxy: ""
+noProxy: ""
+
+networkPolicy:
+  enabled: false
+  prometheusNamespace: "monitoring"
+
+sonarWebContext: ""
+
+ingress-nginx:
+  enabled: false
+
+httproute:
+  enabled: false
+
+ingress:
+  enabled: false
+  annotations: {}
+  tls: []
+
+affinity: {}
+tolerations: []
+nodeSelector: {}
+hostAliases: []
+
+readinessProbe:
+  exec:
+    command:
+      - sh
+      - -c
+      - |
+        #!/bin/bash
+        # A Sonarqube container is considered ready if the status is UP, DB_MIGRATION_NEEDED or DB_MIGRATION_RUNNING
+        # status about migration are added to prevent the node to be kill while SonarQube is upgrading the database.
+        if wget --no-proxy -qO- http://localhost:{{ .Values.service.internalPort }}{{ .Values.readinessProbe.sonarWebContext | default (include "sonarqube.webcontext" .) }}api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"'; then
+          exit 0
+        fi
+        exit 1
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+
+livenessProbe:
+  exec:
+    command:
+      - sh
+      - -c
+      - |
+        wget --no-proxy --quiet -O /dev/null --timeout={{ .Values.livenessProbe.timeoutSeconds }} --header="X-Sonar-Passcode: $SONAR_WEB_SYSTEMPASSCODE" "http://localhost:{{ .Values.service.internalPort }}{{ .Values.livenessProbe.sonarWebContext | default (include "sonarqube.webcontext" .) }}api/system/liveness"
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 24
+  timeoutSeconds: 1
+
+initContainers:
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+    readOnlyRootFilesystem: true
+  resources: {}
+
+extraInitContainers: {}
+extraContainers: []
+extraVolumes: []
+extraVolumeMounts: []
+caCerts:
+  enabled: false
+
+initSysctl:
+  enabled: false
+  vmMaxMapCount: 524288
+  fsFileMax: 131072
+  nofile: 131072
+  nproc: 8192
+  securityContext:
+    privileged: true
+    runAsUser: 0
+    readOnlyRootFilesystem: true
+
+initFs:
+  enabled: false
+  securityContext:
+    privileged: false
+    runAsNonRoot: false
+    runAsUser: 0
+    runAsGroup: 0
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop: ["ALL"]
+      add: ["CHOWN"]
+    readOnlyRootFilesystem: true
+
+prometheusExporter:
+  enabled: false
+  version: "0.17.2"
+  noCheckCertificate: false
+  webBeanPort: 8000
+  ceBeanPort: 8001
+  config:
+    rules:
+      - pattern: ".*"
+
+prometheusMonitoring:
+  podMonitor:
+    enabled: false
+    interval: 30s
+
+plugins:
+  install: []
+  noCheckCertificate: false
+
+jvmOpts: ""
+jvmCeOpts: ""
+
+monitoringPasscode: ""
+
+env: []
+annotations: {}
+
+resources:
+  limits:
+    cpu: 800m
+    memory: 6144M
+    ephemeral-storage: 512000M
+  requests:
+    cpu: 400m
+    memory: 2048M
+    ephemeral-storage: 1536M
+
+persistence:
+  enabled: false
+  annotations: {}
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  uid: 1000
+  guid: 0
+  volumes: []
+  mounts: []
+
+emptyDir: {}
+
+jdbcOverwrite:
+    enabled: true
+    jdbcUrl: ""
+    jdbcUsername: ""
+    jdbcSecretName: ""
+    jdbcSecretPasswordKey: ""
+
+postgresql:
+  enabled: false
+  postgresqlUsername: ""
+  postgresqlPassword: ""
+  postgresqlDatabase: ""
+
+podLabels: {}
+
+tests:
+  enabled: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 200M
+      ephemeral-storage: 100M
+    limits:
+      cpu: 500m
+      memory: 200M
+      ephemeral-storage: 1000M
+
+serviceAccount:
+  create: false
+  name: ""
+  automountToken: true
+  annotations: {}
+
+extraConfig:
+  secrets: []
+  configmaps: []
+
+terminationGracePeriodSeconds: 60
