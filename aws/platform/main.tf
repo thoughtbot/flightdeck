@@ -18,6 +18,11 @@ module "common_platform" {
   secret_store_driver_values               = var.secret_store_driver_values
   secret_store_driver_version              = var.secret_store_driver_version
   vertical_pod_autoscaler_values           = var.vertical_pod_autoscaler_values
+  sonarqube_enabled                        = var.sonarqube_enabled
+  sonarqube_namespace                      = var.sonarqube_namespace
+  sonarqube_release_name                   = var.sonarqube_release_name
+  sonarqube_values                         = var.sonarqube_values
+
 
   cert_manager_values = concat(
     local.cert_manager_values,
