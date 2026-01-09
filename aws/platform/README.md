@@ -204,6 +204,10 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="input_secret_store_driver_values"></a> [secret\_store\_driver\_values](#input\_secret\_store\_driver\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_secret_store_driver_version"></a> [secret\_store\_driver\_version](#input\_secret\_store\_driver\_version) | Version of the secret store driver to install | `string` | `null` | no |
 | <a name="input_secret_store_provider_values"></a> [secret\_store\_provider\_values](#input\_secret\_store\_provider\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
+| <a name="input_sonarqube_enabled"></a> [sonarqube\_enabled](#input\_sonarqube\_enabled) | Set to true to enable SonarQube | `bool` | `false` | no |
+| <a name="input_sonarqube_namespace"></a> [sonarqube\_namespace](#input\_sonarqube\_namespace) | Kubernetes namespace for SonarQube. Defaults to the flightdeck namespace if not set. | `string` | `null` | no |
+| <a name="input_sonarqube_release_name"></a> [sonarqube\_release\_name](#input\_sonarqube\_release\_name) | Helm release name for SonarQube. Defaults to 'sonarqube'. | `string` | `"sonarqube"` | no |
+| <a name="input_sonarqube_values"></a> [sonarqube\_values](#input\_sonarqube\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_vertical_pod_autoscaler_values"></a> [vertical\_pod\_autoscaler\_values](#input\_vertical\_pod\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 
 ## Outputs
