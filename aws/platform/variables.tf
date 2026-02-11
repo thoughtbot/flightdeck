@@ -152,6 +152,12 @@ variable "k8s_namespace" {
   description = "Kubernetes namespace in which resources should be created"
 }
 
+variable "log_group_template_override" {
+  type        = string
+  default     = null
+  description = "Optional override for Fluent Bit log group template"
+}
+
 variable "logs_retention_in_days" {
   type        = number
   default     = 30
