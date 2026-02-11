@@ -380,7 +380,7 @@ locals {
             auto_create_group true
             region ${data.aws_region.current.name}
             log_group_name ${module.cloudwatch_logs.log_group_name}
-            log_group_template ${var.logs_prefix}/$kubernetes['namespace_name']
+            log_group_template ${local.log_group_template_value}
             log_stream_prefix $${HOST_NAME}-
             log_stream_template $kubernetes['pod_name'].$kubernetes['container_name']
             log_retention_days ${var.logs_retention_in_days}
@@ -419,6 +419,11 @@ locals {
       }
     })
   ]
+
+  log_group_template_value = coalesce(
+    var.log_group_template_override,
+    "${var.logs_prefix}/$kubernetes['namespace_name']"
+  )
 
   istio_ingress_values = [
     yamlencode({
