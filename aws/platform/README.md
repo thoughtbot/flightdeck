@@ -141,6 +141,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="module_common_platform"></a> [common\_platform](#module\_common\_platform) | ../../platform | n/a |
 | <a name="module_dns_service_account_role"></a> [dns\_service\_account\_role](#module\_dns\_service\_account\_role) | ./modules/dns-service-account-role | n/a |
 | <a name="module_ebs_csi_driver_service_account_role"></a> [ebs\_csi\_driver\_service\_account\_role](#module\_ebs\_csi\_driver\_service\_account\_role) | ./modules/ebs-csi-driver-service-account-role | n/a |
+| <a name="module_kubernetes_events_cloudwatch_logs"></a> [kubernetes\_events\_cloudwatch\_logs](#module\_kubernetes\_events\_cloudwatch\_logs) | ./modules/cloudwatch-logs | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ../network-data | n/a |
 | <a name="module_prometheus_service_account_role"></a> [prometheus\_service\_account\_role](#module\_prometheus\_service\_account\_role) | ./modules/prometheus-service-account-role | n/a |
 | <a name="module_secrets_store_provider"></a> [secrets\_store\_provider](#module\_secrets\_store\_provider) | ./modules/secrets-store-provider | n/a |
