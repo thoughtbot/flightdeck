@@ -15,6 +15,13 @@ resource "aws_cloudwatch_log_group" "this" {
   tags              = var.aws_tags
 }
 
+resource "aws_cloudwatch_log_group" "kubernetes_events" {
+  name              = "${var.log_group_prefix}/${var.cluster_full_name}/kubernetes-events"
+  retention_in_days = var.retention_in_days
+  skip_destroy      = var.skip_destroy
+  tags              = var.aws_tags
+}
+
 resource "aws_iam_policy" "this" {
   name   = module.fluent_bit_service_account_role.name
   policy = data.aws_iam_policy_document.this.json
