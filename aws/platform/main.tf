@@ -384,7 +384,7 @@ locals {
         [OUTPUT]
             Name cloudwatch_logs
             Match kube.events
-            auto_create_group false
+            auto_create_group true
             region ${data.aws_region.current.name}
             log_group_name ${module.cloudwatch_logs.log_group_name}-events
             log_stream_prefix $${HOST_NAME}-
