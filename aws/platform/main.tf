@@ -404,14 +404,8 @@ locals {
         EOT
       }
       rbac = {
-        create = true
-        rules = [
-          {
-            apiGroups = [""]
-            resources = ["namespaces", "pods", "events"]
-            verbs     = ["get", "list", "watch"]
-          }
-        ]
+        create     = true
+        nodeAccess = true
       }
       env = [
         {
