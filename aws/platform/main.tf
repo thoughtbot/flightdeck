@@ -403,6 +403,16 @@ locals {
             log_retention_days ${var.logs_retention_in_days}
         EOT
       }
+      rbac = {
+        create = true
+        rules = [
+          {
+            apiGroups = [""]
+            resources = ["namespaces", "pods", "events"]
+            verbs     = ["get", "list", "watch"]
+          }
+        ]
+      }
       env = [
         {
           name = "HOST_NAME"
