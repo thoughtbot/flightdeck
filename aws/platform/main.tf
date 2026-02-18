@@ -381,18 +381,15 @@ locals {
             Kube_CA_File      /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
             Kube_Token_File   /var/run/secrets/kubernetes.io/serviceaccount/token
             Interval_Sec      10
-        [FILTER]
-            Name    grep
-            Match   kube.events
-            Exclude type Normal
         [OUTPUT]
             Name cloudwatch_logs
             Match kube.events
             auto_create_group false
             region ${data.aws_region.current.name}
-            log_group_name /flightdeck/${var.cluster_name}/kubernetes-events
-            log_stream_prefix events-
-            log_retention_days 30
+            log_group_name ${module.cloudwatch_logs.log_group_name}-events
+            log_stream_prefix $${HOST_NAME}-
+            log_stream_template $kubernetes['pod_name'].$kubernetes['container_name']
+            log_retention_days ${var.logs_retention_in_days}
         [OUTPUT]
             Name cloudwatch_logs
             Match *
