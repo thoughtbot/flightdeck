@@ -404,8 +404,9 @@ locals {
         EOT
       }
       rbac = {
-        create     = true
-        nodeAccess = true
+        create       = true
+        nodeAccess   = true
+        eventsAccess = true
       }
       env = [
         {
