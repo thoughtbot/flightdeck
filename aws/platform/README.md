@@ -135,6 +135,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="module_auth_config_map"></a> [auth\_config\_map](#module\_auth\_config\_map) | ./modules/auth-config-map | n/a |
 | <a name="module_aws_ebs_csi_driver"></a> [aws\_ebs\_csi\_driver](#module\_aws\_ebs\_csi\_driver) | ./modules/aws-ebs-csi-driver | n/a |
 | <a name="module_aws_load_balancer_controller"></a> [aws\_load\_balancer\_controller](#module\_aws\_load\_balancer\_controller) | ./modules/load-balancer-controller | n/a |
+| <a name="module_cloudwatch_adapter_service_account_role"></a> [cloudwatch\_adapter\_service\_account\_role](#module\_cloudwatch\_adapter\_service\_account\_role) | ./modules/cloudwatch-adapter-service-account-role | n/a |
 | <a name="module_cloudwatch_logs"></a> [cloudwatch\_logs](#module\_cloudwatch\_logs) | ./modules/cloudwatch-logs | n/a |
 | <a name="module_cluster_autoscaler_service_account_role"></a> [cluster\_autoscaler\_service\_account\_role](#module\_cluster\_autoscaler\_service\_account\_role) | ./modules/cluster-autoscaler-service-account-role | n/a |
 | <a name="module_cluster_name"></a> [cluster\_name](#module\_cluster\_name) | ../cluster-name | n/a |
@@ -170,6 +171,7 @@ You can then use it to manually edit the aws-auth ConfigMap:
 | <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Tags to be applied to created AWS resources | `map(string)` | `{}` | no |
 | <a name="input_cert_manager_values"></a> [cert\_manager\_values](#input\_cert\_manager\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_certificate_issuer"></a> [certificate\_issuer](#input\_certificate\_issuer) | YAML spec for certificate issuer; defaults to self-signed | `string` | `null` | no |
+| <a name="input_cloudwatch_adapter_values"></a> [cloudwatch\_adapter\_values](#input\_cloudwatch\_adapter\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_cluster_autoscaler_values"></a> [cluster\_autoscaler\_values](#input\_cluster\_autoscaler\_values) | Overrides to pass to the Helm chart | `list(string)` | `[]` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the EKS cluster | `string` | n/a | yes |
 | <a name="input_custom_groups"></a> [custom\_groups](#input\_custom\_groups) | List of custom RBAC groups to be assigned to an IAM role for custom cluster privileges, | `map(list(string))` | `{}` | no |

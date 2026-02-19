@@ -1,0 +1,11 @@
+apiVersion: v2
+name: cloudwatch-adapter
+description: Configuration for cloudwatch adapter to fetch AWS Cloudwatch metrics in kubernetes
+
+type: application
+
+version: 0.1.0
+
+appVersion: 1.0.0
+
+# Downloaded from https://artifacthub.io/packages/helm/deliveryhero/k8s-cloudwatch-adapter

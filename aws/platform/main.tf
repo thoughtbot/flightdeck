@@ -29,6 +29,11 @@ module "common_platform" {
     var.cert_manager_values
   )
 
+  cloudwatch_adapter_values = concat(
+    local.cloudwatch_adapter_values,
+    var.cloudwatch_adapter_values
+  )
+
   cluster_autoscaler_values = concat(
     local.cluster_autoscaler_values,
     var.cluster_autoscaler_values
@@ -133,6 +138,15 @@ module "cloudwatch_logs" {
   oidc_issuer       = data.aws_ssm_parameter.oidc_issuer.value
   retention_in_days = var.logs_retention_in_days
   skip_destroy      = var.logs_skip_destroy
+}
+
+module "cloudwatch_adapter_service_account_role" {
+  source = "./modules/cloudwatch-adapter-service-account-role"
+
+  aws_namespace = [module.cluster_name.full]
+  aws_tags      = var.aws_tags
+  k8s_namespace = var.k8s_namespace
+  oidc_issuer   = data.aws_ssm_parameter.oidc_issuer.value
 }
 
 module "cluster_autoscaler_service_account_role" {
@@ -253,6 +267,16 @@ locals {
       serviceAccount = {
         annotations = {
           "eks.amazonaws.com/role-arn" = module.dns_service_account_role.arn
+        }
+      }
+    })
+  ]
+
+  cloudwatch_adapter_values = [
+    yamlencode({
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = module.cloudwatch_adapter_service_account_role.arn
         }
       }
     })
