@@ -63,6 +63,12 @@ variable "prometheus_workspace_name" {
   type        = string
 }
 
+variable "sns_topic_name_suffix" {
+  description = "Suffix for SNS topic names"
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Tags to be applied to created resources"
   type        = map(string)
