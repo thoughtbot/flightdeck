@@ -40,6 +40,12 @@ variable "alert_default_severity" {
   default     = "warning"
 }
 
+variable "alertmanager_config_enabled" {
+  description = "Enable alertmanager configs for the Prometheus workspace"
+  type        = bool
+  default     = true
+}
+
 variable "grafana_role_name" {
   description = "Name of the IAM role created for Grafana"
   type        = string

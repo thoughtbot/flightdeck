@@ -51,6 +51,7 @@ data "aws_iam_policy_document" "ingestion_assume_role" {
 }
 
 resource "aws_prometheus_alert_manager_definition" "this" {
+  count = var.alertmanager_config_enabled ? 1 : 0
   definition   = yamlencode(local.alert_manager_definition)
   workspace_id = aws_prometheus_workspace.this.id
 }

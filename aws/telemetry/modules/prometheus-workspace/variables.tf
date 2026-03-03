@@ -22,6 +22,12 @@ variable "alert_subject_template" {
   default     = null
 }
 
+variable "alertmanager_config_enabled" {
+  description = "Enable alertmanager configs for the Prometheus workspace"
+  type        = bool
+  default     = true
+}
+
 variable "name" {
   description = "Name for this Prometheus workspace"
   type        = string
