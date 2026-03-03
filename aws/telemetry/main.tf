@@ -23,6 +23,7 @@ module "prometheus_workspace" {
   alert_resolve_timeout       = var.alert_resolve_timeout
   alert_subject_template      = var.alert_subject_template
   alertmanager_config_enabled = var.alertmanager_config_enabled
+  log_group_arn               = var.log_group_arn
   name                        = var.prometheus_workspace_name
   tags                        = var.tags
 

@@ -46,6 +46,12 @@ variable "alertmanager_config_enabled" {
   default     = true
 }
 
+variable "log_group_arn" {
+  description = "ARN for the CW log group"
+  type        = list(string)
+  default     = []
+}
+
 variable "grafana_role_name" {
   description = "Name of the IAM role created for Grafana"
   type        = string

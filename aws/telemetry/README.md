@@ -63,6 +63,7 @@ module "telemetry" {
 | <a name="input_grafana_role_name"></a> [grafana\_role\_name](#input\_grafana\_role\_name) | Name of the IAM role created for Grafana | `string` | `"grafana"` | no |
 | <a name="input_grafana_workspace_name"></a> [grafana\_workspace\_name](#input\_grafana\_workspace\_name) | Name of the Grafana workspace which will use telemetry resources | `string` | `"Grafana"` | no |
 | <a name="input_kms_alias_name"></a> [kms\_alias\_name](#input\_kms\_alias\_name) | KMS alias name for SNS topics | `string` | `"alias/sns-alarm-topics"` | no |
+| <a name="input_log_group_arn"></a> [log\_group\_arn](#input\_log\_group\_arn) | ARN for the CW log group | `list(string)` | `[]` | no |
 | <a name="input_monitoring_account_ids"></a> [monitoring\_account\_ids](#input\_monitoring\_account\_ids) | AWS account IDs in which Grafana will run | `list(string)` | `null` | no |
 | <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the AWS Managed Prometheus workspace | `string` | n/a | yes |
 | <a name="input_sns_topic_name_suffix"></a> [sns\_topic\_name\_suffix](#input\_sns\_topic\_name\_suffix) | Suffix for SNS topic names | `string` | `""` | no |

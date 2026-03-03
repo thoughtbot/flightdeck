@@ -28,6 +28,12 @@ variable "alertmanager_config_enabled" {
   default     = true
 }
 
+variable "log_group_arn" {
+  description = "ARN for the CW log group"
+  type        = list(string)
+  default     = []
+}
+
 variable "name" {
   description = "Name for this Prometheus workspace"
   type        = string
