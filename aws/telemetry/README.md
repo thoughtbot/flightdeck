@@ -59,6 +59,7 @@ module "telemetry" {
 | <a name="input_alert_resolve_timeout"></a> [alert\_resolve\_timeout](#input\_alert\_resolve\_timeout) | Time after which alerts without an end time after resolved | `string` | `null` | no |
 | <a name="input_alert_severities"></a> [alert\_severities](#input\_alert\_severities) | List of alert priorities for AlertManager | `list(string)` | <pre>[<br>  "warning",<br>  "ticket",<br>  "page"<br>]</pre> | no |
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
+| <a name="input_alertmanager_config_enabled"></a> [alertmanager\_config\_enabled](#input\_alertmanager\_config\_enabled) | Enable alertmanager configs for the Prometheus workspace | `bool` | `true` | no |
 | <a name="input_grafana_role_name"></a> [grafana\_role\_name](#input\_grafana\_role\_name) | Name of the IAM role created for Grafana | `string` | `"grafana"` | no |
 | <a name="input_grafana_workspace_name"></a> [grafana\_workspace\_name](#input\_grafana\_workspace\_name) | Name of the Grafana workspace which will use telemetry resources | `string` | `"Grafana"` | no |
 | <a name="input_kms_alias_name"></a> [kms\_alias\_name](#input\_kms\_alias\_name) | KMS alias name for SNS topics | `string` | `"alias/sns-alarm-topics"` | no |

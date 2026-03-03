@@ -41,6 +41,7 @@ write to the workspace.
 | <a name="input_alert_message_template"></a> [alert\_message\_template](#input\_alert\_message\_template) | Template used for AlertManager messages | `string` | `null` | no |
 | <a name="input_alert_resolve_timeout"></a> [alert\_resolve\_timeout](#input\_alert\_resolve\_timeout) | Time after which alerts without an end time after resolved | `string` | `null` | no |
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
+| <a name="input_alertmanager_config_enabled"></a> [alertmanager\_config\_enabled](#input\_alertmanager\_config\_enabled) | Enable alertmanager configs for the Prometheus workspace | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this Prometheus workspace | `string` | n/a | yes |
 | <a name="input_sns_receivers"></a> [sns\_receivers](#input\_sns\_receivers) | Map of alert priorities to SNS topics for AlertManager | `map(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
