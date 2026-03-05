@@ -1,6 +1,13 @@
 resource "aws_prometheus_workspace" "this" {
   alias = var.name
   tags  = var.tags
+
+  dynamic "logging_configuration" {
+    for_each = var.log_group_arn
+    content {
+      log_group_arn = logging_configuration.value
+    }
+  }
 }
 
 resource "aws_iam_role" "ingestion" {
@@ -51,6 +58,7 @@ data "aws_iam_policy_document" "ingestion_assume_role" {
 }
 
 resource "aws_prometheus_alert_manager_definition" "this" {
+  count        = var.alertmanager_config_enabled ? 1 : 0
   definition   = yamlencode(local.alert_manager_definition)
   workspace_id = aws_prometheus_workspace.this.id
 }

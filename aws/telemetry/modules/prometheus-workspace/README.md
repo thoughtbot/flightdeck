@@ -11,13 +11,13 @@ write to the workspace.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 6.0 |
 
 ## Resources
 
@@ -41,6 +41,8 @@ write to the workspace.
 | <a name="input_alert_message_template"></a> [alert\_message\_template](#input\_alert\_message\_template) | Template used for AlertManager messages | `string` | `null` | no |
 | <a name="input_alert_resolve_timeout"></a> [alert\_resolve\_timeout](#input\_alert\_resolve\_timeout) | Time after which alerts without an end time after resolved | `string` | `null` | no |
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
+| <a name="input_alertmanager_config_enabled"></a> [alertmanager\_config\_enabled](#input\_alertmanager\_config\_enabled) | Enable alertmanager configs for the Prometheus workspace | `bool` | `true` | no |
+| <a name="input_log_group_arn"></a> [log\_group\_arn](#input\_log\_group\_arn) | ARN for the CW log group | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for this Prometheus workspace | `string` | n/a | yes |
 | <a name="input_sns_receivers"></a> [sns\_receivers](#input\_sns\_receivers) | Map of alert priorities to SNS topics for AlertManager | `map(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |

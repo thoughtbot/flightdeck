@@ -8,7 +8,7 @@ module "sns_topics" {
     for source in ["alertmanager", "cloudwatch-alarms", "cloudwatch-logs"] :
     [
       for severity in var.alert_severities :
-      "${source}-${severity}"
+      "${source}-${severity}${var.sns_topic_name_suffix}"
     ]
   ])
 
@@ -18,21 +18,23 @@ module "sns_topics" {
 module "prometheus_workspace" {
   source = "./modules/prometheus-workspace"
 
-  alert_group_by         = var.alert_group_by
-  alert_message_template = var.alert_message_template
-  alert_resolve_timeout  = var.alert_resolve_timeout
-  alert_subject_template = var.alert_subject_template
-  name                   = var.prometheus_workspace_name
-  tags                   = var.tags
+  alert_group_by              = var.alert_group_by
+  alert_message_template      = var.alert_message_template
+  alert_resolve_timeout       = var.alert_resolve_timeout
+  alert_subject_template      = var.alert_subject_template
+  alertmanager_config_enabled = var.alertmanager_config_enabled
+  log_group_arn               = var.log_group_arn
+  name                        = var.prometheus_workspace_name
+  tags                        = var.tags
 
   sns_receivers = merge({
-    default = module.sns_topics.arns["alertmanager-${var.alert_default_severity}"]
+    default = module.sns_topics.arns["alertmanager-${var.alert_default_severity}${var.sns_topic_name_suffix}"]
     },
     zipmap(
       var.alert_severities,
       [
         for severity in var.alert_severities :
-        module.sns_topics.arns["alertmanager-${severity}"]
+        module.sns_topics.arns["alertmanager-${severity}${var.sns_topic_name_suffix}"]
       ]
     )
   )

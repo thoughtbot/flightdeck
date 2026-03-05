@@ -25,13 +25,13 @@ module "telemetry" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.8 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 6.0 |
 
 ## Modules
 
@@ -59,11 +59,14 @@ module "telemetry" {
 | <a name="input_alert_resolve_timeout"></a> [alert\_resolve\_timeout](#input\_alert\_resolve\_timeout) | Time after which alerts without an end time after resolved | `string` | `null` | no |
 | <a name="input_alert_severities"></a> [alert\_severities](#input\_alert\_severities) | List of alert priorities for AlertManager | `list(string)` | <pre>[<br>  "warning",<br>  "ticket",<br>  "page"<br>]</pre> | no |
 | <a name="input_alert_subject_template"></a> [alert\_subject\_template](#input\_alert\_subject\_template) | Template used for AlertManager alert subjects | `string` | `null` | no |
+| <a name="input_alertmanager_config_enabled"></a> [alertmanager\_config\_enabled](#input\_alertmanager\_config\_enabled) | Enable alertmanager configs for the Prometheus workspace | `bool` | `true` | no |
 | <a name="input_grafana_role_name"></a> [grafana\_role\_name](#input\_grafana\_role\_name) | Name of the IAM role created for Grafana | `string` | `"grafana"` | no |
 | <a name="input_grafana_workspace_name"></a> [grafana\_workspace\_name](#input\_grafana\_workspace\_name) | Name of the Grafana workspace which will use telemetry resources | `string` | `"Grafana"` | no |
 | <a name="input_kms_alias_name"></a> [kms\_alias\_name](#input\_kms\_alias\_name) | KMS alias name for SNS topics | `string` | `"alias/sns-alarm-topics"` | no |
+| <a name="input_log_group_arn"></a> [log\_group\_arn](#input\_log\_group\_arn) | ARN for the CW log group | `list(string)` | `[]` | no |
 | <a name="input_monitoring_account_ids"></a> [monitoring\_account\_ids](#input\_monitoring\_account\_ids) | AWS account IDs in which Grafana will run | `list(string)` | `null` | no |
 | <a name="input_prometheus_workspace_name"></a> [prometheus\_workspace\_name](#input\_prometheus\_workspace\_name) | Name of the AWS Managed Prometheus workspace | `string` | n/a | yes |
+| <a name="input_sns_topic_name_suffix"></a> [sns\_topic\_name\_suffix](#input\_sns\_topic\_name\_suffix) | Suffix for SNS topic names | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to created resources | `map(string)` | `{}` | no |
 
 ## Outputs

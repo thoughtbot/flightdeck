@@ -40,6 +40,18 @@ variable "alert_default_severity" {
   default     = "warning"
 }
 
+variable "alertmanager_config_enabled" {
+  description = "Enable alertmanager configs for the Prometheus workspace"
+  type        = bool
+  default     = true
+}
+
+variable "log_group_arn" {
+  description = "ARN for the CW log group"
+  type        = list(string)
+  default     = []
+}
+
 variable "grafana_role_name" {
   description = "Name of the IAM role created for Grafana"
   type        = string
@@ -61,6 +73,12 @@ variable "monitoring_account_ids" {
 variable "prometheus_workspace_name" {
   description = "Name of the AWS Managed Prometheus workspace"
   type        = string
+}
+
+variable "sns_topic_name_suffix" {
+  description = "Suffix for SNS topic names"
+  type        = string
+  default     = ""
 }
 
 variable "tags" {
