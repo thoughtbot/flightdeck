@@ -91,7 +91,7 @@ jobs:
         overwrite: true
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v5
+      uses: aws-actions/configure-aws-credentials@v6
       with:
         aws-region: us-east-1
         role-to-assume: "arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/flightdeck-ci"
