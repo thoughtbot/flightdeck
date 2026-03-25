@@ -2,12 +2,13 @@ module "vpc" {
   count  = var.create_vpc ? 1 : 0
   source = "./modules/vpc"
 
-  cidr_block       = var.vpc_cidr_block
-  enable_flow_logs = var.enable_flow_logs
-  enable_ipv6      = var.enable_ipv6
-  name             = var.name
-  namespace        = var.namespace
-  tags             = local.vpc_tags
+  cidr_block               = var.vpc_cidr_block
+  enable_flow_logs         = var.enable_flow_logs
+  enable_ipv6              = var.enable_ipv6
+  name                     = var.name
+  namespace                = var.namespace
+  tags                     = local.vpc_tags
+  flow_logs_retention_days = var.flow_logs_retention_days
 }
 
 data "aws_vpc" "this" {
