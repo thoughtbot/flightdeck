@@ -94,3 +94,9 @@ variable "vpc_tags" {
   description = "Tags to be applied to the VPC"
   default     = {}
 }
+
+variable "flow_logs_retention_days" {
+  description = "Number of days to retain VPC Flow Logs in CloudWatch." # Only applies when enable_flow_logs is true.
+  type        = number
+  default     = null # null = retain forever
+}
