@@ -100,3 +100,9 @@ variable "flow_logs_retention_days" {
   type        = number
   default     = null # null = retain forever
 }
+
+variable "create_s3_endpoint" {
+  description = "Set to false to disable creation of the S3 Gateway VPC endpoint"
+  type        = bool
+  default     = true
+}

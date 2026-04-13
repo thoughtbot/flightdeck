@@ -87,6 +87,23 @@ module "public_subnet_routes" {
   depends_on = [module.public_subnets, aws_internet_gateway.this]
 }
 
+module "s3_endpoint" {
+  count  = var.create_s3_endpoint ? 1 : 0
+  source = "./modules/vpc-endpoints/s3-vpc-endpoint"
+
+  name      = var.name
+  namespace = var.namespace
+  vpc       = local.vpc
+  tags      = var.tags
+
+  route_table_ids = concat(
+    module.private_subnet_routes.route_table_ids,
+    [module.public_subnet_routes.route_table.id],
+  )
+
+  depends_on = [module.private_subnet_routes, module.public_subnet_routes]
+}
+
 resource "aws_internet_gateway" "this" {
   count = var.create_internet_gateway ? 1 : 0
 
