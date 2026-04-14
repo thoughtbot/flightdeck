@@ -31,4 +31,11 @@
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | Private subnets for each availability\_zone | `map(object({ id = string, availability_zone = string }))` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to be applied to all created resources | `map(string)` | `{}` | no |
 | <a name="input_vpc"></a> [vpc](#input\_vpc) | AWS VPC for NAT gateways | `object({ id = string, cidr_block = string })` | n/a | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_route_table_ids"></a> [route\_table\_ids](#output\_route\_table\_ids) | List of route table IDs for private subnets |
+| <a name="output_route_tables"></a> [route\_tables](#output\_route\_tables) | Map of per-AZ NAT route tables for private subnets |
 <!-- END_TF_DOCS -->

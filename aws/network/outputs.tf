@@ -12,3 +12,8 @@ output "vpc_id" {
   description = "ID of the AWS VPC"
   value       = local.vpc.id
 }
+
+output "s3_endpoint_id" {
+  description = "ID of the S3 Gateway VPC endpoint (null if disabled)"
+  value       = try(module.s3_endpoint[0].endpoint_id, null)
+}

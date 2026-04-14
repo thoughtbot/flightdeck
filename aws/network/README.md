@@ -71,6 +71,7 @@ module "network" {
 | <a name="module_private_subnets"></a> [private\_subnets](#module\_private\_subnets) | ./modules/private-subnets | n/a |
 | <a name="module_public_subnet_routes"></a> [public\_subnet\_routes](#module\_public\_subnet\_routes) | ./modules/public-subnet-routes | n/a |
 | <a name="module_public_subnets"></a> [public\_subnets](#module\_public\_subnets) | ./modules/public-subnets | n/a |
+| <a name="module_s3_endpoint"></a> [s3\_endpoint](#module\_s3\_endpoint) | ./modules/vpc-endpoints/s3-vpc-endpoint | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
 
 ## Resources
@@ -87,6 +88,7 @@ module "network" {
 | <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | List of clusters which run in this network | `list(string)` | `[]` | no |
 | <a name="input_create_internet_gateway"></a> [create\_internet\_gateway](#input\_create\_internet\_gateway) | Set to false to disable creation of an internet gateway | `bool` | `true` | no |
 | <a name="input_create_nat_gateways"></a> [create\_nat\_gateways](#input\_create\_nat\_gateways) | Set to false to disable creation of NAT gateways | `bool` | `true` | no |
+| <a name="input_create_s3_endpoint"></a> [create\_s3\_endpoint](#input\_create\_s3\_endpoint) | Set to false to disable creation of the S3 Gateway VPC endpoint | `bool` | `true` | no |
 | <a name="input_create_vpc"></a> [create\_vpc](#input\_create\_vpc) | Set to false to disable creation of the VPC | `bool` | `true` | no |
 | <a name="input_enable_flow_logs"></a> [enable\_flow\_logs](#input\_enable\_flow\_logs) | Set to true to enable VPC flow logs | `bool` | `false` | no |
 | <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Set to false to disable IPV6 | `bool` | `false` | no |
@@ -109,5 +111,6 @@ module "network" {
 |------|-------------|
 | <a name="output_cluster_names"></a> [cluster\_names](#output\_cluster\_names) | List of clusters which run in this network |
 | <a name="output_nat_ip_addresses"></a> [nat\_ip\_addresses](#output\_nat\_ip\_addresses) | List of IP addresses created for NAT gateways |
+| <a name="output_s3_endpoint_id"></a> [s3\_endpoint\_id](#output\_s3\_endpoint\_id) | ID of the S3 Gateway VPC endpoint (null if disabled) |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the AWS VPC |
 <!-- END_TF_DOCS -->
