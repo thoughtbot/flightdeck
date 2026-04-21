@@ -45,3 +45,9 @@ variable "viewer_groups" {
   type        = list(string)
   default     = []
 }
+
+variable "grafana_version" {
+  description = "Specifies the version of Grafana to support in the workspace."
+  type        = string
+  default     = null
+}
