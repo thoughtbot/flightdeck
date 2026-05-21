@@ -339,6 +339,10 @@ module "cloudwatch_log_extract" {
     waf = aws_wafv2_web_acl.main.id
   }
   destination_sns_topic_arn = aws_sns_topic.waf_logs_sns_subscription.arn
+
+  depends_on = [
+    aws_cloudwatch_log_group.aws_waf_log_group
+  ]
 }
 
 resource "aws_sns_topic" "waf_logs_sns_subscription" {
