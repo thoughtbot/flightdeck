@@ -235,6 +235,65 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
+    for_each = var.host_ip_restriction_rules
+    content {
+      name     = "${rule.value["name"]}-host-ip-restriction"
+      priority = rule.value["priority"]
+
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              field_to_match {
+                single_header {
+                  name = "host"
+                }
+              }
+
+              positional_constraint = "EXACTLY"
+
+              search_string = lower(rule.value["host"])
+
+              text_transformation {
+                priority = 0
+                type     = "LOWERCASE"
+              }
+            }
+          }
+          statement {
+            not_statement {
+              statement {
+                ip_set_reference_statement {
+                  arn = aws_wafv2_ip_set.host_restriction[rule.key].arn
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-host-ip-restriction"
+      }
+    }
+  }
+
+  dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
       name     = "${rule.value["name"]}-${rule.key}"
@@ -328,6 +387,15 @@ resource "aws_wafv2_ip_set" "block_ip_list" {
   scope              = var.waf_scope
   ip_address_version = "IPV4"
   addresses          = var.block_ip_list
+}
+
+resource "aws_wafv2_ip_set" "host_restriction" {
+  for_each = var.host_ip_restriction_rules
+
+  name               = "${var.name}-${each.key}-allowed-ip-set"
+  scope              = var.waf_scope
+  ip_address_version = "IPV4"
+  addresses          = each.value.allowed_ip_list
 }
 
 module "cloudwatch_log_extract" {
