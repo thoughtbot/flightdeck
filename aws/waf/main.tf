@@ -273,6 +273,64 @@ resource "aws_wafv2_web_acl" "main" {
               }
             }
           }
+
+          # Optional: scope the restriction to one or more URL path prefixes.
+          # Renders nothing when uri_paths is empty, leaving the whole host restricted.
+          dynamic "statement" {
+            for_each = length(rule.value["uri_paths"]) > 0 ? [1] : []
+            content {
+              dynamic "byte_match_statement" {
+                for_each = length(rule.value["uri_paths"]) == 1 ? [1] : []
+                content {
+                  field_to_match {
+                    uri_path {}
+                  }
+
+                  positional_constraint = "STARTS_WITH"
+
+                  search_string = lower(rule.value["uri_paths"][0])
+
+                  text_transformation {
+                    priority = 0
+                    type     = "URL_DECODE"
+                  }
+                  text_transformation {
+                    priority = 1
+                    type     = "LOWERCASE"
+                  }
+                }
+              }
+              dynamic "or_statement" {
+                for_each = length(rule.value["uri_paths"]) > 1 ? [1] : []
+                content {
+                  dynamic "statement" {
+                    for_each = rule.value["uri_paths"]
+                    content {
+                      byte_match_statement {
+                        field_to_match {
+                          uri_path {}
+                        }
+
+                        positional_constraint = "STARTS_WITH"
+
+                        search_string = lower(statement.value)
+
+                        text_transformation {
+                          priority = 0
+                          type     = "URL_DECODE"
+                        }
+                        text_transformation {
+                          priority = 1
+                          type     = "LOWERCASE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
           statement {
             not_statement {
               statement {

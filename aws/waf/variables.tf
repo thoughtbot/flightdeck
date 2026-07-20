@@ -72,13 +72,14 @@ variable "block_ip_list" {
 }
 
 variable "host_ip_restriction_rules" {
-  description = "Restrict specific Hosts to an allowed IP set. For each entry, blocks requests where the Host header matches exactly AND the source IP is not in that entry's allowed set. Globally allowed IPs (allowed_ip_list) still pass via the priority-0 allow rule."
+  description = "Restrict specific Hosts (optionally scoped to URL path prefixes) to an allowed IP set. For each entry, blocks requests where the Host header matches exactly, the URI matches one of the given path prefixes (if any), AND the source IP is not in that entry's allowed set. Globally allowed IPs (allowed_ip_list) still pass via the priority-0 allow rule."
   type = map(object({
-    name            = string                # Friendly name, used in the rule name and CloudWatch metric.
-    priority        = number                # Unique WAF rule priority within the ACL. All rules are processed from lowest to highest priority.
-    host            = string                # Exact Host header to restrict, e.g. "core-data.albaikcloud.com".
-    allowed_ip_list = list(string)          # IPv4 CIDRs permitted to reach the host. All other (non globally-allowed) IPs are blocked for this host.
-    count_override  = optional(bool, false) # If true, override the action to `count` (dry run). If false (default), the action is `block`.
+    name            = string                     # Friendly name, used in the rule name and CloudWatch metric.
+    priority        = number                     # Unique WAF rule priority within the ACL. All rules are processed from lowest to highest priority.
+    host            = string                     # Exact Host header to restrict, e.g. "core-data.albaikcloud.com".
+    allowed_ip_list = list(string)               # IPv4 CIDRs permitted to reach the host. All other (non globally-allowed) IPs are blocked for this host.
+    uri_paths       = optional(list(string), []) # Path prefixes to scope the restriction to, e.g. ["/admin"]. Matched with STARTS_WITH, so "/admin" also covers "/admin/x". Empty (default) restricts the whole host.
+    count_override  = optional(bool, false)      # If true, override the action to `count` (dry run). If false (default), the action is `block`.
   }))
   default = {}
 }
