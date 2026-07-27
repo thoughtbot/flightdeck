@@ -83,3 +83,27 @@ variable "host_ip_restriction_rules" {
   }))
   default = {}
 }
+
+variable "host_uri_rate_limit_rules" {
+  description = "Per-IP rate limits scoped to a specific Host and optional URI path(s). Only requests matching the host (and URI, if given) count toward the limit; when an IP exceeds it within the evaluation window the rule action applies."
+  type = map(object({
+    name                  = string                          # Friendly name -> rule name + CloudWatch metric.
+    priority              = number                          # Unique WAF rule priority within the ACL.
+    limit                 = optional(number, 2000)          # Max matching requests per IP per evaluation window (AWS minimum is 10).
+    evaluation_window_sec = optional(number, 300)           # Rate-limit window in seconds. One of 60, 120, 300, 600.
+    host                  = string                          # Exact Host header to scope the rate limit to, e.g. "example.com".
+    uri_paths             = optional(list(string), [])      # URI path(s) to scope the rate limit to. Empty (default) rate-limits the whole host.
+    uri_match_type        = optional(string, "STARTS_WITH") # How to match uri_paths: EXACTLY (pin one endpoint) or STARTS_WITH (prefix).
+    count_override        = optional(bool, false)           # If true, override the action to `count` (dry run). If false (default), the action is `block` when the limit is exceeded.
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains(["EXACTLY", "STARTS_WITH"], r.uri_match_type)])
+    error_message = "uri_match_type must be EXACTLY or STARTS_WITH."
+  }
+  validation {
+    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains([60, 120, 300, 600], r.evaluation_window_sec)])
+    error_message = "evaluation_window_sec must be one of 60, 120, 300, 600."
+  }
+}

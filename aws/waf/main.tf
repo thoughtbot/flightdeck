@@ -352,6 +352,144 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
+    for_each = var.host_uri_rate_limit_rules
+    content {
+      name     = "${rule.value["name"]}-host-uri-ratelimit"
+      priority = rule.value["priority"]
+
+      dynamic "action" {
+        for_each = rule.value["count_override"] == true ? [1] : []
+        content {
+          count {}
+        }
+      }
+      dynamic "action" {
+        for_each = rule.value["count_override"] == false ? [1] : []
+        content {
+          block {}
+        }
+      }
+
+      statement {
+        rate_based_statement {
+          limit                 = rule.value["limit"]
+          aggregate_key_type    = "IP"
+          evaluation_window_sec = rule.value["evaluation_window_sec"]
+
+          scope_down_statement {
+            # Whole host (no uri_paths): scope down to the Host header only.
+            dynamic "byte_match_statement" {
+              for_each = length(rule.value["uri_paths"]) == 0 ? [1] : []
+              content {
+                field_to_match {
+                  single_header {
+                    name = "host"
+                  }
+                }
+
+                positional_constraint = "EXACTLY"
+
+                search_string = lower(rule.value["host"])
+
+                text_transformation {
+                  priority = 0
+                  type     = "LOWERCASE"
+                }
+              }
+            }
+
+            # Host + URI: scope down to Host AND one of the given paths.
+            dynamic "and_statement" {
+              for_each = length(rule.value["uri_paths"]) > 0 ? [1] : []
+              content {
+                statement {
+                  byte_match_statement {
+                    field_to_match {
+                      single_header {
+                        name = "host"
+                      }
+                    }
+
+                    positional_constraint = "EXACTLY"
+
+                    search_string = lower(rule.value["host"])
+
+                    text_transformation {
+                      priority = 0
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+
+                dynamic "statement" {
+                  for_each = length(rule.value["uri_paths"]) == 1 ? [1] : []
+                  content {
+                    byte_match_statement {
+                      field_to_match {
+                        uri_path {}
+                      }
+
+                      positional_constraint = rule.value["uri_match_type"]
+
+                      search_string = lower(rule.value["uri_paths"][0])
+
+                      text_transformation {
+                        priority = 0
+                        type     = "URL_DECODE"
+                      }
+                      text_transformation {
+                        priority = 1
+                        type     = "LOWERCASE"
+                      }
+                    }
+                  }
+                }
+
+                dynamic "statement" {
+                  for_each = length(rule.value["uri_paths"]) > 1 ? [1] : []
+                  content {
+                    or_statement {
+                      dynamic "statement" {
+                        for_each = rule.value["uri_paths"]
+                        content {
+                          byte_match_statement {
+                            field_to_match {
+                              uri_path {}
+                            }
+
+                            positional_constraint = rule.value["uri_match_type"]
+
+                            search_string = lower(statement.value)
+
+                            text_transformation {
+                              priority = 0
+                              type     = "URL_DECODE"
+                            }
+                            text_transformation {
+                              priority = 1
+                              type     = "LOWERCASE"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "${rule.value["name"]}-host-uri-ratelimit"
+      }
+    }
+  }
+
+  dynamic "rule" {
     for_each = var.aws_managed_rule_groups
     content {
       name     = "${rule.value["name"]}-${rule.key}"
