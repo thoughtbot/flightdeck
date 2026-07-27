@@ -424,22 +424,40 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "statement" {
                   for_each = length(rule.value["uri_paths"]) == 1 ? [1] : []
                   content {
-                    byte_match_statement {
-                      field_to_match {
-                        uri_path {}
+                    dynamic "byte_match_statement" {
+                      for_each = rule.value["uri_match_type"] == "REGEX" ? [] : [1]
+                      content {
+                        field_to_match {
+                          uri_path {}
+                        }
+
+                        positional_constraint = rule.value["uri_match_type"]
+
+                        search_string = lower(rule.value["uri_paths"][0])
+
+                        text_transformation {
+                          priority = 0
+                          type     = "URL_DECODE"
+                        }
+                        text_transformation {
+                          priority = 1
+                          type     = "LOWERCASE"
+                        }
                       }
+                    }
+                    dynamic "regex_match_statement" {
+                      for_each = rule.value["uri_match_type"] == "REGEX" ? [1] : []
+                      content {
+                        field_to_match {
+                          uri_path {}
+                        }
 
-                      positional_constraint = rule.value["uri_match_type"]
+                        regex_string = rule.value["uri_paths"][0]
 
-                      search_string = lower(rule.value["uri_paths"][0])
-
-                      text_transformation {
-                        priority = 0
-                        type     = "URL_DECODE"
-                      }
-                      text_transformation {
-                        priority = 1
-                        type     = "LOWERCASE"
+                        text_transformation {
+                          priority = 0
+                          type     = "URL_DECODE"
+                        }
                       }
                     }
                   }
@@ -452,22 +470,40 @@ resource "aws_wafv2_web_acl" "main" {
                       dynamic "statement" {
                         for_each = rule.value["uri_paths"]
                         content {
-                          byte_match_statement {
-                            field_to_match {
-                              uri_path {}
+                          dynamic "byte_match_statement" {
+                            for_each = rule.value["uri_match_type"] == "REGEX" ? [] : [1]
+                            content {
+                              field_to_match {
+                                uri_path {}
+                              }
+
+                              positional_constraint = rule.value["uri_match_type"]
+
+                              search_string = lower(statement.value)
+
+                              text_transformation {
+                                priority = 0
+                                type     = "URL_DECODE"
+                              }
+                              text_transformation {
+                                priority = 1
+                                type     = "LOWERCASE"
+                              }
                             }
+                          }
+                          dynamic "regex_match_statement" {
+                            for_each = rule.value["uri_match_type"] == "REGEX" ? [1] : []
+                            content {
+                              field_to_match {
+                                uri_path {}
+                              }
 
-                            positional_constraint = rule.value["uri_match_type"]
+                              regex_string = statement.value
 
-                            search_string = lower(statement.value)
-
-                            text_transformation {
-                              priority = 0
-                              type     = "URL_DECODE"
-                            }
-                            text_transformation {
-                              priority = 1
-                              type     = "LOWERCASE"
+                              text_transformation {
+                                priority = 0
+                                type     = "URL_DECODE"
+                              }
                             }
                           }
                         }

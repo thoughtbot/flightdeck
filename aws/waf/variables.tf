@@ -92,15 +92,15 @@ variable "host_uri_rate_limit_rules" {
     limit                 = optional(number, 2000)          # Max matching requests per IP per evaluation window (AWS minimum is 10).
     evaluation_window_sec = optional(number, 300)           # Rate-limit window in seconds. One of 60, 120, 300, 600.
     host                  = string                          # Exact Host header to scope the rate limit to, e.g. "example.com".
-    uri_paths             = optional(list(string), [])      # URI path(s) to scope the rate limit to. Empty (default) rate-limits the whole host.
-    uri_match_type        = optional(string, "STARTS_WITH") # How to match uri_paths: EXACTLY (pin one endpoint) or STARTS_WITH (prefix).
+    uri_paths             = optional(list(string), [])      # URI path(s) to scope the rate limit to. With REGEX these are regex patterns. Empty (default) rate-limits the whole host.
+    uri_match_type        = optional(string, "STARTS_WITH") # How to match uri_paths: EXACTLY (pin one endpoint), STARTS_WITH (prefix), or REGEX (for variable segments, e.g. "^/api/v1/users/[^/]+/validation$"). REGEX is case-sensitive (URL-decoded, not lowercased); use an inline (?i) flag for case-insensitivity.
     count_override        = optional(bool, false)           # If true, override the action to `count` (dry run). If false (default), the action is `block` when the limit is exceeded.
   }))
   default = {}
 
   validation {
-    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains(["EXACTLY", "STARTS_WITH"], r.uri_match_type)])
-    error_message = "uri_match_type must be EXACTLY or STARTS_WITH."
+    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains(["EXACTLY", "STARTS_WITH", "REGEX"], r.uri_match_type)])
+    error_message = "uri_match_type must be EXACTLY, STARTS_WITH, or REGEX."
   }
   validation {
     condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains([60, 120, 300, 600], r.evaluation_window_sec)])
