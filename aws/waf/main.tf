@@ -13,6 +13,17 @@ resource "aws_wafv2_web_acl" "main" {
     metric_name                = "${var.name}-cloudfront-web-acl"
   }
 
+  # Custom JSON bodies for host_uri_rate_limit_rules whose block action returns one.
+  # Keyed by the rule's map key and referenced from the rule's block custom_response.
+  dynamic "custom_response_body" {
+    for_each = { for k, r in var.host_uri_rate_limit_rules : k => r if r.block_response_body_json != null }
+    content {
+      key          = custom_response_body.key
+      content      = custom_response_body.value.block_response_body_json
+      content_type = "APPLICATION_JSON"
+    }
+  }
+
   dynamic "rule" {
     for_each = var.header_match_rules == null ? {} : var.header_match_rules
     content {
@@ -366,7 +377,23 @@ resource "aws_wafv2_web_acl" "main" {
       dynamic "action" {
         for_each = rule.value["count_override"] == false ? [1] : []
         content {
-          block {}
+          block {
+            dynamic "custom_response" {
+              for_each = rule.value["block_response_code"] != null ? [1] : []
+              content {
+                response_code            = rule.value["block_response_code"]
+                custom_response_body_key = rule.value["block_response_body_json"] != null ? rule.key : null
+
+                dynamic "response_header" {
+                  for_each = rule.value["block_retry_after_seconds"] != null ? [1] : []
+                  content {
+                    name  = "Retry-After"
+                    value = tostring(rule.value["block_retry_after_seconds"])
+                  }
+                }
+              }
+            }
+          }
         }
       }
 

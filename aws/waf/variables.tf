@@ -95,6 +95,11 @@ variable "host_uri_rate_limit_rules" {
     uri_paths             = optional(list(string), [])      # URI path(s) to scope the rate limit to. With REGEX these are regex patterns. Empty (default) rate-limits the whole host.
     uri_match_type        = optional(string, "STARTS_WITH") # How to match uri_paths: EXACTLY (pin one endpoint), STARTS_WITH (prefix), or REGEX (for variable segments, e.g. "^/api/v1/users/[^/]+/validation$"). REGEX is case-sensitive (URL-decoded, not lowercased); use an inline (?i) flag for case-insensitivity.
     count_override        = optional(bool, false)           # If true, override the action to `count` (dry run). If false (default), the action is `block` when the limit is exceeded.
+
+    # Optional custom block response (only applied when the action is `block`, i.e. count_override = false).
+    block_response_code       = optional(number) # HTTP status returned to blocked clients, e.g. 429. Null (default) => WAF's default 403. Setting this is what enables the custom response.
+    block_retry_after_seconds = optional(number) # If set (requires block_response_code), adds a `Retry-After: <n>` response header.
+    block_response_body_json  = optional(string) # If set (requires block_response_code), returns this string as an APPLICATION_JSON body (<= 4096 bytes).
   }))
   default = {}
 
@@ -105,5 +110,13 @@ variable "host_uri_rate_limit_rules" {
   validation {
     condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : contains([60, 120, 300, 600], r.evaluation_window_sec)])
     error_message = "evaluation_window_sec must be one of 60, 120, 300, 600."
+  }
+  validation {
+    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : r.block_response_code == null ? true : (r.block_response_code >= 200 && r.block_response_code <= 599)])
+    error_message = "block_response_code must be a valid HTTP status (200-599) supported by AWS WAF, e.g. 429."
+  }
+  validation {
+    condition     = alltrue([for r in values(var.host_uri_rate_limit_rules) : r.block_response_body_json == null ? true : length(r.block_response_body_json) <= 4096])
+    error_message = "block_response_body_json must be 4096 bytes or fewer (AWS WAF custom response body limit)."
   }
 }
