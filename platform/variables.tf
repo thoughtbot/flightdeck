@@ -16,6 +16,12 @@ variable "certificate_issuer" {
   default     = null
 }
 
+variable "cloudwatch_adapter_values" {
+  description = "Overrides to pass to the Helm chart"
+  type        = list(string)
+  default     = []
+}
+
 variable "cluster_autoscaler_values" {
   description = "Overrides to pass to the Helm chart"
   type        = list(string)
