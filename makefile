@@ -6,11 +6,16 @@ export TFDOCSRC := $(CURDIR)/.terraform-docs.yml
 
 SUBMODULES         := $(filter-out \
 	%.md,\
-	$(wildcard \
-		platform/modules/* \
-		platform \
-		aws/*/modules/*\
-		aws/* \
+	$(foreach dir,\
+		$(wildcard \
+			platform/modules/* \
+			platform \
+			aws/*/modules/* \
+			aws/* \
+			platform/modules/*/* \
+			aws/*/modules/*/* \
+			),\
+		$(if $(wildcard $(dir)/*.tf),$(dir),)\
 		)\
 	)
 SUBMODULEMAKEFILES := $(foreach module,$(SUBMODULES),$(module)/makefile)
