@@ -89,7 +89,7 @@ module "public_subnet_routes" {
 
 module "s3_endpoint" {
   count  = var.create_s3_endpoint ? 1 : 0
-  source = "./modules/vpc-endpoints/s3-vpc-endpoint"
+  source = "./modules/vpc-endpoints"
 
   name      = var.name
   namespace = var.namespace
