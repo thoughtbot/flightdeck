@@ -71,7 +71,7 @@ module "network" {
 | <a name="module_private_subnets"></a> [private\_subnets](#module\_private\_subnets) | ./modules/private-subnets | n/a |
 | <a name="module_public_subnet_routes"></a> [public\_subnet\_routes](#module\_public\_subnet\_routes) | ./modules/public-subnet-routes | n/a |
 | <a name="module_public_subnets"></a> [public\_subnets](#module\_public\_subnets) | ./modules/public-subnets | n/a |
-| <a name="module_s3_endpoint"></a> [s3\_endpoint](#module\_s3\_endpoint) | ./modules/vpc-endpoints/s3-vpc-endpoint | n/a |
+| <a name="module_s3_endpoint"></a> [s3\_endpoint](#module\_s3\_endpoint) | ./modules/vpc-endpoints | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
 
 ## Resources
