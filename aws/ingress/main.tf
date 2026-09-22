@@ -1,28 +1,25 @@
 module "alb" {
-  # TODO: update ref when merged into main
-  providers = { aws.cluster = aws.cluster, aws.route53 = aws.route53 }
-  source    = "github.com/thoughtbot/terraform-alb-ingress?ref=v0.5.2"
+  providers = { aws.alb = aws.cluster, aws.route53 = aws.route53 }
+  source    = "github.com/thoughtbot/terraform-alb-ingress?ref=v0.8.0"
 
-  alarm_actions             = var.alarm_actions
-  alarm_evaluation_minutes  = var.alarm_evaluation_minutes
-  alternative_domain_names  = var.alternative_domain_names
-  certificate_domain_name   = var.certificate_domain_name
-  create_aliases            = var.create_aliases
-  description               = "Flightdeck cluster load balancer"
-  failure_threshold         = var.failure_threshold
-  hosted_zone_name          = var.hosted_zone_name
-  issue_certificates        = var.issue_certificates
-  legacy_target_group_names = var.legacy_target_group_names
-  name                      = var.name
-  namespace                 = var.namespace
-  primary_domain_name       = var.primary_domain_name
-  slow_response_threshold   = var.slow_response_threshold
-  subnet_ids                = module.network.public_subnet_ids
-  tags                      = var.tags
-  target_groups             = local.target_groups
-  target_group_weights      = var.target_group_weights
-  validate_certificates     = var.validate_certificates
-  vpc_id                    = module.network.vpc.id
+  alarm_actions              = var.alarm_actions
+  alarm_evaluation_minutes   = var.alarm_evaluation_minutes
+  create_domain_aliases      = var.create_aliases ? local.domain_names : []
+  description                = "Flightdeck cluster load balancer"
+  failure_threshold          = var.failure_threshold
+  hosted_zone_name           = var.hosted_zone_name
+  issue_certificate_domains  = var.issue_certificates ? local.domain_names : []
+  legacy_target_group_names  = var.legacy_target_group_names
+  name                       = join("-", concat(var.namespace, [var.name]))
+  primary_certificate_domain = coalesce(var.certificate_domain_name, var.primary_domain_name)
+  security_group_name        = join("-", concat(var.namespace, [var.name]))
+  slow_response_threshold    = var.slow_response_threshold
+  subnet_ids                 = module.network.public_subnet_ids
+  tags                       = var.tags
+  target_groups              = local.target_groups
+  target_group_weights       = var.target_group_weights
+  validate_certificates      = var.validate_certificates
+  vpc_id                     = module.network.vpc.id
 
   depends_on = [module.network]
 }
@@ -44,6 +41,11 @@ locals {
   cluster_tags = merge(
     values(module.cluster_name).*.shared_tags...
   )
+
+  # terraform-alb-ingress v0.8.0 replaced the old create_aliases/issue_certificates
+  # booleans with explicit domain lists; this reconstructs the same "primary +
+  # alternatives" bundling the old boolean-driven behavior used.
+  domain_names = concat([var.primary_domain_name], var.alternative_domain_names)
 
   target_groups = zipmap(
     var.cluster_names,
