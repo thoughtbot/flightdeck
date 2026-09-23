@@ -28,4 +28,10 @@
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of chart to install | `string` | `null` | no |
 | <a name="input_k8s_namespace"></a> [k8s\_namespace](#input\_k8s\_namespace) | Kubernetes namespace in which the gateway should be installed | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of this Helm release | `string` | `"istio-ingress"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_id"></a> [id](#output\_id) | Helm release ID for istio-ingress |
 <!-- END_TF_DOCS -->
