@@ -117,4 +117,5 @@ practices.
 | Name | Description |
 |------|-------------|
 | <a name="output_flightdeck_namespace"></a> [flightdeck\_namespace](#output\_flightdeck\_namespace) | Kubernetes namespace created for Flightdeck |
+| <a name="output_istio_ingress"></a> [istio\_ingress](#output\_istio\_ingress) | Helm release ID for istio-ingress |
 <!-- END_TF_DOCS -->
