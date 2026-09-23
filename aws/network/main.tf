@@ -28,7 +28,7 @@ module "nat_gateway" {
   public_subnets     = module.public_subnets.instances
   tags               = var.tags
 
-  depends_on = [aws_internet_gateway.this, module.public_subnets]
+  depends_on = [aws_internet_gateway.this]
 }
 
 module "private_subnets" {
@@ -84,7 +84,7 @@ module "public_subnet_routes" {
   tags      = merge(var.tags, var.public_subnet_tags)
   vpc       = local.vpc
 
-  depends_on = [module.public_subnets, aws_internet_gateway.this]
+  depends_on = [aws_internet_gateway.this]
 }
 
 module "s3_endpoint" {
@@ -100,8 +100,6 @@ module "s3_endpoint" {
     module.private_subnet_routes.route_table_ids,
     [module.public_subnet_routes.route_table.id],
   )
-
-  depends_on = [module.private_subnet_routes, module.public_subnet_routes]
 }
 
 resource "aws_internet_gateway" "this" {
