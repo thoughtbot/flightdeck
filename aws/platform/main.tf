@@ -84,7 +84,10 @@ module "aws_load_balancer_controller" {
   vpc_cidr_block    = module.network.vpc.cidr_block
   vpc_id            = module.network.vpc.id
 
-  depends_on = [module.common_platform]
+  depends_on = [
+    module.common_platform.flightdeck_namespace,
+    module.common_platform.istio_ingress,
+  ]
 }
 
 module "cluster_name" {
