@@ -26,17 +26,17 @@
   },
   "istio-base": {
     "chart": "base",
-    "repository": "https://istio-release.storage.googleapis.com/charts",
+    "repository": "https://blob.istio.io/istio-release/charts",
     "version": "1.30.4"
   },
   "istiod": {
     "chart": "istiod",
-    "repository": "https://istio-release.storage.googleapis.com/charts",
+    "repository": "https://blob.istio.io/istio-release/charts",
     "version": "1.30.4"
   },
   "istio-ingress": {
     "chart": "gateway",
-    "repository": "https://istio-release.storage.googleapis.com/charts",
+    "repository": "https://blob.istio.io/istio-release/charts",
     "version": "1.30.4"
   },
   "load-balancer-controller": {
