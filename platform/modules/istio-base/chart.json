@@ -1,5 +1,5 @@
 {
   "chart": "base",
-  "repository": "https://istio-release.storage.googleapis.com/charts",
+  "repository": "https://blob.istio.io/istio-release/charts",
   "version": "1.30.4"
 }

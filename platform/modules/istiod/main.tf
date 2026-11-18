@@ -13,6 +13,8 @@ locals {
   chart_values = [
     yamlencode({
       global = {
+        # registry.istio.io/release and gcr.io/istio-release are retired
+        hub            = "docker.io/istio"
         istioNamespace = var.k8s_namespace
         proxy = {
           # Ensure istio-proxy starts before other containers
